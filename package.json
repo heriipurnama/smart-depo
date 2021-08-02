@@ -1,0 +1,35 @@
+{
+  "name": "smart-depo",
+  "version": "1.0.0",
+  "description": "smart-depo",
+  "main": "apps.js",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "cryptr": "^6.0.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.10.0",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.2",
+    "mysql2": "^2.2.5",
+    "next-tick": "^1.1.0",
+    "redis": "^3.0.2",
+    "sequelize": "^6.5.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.20.0",
+    "nodemon": "^2.0.7",
+    "sequelize-cli": "^6.2.0"
+  },
+  "scripts": {
+    "test": "npm start",
+    "start-dev": "./node_modules/nodemon/bin/nodemon.js apps.js",
+    "start": "node apps.js"
+  },
+  "keywords": [
+    "smart-depo"
+  ],
+  "author": "heriipurnama",
+  "license": "ISC"
+}
