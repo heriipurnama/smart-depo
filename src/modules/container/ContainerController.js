@@ -58,9 +58,6 @@ class ContainerController {
 	static async listOne(req, res, next) {
 		let { idContainer, idUser } = req.body;
 		
-		let selector = { 
-			where: ['id=? and created_by=?', idContainer, idUser]
-		  };
 		try {
 			let dataContainer = await container.findOne({ 
 				attributes: {
@@ -69,7 +66,7 @@ class ContainerController {
 				where: {
 					id: idContainer, created_by:idUser
 				}
-			  });
+			});
 
 			if (!dataContainer) {
 				throw new Error(`container id: ${idContainer} doesn't exists!`);
