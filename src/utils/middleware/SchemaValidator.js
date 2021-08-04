@@ -2,14 +2,13 @@
 
 const { check, validationResult } = require("express-validator");
 
-const { user } = require("../../db/models");
+const { tblusers } = require("../../db/models");
 
 class SchemaValidator {
 	// fullname 	    STRING 	required, max 30 chars
 	// username 	    STRING 	required, max 30 chars, unique
 	// email 	        STRING 	required, pattern email, and unique
 	// password 	    STRING 	required
-	// phone number 	STRING 	required
 
 	static user = () => {
 		return [
@@ -18,10 +17,10 @@ class SchemaValidator {
 				.isString()
 				.isLength({ max: 30, min: 1 })
 				.custom((username) => {
-					return user
+					return tblusers
 						.findOne({ where: { username: username } })
-						.then((user) => {
-							if (user) {
+						.then((tblusers) => {
+							if (tblusers) {
 								return Promise.reject("Username already exists!");
 							}
 						});
@@ -30,14 +29,13 @@ class SchemaValidator {
 				.isEmail()
 				.isLength({ min: 1 })
 				.custom((email) => {
-					return user.findOne({ where: { email: email } }).then((user) => {
-						if (user) {
+					return tblusers.findOne({ where: { email: email } }).then((tblusers) => {
+						if (tblusers) {
 							return Promise.reject("Email already exists!");
 						}
 					});
 				}),
-			check("password").isString().isLength({ min: 1 }),
-			check("phoneNumber").isString().isLength({ min: 1 }),
+			check("password").isString().isLength({ min: 1 })
 		];
 	};
 

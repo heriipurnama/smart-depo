@@ -33,10 +33,10 @@ class ContainerController {
 			ccheight: ccHeight,
 			updated_at: Date.now(),
 			updated_by: idUser
-		}
+		};
 		let selector = { 
 			where: { id: idContainer }
-		  };
+		};
 		try {
 			let containerCode = ccCode;
 			let dataContainer = await container.update(dataUpdate, selector);
@@ -61,7 +61,7 @@ class ContainerController {
 		try {
 			let dataContainer = await container.findOne({ 
 				attributes: {
-					exclude: ['createdAt', 'updatedAt']
+					exclude: ["createdAt", "updatedAt"]
 				},
 				where: {
 					id: idContainer, created_by:idUser
@@ -85,14 +85,14 @@ class ContainerController {
 		try {
 			let payload = await container.findAll({
 				attributes: {
-					exclude: ['createdAt', 'updatedAt']
+					exclude: ["createdAt", "updatedAt"]
 				}
 				,
 				include:[{
-						model:container_type,
-						required: false, // do not generate INNER JOIN
-        				attributes: { exclude:['createdAt', 'updatedAt']}
-					}]
+					model:container_type,
+					required: false, // do not generate INNER JOIN
+        				attributes: { exclude:["createdAt", "updatedAt"]}
+				}]
 			});
 			baseResponse({ message: "list containers", data: payload })(res, 200);
 		} catch (error) {
@@ -102,7 +102,7 @@ class ContainerController {
 	}
 
 	static async delete(req, res, next) {
-		let {idContainer} = req.body 
+		let {idContainer} = req.body; 
 		try {
 			let payload = await container.destroy({
 				where:{id: idContainer}
