@@ -8,10 +8,14 @@ const messages = require("./message/MessageRouter");
 const container = require("./container/ContainerRouter");
 const containerType = require("./container_type/ContainerTypeRouter");
 
+const groups = require("./groups/GroupsRouter");
+
 // base router
 routers.use("/users", user);
 routers.use("/messages", messages);
 routers.use("/container", container);
 routers.use("/containertype", containerType);
+
+routers.use("/groups", groups);
 
 module.exports = routers;
