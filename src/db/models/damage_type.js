@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			dycode: DataTypes.STRING,
             dydesc: DataTypes.STRING,
-            dyclean: DataTypes.TINYINT,
+            dyclean: DataTypes.INTEGER,
 		},
 		{
 			sequelize,

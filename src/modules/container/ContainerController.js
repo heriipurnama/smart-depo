@@ -18,7 +18,7 @@ class ContainerController {
 			// 	created_by: idUser,
 			// });
 
-			const payload = await container.findOrCreate({ 
+			const [payload, created] = await container.findOrCreate({ 
 				where: {
 					cccode: ccCode
 				},
@@ -30,17 +30,12 @@ class ContainerController {
 					created_at: Date.now(),
 					created_by: idUser
 				}
-			}).then(results => {
-				if (results[1] == false) {
-					var msg= "Container Exist ";
-					var dataret = {};
-				} else {
-					var msg= "Container Created ";
-					var dataret = result[0];
-				}
-				return {messg: msg, datareturn:dataret}
-			});
-			baseResponse({ message: payload.messg, data: payload.datareturn})(res);
+			})
+			if(created === false){
+                throw new Error(`Container Exist, cccode: ${ccCode} exists!`);
+			} else {
+				baseResponse({ message:"Container Created " , data: payload})(res);
+			}
 		} catch (error) {
 			res.status(400);
 			next(error);

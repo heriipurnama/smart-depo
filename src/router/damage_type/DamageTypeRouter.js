@@ -8,11 +8,11 @@ const { damageType: DamageTypeController } = require("../../modules");
 const Authentication = require("../../utils/middleware/Auth");
 const schemaValidation = require("../../utils/middleware/SchemaValidator");
 
-routers.route("/create").post(DamageTypeController.createNew);
-// routers.route("/update").post(DamageTypeController.update);
-// routers.route("/list").get(DamageTypeController.list);
-// routers.route("/listone").get(DamageTypeController.listOne);
-// routers.route("/delete").delete(DamageTypeController.delete);
+routers.route("/create").post(Authentication, DamageTypeController.createNew);
+routers.route("/update").post(Authentication, DamageTypeController.update);
+routers.route("/list").get(Authentication, DamageTypeController.list);
+routers.route("/listone").get(Authentication, DamageTypeController.listOne);
+routers.route("/delete").delete(Authentication, DamageTypeController.delete);
 routers.route("/cek").post(Authentication, DamageTypeController.cek);
 
 

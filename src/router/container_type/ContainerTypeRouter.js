@@ -8,11 +8,11 @@ const { containerType: ContainerTypeController } = require("../../modules");
 const Authentication = require("../../utils/middleware/Auth");
 const schemaValidation = require("../../utils/middleware/SchemaValidator");
 
-routers.route("/create").post(ContainerTypeController.createNew);
-routers.route("/update").post(ContainerTypeController.update);
-routers.route("/list").get(ContainerTypeController.list);
-routers.route("/listone").get(ContainerTypeController.listOne);
-routers.route("/delete").delete(ContainerTypeController.delete);
+routers.route("/create").post(Authentication, ContainerTypeController.createNew);
+routers.route("/update").post(Authentication, ContainerTypeController.update);
+routers.route("/list").get(Authentication, ContainerTypeController.list);
+routers.route("/listone").get(Authentication, ContainerTypeController.listOne);
+routers.route("/delete").delete(Authentication, ContainerTypeController.delete);
 routers.route("/cek").post(Authentication, ContainerTypeController.cek);
 
 

@@ -9,26 +9,20 @@ class ContainerTypeController {
 		let defaultImage =
 			"https://i.pinimg.com/564x/82/64/00/826400943f7549d21cec0418d1a32e2b.jpg";
 		try {
-			const payload = await container_type.findOrCreate({
+			const [payload,created] = await container_type.findOrCreate({
 				where: {
 					ctcode: ctCode
 				},
-				default:{
+				defaults:{
 					ctcode: ctCode,
 					ctdesc: ctDesc
 				}
-			}).then(results => {
-				if (results[1] == false) {
-					var msg= "Container Type Exist ";
-					var dataret = {};
-				} else {
-					var msg= "Container Type Created ";
-					var dataret = result[0];
-				}
-				return {messg: msg, datareturn:dataret}
-			});
-			baseResponse({ message: payload.messg, data: payload.datareturn})(res);
-			// baseResponse({ message: "Container Type created", data: payload })(res);
+			})	
+			if(created === false){
+                throw new Error(`Container Type Exist, ctcode: ${ctCode} exists!`);
+			} else {
+				baseResponse({ message:"Container Type Created " , data: payload})(res);
+			}
 		} catch (error) {
 			res.status(400);
 			next(error);
