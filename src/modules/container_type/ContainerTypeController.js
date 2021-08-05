@@ -9,11 +9,26 @@ class ContainerTypeController {
 		let defaultImage =
 			"https://i.pinimg.com/564x/82/64/00/826400943f7549d21cec0418d1a32e2b.jpg";
 		try {
-			const payload = await container_type.create({
-				ctcode: ctCode,
-				ctdesc: ctDesc
+			const payload = await container_type.findOrCreate({
+				where: {
+					ctcode: ctCode
+				},
+				default:{
+					ctcode: ctCode,
+					ctdesc: ctDesc
+				}
+			}).then(results => {
+				if (results[1] == false) {
+					var msg= "Container Type Exist ";
+					var dataret = {};
+				} else {
+					var msg= "Container Type Created ";
+					var dataret = result[0];
+				}
+				return {messg: msg, datareturn:dataret}
 			});
-			baseResponse({ message: "Container Type created", data: payload })(res);
+			baseResponse({ message: payload.messg, data: payload.datareturn})(res);
+			// baseResponse({ message: "Container Type created", data: payload })(res);
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -30,14 +45,14 @@ class ContainerTypeController {
 			where: { ctcode: idContainerType }
 		  };
 		try {
-			let dataContainer = await container_type.update(dataUpdate, selector);
+			let dataContainerType = await container_type.update(dataUpdate, selector);
 
-			if (!dataContainer) {
+			if (!dataContainerType) {
 				throw new Error(`Container Type ${idContainerType} doesn't exists!`);
 			}
 			baseResponse({
 				message: "Update Success",
-				data: dataContainer,
+				data: dataContainerType,
 			})(res, 200);
 		} catch (error) {
 			res.status(403);
@@ -57,7 +72,7 @@ class ContainerTypeController {
 				where: {
 					ctcode: idContainerType
 				}
-			  });
+			});
 
 			if (!dataContainerType) {
 				throw new Error(`container type: ${idContainerType} doesn't exists!`);

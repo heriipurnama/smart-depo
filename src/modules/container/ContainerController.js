@@ -9,15 +9,38 @@ class ContainerController {
 		let defaultImage =
 			"https://i.pinimg.com/564x/82/64/00/826400943f7549d21cec0418d1a32e2b.jpg";
 		try {
-			const payload = await container.create({
-				cccode: ccCode,
-				ctcode: ctCode,
-				cclength: ccLength,
-				ccheight: ccHeight,
-				created_at: Date.now(),
-				created_by: idUser,
+			// const payload = await container.create({
+			// 	cccode: ccCode,
+			// 	ctcode: ctCode,
+			// 	cclength: ccLength,
+			// 	ccheight: ccHeight,
+			// 	created_at: Date.now(),
+			// 	created_by: idUser,
+			// });
+
+			const payload = await container.findOrCreate({ 
+				where: {
+					cccode: ccCode
+				},
+				defaults: {
+					cccode: ccCode,
+					ctcode: ctCode,
+					cclength: ccLength,
+					ccheight: ccHeight,
+					created_at: Date.now(),
+					created_by: idUser
+				}
+			}).then(results => {
+				if (results[1] == false) {
+					var msg= "Container Exist ";
+					var dataret = {};
+				} else {
+					var msg= "Container Created ";
+					var dataret = result[0];
+				}
+				return {messg: msg, datareturn:dataret}
 			});
-			baseResponse({ message: "container created", data: payload })(res);
+			baseResponse({ message: payload.messg, data: payload.datareturn})(res);
 		} catch (error) {
 			res.status(400);
 			next(error);
