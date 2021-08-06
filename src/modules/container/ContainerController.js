@@ -100,8 +100,12 @@ class ContainerController {
 	}
 
 	static async list(req, res, next) {
+        let {start, rows} = req.body;
+
 		try {
 			let payload = await container.findAll({
+				offset: start,
+				limit: rows,
 				attributes: {
 					exclude: ['createdAt', 'updatedAt']
 				}

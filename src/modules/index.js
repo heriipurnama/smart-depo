@@ -5,5 +5,6 @@ module.exports = {
 	message: require("./message/MessageController"),
 	container: require("./container/ContainerController"),
 	containerType: require("./container_type/ContainerTypeController"),
-	damageType: require("./damage_type/DamageTypeController")
+	damageType: require("./damage_type/DamageTypeController"),
+	group: require("./group/GroupController")
 };

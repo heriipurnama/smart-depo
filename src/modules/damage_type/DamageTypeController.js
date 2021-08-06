@@ -84,8 +84,12 @@ class DamageTypeController {
 	}
 
 	static async list(req, res, next) {
+        let {start, rows} = req.body;
+
 		try {
 			let payload = await damage_type.findAll({
+				offset: start,
+				limit: rows
 				// attributes: {
 				// 	exclude: ['createdAt', 'updatedAt']
 				// }
