@@ -7,5 +7,7 @@ module.exports = {
 	containerType: require("./container_type/ContainerTypeController"),
 	damageType: require("./damage_type/DamageTypeController"),
 	group: require("./group/GroupController"),
-	principal: require("./principal/PrincipalController")
+	principal: require("./principal/PrincipalController"),
+	location: require("./location/LocationController")
+
 };
