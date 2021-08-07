@@ -9,6 +9,7 @@ const container = require("./container/ContainerRouter");
 const containerType = require("./container_type/ContainerTypeRouter");
 const damageType = require("./damage_type/DamageTypeRouter");
 const group = require("./group/GroupRouter");
+const principal = require("./principal/PrincipalRouter");
 
 
 // base router
@@ -18,5 +19,6 @@ routers.use("/container", container);
 routers.use("/containertype", containerType);
 routers.use("/damagetype", damageType);
 routers.use("/groups", group);
+routers.use("/principals", principal);
 
 module.exports = routers;
