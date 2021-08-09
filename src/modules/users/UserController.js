@@ -3,24 +3,20 @@
 const bcrypt = require("bcrypt");
 
 const baseResponse = require("../../utils/helper/Response");
-const { user } = require("../../db/models");
+const { tblusers } = require("../../db/models");
 const token = require("../../utils/helper/Token");
 
 class UserController {
 	static async signup(req, res, next) {
-		let { fullName, email, username, phoneNumber, password } = req.body;
-		let defaultImage =
-			"https://i.pinimg.com/564x/82/64/00/826400943f7549d21cec0418d1a32e2b.jpg";
+		let { groupId, fullName, email, username, password } = req.body;
+		
 		try {
-			const payload = await user.create({
+			const payload = await tblusers.create({
+				group_id: groupId, 
 				fullname: fullName,
 				username: username,
 				email: email,
-				phone_number: phoneNumber,
-				photo: defaultImage,
-				password: bcrypt.hashSync(password, 10),
-				created_at: Date.now(),
-				updated_at: Date.now(),
+				password: bcrypt.hashSync(password, 10)
 			});
 			baseResponse({ message: "user created", data: payload })(res);
 		} catch (error) {
@@ -34,7 +30,7 @@ class UserController {
 
 		try {
 			let usernameEmail = username;
-			let dataUsername = await user.findOne({
+			let dataUsername = await tblusers.findOne({
 				where: { username: usernameEmail },
 			});
 
@@ -61,7 +57,7 @@ class UserController {
 	static async profile(req, res, next) {
 		try {
 			res.status(200);
-			return res.json(req.user.entity);
+			return res.json(req.tblusers.entity);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -70,7 +66,7 @@ class UserController {
 
 	static async getContacts(req, res, next) {
 		try {
-			let payload = await user.findAll();
+			let payload = await tblusers.findAll();
 			baseResponse({ message: "list contacts", data: payload })(res, 200);
 		} catch (error) {
 			res.status(403);
