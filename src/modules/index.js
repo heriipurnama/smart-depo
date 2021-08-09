@@ -11,5 +11,6 @@ module.exports = {
 	principal: require("./principal/PrincipalController"),
 	location: require("./location/LocationController"),
 
+	param: require("./param/ParamController"),
 	groups: require("./groups/GroupsController")
 };
