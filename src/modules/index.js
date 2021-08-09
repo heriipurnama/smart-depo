@@ -8,6 +8,7 @@ module.exports = {
 	damageType: require("./damage_type/DamageTypeController"),
 	group: require("./group/GroupController"),
 	principal: require("./principal/PrincipalController"),
-	location: require("./location/LocationController")
+	location: require("./location/LocationController"),
+	param: require("./param/ParamController")
 
 };

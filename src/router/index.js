@@ -11,6 +11,7 @@ const damageType = require("./damage_type/DamageTypeRouter");
 const group = require("./group/GroupRouter");
 const principal = require("./principal/PrincipalRouter");
 const location = require("./location/LocationRouter");
+const param = require("./param/ParamRouter");
 
 
 // base router
@@ -22,5 +23,6 @@ routers.use("/damagetype", damageType);
 routers.use("/groups", group);
 routers.use("/principals", principal);
 routers.use("/locations", location);
+routers.use("/params", param);
 
 module.exports = routers;
