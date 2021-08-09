@@ -1,7 +1,7 @@
 "use strict";
 
 const express = require("express");
-
+const ip = require("ip");
 const errorHandler = require("./src/utils/middleware/ErrorHandler");
 const routers = require("./src/router");
 
@@ -16,5 +16,7 @@ app.use("/api/v1", routers);
 errorHandler.forEach((handler) => app.use(handler));
 
 app.listen(port, () => {
-	console.log(`app listening at http://127.0.0.1:${port}`);
+	console.log("app listening at :");
+	console.log(`local : 127.0.0.1:${port}`);
+	console.log(`LAN   : ${ip.address()}:${port}`);
 });
