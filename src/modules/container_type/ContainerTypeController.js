@@ -9,11 +9,20 @@ class ContainerTypeController {
 		let defaultImage =
 			"https://i.pinimg.com/564x/82/64/00/826400943f7549d21cec0418d1a32e2b.jpg";
 		try {
-			const payload = await container_type.create({
-				ctcode: ctCode,
-				ctdesc: ctDesc
-			});
-			baseResponse({ message: "Container Type created", data: payload })(res);
+			const [payload,created] = await container_type.findOrCreate({
+				where: {
+					ctcode: ctCode
+				},
+				defaults:{
+					ctcode: ctCode,
+					ctdesc: ctDesc
+				}
+			})	
+			if(created === false){
+                throw new Error(`Container Type Exist, ctcode: ${ctCode} exists!`);
+			} else {
+				baseResponse({ message:"Container Type Created " , data: payload})(res);
+			}
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -30,14 +39,14 @@ class ContainerTypeController {
 			where: { ctcode: idContainerType }
 		  };
 		try {
-			let dataContainer = await container_type.update(dataUpdate, selector);
+			let dataContainerType = await container_type.update(dataUpdate, selector);
 
-			if (!dataContainer) {
+			if (!dataContainerType) {
 				throw new Error(`Container Type ${idContainerType} doesn't exists!`);
 			}
 			baseResponse({
 				message: "Update Success",
-				data: dataContainer,
+				data: dataContainerType,
 			})(res, 200);
 		} catch (error) {
 			res.status(403);
@@ -57,7 +66,7 @@ class ContainerTypeController {
 				where: {
 					ctcode: idContainerType
 				}
-			  });
+			});
 
 			if (!dataContainerType) {
 				throw new Error(`container type: ${idContainerType} doesn't exists!`);
@@ -73,8 +82,12 @@ class ContainerTypeController {
 	}
 
 	static async list(req, res, next) {
+        let {start, rows} = req.body;
+
 		try {
 			let payload = await container_type.findAll({
+				offset: start,
+				limit: rows,
 				attributes: {
 					exclude: ['createdAt', 'updatedAt']
 				}

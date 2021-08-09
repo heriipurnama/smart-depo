@@ -9,15 +9,33 @@ class ContainerController {
 		let defaultImage =
 			"https://i.pinimg.com/564x/82/64/00/826400943f7549d21cec0418d1a32e2b.jpg";
 		try {
-			const payload = await container.create({
-				cccode: ccCode,
-				ctcode: ctCode,
-				cclength: ccLength,
-				ccheight: ccHeight,
-				created_at: Date.now(),
-				created_by: idUser,
-			});
-			baseResponse({ message: "container created", data: payload })(res);
+			// const payload = await container.create({
+			// 	cccode: ccCode,
+			// 	ctcode: ctCode,
+			// 	cclength: ccLength,
+			// 	ccheight: ccHeight,
+			// 	created_at: Date.now(),
+			// 	created_by: idUser,
+			// });
+
+			const [payload, created] = await container.findOrCreate({ 
+				where: {
+					cccode: ccCode
+				},
+				defaults: {
+					cccode: ccCode,
+					ctcode: ctCode,
+					cclength: ccLength,
+					ccheight: ccHeight,
+					created_at: Date.now(),
+					created_by: idUser
+				}
+			})
+			if(created === false){
+                throw new Error(`Container Exist, cccode: ${ccCode} exists!`);
+			} else {
+				baseResponse({ message:"Container Created " , data: payload})(res);
+			}
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -82,8 +100,12 @@ class ContainerController {
 	}
 
 	static async list(req, res, next) {
+        let {start, rows} = req.body;
+
 		try {
 			let payload = await container.findAll({
+				offset: start,
+				limit: rows,
 				attributes: {
 					exclude: ["createdAt", "updatedAt"]
 				}
