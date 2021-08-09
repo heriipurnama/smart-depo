@@ -25,7 +25,9 @@ module.exports = (sequelize, DataTypes) => {
 			cccode: DataTypes.STRING,
             ctcode: DataTypes.STRING,
             cclength: DataTypes.DECIMAL,
-            ccheight: DataTypes.DECIMAL,
+			ccheight: DataTypes.DECIMAL,
+			ccalias1: DataTypes.STRING,
+			ccalias2: DataTypes.STRING,
             created_at: DataTypes.DATE,
             created_by: DataTypes.NUMBER,
             updated_at: DataTypes.DATE,
@@ -36,6 +38,8 @@ module.exports = (sequelize, DataTypes) => {
 			sequelize,
 			modelName: "container",
 			underscored: true,
+			freezeTableName: true,
+            tableName: "tblcontainer_code",
 		}
 	);
 
@@ -45,7 +49,9 @@ module.exports = (sequelize, DataTypes) => {
 				cccode: this.cccode,
                 ctcode: this.ctcode,
                 cclength: this.cclength,
-                ccheight: this.ccheight,
+				ccheight: this.ccheight,
+				ccalias1: this.ccalias1,
+				ccalias2: this.ccalias2,
                 created_at: this.created_at,
                 created_by: this.created_by,
                 updated_at: this.updated_at,
