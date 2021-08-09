@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
 			modelName: "damage_type",
 			underscored: true,
 			freezeTableName: true,
+			tableName: "tbldamage_type",
 
 		}
 	);
