@@ -23,19 +23,23 @@ module.exports = (sequelize, DataTypes) => {
 	container.init(
 		{
 			cccode: DataTypes.STRING,
-			ctcode: DataTypes.STRING,
-			cclength: DataTypes.DECIMAL,
+      ctcode: DataTypes.STRING,
+      cclength: DataTypes.DECIMAL,
 			ccheight: DataTypes.DECIMAL,
-			created_at: DataTypes.DATE,
-			created_by: DataTypes.NUMBER,
-			updated_at: DataTypes.DATE,
-			updated_by: DataTypes.NUMBER
+			ccalias1: DataTypes.STRING,
+			ccalias2: DataTypes.STRING,
+      created_at: DataTypes.DATE,
+      created_by: DataTypes.NUMBER,
+      updated_at: DataTypes.DATE,
+      updated_by: DataTypes.NUMBER
 
 		},
 		{
 			sequelize,
 			modelName: "container",
 			underscored: true,
+			freezeTableName: true,
+            tableName: "tblcontainer_code",
 		}
 	);
 
@@ -43,13 +47,15 @@ module.exports = (sequelize, DataTypes) => {
 		get() {
 			return {
 				cccode: this.cccode,
-				ctcode: this.ctcode,
-				cclength: this.cclength,
+        ctcode: this.ctcode,
+        cclength: this.cclength,
 				ccheight: this.ccheight,
-				created_at: this.created_at,
-				created_by: this.created_by,
-				updated_at: this.updated_at,
-				updated_by: this.updated_by,
+				ccalias1: this.ccalias1,
+				ccalias2: this.ccalias2,
+        created_at: this.created_at,
+        created_by: this.created_by,
+        updated_at: this.updated_at,
+        updated_by: this.updated_by
 			};
 		},
 	});
