@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			cccode: DataTypes.STRING,
 <<<<<<< HEAD
+<<<<<<< HEAD
             ctcode: DataTypes.STRING,
             cclength: DataTypes.DECIMAL,
 			ccheight: DataTypes.DECIMAL,
@@ -34,6 +35,8 @@ module.exports = (sequelize, DataTypes) => {
             updated_at: DataTypes.DATE,
             updated_by: DataTypes.NUMBER
 =======
+=======
+>>>>>>> faef105b17e24324567a07b771a13217e77e3ef2
 			ctcode: DataTypes.STRING,
 			cclength: DataTypes.DECIMAL,
 			ccheight: DataTypes.DECIMAL,
@@ -41,6 +44,9 @@ module.exports = (sequelize, DataTypes) => {
 			created_by: DataTypes.NUMBER,
 			updated_at: DataTypes.DATE,
 			updated_by: DataTypes.NUMBER
+<<<<<<< HEAD
+>>>>>>> faef105b17e24324567a07b771a13217e77e3ef2
+=======
 >>>>>>> faef105b17e24324567a07b771a13217e77e3ef2
 
 		},
@@ -58,6 +64,7 @@ module.exports = (sequelize, DataTypes) => {
 			return {
 				cccode: this.cccode,
 <<<<<<< HEAD
+<<<<<<< HEAD
                 ctcode: this.ctcode,
                 cclength: this.cclength,
 				ccheight: this.ccheight,
@@ -68,6 +75,8 @@ module.exports = (sequelize, DataTypes) => {
                 updated_at: this.updated_at,
                 updated_by: this.updated_by,
 =======
+=======
+>>>>>>> faef105b17e24324567a07b771a13217e77e3ef2
 				ctcode: this.ctcode,
 				cclength: this.cclength,
 				ccheight: this.ccheight,
@@ -75,6 +84,9 @@ module.exports = (sequelize, DataTypes) => {
 				created_by: this.created_by,
 				updated_at: this.updated_at,
 				updated_by: this.updated_by,
+<<<<<<< HEAD
+>>>>>>> faef105b17e24324567a07b771a13217e77e3ef2
+=======
 >>>>>>> faef105b17e24324567a07b771a13217e77e3ef2
 			};
 		},
