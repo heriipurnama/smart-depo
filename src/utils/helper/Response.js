@@ -5,7 +5,7 @@ const baseResponse = ({ success = true, message, data = "" }) => (
 	status = 0
 ) => {
 	const payload = { success, message, data };
-	console.log(status);
+	//console.log(status);
 	if (!status) {
 		return res.json(payload);
 	}
