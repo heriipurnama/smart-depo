@@ -14,6 +14,8 @@ const location = require("./location/LocationRouter");
 const param = require("./param/ParamRouter");
 
 
+const groups = require("./groups/GroupsRouter");
+
 // base router
 routers.use("/users", user);
 routers.use("/messages", messages);
@@ -24,5 +26,7 @@ routers.use("/groups", group);
 routers.use("/principals", principal);
 routers.use("/locations", location);
 routers.use("/params", param);
+
+routers.use("/groups", groups);
 
 module.exports = routers;
