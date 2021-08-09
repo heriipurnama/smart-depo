@@ -5,7 +5,8 @@ const { container,container_type } = require("../../db/models");
 
 class ContainerController {
 	static async createNew(req, res, next) {
-		let { ccCode, ctCode, ccLength, ccHeight, idUser } = req.body;
+		let { ccCode, ctCode, ccLength, ccHeight, ccAlias1, ccAlias2, idUser } = req.body;
+		// return res.json(req.body);
 		let defaultImage =
 			"https://i.pinimg.com/564x/82/64/00/826400943f7549d21cec0418d1a32e2b.jpg";
 		try {
@@ -27,6 +28,8 @@ class ContainerController {
 					ctcode: ctCode,
 					cclength: ccLength,
 					ccheight: ccHeight,
+					ccalias1: ccAlias1,
+					ccalias2: ccAlias2,
 					created_at: Date.now(),
 					created_by: idUser
 				}
@@ -43,12 +46,14 @@ class ContainerController {
 	}
 
 	static async update(req, res, next) {
-		let { ccCode, ctCode, ccLength, ccHeight, idUser, idContainer } = req.body;
+		let { ccCode, ctCode, ccLength, ccHeight, ccAlias1, ccAlias2, idUser, idContainer } = req.body;
 		let dataUpdate = {
 			cccode:ccCode,
 			ctcode: ctCode,
 			cclength: ccLength,
 			ccheight: ccHeight,
+			ccalias1: ccAlias1,
+			ccalias2: ccAlias2,
 			updated_at: Date.now(),
 			updated_by: idUser
 		}
