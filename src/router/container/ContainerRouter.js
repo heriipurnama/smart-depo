@@ -4,7 +4,7 @@ const express = require("express");
 const routers = express.Router();
 
 // const ContainerController = require("../../modules/container/ContainerController");
-const { container: ContainerController } = require("../../modules");
+const { container_code: ContainerController } = require("../../modules");
 
 const Authentication = require("../../utils/middleware/Auth");
 const schemaValidation = require("../../utils/middleware/SchemaValidator");

@@ -3,7 +3,7 @@
 module.exports = {
 	user: require("./users/UserController"),
 	message: require("./message/MessageController"),
-	container: require("./container/ContainerController"),
+	container_code: require("./container_code/ContainerCodeController"),
 	containerType: require("./container_type/ContainerTypeController"),
 
 	damageType: require("./damage_type/DamageTypeController"),
@@ -12,5 +12,6 @@ module.exports = {
 	location: require("./location/LocationController"),
 
 	param: require("./param/ParamController"),
-	groups: require("./groups/GroupsController")
+	groups: require("./groups/GroupsController"),
+	container: require("./container/ContainerController")
 };
