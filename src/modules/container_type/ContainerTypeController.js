@@ -36,13 +36,13 @@ class ContainerTypeController {
 			ctdesc: ctDesc
 		}
 		let selector = { 
-			where: { ctcode: idContainerType }
+			where: { ctcode: ctCode }
 		  };
 		try {
 			let dataContainerType = await container_type.update(dataUpdate, selector);
 
 			if (!dataContainerType) {
-				throw new Error(`Container Type ${idContainerType} doesn't exists!`);
+				throw new Error(`Container Type ${ctCode} doesn't exists!`);
 			}
 			baseResponse({
 				message: "Update Success",
