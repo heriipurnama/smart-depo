@@ -13,6 +13,7 @@ const principal = require("./principal/PrincipalRouter");
 const location = require("./location/LocationRouter");
 const param = require("./param/ParamRouter");
 const container = require("./container/ContainerRouter");
+const privilege = require("./privilege/PrivilegeRouter");
 
 
 const groups = require("./groups/GroupsRouter");
@@ -28,6 +29,7 @@ routers.use("/principals", principal);
 routers.use("/locations", location);
 routers.use("/params", param);
 routers.use("/containers", container);
+routers.use("/privilege", privilege);
 
 routers.use("/groups", groups);
 
