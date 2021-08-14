@@ -2,6 +2,8 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { container,container_code } = require("../../db/models");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 class ContainerController {
 	static async createNew(req, res, next) {
@@ -30,13 +32,15 @@ class ContainerController {
 	static async update(req, res, next) {
 		let { crNo, dset } = req.body;
 		let selector = { 
-			where: { crno: crNo }
+            where: { 
+                crno:{ [Op.like]: `%${crNo}%`}
+            }
 		};
 		try {
 			let dataContainer = await container.update(dset, selector);
 
-			if (!dataContainer) {
-				throw new Error(`Container No: ${crNo} doesn't exists!`);
+			if (!dataContainer || dataContainer == 0) {
+				throw new Error(`Update Container No: ${crNo} Failed!`);
 			}
 			baseResponse({
 				message: "Update Success",
@@ -54,12 +58,13 @@ class ContainerController {
 		
 		try {
 			let dataContainer = await container.findOne({ 
-				attributes: {
-					exclude: ["createdAt", "updatedAt"]
-				},
 				where: {
-					crno: crNo
-				}
+                    crno: { [Op.like]: `%${crNo}%`}
+                },
+                include:[{
+					model:container_code,
+					required: false // do not generate INNER JOIN
+				}]
 			});
 
 			if (!dataContainer) {
@@ -82,13 +87,9 @@ class ContainerController {
 			let payload = await container.findAll({
 				offset: start,
 				limit: rows,
-				attributes: {
-					exclude: ["createdAt", "updatedAt"]
-				},
 				include:[{
 					model:container_code,
-					required: false, // do not generate INNER JOIN
-                    attributes: { exclude:["createdAt", "updatedAt"]}
+					required: false // do not generate INNER JOIN
 				}]
 			});
 			baseResponse({ message: "list containers", data: payload })(res, 200);
@@ -102,7 +103,9 @@ class ContainerController {
 		let {crNo} = req.body; 
 		try {
 			let payload = await container.destroy({
-				where:{crno: crNo}
+				where:{
+                    crno:{ [Op.like]: `%${crNo}%`}
+                }
 			});
 			baseResponse({ message: "Success Delete Container", data: payload })(res, 200);
 		} catch (error) {

@@ -29,9 +29,7 @@ class ContainerCodeController {
 					cclength: ccLength,
 					ccheight: ccHeight,
 					ccalias1: ccAlias1,
-					ccalias2: ccAlias2,
-					created_at: Date.now(),
-					created_by: idUser
+					ccalias2: ccAlias2
 				}
 			})
 			if(created === false){
@@ -53,9 +51,7 @@ class ContainerCodeController {
 			cclength: ccLength,
 			ccheight: ccHeight,
 			ccalias1: ccAlias1,
-			ccalias2: ccAlias2,
-			updated_at: Date.now(),
-			updated_by: idUser
+			ccalias2: ccAlias2
 		};
 		let selector = { 
 			where: { id: idContainer }
@@ -111,14 +107,9 @@ class ContainerCodeController {
 			let payload = await container.findAll({
 				offset: start,
 				limit: rows,
-				attributes: {
-					exclude: ["createdAt", "updatedAt"]
-				}
-				,
 				include:[{
 					model:container_type,
 					required: false, // do not generate INNER JOIN
-        				attributes: { exclude:["createdAt", "updatedAt"]}
 				}]
 			});
 			baseResponse({ message: "list containers", data: payload })(res, 200);
