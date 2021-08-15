@@ -16,6 +16,7 @@ routers.route("/list").get(Authentication, ContainerController.list);
 routers.route("/listone").get(Authentication, ContainerController.listOne);
 routers.route("/delete").delete(Authentication, ContainerController.delete);
 routers.route("/cek").post(Authentication, ContainerController.cek);
+routers.route("/checkcCode").get(Authentication, ContainerController.checkContainerCode);
 
 
 
