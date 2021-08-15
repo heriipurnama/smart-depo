@@ -118,13 +118,15 @@ class UserController {
 				where: { username: usernameEmail },
 			});
 
+			if (!dataUsername) {
+				throw new Error(`username ${usernameEmail} doesn't exists!`);
+			}
+			
 			if( dataUsername.is_block === "y" ) {
 				throw new Error(`username ${usernameEmail} not activated!`);
 			}
 
-			if (!dataUsername) {
-				throw new Error(`username ${usernameEmail} doesn't exists!`);
-			}
+			
 
 			const isPassword = await bcrypt.compareSync(
 				password,
