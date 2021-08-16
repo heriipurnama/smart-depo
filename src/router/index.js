@@ -14,6 +14,7 @@ const location = require("./location/LocationRouter");
 const param = require("./param/ParamRouter");
 const container = require("./container/ContainerRouter");
 const privilege = require("./privilege/PrivilegeRouter");
+const city = require("./city/CityRouter");
 
 
 const groups = require("./groups/GroupsRouter");
@@ -30,6 +31,7 @@ routers.use("/locations", location);
 routers.use("/params", param);
 routers.use("/containers", container);
 routers.use("/privilege", privilege);
+routers.use("/city", city);
 
 routers.use("/groups", groups);
 
