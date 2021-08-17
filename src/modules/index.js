@@ -16,7 +16,9 @@ module.exports = {
 	container: require("./container/ContainerController"),
 	privilege: require("./privilege/PrivilegeController"),
 	city: require("./city/CityController"),
-	component: require("./component/ComponentController")
+	component: require("./component/ComponentController"),
+	country: require("./country/CountryController")
+
 
 
 };
