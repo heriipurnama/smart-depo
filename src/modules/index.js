@@ -15,6 +15,8 @@ module.exports = {
 	groups: require("./groups/GroupsController"),
 	container: require("./container/ContainerController"),
 	privilege: require("./privilege/PrivilegeController"),
-	city: require("./city/CityController")
+	city: require("./city/CityController"),
+	component: require("./component/ComponentController")
+
 
 };

@@ -30,6 +30,8 @@ module.exports = (sequelize, DataTypes) => {
 			underscored: true,
 			freezeTableName: true,
 			tableName: "tblcontainer_type",
+			createdAt: false,
+			updatedAt: false
 		}
 	);
 

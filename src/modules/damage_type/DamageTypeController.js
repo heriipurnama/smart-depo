@@ -34,8 +34,7 @@ class DamageTypeController {
 		let dataUpdate = {
 			dycode: dyCode,
             dydesc: dyDesc,
-            dyclean: dyClean,
-            update_at: Date.now()
+            dyclean: dyClean
 		}
 		let selector = { 
 			where: { id: idDamageType }
@@ -62,9 +61,7 @@ class DamageTypeController {
 		
 		try {
 			let dataDamageType = await damage_type.findOne({ 
-				attributes: {
-					exclude: ['createdAt', 'updatedAt']
-				},
+
 				where: {
 					id: idDamageType
 				}
