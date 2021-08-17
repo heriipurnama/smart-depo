@@ -19,7 +19,8 @@ module.exports = {
 	component: require("./component/ComponentController"),
 	country: require("./country/CountryController"),
 	vessel: require("./vessel/VesselController"),
-	voyage: require("./voyage/VoyageController")
+	voyage: require("./voyage/VoyageController"),
+	port: require("./port/PortController")
 
 
 
