@@ -9,9 +9,9 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			city.belongsTo(models.container_code,
+			city.belongsTo(models.country,
             {
-                foreignKey: "city_id",
+                foreignKey: "cncode",
             });
 		}
 	}
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
                 autoIncrement: true
             },
             city_name: DataTypes.STRING,
-            encode: DataTypes.STRING
+            cncode: DataTypes.STRING
 
         },
         {
@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
 			return {
 				city_id: this.city_id,
                 city_name: this.city_name,
-                encode: this.encode
+                cncode: this.cncode
 			};
 		},
 	});

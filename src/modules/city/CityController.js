@@ -1,11 +1,11 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { city } = require("../../db/models");
+const { city, country } = require("../../db/models");
 
 class CityController {
 	static async createNew(req, res, next) {
-        let { name, code } = req.body;
+        let { name, cncode } = req.body;
 		try {
 			const [payload, created] = await city.findOrCreate({
 				where: {
@@ -13,7 +13,7 @@ class CityController {
 				},
 				defaults:{
                     city_name: name,
-                    encode: code
+                    cncode: cncode
 				}
             })
             if(created === false){
@@ -29,10 +29,10 @@ class CityController {
 	}
 
 	static async update(req, res, next) {
-		let { cityId, name, code } = req.body;
+		let { cityId, name, cncode } = req.body;
 		let dataUpdate = {
             city_name: name,
-            encode: code
+            cncode: cncode
 		}
 		let selector = { 
 			where: { city_id: cityId }
@@ -82,7 +82,11 @@ class CityController {
 		try {
 			let payload = await city.findAll({
 				offset: start,
-				limit: rows
+				limit: rows,
+				include:[{
+					model:country,
+					required: false // do not generate INNER JOIN
+				}]
 			});
 			baseResponse({ message: "List Cities", data: payload })(res, 200);
 		} catch (error) {
