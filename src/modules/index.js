@@ -18,7 +18,8 @@ module.exports = {
 	city: require("./city/CityController"),
 	component: require("./component/ComponentController"),
 	country: require("./country/CountryController"),
-	vessel: require("./vessel/VesselController")
+	vessel: require("./vessel/VesselController"),
+	voyage: require("./voyage/VoyageController")
 
 
 

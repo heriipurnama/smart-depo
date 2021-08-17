@@ -18,6 +18,7 @@ const city = require("./city/CityRouter");
 const component = require("./component/ComponentRouter");
 const country = require("./country/CountryRouter");
 const vessel = require("./vessel/VesselRouter");
+const voyage = require("./voyage/VoyageRouter");
 
 
 const groups = require("./groups/GroupsRouter");
@@ -38,6 +39,7 @@ routers.use("/city", city);
 routers.use("/components", component);
 routers.use("/countries", country);
 routers.use("/vessels", vessel);
+routers.use("/voyages", voyage);
 
 routers.use("/groups", groups);
 
