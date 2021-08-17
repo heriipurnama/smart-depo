@@ -17,7 +17,8 @@ module.exports = {
 	privilege: require("./privilege/PrivilegeController"),
 	city: require("./city/CityController"),
 	component: require("./component/ComponentController"),
-	country: require("./country/CountryController")
+	country: require("./country/CountryController"),
+	vessel: require("./vessel/VesselController")
 
 
 
