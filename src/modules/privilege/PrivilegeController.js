@@ -9,27 +9,28 @@ const encriptDecript = require("../../utils/middleware/EncriptDecript");
 
 class PrivilegeController {
 	static async createNew(req, res, next) {
-		let { ccCode, ctCode, ccLength, ccHeight, ccAlias1, ccAlias2, idUser } = req.body;
+		let { group_id, module_id, has_insert, has_update, has_delete, has_approval, has_view,printpdf } = req.body;
 		try {
-			const [payload, created] = await privilege.findOrCreate({ 
+			const payload = await privilege.create({ 
 				where: {
-					cccode: ccCode
+					module_id: module_id
 				},
 				defaults: {
-					cccode: ccCode,
-					ctcode: ctCode,
-					cclength: ccLength,
-					ccheight: ccHeight,
-					ccalias1: ccAlias1,
-					ccalias2: ccAlias2,
-					created_at: Date.now(),
-					created_by: idUser
+					group_id: group_id,
+					module_id: module_id,
+					has_insert: has_insert,
+					has_update: has_update,
+					has_delete: has_delete,
+					has_approval: has_approval,
+					has_view: has_view,
+					has_printpdf: printpdf,
+					has_printxls: printxls
 				}
 			})
-			if(created === false){
-                throw new Error(`Container Exist, cccode: ${ccCode} exists!`);
+			if(!payload){
+                throw new Error(`Create Privilege Failed`);
 			} else {
-				baseResponse({ message:"Container Created " , data: payload})(res);
+				baseResponse({ message:"Privilege Created " , data: payload})(res);
 			}
 		} catch (error) {
 			res.status(400);
@@ -38,30 +39,31 @@ class PrivilegeController {
 	}
 
 	static async update(req, res, next) {
-		let { ccCode, ctCode, ccLength, ccHeight, ccAlias1, ccAlias2, idUser, idContainer } = req.body;
+		let { id, group_id, module_id, has_insert, has_update, has_delete, has_approval, has_view,printpdf } = req.body;
 		let dataUpdate = {
-			cccode:ccCode,
-			ctcode: ctCode,
-			cclength: ccLength,
-			ccheight: ccHeight,
-			ccalias1: ccAlias1,
-			ccalias2: ccAlias2,
-			updated_at: Date.now(),
-			updated_by: idUser
+			group_id: group_id,
+			module_id: module_id,
+			has_insert: has_insert,
+			has_update: has_update,
+			has_delete: has_delete,
+			has_approval: has_approval,
+			has_view: has_view,
+			has_printpdf: printpdf,
+			has_printxls: printxls
 		};
 		let selector = { 
-			where: { id: idContainer }
+			where: { privilege_id: id }
 		};
 		try {
-			let containerCode = ccCode;
-			let dataContainer = await privilege.update(dataUpdate, selector);
+			
+			let dataPrivilege = await privilege.update(dataUpdate, selector);
 
-			if (!dataContainer) {
-				throw new Error(`container ${containerCode} doesn't exists!`);
+			if (!dataPrivilege) {
+				throw new Error(`Update Data Failed`);
 			}
 			baseResponse({
 				message: "Update Success",
-				data: dataContainer,
+				data: dataPrivilege,
 			})(res, 200);
 		} catch (error) {
 			res.status(403);
@@ -71,12 +73,12 @@ class PrivilegeController {
 
 
 	static async listOne(req, res, next) {
-		let { groupId} = req.body;
+		let { id} = req.body;
 		
 		try {
-			let dataContainer = await privilege.findOne({ 
+			let dataPrivilege = await privilege.findOne({ 
 				where: {
-					group_id: groupId
+					privilege_id: id
                 }
                 ,
 				include:[{
@@ -86,12 +88,12 @@ class PrivilegeController {
 				}]
 			});
 
-			if (!dataContainer) {
+			if (!dataPrivilege) {
 				throw new Error(`Group id: ${groupId} doesn't exists!`);
 			}
 			baseResponse({
 				message: "Get Data Success",
-				data: dataContainer,
+				data: dataPrivilege,
 			})(res, 200);
 		} catch (error) {
 			res.status(403);
@@ -100,23 +102,15 @@ class PrivilegeController {
 	}
 
 	static async list(req, res, next) {
-        let bearerheader = req.headers["authorization"];
-		const splitBearer = bearerheader.split(" ");
-		const bearer = splitBearer[1];
+        
         let { start, rows} = req.body;
 		try {
             let acc = jwt.verify(bearer, process.env.SECRET_KEY);
-            let groupId = acc.group_id
+			let groupId = acc.groupId
 			let payload = await privilege.findAll({
 				offset: start,
                 limit: rows,
-                where: {
-					group_id: groupId
-                },
-				attributes: {
-                    exclude: ["createdAt", "updatedAt"],
-                }
-                ,
+                
 				include:[{
                     model:tblmodules,
                     as: "modules",
@@ -132,12 +126,42 @@ class PrivilegeController {
 	}
 
 	static async delete(req, res, next) {
-		let {idContainer} = req.body; 
+		let {id} = req.body; 
 		try {
 			let payload = await privilege.destroy({
-				where:{id: idContainer}
+				where:{privilege_id: id}
 			});
-			baseResponse({ message: "Success Delete Container", data: payload })(res, 200);
+			baseResponse({ message: "Success Delete Privilege", data: payload })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async listModule(req, res, next) {
+        let bearerheader = req.headers["authorization"];
+		const splitBearer = bearerheader.split(" ");
+		const bearer = splitBearer[1];
+        let { start, rows} = req.body;
+		try {
+            let acc = jwt.verify(bearer, process.env.SECRET_KEY);
+			let groupId = acc.groupId
+			let payload = await privilege.findAll({
+				offset: start,
+                limit: rows,
+                where: {
+					group_id: groupId
+                },
+				// attributes:	['privilege_id', 'group_id', 'module_id']
+                // ,
+				include:[{
+                    model:tblmodules,
+                    as: "modules",
+					required: false, // do not generate INNER JOIN
+                    attributes: { exclude:["createdAt", "updatedAt"]}
+				}]
+			});
+			baseResponse({ message: "list privilege", data: payload })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);

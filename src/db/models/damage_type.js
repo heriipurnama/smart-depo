@@ -18,7 +18,10 @@ module.exports = (sequelize, DataTypes) => {
 
 	damage_type.init(
 		{
-			dycode: DataTypes.STRING,
+			dycode: {
+                type: DataTypes.STRING,
+                primaryKey: true
+            },
             dydesc: DataTypes.STRING,
             dyclean: DataTypes.INTEGER,
 		},
@@ -29,8 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 			freezeTableName: true,
 			tableName: "tbldamage_type",
 			createdAt: false,
-            updatedAt: false
-
+      updatedAt: false
 		}
 	);
 
