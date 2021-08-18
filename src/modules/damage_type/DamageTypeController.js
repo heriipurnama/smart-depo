@@ -33,7 +33,7 @@ class DamageTypeController {
 		let { dyCode, dyDesc, dyClean } = req.body;
 		let dataUpdate = {
             dydesc: dyDesc,
-            dyclean: dyClean,
+            dyclean: dyClean
 		}
 		let selector = { 
 			where: { dycode: dyCode }
@@ -60,9 +60,7 @@ class DamageTypeController {
 		
 		try {
 			let dataDamageType = await damage_type.findOne({ 
-				attributes: {
-					exclude: ['createdAt', 'updatedAt']
-				},
+
 				where: {
 					dycode: dyCode
 				}

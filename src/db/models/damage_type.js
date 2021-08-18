@@ -32,8 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 			freezeTableName: true,
 			tableName: "tbldamage_type",
 			createdAt: false,
-			updatedAt: false
-
+      updatedAt: false
 		}
 	);
 
