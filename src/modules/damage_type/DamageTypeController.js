@@ -30,21 +30,19 @@ class DamageTypeController {
 	}
 
 	static async update(req, res, next) {
-		let { dyCode, dyDesc, dyClean, idDamageType } = req.body;
+		let { dyCode, dyDesc, dyClean } = req.body;
 		let dataUpdate = {
-			dycode: dyCode,
             dydesc: dyDesc,
             dyclean: dyClean,
-            update_at: Date.now()
 		}
 		let selector = { 
-			where: { id: idDamageType }
+			where: { dycode: dyCode }
 		};
 		try {
 			let dataDamageType = await damage_type.update(dataUpdate, selector);
 
 			if (!dataDamageType) {
-				throw new Error(`Damage Type ${idDamageType} doesn't exists!`);
+				throw new Error(`Damage Type ${dyCode} doesn't exists!`);
 			}
 			baseResponse({
 				message: "Update Success",
@@ -58,7 +56,7 @@ class DamageTypeController {
 
 
 	static async listOne(req, res, next) {
-		let { idDamageType } = req.body;
+		let { dyCode } = req.body;
 		
 		try {
 			let dataDamageType = await damage_type.findOne({ 
@@ -66,12 +64,12 @@ class DamageTypeController {
 					exclude: ['createdAt', 'updatedAt']
 				},
 				where: {
-					id: idDamageType
+					dycode: dyCode
 				}
 			});
 
 			if (!dataDamageType) {
-				throw new Error(`Damage Type: ${idDamageType} doesn't exists!`);
+				throw new Error(`Damage Type: ${dyCode} doesn't exists!`);
 			}
 			baseResponse({
 				message: "Get Data Success",
@@ -102,13 +100,13 @@ class DamageTypeController {
 	}
 
 	static async delete(req, res, next) {
-		let {idDamageType} = req.body 
+		let {dyCode} = req.body 
 		try {
 			let dataDamageType = await damage_type.destroy({
-				where:{id: idDamageType}
+				where:{dycode: dyCode}
             });
             if (!dataDamageType) {
-				throw new Error(`Damage Type: ${idDamageType} doesn't exists!`);
+				throw new Error(`Damage Type: ${dyCode} doesn't exists!`);
 			}
 			baseResponse({ message: "Success Delete Damage Type", data: dataDamageType })(res, 200);
 		} catch (error) {
