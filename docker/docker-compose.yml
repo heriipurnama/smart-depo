@@ -2,7 +2,7 @@ version: "3.3"
 services:
   redis-db:
     image: redis:buster
-    names: redis-buster-0.1
+    container_name: redis-buster-0.1
     restart: always
     ports:
       - "6379:6379"
