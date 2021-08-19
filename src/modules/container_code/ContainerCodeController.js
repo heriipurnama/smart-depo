@@ -54,7 +54,7 @@ class ContainerCodeController {
 			ccalias2: ccAlias2
 		};
 		let selector = { 
-			where: { id: idContainer }
+			where: { cccode: ccCode }
 		};
 		try {
 			let containerCode = ccCode;
@@ -75,7 +75,7 @@ class ContainerCodeController {
 
 
 	static async listOne(req, res, next) {
-		let { idContainer, idUser } = req.body;
+		let { id } = req.body;
 		
 		try {
 			let dataContainer = await container_code.findOne({ 
@@ -83,12 +83,12 @@ class ContainerCodeController {
 					exclude: ["createdAt", "updatedAt"]
 				},
 				where: {
-					id: idContainer, created_by:idUser
+					cccode: id
 				}
 			});
 
 			if (!dataContainer) {
-				throw new Error(`container id: ${idContainer} doesn't exists!`);
+				throw new Error(`container code: ${id} doesn't exists!`);
 			}
 			baseResponse({
 				message: "Get Data Success",
@@ -112,7 +112,7 @@ class ContainerCodeController {
 					required: false, // do not generate INNER JOIN
 				}]
 			});
-			baseResponse({ message: "list containers", data: payload })(res, 200);
+			baseResponse({ message: "list container codes", data: payload })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -120,12 +120,12 @@ class ContainerCodeController {
 	}
 
 	static async delete(req, res, next) {
-		let {idContainer} = req.body; 
+		let {id} = req.body; 
 		try {
 			let payload = await container_code.destroy({
-				where:{id: idContainer}
+				where:{cccode: id}
 			});
-			baseResponse({ message: "Success Delete Container", data: payload })(res, 200);
+			baseResponse({ message: "Success Delete Container Code", data: payload })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
