@@ -1,7 +1,7 @@
 {
     "script": "apps.js",
     "watch": true,
-    "ignore_watch": ["node_modules","tmpLog"],
+    "ignore_watch": ["node_modules","tmpLog","docker"],
     "watch_options": {
         "followSymlinks": false
     },

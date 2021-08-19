@@ -23,9 +23,10 @@ module.exports = (sequelize, DataTypes) => {
 	container_code.init(
 		{
 			cccode: {
+                containercode
                 type: DataTypes.STRING,
                 primaryKey: true
-            },
+      },
 			ctcode: DataTypes.STRING,
 			cclength: DataTypes.DECIMAL,
 			ccheight: DataTypes.DECIMAL,
@@ -40,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
 			freezeTableName: true,
 			tableName: "tblcontainer_code",
 			createdAt: false,
-            updatedAt: false
+			updatedAt: false
 		}
 	);
 

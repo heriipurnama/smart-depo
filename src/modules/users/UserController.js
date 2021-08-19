@@ -7,9 +7,10 @@ const jwt = require("jsonwebtoken");
 const baseResponse = require("../../utils/helper/Response");
 const { tblusers, tblgroups } = require("../../db/models");
 const token = require("../../utils/helper/Token");
-const serviceEmail = require("../../utils/middleware/ServiceEmail");
+const serviceEmail = require("../../utils/services/ServiceEmail");
 
 const encriptDecript = require("../../utils/middleware/EncriptDecript");
+const setRedis = require("../../utils/helper/SetRedis");
 
 class UserController {
 
@@ -199,6 +200,13 @@ class UserController {
 				]
 			});
 			baseResponse({ message: "list users", data: payload })(res, 200);
+			
+			/**
+			 * param
+			 * req, message, data
+			 */
+			setRedis(req, "list users", payload);
+
 		} catch (error) {
 			res.status(403);
 			next(error);
