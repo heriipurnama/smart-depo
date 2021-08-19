@@ -14,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
 			// 	foreignKey: 'ctcode',
 			// });
 			container_code.belongsTo(models.container_type,
-				{
-					foreignKey: "ctcode",
-				});
+			{
+				foreignKey: "ctcode",
+			});
 		}
 	}
 
