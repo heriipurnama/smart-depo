@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
 	container_code.init(
 		{
 			cccode: {
-                containercode
                 type: DataTypes.STRING,
                 primaryKey: true
       },
