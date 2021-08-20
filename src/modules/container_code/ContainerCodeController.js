@@ -75,7 +75,7 @@ class ContainerCodeController {
 
 
 	static async listOne(req, res, next) {
-		let { id } = req.body;
+		let { ccCode } = req.body;
 		
 		try {
 			let dataContainer = await container_code.findOne({ 
@@ -83,12 +83,12 @@ class ContainerCodeController {
 					exclude: ["createdAt", "updatedAt"]
 				},
 				where: {
-					cccode: id
+					cccode: ccCode
 				}
 			});
 
 			if (!dataContainer) {
-				throw new Error(`container code: ${id} doesn't exists!`);
+				throw new Error(`container code: ${ccCode} doesn't exists!`);
 			}
 			baseResponse({
 				message: "Get Data Success",
@@ -120,10 +120,10 @@ class ContainerCodeController {
 	}
 
 	static async delete(req, res, next) {
-		let {id} = req.body; 
+		let {ccCode} = req.body; 
 		try {
 			let payload = await container_code.destroy({
-				where:{cccode: id}
+				where:{cccode: ccCode}
 			});
 			baseResponse({ message: "Success Delete Container Code", data: payload })(res, 200);
 		} catch (error) {
