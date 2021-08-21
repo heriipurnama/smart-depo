@@ -18,9 +18,9 @@ routers.route("/auth/signin").post(UserController.signin);
 routers.route("/auth/activate").get(UserController.activated);
 routers.route("/auth/registers").post( Authentication, AuthorizeAdmin, schemaValidation.user(), schemaValidation.validate, UserController.register);
 
-routers.route("/auth/updatePassword").put(UserController.updatePassword);
+routers.route("/auth/updatePassword").put(Authentication, UserController.updatePassword);
 routers.route("/auth/sendEmailActivated").post(Authentication, UserController.emailActivated);
-routers.route("/auth/changePassword").put(Authentication, UserController.changePassword);
+routers.route("/auth/changePassword").put(UserController.changePassword);
 routers.route("/auth/detailDataUser").get(Authentication, UserController.detailDataUser);
 
 routers.route("/auth/upateDataUser").put(Authentication, UserController.upateDataUser);
