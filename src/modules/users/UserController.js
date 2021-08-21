@@ -278,9 +278,17 @@ class UserController {
 		let { userId } = req.body;
 
 		try {
-			let payload = await tblusers.findOne({
-				where: { user_id : userId }
-			});
+			let payload = await tblusers.findOne(
+				{
+					include: [
+						{
+							model: tblgroups,
+							as : "groups",
+							attributes: ["group_id", "group_name", "description"]
+						}
+					]},
+				{ where: { user_id : userId }}
+			);
 			
 			if (!payload) {
 				throw new Error(`user id: ${userId} doesn't exists!`);
