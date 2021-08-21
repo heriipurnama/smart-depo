@@ -19,7 +19,12 @@ routers.route("/auth/activate").get(UserController.activated);
 routers.route("/auth/registers").post( Authentication, AuthorizeAdmin, schemaValidation.user(), schemaValidation.validate, UserController.register);
 
 routers.route("/auth/updatePassword").put(UserController.updatePassword);
+routers.route("/auth/sendEmailActivated").post(Authentication, UserController.emailActivated);
+routers.route("/auth/changePassword").put(Authentication, UserController.changePassword);
+routers.route("/auth/detailDataUser").get(Authentication, UserController.detailDataUser);
 
+routers.route("/auth/upateDataUser").put(Authentication, UserController.upateDataUser);
+routers.route("/auth/delete").delete(Authentication, UserController.deleteDataUser);
 routers.route("/profile").get(Authentication, UserController.profile);
 routers.route("/allUser").get(Authentication, AuthorizeAdmin, Chace, UserController.getAlluser);
 
