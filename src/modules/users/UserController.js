@@ -187,8 +187,8 @@ class UserController {
 
 		try {
 
-			let offsets = parseInt(offset) || 1;
-			let limits = parseInt(limit) || 10;
+			let offsets = parseInt(offset) || 0;
+			let limits = parseInt(limit) || 11;
 
 			let payload = await tblusers.findAll({
 				offset: offsets,
