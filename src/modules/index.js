@@ -15,13 +15,13 @@ module.exports = {
 	groups: require("./groups/GroupsController"),
 	container: require("./container/ContainerController"),
 	privilege: require("./privilege/PrivilegeController"),
+
 	city: require("./city/CityController"),
 	component: require("./component/ComponentController"),
 	country: require("./country/CountryController"),
 	vessel: require("./vessel/VesselController"),
+
 	voyage: require("./voyage/VoyageController"),
-	port: require("./port/PortController")
-
-
-
+	port: require("./port/PortController"),
+	currency: require("./currency/CurrencyController")
 };
