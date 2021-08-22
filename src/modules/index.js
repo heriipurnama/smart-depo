@@ -23,5 +23,6 @@ module.exports = {
 
 	voyage: require("./voyage/VoyageController"),
 	port: require("./port/PortController"),
-	currency: require("./currency/CurrencyController")
+	currency: require("./currency/CurrencyController"),
+	material: require("./material/MaterialController")
 };

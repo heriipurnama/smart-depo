@@ -26,7 +26,7 @@ const voyage = require("./voyage/VoyageRouter");
 const port = require("./port/PortRouter");
 const groups = require("./groups/GroupsRouter");
 const currency = require("./currency/CurrencyRouter");
-
+const material = require("./material/MaterialRouter");
 
 // base router
 routers.use("/users", user);
@@ -52,5 +52,6 @@ routers.use("/voyages", voyage);
 routers.use("/ports", port);
 routers.use("/groups", groups);
 routers.use("/currency", currency);
+routers.use("/materials", material);
 
 module.exports = routers;
