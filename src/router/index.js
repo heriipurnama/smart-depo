@@ -28,6 +28,10 @@ const groups = require("./groups/GroupsRouter");
 const currency = require("./currency/CurrencyRouter");
 const material = require("./material/MaterialRouter");
 
+const damageTariff = require("./damage_tariff/DamageTariffRouter");
+const depo = require("./depo/DepoRouter");
+const debitur = require("./debitur/DebiturRouter");
+
 // base router
 routers.use("/users", user);
 routers.use("/messages", messages);
@@ -53,5 +57,9 @@ routers.use("/ports", port);
 routers.use("/groups", groups);
 routers.use("/currency", currency);
 routers.use("/materials", material);
+
+routers.use("/damage_tariffs", damageTariff);
+routers.use("/depos", depo);
+routers.use("/debiturs", debitur);
 
 module.exports = routers;
