@@ -26,7 +26,7 @@ class ModulController {
 			if(!payload){
                 throw new Error(`Create Modul Failed`);
 			} else {
-				baseResponse({ message:"Modul Created " , data: payload})(res);
+				baseResponse({ message:"Modul Created " , data: payload})(res, 200);
 			}
 		} catch (error) {
 			res.status(400);

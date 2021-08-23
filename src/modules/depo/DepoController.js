@@ -16,7 +16,7 @@ class DepoController {
 				dpname: dpname
 			});
             
-			baseResponse({ message: "succes created depo", data: payload })(res);
+			baseResponse({ message: "succes created depo", data: payload })(res, 200);
 		} catch (error) {
 			res.status(400);
 			next(error);

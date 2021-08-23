@@ -20,7 +20,7 @@ class DamageTypeController {
             if(created === false){
                 throw new Error(`Damage Type Exist, dycode: ${dyCode} exists!`);
             } else {
-            baseResponse({ message:"Damage Type Created " , data: payload})(res);
+            baseResponse({ message:"Damage Type Created " , data: payload})(res, 200);
             }
             
 		} catch (error) {

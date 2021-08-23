@@ -22,7 +22,7 @@ class PortController {
             if(created === false){
                 throw new Error(`Port Exist, POPORT: ${poport} exists!`);
             } else {
-            baseResponse({ message:"Port Created " , data: payload})(res);
+            baseResponse({ message:"Port Created " , data: payload})(res, 200);
             }
             
 		} catch (error) {

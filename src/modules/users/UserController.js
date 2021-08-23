@@ -32,7 +32,7 @@ class UserController {
 				
 			});
 			const usernameEncript = encriptDecript.encrypt(payload.username);
-			baseResponse({ message: "user created", data: payload })(res);
+			baseResponse({ message: "user created", data: payload })(res, 200);
 			serviceEmail(email, usernameEncript);
 		} catch (error) {
 			res.status(400);
@@ -65,7 +65,7 @@ class UserController {
 				updated_date: new Date(),
 				
 			});
-			baseResponse({ message: "user created", data: payload })(res);
+			baseResponse({ message: "user created", data: payload })(res, 200);
 		} catch (error) {
 			res.status(400);
 			next(error);

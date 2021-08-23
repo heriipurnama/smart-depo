@@ -19,7 +19,7 @@ class LocationController {
             if(created === false){
                 throw new Error(`Location Exist, LCCODE: ${lcCode} exists!`);
             } else {
-            baseResponse({ message:"Location Created " , data: payload})(res);
+            baseResponse({ message:"Location Created " , data: payload})(res, 200);
             }
 
 		} catch (error) {

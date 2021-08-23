@@ -31,6 +31,11 @@ const material = require("./material/MaterialRouter");
 const damageTariff = require("./damage_tariff/DamageTariffRouter");
 const depo = require("./depo/DepoRouter");
 const debitur = require("./debitur/DebiturRouter");
+const repoTariffDetail = require("./repo_tariff_detail/RepoTariffDetailRouter");
+
+const repairMethod = require("./repair_method/RepairMethodRouter");
+const logActivity = require("./log_activity/LogActivityRouter");
+
 
 // base router
 routers.use("/users", user);
@@ -61,5 +66,9 @@ routers.use("/materials", material);
 routers.use("/damage_tariffs", damageTariff);
 routers.use("/depos", depo);
 routers.use("/debiturs", debitur);
+routers.use("/repo_tariff_details", repoTariffDetail);
+
+routers.use("/repair_methods", repairMethod);
+routers.use("/log_activities", logActivity);
 
 module.exports = routers;

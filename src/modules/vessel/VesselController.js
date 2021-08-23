@@ -20,7 +20,7 @@ class VesselController {
             if(created === false){
                 throw new Error(`Vessel Exist, ${id} exists!`);
             } else {
-            baseResponse({ message:"Vessel Created " , data: payload})(res);
+            baseResponse({ message:"Vessel Created " , data: payload})(res, 200);
             }
             
 		} catch (error) {

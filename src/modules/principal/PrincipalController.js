@@ -22,7 +22,7 @@ class PrincipalController {
             if(created === false){
                 throw new Error(`Principal Exist, Principal PRCODE: ${prCode} exists!`);
             } else {
-            baseResponse({ message:"Principal Created " , data: payload})(res);
+            baseResponse({ message:"Principal Created " , data: payload})(res, 200);
             }
             
 		} catch (error) {

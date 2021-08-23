@@ -35,7 +35,7 @@ class ContainerCodeController {
 			if(created === false){
                 throw new Error(`Container Exist, cccode: ${ccCode} exists!`);
 			} else {
-				baseResponse({ message:"Container Created " , data: payload})(res);
+				baseResponse({ message:"Container Created " , data: payload})(res, 200);
 			}
 		} catch (error) {
 			res.status(400);

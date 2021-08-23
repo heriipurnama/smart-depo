@@ -18,7 +18,7 @@ class CountryController {
             if(created === false){
                 throw new Error(`Country Exist, ${cnCode} exists!`);
             } else {
-            baseResponse({ message:"Country Created " , data: payload})(res);
+            baseResponse({ message:"Country Created " , data: payload})(res, 200);
             }
             
 		} catch (error) {

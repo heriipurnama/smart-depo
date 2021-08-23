@@ -17,7 +17,7 @@ class currencyController {
 				curr_symbol: curSymbol
 			});
             
-			baseResponse({ message: "user currency", data: payload })(res);
+			baseResponse({ message: "user currency", data: payload })(res, 200);
 		} catch (error) {
 			res.status(400);
 			next(error);
