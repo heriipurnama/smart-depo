@@ -21,7 +21,7 @@ class ContainerTypeController {
 			if(created === false){
                 throw new Error(`Container Type Exist, ctcode: ${ctCode} exists!`);
 			} else {
-				baseResponse({ message:"Container Type Created " , data: payload})(res);
+				baseResponse({ message:"Container Type Created " , data: payload})(res, 200);
 			}
 		} catch (error) {
 			res.status(400);

@@ -18,7 +18,7 @@ class GroupController {
 			if(created === false){
 				throw new Error(`Group Exist, Group Name: ${name} exists!`);
 			} else {
-				baseResponse({ message:"Group Created " , data: payload})(res);
+				baseResponse({ message:"Group Created " , data: payload})(res, 200);
 			}
             
 		} catch (error) {

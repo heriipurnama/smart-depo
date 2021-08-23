@@ -28,5 +28,9 @@ module.exports = {
 
 	damageTariff: require("./damage_tarif/DamageTariffController"),
 	depo: require("./depo/DepoController"),
-	debitur: require("./debitur/DebiturController")
+	debitur: require("./debitur/DebiturController"),
+	repoTariffDetail: require("./repo_tariff_detail/RepoTariffDetail"),
+
+	repairMethod: require("./repair_method/RepairMethodController"),
+	logActivity: require("./log_activity/LogActivityController")
 };

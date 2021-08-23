@@ -19,7 +19,7 @@ class DamageTariffController {
 				dmremarks: dmremarks
 			});
             
-			baseResponse({ message: "damageTariff", data: payload })(res);
+			baseResponse({ message: "damageTariff", data: payload })(res, 200);
 		} catch (error) {
 			res.status(400);
 			next(error);

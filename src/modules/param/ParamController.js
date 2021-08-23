@@ -20,7 +20,7 @@ class ParamController {
             if(created === false){
                 throw new Error(`Param Exist, Param ID: ${paramId} exists!`);
             } else {
-            baseResponse({ message:"Param Created " , data: payload})(res);
+            baseResponse({ message:"Param Created " , data: payload})(res, 200);
             }
             
 		} catch (error) {

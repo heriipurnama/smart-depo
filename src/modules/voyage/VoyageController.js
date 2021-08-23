@@ -27,7 +27,7 @@ class VoyageController {
             if(created === false){
                 throw new Error(`Voyage Exist, ${voyNo} exists!`);
             } else {
-            baseResponse({ message:"Voyage Created " , data: payload})(res);
+            baseResponse({ message:"Voyage Created " , data: payload})(res, 200);
             }
             
 		} catch (error) {

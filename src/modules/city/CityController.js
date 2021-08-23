@@ -19,7 +19,7 @@ class CityController {
             if(created === false){
                 throw new Error(`City Exist, ${name} exists!`);
             } else {
-            baseResponse({ message:"City Created " , data: payload})(res);
+            baseResponse({ message:"City Created " , data: payload})(res, 200);
             }
             
 		} catch (error) {

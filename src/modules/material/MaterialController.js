@@ -1,8 +1,8 @@
 "use strict";
 
-const baseResponse = require("../../utils/helper/Response");
 const { material } = require("../../db/models");
-
+const baseResponse = require("../../utils/helper/Response");
+const Logger = require("../../utils/helper/logger");
 
 class materialController {
 
@@ -15,8 +15,9 @@ class materialController {
 				mtcode: mtcode, 
 				mtdesc: mtdesc
 			});
-            
-			baseResponse({ message: "material", data: payload })(res);
+
+			baseResponse({ message: "material", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -36,7 +37,7 @@ class materialController {
 				limit: limits,
 			});
 			baseResponse({ message: "list material", data: payload })(res, 200);
-			
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -55,6 +56,7 @@ class materialController {
 				throw new Error(`mtcode material: ${mtcode} doesn't exists!`);
 			}
 			baseResponse({ message: "detail data material mtcode", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -83,6 +85,7 @@ class materialController {
 			);
 
 			baseResponse({ message: "mtcode updated!", data:`material succes update for user : ${mtcode}` })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -102,6 +105,7 @@ class materialController {
 			}
 
 			baseResponse({ message: "mtcode deleted", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);

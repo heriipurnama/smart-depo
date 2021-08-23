@@ -30,7 +30,7 @@ class PrivilegeController {
 			if(!payload){
                 throw new Error(`Create Privilege Failed`);
 			} else {
-				baseResponse({ message:"Privilege Created " , data: payload})(res);
+				baseResponse({ message:"Privilege Created " , data: payload})(res, 200);
 			}
 		} catch (error) {
 			res.status(400);

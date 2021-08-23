@@ -20,7 +20,7 @@ class ComponentController {
             if(created === false){
                 throw new Error(`Component Exist, cmcode: ${cmCode} exists!`);
             } else {
-            baseResponse({ message:"Component Created " , data: payload})(res);
+            baseResponse({ message:"Component Created " , data: payload})(res, 200);
             }
             
 		} catch (error) {
