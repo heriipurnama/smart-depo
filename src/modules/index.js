@@ -24,5 +24,9 @@ module.exports = {
 	voyage: require("./voyage/VoyageController"),
 	port: require("./port/PortController"),
 	currency: require("./currency/CurrencyController"),
-	material: require("./material/MaterialController")
+	material: require("./material/MaterialController"),
+
+	damageTariff: require("./damage_tarif/DamageTariffController"),
+	depo: require("./depo/DepoController"),
+	debitur: require("./debitur/DebiturController")
 };
