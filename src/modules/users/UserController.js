@@ -35,7 +35,6 @@ class UserController {
 			const usernameEncript = encriptDecript.encrypt(payload.username);
 			baseResponse({ message: "user created", data: payload })(res, 200);
 			serviceEmail(email, usernameEncript);
-			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -68,7 +67,6 @@ class UserController {
 				
 			});
 			baseResponse({ message: "user created", data: payload })(res, 200);
-			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -146,7 +144,6 @@ class UserController {
 				message: "Login succes",
 				data: token(dataUsername),
 			})(res, 200);
-			Logger(req);
 
 		} catch (error) {
 			res.status(403);
