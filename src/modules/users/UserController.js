@@ -12,6 +12,7 @@ const serviceEmail = require("../../utils/services/ServiceEmail");
 const encriptDecript = require("../../utils/middleware/EncriptDecript");
 const setRedis = require("../../utils/helper/SetRedis");
 const serviceEmailRegister = require("../../utils/services/ServiceEmailRegister");
+const Logger = require("../../utils/helper/logger");
 
 class UserController {
 
@@ -34,6 +35,7 @@ class UserController {
 			const usernameEncript = encriptDecript.encrypt(payload.username);
 			baseResponse({ message: "user created", data: payload })(res, 200);
 			serviceEmail(email, usernameEncript);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -66,6 +68,7 @@ class UserController {
 				
 			});
 			baseResponse({ message: "user created", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -107,6 +110,7 @@ class UserController {
 			);
 
 			baseResponse({ message: "password updated!", data:`password succes update for user : ${username}` })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -142,6 +146,8 @@ class UserController {
 				message: "Login succes",
 				data: token(dataUsername),
 			})(res, 200);
+			Logger(req);
+
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -165,6 +171,7 @@ class UserController {
 					where: { username: decriptUsername }
 				});
 				baseResponse({ message: `User ${resultDataUser.username} Activated`, data: resultDataUser})(res, 200);
+				Logger(req);
 			}	
 		} catch (error) {
 			res.status(403);
@@ -208,7 +215,7 @@ class UserController {
 			 * req, message, data
 			 */
 			setRedis(req, "list users", payload);
-
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -228,6 +235,7 @@ class UserController {
 			}
 			serviceEmailRegister(payload);
 			baseResponse({ message: "succes send email", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -268,6 +276,7 @@ class UserController {
 			);
 
 			baseResponse({ message: `password updated! and user ${username} activated!`, data: dataUsername })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -278,22 +287,21 @@ class UserController {
 		let { userId } = req.body;
 
 		try {
-			let payload = await tblusers.findOne(
-				{
-					include: [
-						{
-							model: tblgroups,
-							as : "groups",
-							attributes: ["group_id", "group_name", "description"]
-						}
-					]},
-				{ where: { user_id : userId }}
-			);
-			
+			let payload = await tblusers.findOne({
+				where: { user_id : userId },
+				include: [
+					{
+						model: tblgroups,
+						as : "groups",
+						attributes: ["group_id", "group_name", "description"]
+					}
+				]
+			});
 			if (!payload) {
 				throw new Error(`user id: ${userId} doesn't exists!`);
 			}
 			baseResponse({ message: "detail data user", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -348,6 +356,7 @@ class UserController {
 				res,
 				200
 			);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -367,6 +376,7 @@ class UserController {
 			}
 
 			baseResponse({ message: "user deleted", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);
