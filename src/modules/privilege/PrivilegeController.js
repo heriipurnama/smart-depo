@@ -105,8 +105,8 @@ class PrivilegeController {
         
         let { start, rows} = req.body;
 		try {
-            let acc = jwt.verify(bearer, process.env.SECRET_KEY);
-			let groupId = acc.groupId
+            // let acc = jwt.verify(bearer, process.env.SECRET_KEY);
+			// let groupId = acc.groupId
 			let payload = await privilege.findAll({
 				offset: start,
                 limit: rows,
