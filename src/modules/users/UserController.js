@@ -192,9 +192,9 @@ class UserController {
 		try {
 
 			let offsets = parseInt(offset) || 0;
-			let limits = parseInt(limit) || 11;
+			let limits = parseInt(limit) || 10;
 
-			let payload = await tblusers.findAll({
+			let { count, rows: datas } = await tblusers.findAndCountAll({
 				offset: offsets,
 				limit: limits,
 				include: [
@@ -205,13 +205,12 @@ class UserController {
 					}
 				]
 			});
-			baseResponse({ message: "list users", data: payload })(res, 200);
-			
+			baseResponse({ message: "list users", data: { datas, count }})(res, 200);
 			/**
 			 * param
 			 * req, message, data
 			 */
-			setRedis(req, "list users", payload);
+			setRedis(req, "list users", { datas, total:limits, count });
 			Logger(req);
 		} catch (error) {
 			res.status(403);

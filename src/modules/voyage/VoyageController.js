@@ -2,33 +2,36 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { voyage, vessel } = require("../../db/models");
+const Logger = require("../../utils/helper/logger");
+
 
 class VoyageController {
 	static async createNew(req, res, next) {
-        let { voyNo} = req.body;
+		let { voyNo} = req.body;
 		try {
 			const [payload, created] = await voyage.findOrCreate({
 				where: {
 					voyno: voyNo
 				},
 				defaults:{
-                    voyno: req.body.voyno,
-                    vesid:  req.body.vesid,
-                    voypoo: req.body.voypoo,
-                    voypod: req.body.voypod,
-                    voyeta: req.body.voyeta,
-                    voyta: req.body.voyta,
-                    voyetberth: req.body.voyetberth,
-                    voytberth: req.body.voytberth,
-                    voyetd: req.body.voyetd,
-                    voytd: req.body.voytd
+					voyno: req.body.voyno,
+					vesid:  req.body.vesid,
+					voypoo: req.body.voypoo,
+					voypod: req.body.voypod,
+					voyeta: req.body.voyeta,
+					voyta: req.body.voyta,
+					voyetberth: req.body.voyetberth,
+					voytberth: req.body.voytberth,
+					voyetd: req.body.voyetd,
+					voytd: req.body.voytd
 				}
-            })
-            if(created === false){
-                throw new Error(`Voyage Exist, ${voyNo} exists!`);
-            } else {
-            baseResponse({ message:"Voyage Created " , data: payload})(res, 200);
-            }
+			});
+			if(created === false){
+				throw new Error(`Voyage Exist, ${voyNo} exists!`);
+			} else {
+				baseResponse({ message:"Voyage Created " , data: payload})(res, 200);
+				Logger(req);
+			}
             
 		} catch (error) {
 			res.status(400);
@@ -39,21 +42,21 @@ class VoyageController {
 	static async update(req, res, next) {
 		let { id } = req.body;
 		let dataUpdate = {
-            voyno: req.body.voyno,
-            vesid: req.body.vesid,
-            voypoo: req.body.voypoo,
-            voypod: req.body.voypod,
-            voyeta: req.body.voyeta,
-            voyta: req.body.voyta,
-            voyetberth: req.body.voyetberth,
-            voytberth: req.body.voytberth,
-            voyetd: req.body.voyetd,
-            voytd: req.body.voytd
-		}
+			voyno: req.body.voyno,
+			vesid: req.body.vesid,
+			voypoo: req.body.voypoo,
+			voypod: req.body.voypod,
+			voyeta: req.body.voyeta,
+			voyta: req.body.voyta,
+			voyetberth: req.body.voyetberth,
+			voytberth: req.body.voytberth,
+			voyetd: req.body.voyetd,
+			voytd: req.body.voytd
+		};
 		let selector = { 
 			where: { voyid: id }
 		};
-        console.log(dataUpdate);
+
 		try {
 			let dataVoyage = await voyage.update(dataUpdate, selector);
 			if (!dataVoyage) {
@@ -63,6 +66,7 @@ class VoyageController {
 				message: "Update Success",
 				data: dataVoyage,
 			})(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -94,9 +98,9 @@ class VoyageController {
 	}
 
 	static async list(req, res, next) {
-        let {start, rows} = req.body;
+		let {start, rows} = req.body;
 		try {
-			let payload = await voyage.findAll({
+			let { count, rows: datas } = await voyage.findAndCountAll({
 				offset: start,
 				limit: rows,
 				include:[{
@@ -104,7 +108,7 @@ class VoyageController {
 					required: false // do not generate INNER JOIN
 				}]
 			});
-			baseResponse({ message: "List Voyages", data: payload })(res, 200);
+			baseResponse({ message: "List Voyages", data: { datas, count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -112,20 +116,21 @@ class VoyageController {
 	}
 
 	static async delete(req, res, next) {
-		let {id} = req.body 
+		let {id} = req.body; 
 		try {
 			let dataVoyage = await voyage.destroy({
 				where:{voyid: id}
-            });
-            if (!dataVoyage) {
+			});
+			if (!dataVoyage) {
 				throw new Error(`Voyage: ${id} doesn't exists!`);
 			}
 			baseResponse({ message: "Success Delete Voyage", data: dataVoyage })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
 		}
-    }
+	}
 }
 
 module.exports = VoyageController;

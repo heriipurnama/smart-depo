@@ -2,6 +2,7 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { container_type } = require("../../db/models");
+const Logger = require("../../utils/helper/logger");
 
 class ContainerTypeController {
 	static async createNew(req, res, next) {
@@ -17,11 +18,12 @@ class ContainerTypeController {
 					ctcode: ctCode,
 					ctdesc: ctDesc
 				}
-			})	
+			});	
 			if(created === false){
-                throw new Error(`Container Type Exist, ctcode: ${ctCode} exists!`);
+				throw new Error(`Container Type Exist, ctcode: ${ctCode} exists!`);
 			} else {
 				baseResponse({ message:"Container Type Created " , data: payload})(res, 200);
+				Logger(req);
 			}
 		} catch (error) {
 			res.status(400);
@@ -34,10 +36,10 @@ class ContainerTypeController {
 		let dataUpdate = {
 			ctcode: ctCode,
 			ctdesc: ctDesc
-		}
+		};
 		let selector = { 
 			where: { ctcode: ctCode }
-		  };
+		};
 		try {
 			let dataContainerType = await container_type.update(dataUpdate, selector);
 
@@ -48,6 +50,7 @@ class ContainerTypeController {
 				message: "Update Success",
 				data: dataContainerType,
 			})(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -56,12 +59,12 @@ class ContainerTypeController {
 
 
 	static async listOne(req, res, next) {
-		let { idContainerType, idUser } = req.body;
+		let { idContainerType } = req.body;
 		
 		try {
 			let dataContainerType = await container_type.findOne({ 
 				attributes: {
-					exclude: ['createdAt', 'updatedAt']
+					exclude: ["createdAt", "updatedAt"]
 				},
 				where: {
 					ctcode: idContainerType
@@ -82,23 +85,23 @@ class ContainerTypeController {
 	}
 
 	static async list(req, res, next) {
-        let {start, rows} = req.body;
+		let {start, rows} = req.body;
 
 		try {
-			let payload = await container_type.findAll({
+			let { count, rows: datas }  = await container_type.findAndCountAll({
 				offset: start,
 				limit: rows,
 				attributes: {
-					exclude: ['createdAt', 'updatedAt']
+					exclude: ["createdAt", "updatedAt"]
 				}
 				// ,
 				// include:[{
 				// 		model:container_type,
 				// 		required: false, // do not generate INNER JOIN
-        		// 		attributes: { exclude:['createdAt', 'updatedAt']}
+				// 		attributes: { exclude:['createdAt', 'updatedAt']}
 				// 	}]
 			});
-			baseResponse({ message: "List Container Types", data: payload })(res, 200);
+			baseResponse({ message: "List Container Types", data: { datas, total:datas, count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -106,12 +109,13 @@ class ContainerTypeController {
 	}
 
 	static async delete(req, res, next) {
-		let {idContainerType} = req.body 
+		let {idContainerType} = req.body; 
 		try {
 			let payload = await container_type.destroy({
 				where:{ctcode: idContainerType}
 			});
 			baseResponse({ message: "Success Delete Container Type", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);

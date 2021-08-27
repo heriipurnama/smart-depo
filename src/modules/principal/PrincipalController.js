@@ -2,28 +2,30 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { principal } = require("../../db/models");
+const Logger = require("../../utils/helper/logger");
 
 class PrincipalController {
 	static async createNew(req, res, next) {
-        let { prCode, dset} = req.body;
-        // let { prCode, cuCode, cnCode, prName} = req.body;
+		let { prCode, dset} = req.body;
+		// let { prCode, cuCode, cnCode, prName} = req.body;
 		try {
 			const [payload, created] = await principal.findOrCreate({
 				where: {
 					prcode: prCode
-                },
-                defaults: dset
+				},
+				defaults: dset
 				// defaults:{
-                //     cucode: cuCode,
-                //     cncode: cnCode,
-                //     prname: prName
+				//     cucode: cuCode,
+				//     cncode: cnCode,
+				//     prname: prName
 				// }
-            })
-            if(created === false){
-                throw new Error(`Principal Exist, Principal PRCODE: ${prCode} exists!`);
-            } else {
-            baseResponse({ message:"Principal Created " , data: payload})(res, 200);
-            }
+			});
+			if(created === false){
+				throw new Error(`Principal Exist, Principal PRCODE: ${prCode} exists!`);
+			} else {
+				baseResponse({ message:"Principal Created " , data: payload})(res, 200);
+				Logger(req);
+			}
             
 		} catch (error) {
 			res.status(400);
@@ -32,10 +34,10 @@ class PrincipalController {
 	}
 
 	static async update(req, res, next) {
-        let { id, dset} = req.body;
+		let { id, dset} = req.body;
 		let selector = { 
 			where: { prcode: id }
-        };
+		};
 
 		try {
 			let updated = await principal.update(dset, selector);
@@ -47,6 +49,7 @@ class PrincipalController {
 				message: "Update Success",
 				data: dset,
 			})(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -60,7 +63,7 @@ class PrincipalController {
 		try {
 			let dataList = await principal.findOne({ 
 				attributes: {
-					exclude: ['createdAt', 'updatedAt']
+					exclude: ["createdAt", "updatedAt"]
 				},
 				where: {
 					prcode: id
@@ -81,13 +84,13 @@ class PrincipalController {
 	}
 
 	static async list(req, res, next) {
-        let {start, rows} = req.body;
+		let {start, rows} = req.body;
 		try {
-			let payload = await principal.findAll({
-                offset: start,
-                limit: rows
+			let { count, rows: datas } = await principal.findAndCountAll({
+				offset: start,
+				limit: rows
 			});
-			baseResponse({ message: "List Principals", data: payload })(res, 200);
+			baseResponse({ message: "List Principals", data: { datas, count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -95,15 +98,16 @@ class PrincipalController {
 	}
 
 	static async delete(req, res, next) {
-		let {id} = req.body 
+		let {id} = req.body; 
 		try {
 			let dataDelete = await principal.destroy({
 				where:{ prcode: id}
-            });
-            if (!dataDelete) {
+			});
+			if (!dataDelete) {
 				throw new Error(`PRCODE: ${id} doesn't exists!`);
 			}
 			baseResponse({ message: "Success Delete Principal", data: id })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);

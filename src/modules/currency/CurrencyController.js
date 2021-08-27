@@ -2,7 +2,7 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { tblcurrency } = require("../../db/models");
-
+const Logger = require("../../utils/helper/logger");
 
 class currencyController {
 
@@ -18,6 +18,7 @@ class currencyController {
 			});
             
 			baseResponse({ message: "user currency", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -32,11 +33,11 @@ class currencyController {
 			let offsets = parseInt(offset) || 0;
 			let limits = parseInt(limit) || 11;
 
-			let payload = await tblcurrency.findAll({
+			let { count, rows: datas }  = await tblcurrency.findAndCountAll({
 				offset: offsets,
 				limit: limits,
 			});
-			baseResponse({ message: "list curenncy", data: payload })(res, 200);
+			baseResponse({ message: "list curenncy", data: { datas, count }})(res, 200);
 			
 		} catch (error) {
 			res.status(403);
@@ -84,6 +85,7 @@ class currencyController {
 			);
 
 			baseResponse({ message: "currency updated!", data:`currency succes update for user : ${tucode}` })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -103,6 +105,7 @@ class currencyController {
 			}
 
 			baseResponse({ message: "tucode deleted", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);

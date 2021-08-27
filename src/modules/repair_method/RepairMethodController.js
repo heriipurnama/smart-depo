@@ -2,7 +2,7 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { repairMethod } = require("../../db/models");
-
+const Logger = require("../../utils/helper/logger");
 
 class RepairMethodController {
 
@@ -18,6 +18,7 @@ class RepairMethodController {
 			});
             
 			baseResponse({ message: "succes created data repair method", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -32,11 +33,11 @@ class RepairMethodController {
 			let offsets = parseInt(offset) || 0;
 			let limits = parseInt(limit) || 11;
 
-			let payload = await repairMethod.findAll({
+			let { count, rows: datas } = await repairMethod.findAndCountAll({
 				offset: offsets,
 				limit: limits,
 			});
-			baseResponse({ message: "list data repair method", data: payload })(res, 200);
+			baseResponse({ message: "list data repair method", data: { datas, count }})(res, 200);
 			
 		} catch (error) {
 			res.status(403);
@@ -84,6 +85,7 @@ class RepairMethodController {
 			);
 
 			baseResponse({ message: "Repair Method updated!", data:` Repair Method succes update for rmcode : ${rmcode}` })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -103,6 +105,7 @@ class RepairMethodController {
 			}
 
 			baseResponse({ message: "rmcode deleted", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);

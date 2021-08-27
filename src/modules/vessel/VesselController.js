@@ -2,26 +2,29 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { vessel, country } = require("../../db/models");
+const Logger = require("../../utils/helper/logger");
 
 class VesselController {
+
 	static async createNew(req, res, next) {
-        let { id, opr, country, title } = req.body;
+		let { id, opr, country, title } = req.body;
 		try {
 			const [payload, created] = await vessel.findOrCreate({
 				where: {
 					vesid: id
 				},
 				defaults:{
-                    vesopr: opr,
-                    cncode: country,
-                    vestitle: title
+					vesopr: opr,
+					cncode: country,
+					vestitle: title
 				}
-            })
-            if(created === false){
-                throw new Error(`Vessel Exist, ${id} exists!`);
-            } else {
-            baseResponse({ message:"Vessel Created " , data: payload})(res, 200);
-            }
+			});
+			if(created === false){
+				throw new Error(`Vessel Exist, ${id} exists!`);
+			} else {
+				baseResponse({ message:"Vessel Created " , data: payload})(res, 200);
+				Logger(req);
+			}
             
 		} catch (error) {
 			res.status(400);
@@ -32,10 +35,10 @@ class VesselController {
 	static async update(req, res, next) {
 		let { id, opr, country, title } = req.body;
 		let dataUpdate = {
-            vesopr: opr,
-            cncode: country,
-            vestitle: title
-		}
+			vesopr: opr,
+			cncode: country,
+			vestitle: title
+		};
 		let selector = { 
 			where: { vesid: id }
 		};
@@ -49,6 +52,7 @@ class VesselController {
 				message: "Update Success",
 				data: dataVessel,
 			})(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -80,9 +84,9 @@ class VesselController {
 	}
 
 	static async list(req, res, next) {
-        let {start, rows} = req.body;
+		let {start, rows} = req.body;
 		try {
-			let payload = await vessel.findAll({
+			let { count, rows: datas } = await vessel.findAndCountAll({
 				offset: start,
 				limit: rows,
 				include:[{
@@ -90,7 +94,7 @@ class VesselController {
 					required: false // do not generate INNER JOIN
 				}]
 			});
-			baseResponse({ message: "List Vessels", data: payload })(res, 200);
+			baseResponse({ message: "List Vessels", data: { datas, count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -98,22 +102,23 @@ class VesselController {
 	}
 
 	static async delete(req, res, next) {
-		let {id} = req.body 
+		let {id} = req.body; 
 		try {
 			let dataVessel = await vessel.destroy({
 				where:{vesid: id}
-            });
-            if (!dataVessel) {
+			});
+			if (!dataVessel) {
 				throw new Error(`vessel: ${id} doesn't exists!`);
 			}
 			baseResponse({ message: "Success Delete Vessel", data: dataVessel })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
 		}
-    }
+	}
     
-    static async cek(req, res, next) {
+	static async cek(req, res, next) {
 		try {
 			res.status(200);
 			return res.json(req.body);
@@ -121,7 +126,7 @@ class VesselController {
 			res.status(403);
 			next(error);
 		}
-    }
+	}
 }
 
 module.exports = VesselController;

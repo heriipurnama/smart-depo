@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 			cuskada: DataTypes.STRING,
 			cudebtur: DataTypes.STRING,
 			cutype: DataTypes.STRING,
-			top: DataTypes.INTEGER
+			cunppkp: DataTypes.INTEGER
 		},
 		{
 			sequelize,
