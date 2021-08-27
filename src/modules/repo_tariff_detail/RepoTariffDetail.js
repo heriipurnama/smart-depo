@@ -2,7 +2,7 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { repoTariffDetail } = require("../../db/models");
-
+const Logger = require("../../utils/helper/logger");
 
 class RepoTariffDetail {
 
@@ -65,11 +65,11 @@ class RepoTariffDetail {
 			let offsets = parseInt(offset) || 0;
 			let limits = parseInt(limit) || 11;
 
-			let payload = await repoTariffDetail.findAll({
+			let { count, rows: datas } = await repoTariffDetail.findAndCountAll({
 				offset: offsets,
 				limit: limits,
 			});
-			baseResponse({ message: "list Repo Tariff Detail", data: payload })(res, 200);
+			baseResponse({ message: "list Repo Tariff Detail", data: { datas, count } })(res, 200);
 			
 		} catch (error) {
 			res.status(403);
@@ -151,6 +151,7 @@ class RepoTariffDetail {
 			);
 
 			baseResponse({ message: "prcode updated!", data:`repo tariff detail succes update for prcode : ${prcode}` })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -170,6 +171,7 @@ class RepoTariffDetail {
 			}
 
 			baseResponse({ message: `prcode: ${prcode} deleted succes`, data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);

@@ -2,7 +2,7 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { damageTariff } = require("../../db/models");
-
+const Logger = require("../../utils/helper/logger");
 
 class DamageTariffController {
 
@@ -20,6 +20,7 @@ class DamageTariffController {
 			});
             
 			baseResponse({ message: "damageTariff", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -34,11 +35,11 @@ class DamageTariffController {
 			let offsets = parseInt(offset) || 0;
 			let limits = parseInt(limit) || 11;
 
-			let payload = await damageTariff.findAll({
+			let { count, rows: datas }  = await damageTariff.findAndCountAll({
 				offset: offsets,
 				limit: limits,
 			});
-			baseResponse({ message: "list damageTariff", data: payload })(res, 200);
+			baseResponse({ message: "list damageTariff", data: { datas, count }})(res, 200);
 			
 		} catch (error) {
 			res.status(403);
@@ -89,6 +90,7 @@ class DamageTariffController {
 			);
 
 			baseResponse({ message: "prcode updated!", data:`damageTariff succes update for prcode : ${prcode}` })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -108,6 +110,7 @@ class DamageTariffController {
 			}
 
 			baseResponse({ message: `prcode: ${prcode} deleted succes`, data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);

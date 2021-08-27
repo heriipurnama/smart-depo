@@ -2,7 +2,7 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { depo } = require("../../db/models");
-
+const Logger = require("../../utils/helper/logger");
 
 class DepoController {
 
@@ -17,6 +17,7 @@ class DepoController {
 			});
             
 			baseResponse({ message: "succes created depo", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -31,11 +32,11 @@ class DepoController {
 			let offsets = parseInt(offset) || 0;
 			let limits = parseInt(limit) || 11;
 
-			let payload = await depo.findAll({
+			let { count, rows: datas } = await depo.findAndCountAll({
 				offset: offsets,
 				limit: limits,
 			});
-			baseResponse({ message: "list depo", data: payload })(res, 200);
+			baseResponse({ message: "list depo", data: { datas, count }})(res, 200);
 			
 		} catch (error) {
 			res.status(403);
@@ -83,6 +84,7 @@ class DepoController {
 			);
 
 			baseResponse({ message: "dpcode updated!", data:`depo succes update for dpcode : ${dpcode}` })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -102,6 +104,7 @@ class DepoController {
 			}
 
 			baseResponse({ message: `depo deleted for dpcode: ${dpcode}`, data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);

@@ -32,11 +32,11 @@ class materialController {
 			let offsets = parseInt(offset) || 0;
 			let limits = parseInt(limit) || 11;
 
-			let payload = await material.findAll({
+			let { count, rows: datas }  = await material.findAndCountAll({
 				offset: offsets,
 				limit: limits,
 			});
-			baseResponse({ message: "list material", data: payload })(res, 200);
+			baseResponse({ message: "list material", data: { datas, count }})(res, 200);
 			Logger(req);
 		} catch (error) {
 			res.status(403);

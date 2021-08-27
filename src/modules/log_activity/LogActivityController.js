@@ -2,7 +2,7 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { logActivity } = require("../../db/models");
-
+const Logger = require("../../utils/helper/logger");
 
 class LogActivityController {
 
@@ -14,11 +14,11 @@ class LogActivityController {
 			let offsets = parseInt(offset) || 0;
 			let limits = parseInt(limit) || 11;
 
-			let payload = await logActivity.findAll({
+			let { count, rows: datas }  = await logActivity.findAndCountAll({
 				offset: offsets,
 				limit: limits,
 			});
-			baseResponse({ message: "list logActivity", data: payload })(res, 200);
+			baseResponse({ message: "list logActivity", data: { datas, count } })(res, 200);
 			
 		} catch (error) {
 			res.status(403);
@@ -57,6 +57,7 @@ class LogActivityController {
 			}
 
 			baseResponse({ message: "logid deleted", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);

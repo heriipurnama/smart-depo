@@ -1,15 +1,17 @@
 "use strict";
 
-const baseResponse = require("../../utils/helper/Response");
-const { privilege,tblmodules } = require("../../db/models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const encriptDecript = require("../../utils/middleware/EncriptDecript");
 
+const baseResponse = require("../../utils/helper/Response");
+const { privilege,tblmodules } = require("../../db/models");
+const encriptDecript = require("../../utils/middleware/EncriptDecript");
+const Logger = require("../../utils/helper/logger");
 
 class PrivilegeController {
+
 	static async createNew(req, res, next) {
-		let { group_id, module_id, has_insert, has_update, has_delete, has_approval, has_view,printpdf } = req.body;
+		let { group_id, module_id, has_insert, has_update, has_delete, has_approval, has_view, printpdf, printxls } = req.body;
 		try {
 			const payload = await privilege.create({ 
 				where: {
@@ -26,11 +28,12 @@ class PrivilegeController {
 					has_printpdf: printpdf,
 					has_printxls: printxls
 				}
-			})
+			});
 			if(!payload){
-                throw new Error(`Create Privilege Failed`);
+				throw new Error("Create Privilege Failed");
 			} else {
 				baseResponse({ message:"Privilege Created " , data: payload})(res, 200);
+				Logger(req);
 			}
 		} catch (error) {
 			res.status(400);
@@ -39,7 +42,7 @@ class PrivilegeController {
 	}
 
 	static async update(req, res, next) {
-		let { id, group_id, module_id, has_insert, has_update, has_delete, has_approval, has_view,printpdf } = req.body;
+		let { id, group_id, module_id, has_insert, has_update, has_delete, has_approval, has_view, printpdf, printxls } = req.body;
 		let dataUpdate = {
 			group_id: group_id,
 			module_id: module_id,
@@ -59,12 +62,13 @@ class PrivilegeController {
 			let dataPrivilege = await privilege.update(dataUpdate, selector);
 
 			if (!dataPrivilege) {
-				throw new Error(`Update Data Failed`);
+				throw new Error("Update Data Failed");
 			}
 			baseResponse({
 				message: "Update Success",
 				data: dataPrivilege,
 			})(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -73,23 +77,23 @@ class PrivilegeController {
 
 
 	static async listOne(req, res, next) {
-		let { id} = req.body;
+		let { id } = req.body;
 		
 		try {
 			let dataPrivilege = await privilege.findOne({ 
 				where: {
 					privilege_id: id
-                }
-                ,
+				}
+				,
 				include:[{
 					model:tblmodules,
 					required: true, // do not generate INNER JOIN
-                    attributes: { exclude:["createdAt", "updatedAt"]}
+					attributes: { exclude:["createdAt", "updatedAt"]}
 				}]
 			});
 
 			if (!dataPrivilege) {
-				throw new Error(`Group id: ${groupId} doesn't exists!`);
+				throw new Error(`Group id: ${id} doesn't exists!`);
 			}
 			baseResponse({
 				message: "Get Data Success",
@@ -103,19 +107,19 @@ class PrivilegeController {
 
 	static async list(req, res, next) {
         
-        let { start, rows} = req.body;
+		let { start, rows} = req.body;
 		try {
-            let acc = jwt.verify(bearer, process.env.SECRET_KEY);
-			let groupId = acc.groupId
+			let acc = jwt.verify(bearer, process.env.SECRET_KEY);
+			let groupId = acc.groupId;
 			let payload = await privilege.findAll({
 				offset: start,
-                limit: rows,
+				limit: rows,
                 
 				include:[{
-                    model:tblmodules,
-                    as: "modules",
+					model:tblmodules,
+					as: "modules",
 					required: false, // do not generate INNER JOIN
-                    attributes: { exclude:["createdAt", "updatedAt"]}
+					attributes: { exclude:["createdAt", "updatedAt"]}
 				}]
 			});
 			baseResponse({ message: "list privilege", data: payload })(res, 200);
@@ -132,6 +136,7 @@ class PrivilegeController {
 				where:{privilege_id: id}
 			});
 			baseResponse({ message: "Success Delete Privilege", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -139,26 +144,26 @@ class PrivilegeController {
 	}
 
 	static async listModule(req, res, next) {
-        let bearerheader = req.headers["authorization"];
+		let bearerheader = req.headers["authorization"];
 		const splitBearer = bearerheader.split(" ");
 		const bearer = splitBearer[1];
-        let { start, rows} = req.body;
+		let { start, rows} = req.body;
 		try {
-            let acc = jwt.verify(bearer, process.env.SECRET_KEY);
-			let groupId = acc.groupId
+			let acc = jwt.verify(bearer, process.env.SECRET_KEY);
+			let groupId = acc.groupId;
 			let payload = await privilege.findAll({
 				offset: start,
-                limit: rows,
-                where: {
+				limit: rows,
+				where: {
 					group_id: groupId
-                },
+				},
 				// attributes:	['privilege_id', 'group_id', 'module_id']
-                // ,
+				// ,
 				include:[{
-                    model:tblmodules,
-                    as: "modules",
+					model:tblmodules,
+					as: "modules",
 					required: false, // do not generate INNER JOIN
-                    attributes: { exclude:["createdAt", "updatedAt"]}
+					attributes: { exclude:["createdAt", "updatedAt"]}
 				}]
 			});
 			baseResponse({ message: "list privilege", data: payload })(res, 200);

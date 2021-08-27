@@ -2,25 +2,28 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { location } = require("../../db/models");
+const Logger = require("../../utils/helper/logger");
 
 class LocationController {
+
 	static async createNew(req, res, next) {
-        let { lcCode, lcDesc} = req.body;
+		let { lcCode, lcDesc} = req.body;
 
 		try {
-            const [payload, created] = await location.findOrCreate({
+			const [payload, created] = await location.findOrCreate({
 				where: {
 					lccode: lcCode
-                },
-                defaults: {
-                    lcdesc: lcDesc
-                }
-            })
-            if(created === false){
-                throw new Error(`Location Exist, LCCODE: ${lcCode} exists!`);
-            } else {
-            baseResponse({ message:"Location Created " , data: payload})(res, 200);
-            }
+				},
+				defaults: {
+					lcdesc: lcDesc
+				}
+			});
+			if(created === false){
+				throw new Error(`Location Exist, LCCODE: ${lcCode} exists!`);
+			} else {
+				baseResponse({ message:"Location Created " , data: payload})(res, 200);
+				Logger(req);
+			}
 
 		} catch (error) {
 			res.status(400);
@@ -29,11 +32,11 @@ class LocationController {
 	}
 
 	static async update(req, res, next) {
-        let { lcCode, lcDesc} = req.body;
+		let { lcCode, lcDesc} = req.body;
 		let dataUpdate = {
 			lccode: lcCode,
-            lcdesc: lcDesc
-		}
+			lcdesc: lcDesc
+		};
 		let selector = { 
 			where: { lccode: lcCode }
 		};
@@ -47,6 +50,7 @@ class LocationController {
 				message: "Update Success",
 				data: dataUpdate,
 			})(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -78,13 +82,13 @@ class LocationController {
 	}
 
 	static async list(req, res, next) {
-        let {start, rows} = req.body;
+		let {start, rows} = req.body;
 		try {
-			let payload = await location.findAll({
-                offset: start,
-                limit: rows
+			let { count, rows: datas } = await location.findAndCountAll({
+				offset: start,
+				limit: rows
 			});
-			baseResponse({ message: "List Location", data: payload })(res, 200);
+			baseResponse({ message: "List Location", data: { datas, total:rows, count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -92,15 +96,16 @@ class LocationController {
 	}
 
 	static async delete(req, res, next) {
-		let {id} = req.body 
+		let {id} = req.body; 
 		try {
 			let dataDelete = await location.destroy({
 				where:{ lccode: id}
-            });
-            if (!dataDelete) {
+			});
+			if (!dataDelete) {
 				throw new Error(`Location code: ${id} doesn't exists!`);
 			}
 			baseResponse({ message: "Success Delete Location", data: `LCCODE: ${id}` })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);

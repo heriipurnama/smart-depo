@@ -2,7 +2,7 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { debitur } = require("../../db/models");
-
+const Logger = require("../../utils/helper/logger");
 
 class DebiturController {
 
@@ -10,7 +10,7 @@ class DebiturController {
 		let { cucode, cncode, cuname, cuaddr, 
 			cuzip, cuphone, cufax, cucontact, 
 			cuemail, cunpwp, cuskada, cudebtur,
-			cutype, top
+			cutype, cunppkp
 		} = req.body;
         
 		try {
@@ -29,10 +29,11 @@ class DebiturController {
 				cuskada: cuskada, 
 				cudebtur: cudebtur,
 				cutype: cutype,
-				top: top
+				cunppkp: cunppkp
 			});
             
 			baseResponse({ message: "succes created debitur", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -47,11 +48,11 @@ class DebiturController {
 			let offsets = parseInt(offset) || 0;
 			let limits = parseInt(limit) || 11;
 
-			let payload = await debitur.findAll({
+			let { count, rows: datas }  = await debitur.findAndCountAll({
 				offset: offsets,
 				limit: limits,
 			});
-			baseResponse({ message: "list debitur", data: payload })(res, 200);
+			baseResponse({ message: "list debitur", data:  { datas, total:limits, count } })(res, 200);
 			
 		} catch (error) {
 			res.status(403);
@@ -81,7 +82,7 @@ class DebiturController {
 		let { cucode, cncode, cuname, cuaddr, 
 			cuzip, cuphone, cufax, cucontact, 
 			cuemail, cunpwp, cuskada, cudebtur,
-			cutype, top
+			cutype, cunppkp
 		} = req.body;
 
         
@@ -110,12 +111,13 @@ class DebiturController {
 					cuskada: cuskada, 
 					cudebtur: cudebtur,
 					cutype: cutype,
-					top: top
+					cunppkp: cunppkp
 				},
 				{ where: { cucode: cucode } }
 			);
 
 			baseResponse({ message: "cucode updated!", data:`debitur succes update for dpcode : ${cucode}` })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -135,6 +137,7 @@ class DebiturController {
 			}
 
 			baseResponse({ message: `debitur deleted for dpcode: ${cucode}`, data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(400);
 			next(error);
