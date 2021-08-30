@@ -6,7 +6,9 @@ const token = (user) =>
 			id: user.user_id,
 			username: user.username,
 			email: user.email,
+			groupId: user.group_id
 		},
+		// eslint-disable-next-line no-undef
 		process.env.SECRET_KEY,
 		{ expiresIn: "1h" }
 	);

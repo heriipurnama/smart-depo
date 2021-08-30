@@ -14,6 +14,25 @@ module.exports = {
 	param: require("./param/ParamController"),
 	groups: require("./groups/GroupsController"),
 	container: require("./container/ContainerController"),
-	privilege: require("./privilege/PrivilegeController")
+	privilege: require("./privilege/PrivilegeController"),
 
+	city: require("./city/CityController"),
+	component: require("./component/ComponentController"),
+	country: require("./country/CountryController"),
+	vessel: require("./vessel/VesselController"),
+
+	voyage: require("./voyage/VoyageController"),
+	port: require("./port/PortController"),
+	currency: require("./currency/CurrencyController"),
+	material: require("./material/MaterialController"),
+
+	damageTariff: require("./damage_tarif/DamageTariffController"),
+	depo: require("./depo/DepoController"),
+	debitur: require("./debitur/DebiturController"),
+	repoTariffDetail: require("./repo_tariff_detail/RepoTariffDetail"),
+
+	repairMethod: require("./repair_method/RepairMethodController"),
+	logActivity: require("./log_activity/LogActivityController"),
+	damageTariffDetail: require("./damage_tariff_detail/DamageTariffDetailController"),
+	modules: require("./modul/ModulController"),
 };

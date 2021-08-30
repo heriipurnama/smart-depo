@@ -9,6 +9,13 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
+			tblusers.belongsTo(models.tblgroups,
+				{
+					foreignKey: {
+						name: "group_id"
+					}, as : "groups"
+				});
+
 		}
 
 	}
@@ -21,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
 				autoIncrement: true,
 			},
 			group_id: DataTypes.INTEGER,
+			prcode: DataTypes.STRING,
 			username: DataTypes.STRING,
 			fullname: DataTypes.STRING,
 			email: DataTypes.STRING,
