@@ -33,8 +33,9 @@ module.exports = {
 
 	repairMethod: require("./repair_method/RepairMethodController"),
 	logActivity: require("./log_activity/LogActivityController"),
-	company: require("./company/CompanyController"),
+	company: require("./company/CompanyController"), 
+	contract: require("./contract/ContractController"),
 
 	damageTariffDetail: require("./damage_tariff_detail/DamageTariffDetailController"),
-	modules: require("./modul/ModulController"),
+	modules: require("./modul/ModulController")
 };
