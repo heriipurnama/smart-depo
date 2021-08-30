@@ -32,5 +32,7 @@ module.exports = {
 	repoTariffDetail: require("./repo_tariff_detail/RepoTariffDetail"),
 
 	repairMethod: require("./repair_method/RepairMethodController"),
-	logActivity: require("./log_activity/LogActivityController")
+	logActivity: require("./log_activity/LogActivityController"),
+	damageTariffDetail: require("./damage_tariff_detail/DamageTariffDetailController"),
+	modules: require("./modul/ModulController"),
 };

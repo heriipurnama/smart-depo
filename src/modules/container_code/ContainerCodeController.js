@@ -115,7 +115,7 @@ class ContainerCodeController {
 					required: false, // do not generate INNER JOIN
 				}]
 			});
-			baseResponse({ message: "list container codes", data: { datas, total:rows, count } })(res, 200);
+			baseResponse({ message: "list container codes", data: { datas,  count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);

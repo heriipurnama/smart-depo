@@ -89,7 +89,7 @@ class ComponentController {
 				offset: start,
 				limit: rows
 			});
-			baseResponse({ message: "List Components", data: { datas, total:rows, count } })(res, 200);
+			baseResponse({ message: "List Components", data: { datas,  count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
