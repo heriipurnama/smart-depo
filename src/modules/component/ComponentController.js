@@ -82,14 +82,14 @@ class ComponentController {
 	}
 
 	static async list(req, res, next) {
-		let {start, rows} = req.body;
+		let {start, row} = req.body;
 
 		try {
-			let { count, rows: datas } = await component.findAndCountAll({
+			let { count, rows } = await component.findAndCountAll({
 				offset: start,
-				limit: rows
+				limit: row
 			});
-			baseResponse({ message: "List Components", data: { datas, total:rows, count } })(res, 200);
+			baseResponse({ message: "List Components", data: { rows, total:rows, count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
