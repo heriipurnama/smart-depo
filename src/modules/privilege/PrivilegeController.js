@@ -14,10 +14,6 @@ class PrivilegeController {
 		let { group_id, module_id, has_insert, has_update, has_delete, has_approval, has_view, printpdf, printxls } = req.body;
 		try {
 			const payload = await privilege.create({ 
-				where: {
-					module_id: module_id
-				},
-				defaults: {
 					group_id: group_id,
 					module_id: module_id,
 					has_insert: has_insert,
@@ -27,8 +23,7 @@ class PrivilegeController {
 					has_view: has_view,
 					has_printpdf: printpdf,
 					has_printxls: printxls
-				}
-			});
+			})
 			if(!payload){
 				throw new Error("Create Privilege Failed");
 			} else {
