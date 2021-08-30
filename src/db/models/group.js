@@ -18,22 +18,22 @@ module.exports = (sequelize, DataTypes) => {
 
 	group.init(
 		{
-            group_id:{
-                type: DataTypes.INTEGER,
-                autoIncrement: true,
-                primaryKey: true
-            },
+			group_id:{
+				type: DataTypes.INTEGER,
+				autoIncrement: true,
+				primaryKey: true
+			},
 			group_name: DataTypes.STRING,
-            description: DataTypes.STRING,
+			description: DataTypes.STRING,
 		},
 		{
 			sequelize,
 			modelName: "group",
 			underscored: true,
-            freezeTableName: true,
-            tableName: "tblgroups",
-            createdAt: false,
-            updatedAt: false
+			freezeTableName: true,
+			tableName: "tblgroups",
+			createdAt: false,
+			updatedAt: false
 
 		}
 	);
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
 	Object.defineProperty(group.prototype, "entity", {
 		get() {
 			return {
-                group_id: this.group_id,
+				group_id: this.group_id,
 				group_name: this.group_name,
 				description: this.description,
 			};

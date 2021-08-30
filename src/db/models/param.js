@@ -19,23 +19,23 @@ module.exports = (sequelize, DataTypes) => {
 	param.init(
 		{
 			id:{
-                type: DataTypes.INTEGER,
-                autoIncrement: true,
-                primaryKey: true
-            },
-            param_id: DataTypes.STRING,
-            tabs: DataTypes.STRING,
-            description: DataTypes.STRING,
-            param: DataTypes.STRING
+				type: DataTypes.INTEGER,
+				autoIncrement: true,
+				primaryKey: true
+			},
+			param_id: DataTypes.STRING,
+			tabs: DataTypes.STRING,
+			description: DataTypes.STRING,
+			param: DataTypes.STRING
 		},
 		{
 			sequelize,
 			modelName: "param",
 			underscored: true,
-            freezeTableName: true,
-            tableName: "tblparam",
-            createdAt: false,
-            updatedAt: false
+			freezeTableName: true,
+			tableName: "tblparam",
+			createdAt: false,
+			updatedAt: false
 
 		}
 	);
@@ -43,10 +43,10 @@ module.exports = (sequelize, DataTypes) => {
 	Object.defineProperty(param.prototype, "entity", {
 		get() {
 			return {
-                param_id: this.param_id,
-                tabs: this.tabs,
-                description: this.description,
-                param: this.param
+				param_id: this.param_id,
+				tabs: this.tabs,
+				description: this.description,
+				param: this.param
 			};
 		},
 	});

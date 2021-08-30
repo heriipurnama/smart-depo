@@ -210,7 +210,7 @@ class UserController {
 			 * param
 			 * req, message, data
 			 */
-			setRedis(req, "list users", { datas, total:limits, count });
+			setRedis(req, "list users", { datas, count });
 			Logger(req);
 		} catch (error) {
 			res.status(403);

@@ -10,40 +10,40 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			city.belongsTo(models.country,
-            {
-                foreignKey: "cncode",
-            });
+				{
+					foreignKey: "cncode",
+				});
 		}
 	}
 
 	city.init(
-        {
-            city_id:{
-                type: DataTypes.STRING,
-                primaryKey: true,
-                autoIncrement: true
-            },
-            city_name: DataTypes.STRING,
-            cncode: DataTypes.STRING
+		{
+			city_id:{
+				type: DataTypes.STRING,
+				primaryKey: true,
+				autoIncrement: true
+			},
+			city_name: DataTypes.STRING,
+			cncode: DataTypes.STRING
 
-        },
-        {
-                sequelize,
-                modelName: "city",
-                underscored: true,
-                freezeTableName: true,
-                tableName: "tblcity",
-                createdAt: false,
-                updatedAt: false
-        }
+		},
+		{
+			sequelize,
+			modelName: "city",
+			underscored: true,
+			freezeTableName: true,
+			tableName: "tblcity",
+			createdAt: false,
+			updatedAt: false
+		}
 	);
 
 	Object.defineProperty(city.prototype, "entity", {
 		get() {
 			return {
 				city_id: this.city_id,
-                city_name: this.city_name,
-                cncode: this.cncode
+				city_name: this.city_name,
+				cncode: this.cncode
 			};
 		},
 	});

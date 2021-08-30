@@ -10,41 +10,41 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			// port.belongsTo(models.vessel,
-            // {
-            //     foreignKey: "cncode",
-            // });
+			// {
+			//     foreignKey: "cncode",
+			// });
 		}
 	}
 
 	port.init(
-        {
-            poport:{
-                type: DataTypes.STRING,
-                primaryKey: true
-            },
-            cncode: DataTypes.STRING,
-            poid: DataTypes.STRING,
-            podesc: DataTypes.STRING
+		{
+			poport:{
+				type: DataTypes.STRING,
+				primaryKey: true
+			},
+			cncode: DataTypes.STRING,
+			poid: DataTypes.STRING,
+			podesc: DataTypes.STRING
 
-        },
-        {
-                sequelize,
-                modelName: "port",
-                underscored: true,
-                freezeTableName: true,
-                tableName: "tblport",
-                createdAt: false,
-                updatedAt: false
-        }
+		},
+		{
+			sequelize,
+			modelName: "port",
+			underscored: true,
+			freezeTableName: true,
+			tableName: "tblport",
+			createdAt: false,
+			updatedAt: false
+		}
 	);
 
 	Object.defineProperty(port.prototype, "entity", {
 		get() {
 			return {
-                poid: this.poid,
+				poid: this.poid,
 				cncode: this.cncode,
-                poport: this.poport,
-                podesc: this.podesc
+				poport: this.poport,
+				podesc: this.podesc
 			};
 		},
 	});

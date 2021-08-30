@@ -38,6 +38,8 @@ const logActivity = require("./log_activity/LogActivityRouter");
 const company = require("./company/CompanyRouter");
 const contract = require("./contract/ContractRouter");
 
+const damageTariffDetail = require("./damage_tariff_detail/DamageTariffDetailRouter");
+const modules = require("./modules/ModulesRouter");
 
 // base router
 routers.use("/users", user);
@@ -74,5 +76,8 @@ routers.use("/repair_methods", repairMethod);
 routers.use("/log_activities", logActivity);
 routers.use("/companies", company);
 routers.use("/contracts", contract);
+
+routers.use("/damage_tariff_details", damageTariffDetail);
+routers.use("/modules", modules);
 
 module.exports = routers;
