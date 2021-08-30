@@ -88,7 +88,7 @@ class LocationController {
 				offset: start,
 				limit: rows
 			});
-			baseResponse({ message: "List Location", data: { datas, total:rows, count } })(res, 200);
+			baseResponse({ message: "List Location", data: { datas,  count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);

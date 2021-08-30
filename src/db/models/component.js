@@ -10,39 +10,39 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			// component.belongsTo(models.container_code,
-            // {
-            //     foreignKey: "cmcode",
-            // });
+			// {
+			//     foreignKey: "cmcode",
+			// });
 		}
 	}
 
 	component.init(
-        {
-            cmcode:{
-                type: DataTypes.STRING,
-                primaryKey: true,
-            },
-            cmdesc: DataTypes.STRING,
-            cmcode_ssl_ext: DataTypes.STRING
+		{
+			cmcode:{
+				type: DataTypes.STRING,
+				primaryKey: true,
+			},
+			cmdesc: DataTypes.STRING,
+			cmcode_ssl_ext: DataTypes.STRING
 
-        },
-        {
-                sequelize,
-                modelName: "component",
-                underscored: true,
-                freezeTableName: true,
-                tableName: "tblcomponent",
-                createdAt: false,
-                updatedAt: false
-        }
+		},
+		{
+			sequelize,
+			modelName: "component",
+			underscored: true,
+			freezeTableName: true,
+			tableName: "tblcomponent",
+			createdAt: false,
+			updatedAt: false
+		}
 	);
 
 	Object.defineProperty(component.prototype, "entity", {
 		get() {
 			return {
 				cmcode: this.cmcode,
-                cmdesc: this.cmdesc,
-                cmcode_ssl_ext: this.cmcode_ssl_ext
+				cmdesc: this.cmdesc,
+				cmcode_ssl_ext: this.cmcode_ssl_ext
 			};
 		},
 	});

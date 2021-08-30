@@ -94,7 +94,7 @@ class ParamController {
 				offset: start,
 				limit: rows
 			});
-			baseResponse({ message: "List Params", data: { datas, total:rows, count } })(res, 200);
+			baseResponse({ message: "List Params", data: { datas,  count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);

@@ -10,19 +10,19 @@ class ModulController {
 		// let { parent, modvar, name, desc, modstatus, modurl, has_view,printpdf } = req.body;
 		try {
 			const payload = await tblmodules.create({ 
-				defaults: {
-					module_parent: req.body.module_parent,
-					module_var: req.body.module_var,
-					module_name: req.body.module_name,
-					module_description: req.body.module_description,
-					module_status: req.body.module_status,
-					module_url: req.body.module_url,
-					module_config: req.body.module_config,
-					module_icon: req.body.module_icon,
-					sort_index: req.body.sort_index,
-					module_content: req.body.module_content,
-					module_type: req.body.module_type
-				}
+				// defaults: {
+				module_parent: req.body.module_parent,
+				module_var: req.body.module_var,
+				module_name: req.body.module_name,
+				module_description: req.body.module_description,
+				module_status: req.body.module_status,
+				module_url: req.body.module_url,
+				module_config: req.body.module_config,
+				module_icon: req.body.module_icon,
+				sort_index: req.body.sort_index,
+				module_content: req.body.module_content,
+				module_type: req.body.module_type
+				// }
 			});
 			if(!payload){
 				throw new Error("Create Modul Failed");
@@ -74,7 +74,7 @@ class ModulController {
 
 
 	static async listOne(req, res, next) {
-		let { id} = req.body;
+		let { id } = req.body;
 		
 		try {
 			let dataModul = await tblmodules.findOne({ 
@@ -84,7 +84,7 @@ class ModulController {
 			});
 
 			if (!dataModul) {
-				throw new Error(`Group id: ${id} doesn't exists!`);
+				throw new Error(`modul id: ${id} doesn't exists!`);
 			}
 			baseResponse({
 				message: "Get Data Success",
@@ -104,7 +104,7 @@ class ModulController {
 				offset: start,
 				limit: rows
 			});
-			baseResponse({ message: "List Modul", data: { datas, total:rows, count } })(res, 200);
+			baseResponse({ message: "List Modul", data: { datas,  count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
