@@ -52,7 +52,7 @@ class DebiturController {
 				offset: offsets,
 				limit: limits,
 			});
-			baseResponse({ message: "list debitur", data:  { datas, total:limits, count } })(res, 200);
+			baseResponse({ message: "list debitur", data:  { datas, count } })(res, 200);
 			
 		} catch (error) {
 			res.status(403);
@@ -69,7 +69,7 @@ class DebiturController {
 			);
 			
 			if (!payload) {
-				throw new Error(`dpcode debitur: ${cucode} doesn't exists!`);
+				throw new Error(`prcode debitur: ${cucode} doesn't exists!`);
 			}
 			baseResponse({ message: "detail data debitur cucode", data: payload })(res, 200);
 		} catch (error) {

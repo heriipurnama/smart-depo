@@ -14,18 +14,18 @@ module.exports = (sequelize, DataTypes) => {
 			// 	foreignKey: 'ctcode',
 			// });
 			container_code.belongsTo(models.container_type,
-			{
-				foreignKey: "ctcode",
-			});
+				{
+					foreignKey: "ctcode",
+				});
 		}
 	}
 
 	container_code.init(
 		{
 			cccode: {
-                type: DataTypes.STRING,
-                primaryKey: true
-      },
+				type: DataTypes.STRING,
+				primaryKey: true
+			},
 			ctcode: DataTypes.STRING,
 			cclength: DataTypes.DECIMAL,
 			ccheight: DataTypes.DECIMAL,

@@ -36,7 +36,9 @@ const repoTariffDetail = require("./repo_tariff_detail/RepoTariffDetailRouter");
 const repairMethod = require("./repair_method/RepairMethodRouter");
 const logActivity = require("./log_activity/LogActivityRouter");
 const company = require("./company/CompanyRouter");
+const damageTariffDetail = require("./damage_tariff_detail/DamageTariffDetailRouter");
 
+const modules = require("./modules/ModulesRouter");
 
 // base router
 routers.use("/users", user);
@@ -72,5 +74,8 @@ routers.use("/repo_tariff_details", repoTariffDetail);
 routers.use("/repair_methods", repairMethod);
 routers.use("/log_activities", logActivity);
 routers.use("/companies", company);
+routers.use("/damage_tariff_details", damageTariffDetail);
+
+routers.use("/modules", modules);
 
 module.exports = routers;
