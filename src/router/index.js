@@ -36,6 +36,7 @@ const repoTariffDetail = require("./repo_tariff_detail/RepoTariffDetailRouter");
 const repairMethod = require("./repair_method/RepairMethodRouter");
 const logActivity = require("./log_activity/LogActivityRouter");
 const company = require("./company/CompanyRouter");
+const contract = require("./contract/ContractRouter");
 
 
 // base router
@@ -72,5 +73,6 @@ routers.use("/repo_tariff_details", repoTariffDetail);
 routers.use("/repair_methods", repairMethod);
 routers.use("/log_activities", logActivity);
 routers.use("/companies", company);
+routers.use("/contracts", contract);
 
 module.exports = routers;
