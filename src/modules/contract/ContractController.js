@@ -6,12 +6,12 @@ const Logger = require("../../utils/helper/logger");
 
 class ContractController {
 	static async createNew(req, res, next) {
-        let dataDefault = req.body;
+		let dataDefault = req.body;
 		try {
 			const payload = await contract.create(dataDefault);
 			
-            baseResponse({ message:"Contract Created " , data: payload})(res, 200);
-            Logger(req);
+			baseResponse({ message:"Contract Created " , data: payload})(res, 200);
+			Logger(req);
             
 		} catch (error) {
 			res.status(400);
@@ -20,7 +20,7 @@ class ContractController {
 	}
 
 	static async update(req, res, next) {
-		let dataUpdate = req.body
+		let dataUpdate = req.body;
 		let selector = { 
 			where: { prcode: req.body.prcode }
 		};
@@ -28,7 +28,7 @@ class ContractController {
 			let dataContract = await contract.update(dataUpdate, selector);
 
 			if (!dataContract) {
-				throw new Error(`Contract ${prcode} doesn't exists!`);
+				throw new Error(`Contract ${req.body.prcode} doesn't exists!`);
 			}
 			baseResponse({
 				message: "Update Success",
@@ -73,7 +73,7 @@ class ContractController {
 				offset: start,
 				limit: rows
 			});
-			baseResponse({ message: "List Contracts", data: { datas, total:rows, count } })(res, 200);
+			baseResponse({ message: "List Contracts", data: { datas, count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
