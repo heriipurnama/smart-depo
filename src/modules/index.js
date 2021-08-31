@@ -37,5 +37,8 @@ module.exports = {
 	contract: require("./contract/ContractController"),
 
 	damageTariffDetail: require("./damage_tariff_detail/DamageTariffDetailController"),
-	modules: require("./modul/ModulController")
+	modules: require("./modul/ModulController"),
+	orderPra: require("./order_pra/OrderPraController"),
+	orderPraContainer: require("./order_pra_container/OrderPraContainerController"),
+	orderPraRecept: require("./order_pra_recept/OrderPraReceptController")
 };
