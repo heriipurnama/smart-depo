@@ -30,12 +30,12 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 8288
           script: |
-            pm2 list
+            /root/.nvm/versions/node/v14.17.4/bin/pm2 list
             cd /home/smartdepo/be/smart-depo
             git pull origin master
             git status
             npm install --only=prod
-            pm2 list
+            /root/.nvm/versions/node/v14.17.4/bin/pm2 list
             tail -15 /root/.pm2/pm2.log && tail -15 /root/.pm2/logs/BE-SmartDepo-error.log  && tail -15 /root/.pm2/logs/BE-SmartDepo-out.log
   
     # createdBy: heriipurnama
