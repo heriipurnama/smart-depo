@@ -30,7 +30,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 8288
           script: |
-            cd ~/home/smartdepo/be/smart-depo
+            cd /home/smartdepo/be/smart-depo
             git pull origin master
             git status
             npm install --only=prod
