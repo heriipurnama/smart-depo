@@ -42,8 +42,9 @@ const damageTariffDetail = require("./damage_tariff_detail/DamageTariffDetailRou
 const modules = require("./modules/ModulesRouter");
 const orderPra = require("./order_pra/OrderPraRouter");
 const orderPraContainer = require("./order_pra_container/OrderPraContainerRouter");
-const orderPraRecept = require("./order_pra_recept/OrderPraReceptRouter");
 
+const orderPraRecept = require("./order_pra_recept/OrderPraReceptRouter");
+const notification =require("./notification/NotificationRouter");
 
 
 // base router
@@ -88,5 +89,6 @@ routers.use("/orderPras", orderPra);
 routers.use("/orderPraContainers", orderPraContainer);
 
 routers.use("/orderPraRecepts", orderPraRecept);
+routers.use("/notifications", notification);
 
 module.exports = routers;
