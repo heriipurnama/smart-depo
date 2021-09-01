@@ -34,7 +34,7 @@ jobs:
             git pull origin master
             git status
             npm install --only=prod
-            /usr/bin/pm2 list
-            /usr/bin/pm2 logs
+            /root/.nvm/versions/node/v14.17.4/bin/pm2 list
+            /root/.nvm/versions/node/v14.17.4/bin/pm2 logs
   
     # createdBy: heriipurnama
