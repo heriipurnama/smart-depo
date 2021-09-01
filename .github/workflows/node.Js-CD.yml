@@ -28,7 +28,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          port: 8288
+          port: ${{ secrets.PORT }}
           script: |
             /root/.nvm/versions/node/v14.17.4/bin/pm2 list
             cd /home/smartdepo/be/smart-depo
