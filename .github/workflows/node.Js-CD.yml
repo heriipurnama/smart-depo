@@ -34,5 +34,7 @@ jobs:
             git pull origin master
             git status
             npm install --only=prod
+            pm2 list
+            pm2 logs
   
     # createdBy: heriipurnama
