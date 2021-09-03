@@ -27,7 +27,7 @@ class MessageController {
 				updated_at: Date(),
 			};
 
-			baseResponse({ message: "message created", data: datas })(res);
+			baseResponse({ message: "message created", data: datas })(res, 200);
 		} catch (error) {
 			res.status(400);
 			next(error);
