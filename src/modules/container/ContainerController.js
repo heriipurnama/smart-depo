@@ -142,15 +142,31 @@ class ContainerController {
 				hasil = checkDgthl(cContainer.substr(0, 10));
 			else      
 				hasil = checkDigit(cContainer.substr( 0, 10));
+            if (hasil==mcekd) {
+                let dataContainer = await container.findAndCountAll({ 
+                    where: {
+                        crno: { [Op.like]: `%${cContainer}%`}
+                    }
+                });
+                let valid;
+                if(dataContainer.count > 0){
 
-			if (hasil==mcekd) {
-				console.log("true");
-				baseResponse({ message: "Success", data: true })(res, 200);
-			} else{
-				console.log("false");
-				baseResponse({ message: "Success", data: false })(res, 200);
-			}
-		} catch (error) {
+                    valid = true;
+                    console.log('true');
+                    baseResponse({ message: "Valid", data: valid })(res, 200);
+                } else {
+
+                    valid = false;
+                    console.log('false');
+                    baseResponse({ message: "Invalid Code", data: valid })(res, 200);
+                }
+
+                    
+            } else{
+                console.log('false');
+                baseResponse({ message: "Invalid Code", data: false })(res, 200)
+            }
+        } catch (error) {
 			res.status(403);
 			next(error);
 		}
