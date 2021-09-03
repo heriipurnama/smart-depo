@@ -11,19 +11,36 @@ const Logger = require("../../utils/helper/logger");
 class PrivilegeController {
 
 	static async createNew(req, res, next) {
-		let { group_id, module_id, has_insert, has_update, has_delete, has_approval, has_view, printpdf, printxls } = req.body;
+		let { group_id, module_id, has_insert, has_update, has_delete, has_approval, has_view, has_printpdf, has_printxls } = req.body;
+		let blk = [];
+		// res.json(blk);
 		try {
-			const payload = await privilege.create({ 
-					group_id: group_id,
-					module_id: module_id,
-					has_insert: has_insert,
-					has_update: has_update,
-					has_delete: has_delete,
-					has_approval: has_approval,
-					has_view: has_view,
-					has_printpdf: printpdf,
-					has_printxls: printxls
-			})
+				let mdl = await tblmodules.findAndCountAll();
+				mdl.rows.forEach((value, index) => {
+					blk[index]= {
+						group_id: group_id,
+						module_id: value.module_id,
+						has_insert: has_insert,
+						has_update: has_update,
+						has_delete: has_delete,
+						has_approval: has_approval,
+						has_view: has_view,
+						has_printpdf: has_printpdf,
+						has_printxls: has_printpdf
+					}
+				});
+			const payload = await privilege.bulkCreate(blk);
+			// const payload = await privilege.create({ 
+			// 		group_id: group_id,
+			// 		module_id: module_id,
+			// 		has_insert: has_insert,
+			// 		has_update: has_update,
+			// 		has_delete: has_delete,
+			// 		has_approval: has_approval,
+			// 		has_view: has_view,
+			// 		has_printpdf: printpdf,
+			// 		has_printxls: printxls
+			// })
 			if(!payload){
 				throw new Error("Create Privilege Failed");
 			} else {
