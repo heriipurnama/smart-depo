@@ -5,21 +5,21 @@ const { group } = require("../../db/models");
 
 class GroupController {
 	static async createNew(req, res, next) {
-        let { name, desc} = req.body;
+		let { name, desc} = req.body;
 		try {
 			const [payload, created] = await group.findOrCreate({
 				where: {
 					group_name: name
 				},
 				defaults:{
-                    description: desc
+					description: desc
 				}
-            })
-            if(created === false){
-                throw new Error(`Group Exist, Group Name: ${name} exists!`);
-            } else {
-            baseResponse({ message:"Group Created " , data: payload})(res);
-            }
+			});
+			if(created === false){
+				throw new Error(`Group Exist, Group Name: ${name} exists!`);
+			} else {
+				baseResponse({ message:"Group Created " , data: payload})(res, 200);
+			}
             
 		} catch (error) {
 			res.status(400);
@@ -28,11 +28,11 @@ class GroupController {
 	}
 
 	static async update(req, res, next) {
-        let { name, desc, id} = req.body;
+		let { name, desc, id} = req.body;
 		let dataUpdate = {
 			group_name: name,
-            description: desc
-		}
+			description: desc
+		};
 		let selector = { 
 			where: { group_id: id }
 		};
@@ -59,7 +59,7 @@ class GroupController {
 		try {
 			let dataList = await group.findOne({ 
 				attributes: {
-					exclude: ['createdAt', 'updatedAt']
+					exclude: ["createdAt", "updatedAt"]
 				},
 				where: {
 					group_id: id
@@ -80,11 +80,11 @@ class GroupController {
 	}
 
 	static async list(req, res, next) {
-        let {start, rows} = req.body;
+		let {start, rows} = req.body;
 		try {
 			let payload = await group.findAll({
-                offset: start,
-                limit: rows
+				offset: start,
+				limit: rows
 			});
 			baseResponse({ message: "List Groups", data: payload })(res, 200);
 		} catch (error) {
@@ -94,12 +94,12 @@ class GroupController {
 	}
 
 	static async delete(req, res, next) {
-		let {id} = req.body 
+		let {id} = req.body; 
 		try {
 			let dataDelete = await group.destroy({
 				where:{ group_id: id}
-            });
-            if (!dataDelete) {
+			});
+			if (!dataDelete) {
 				throw new Error(`Group id: ${id} doesn't exists!`);
 			}
 			baseResponse({ message: "Success Delete Group", data: dataDelete })(res, 200);
