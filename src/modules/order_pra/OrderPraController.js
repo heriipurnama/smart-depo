@@ -1,7 +1,7 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { orderPra, company } = require("../../db/models");
+const { orderPra, company, voyage } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class OrderPraController {
@@ -54,6 +54,13 @@ class OrderPraController {
 			let { count, rows: datas }  = await orderPra.findAndCountAll({
 				offset: offsets,
 				limit: limits,
+				include: [
+					{
+						model: voyage,
+						as : "voyages",
+						attributes: ["voyid", "vesid", "voyno"]
+					}
+				]
 			});
 			baseResponse({ message: "list order pra", data:  { datas, count } })(res, 200);
 			
