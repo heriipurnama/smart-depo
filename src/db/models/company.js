@@ -17,52 +17,72 @@ module.exports = (sequelize, DataTypes) => {
 	}
 
 	company.init(
-		{
-			dpcode:{
+		{	
+			paktrasl:{
 				type: DataTypes.STRING,
 				primaryKey: true,
+				notNull: true,
 			},
+			dpcode: DataTypes.STRING,
 			sdcode: DataTypes.STRING,
+			paktrnam: DataTypes.STRING,
+
 			pamgr: DataTypes.STRING,
 			pajab: DataTypes.STRING,
+
 			pagroup: DataTypes.STRING,
 			papers: DataTypes.STRING,
-			paaddr1: DataTypes.STRING,
 			paaddr: DataTypes.STRING,
+
 			paaddr2: DataTypes.STRING,
 			paaddr3: DataTypes.STRING,
 			paphone: DataTypes.STRING,
 			pafax: DataTypes.STRING,
+
 			patelex: DataTypes.STRING,
 			pamancost: DataTypes.STRING,
 			pajabcost: DataTypes.STRING,
 			pamankeu: DataTypes.STRING,
 			pajabkeu: DataTypes.STRING,
+
 			padest: DataTypes.STRING,
 			pareport: DataTypes.STRING,
 			papic: DataTypes.STRING,
 			paport: DataTypes.STRING,
 			pachklong: DataTypes.INTEGER,
+
 			pafileupload: DataTypes.STRING,
 			palastupload: DataTypes.DATE,
 			pafiledownload: DataTypes.STRING,
 			palastdownload: DataTypes.DATE,
-			pasecgate: DataTypes.INTEGER,
+			
 			pakwtgate: DataTypes.INTEGER,
 			pakwtspv: DataTypes.STRING,
 			pakwtnpwp: DataTypes.STRING,
+			pakwtadm:DataTypes.STRING,
+			
+			papers_tax: DataTypes.STRING,
+			paaddr_tax: DataTypes.STRING,
+			pakwtnpwp_tax: DataTypes.STRING,
+			pakwtpkp_tax: DataTypes.STRING,
+
 			pakwtpkp: DataTypes.DATE,
-			pakwtadm: DataTypes.STRING,
 			pakwtppn: DataTypes.STRING,
 			pakwtnum: DataTypes.STRING,
+			
 			pakwtmax: DataTypes.STRING,
 			pakwtsed: DataTypes.STRING,
 			pakwtstan: DataTypes.STRING,
 			pakwtsednum: DataTypes.STRING,
+			
 			pakwtsedmax: DataTypes.STRING,
 			pakwtstannum: DataTypes.STRING,
-			pakwtstanmax: DataTypes.STRING
+			pakwtstanmax: DataTypes.STRING,
+			pacrton: DataTypes.DATE,
 
+			pacrtby: DataTypes.STRING,
+			pamdfon: DataTypes.DATE,
+			pamdfby: DataTypes.STRING
 		},
 		{
 			sequelize,
