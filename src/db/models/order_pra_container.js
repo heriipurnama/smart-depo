@@ -30,7 +30,9 @@ module.exports = (sequelize, DataTypes) => {
 			cpife: DataTypes.STRING,
 			
 			cpishold: DataTypes.INTEGER,
-			cpiremark: DataTypes.STRING
+			cpiremark: DataTypes.STRING,
+			cpigatedate: DataTypes.DATE,
+			cpiflag: DataTypes.INTEGER
 		},
 		{
 			sequelize,

@@ -14,5 +14,7 @@ routers.route("/getDetailData").get(Authentication, OrderPraController.detailDat
 routers.route("/updateData").put(Authentication, OrderPraController.updateData);
 
 routers.route("/deleteData").delete(Authentication, OrderPraController.deleteData);
+routers.route("/createPrainNo").get(Authentication, OrderPraController.createPrainNumber);
+routers.route("/detailDataPraIn").post(Authentication, OrderPraController.detailDataPraIn);
 
 module.exports = routers;
