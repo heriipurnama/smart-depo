@@ -60,7 +60,8 @@ class OrderPraController {
 						as : "voyages",
 						attributes: ["voyid", "vesid", "voyno"]
 					}
-				]
+				],
+				order:[[ "praid", "DESC"]]
 			});
 			baseResponse({ message: "list order pra", data:  { datas, count } })(res, 200);
 			
