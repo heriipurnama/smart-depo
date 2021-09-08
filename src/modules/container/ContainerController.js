@@ -147,19 +147,23 @@ class ContainerController {
                 let dataContainer = await container.findAndCountAll({ 
                     where: {
                         crno: { [Op.like]: `%${cContainer}%`}
-                    }
+					},
+					include:[{
+						model:container_code,
+						required: false // do not generate INNER JOIN
+					}]
                 });
                 let valid;
                 if(dataContainer.count > 0){
 
                     valid = true;
                     console.log('true');
-                    baseResponse({ message: "Valid", data: valid })(res, 200);
+                    baseResponse({ message: "Valid Code", data: dataContainer })(res, 200);
                 } else {
 
                     valid = false;
                     console.log('false');
-                    baseResponse({ message: "Invalid Code", data: valid })(res, 200);
+                    baseResponse({ message: "Valid Code", data: valid })(res, 200);
                 }
 
                     
