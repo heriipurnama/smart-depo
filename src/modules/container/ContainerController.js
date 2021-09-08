@@ -191,7 +191,6 @@ class ContainerController {
 
 
 let checkDigit = (arg1) =>{
-<<<<<<< HEAD
     let anilai = [];
 	let jmd = 0;
 	let j;	
@@ -203,22 +202,9 @@ let checkDigit = (arg1) =>{
             anilai[i] = anilai[i - 1] + 1;
             else
             anilai[i] = anilai[i - 1] * 2;
-=======
-	let anilai = [];
-	let jmd = 0;
-	let Y = 0;
-	for (let i = 1; i < 11; i++) {
-		if (i==1)
-			anilai[1] = 1;
-		else if (i==2) 
-			anilai[i] = anilai[i - 1] + 1;
-		else
-			anilai[i] = anilai[i - 1] * 2;
->>>>>>> 4708c1d867bf5e23cb748169cca009144f800e90
         
 	}
 
-<<<<<<< HEAD
     for (let i = 0; i < 11; i++) {
         let X = arg1.substr(i-1, 1);
         switch (X) {
@@ -265,70 +251,15 @@ let checkDigit = (arg1) =>{
     let hasil = j - Math.floor(j / 11) * 11;
     if (hasil == 10) 
         hasil = 0;
-        return j;
-=======
-	for (let i = 0; i < 11; i++) {
-		let X = arg1.substr(i-1, 1);
-		switch (X) {
-		case "A": Y = 10;break;
-		case "B": Y = 12;break;
-		case "C": Y = 13;break;
-		case "D": Y = 14;break;
-		case "E": Y = 15;break;
-		case "F": Y = 16;break;
-		case "G": Y = 17;break;
-		case "H": Y = 18;break;
-		case "I": Y = 19;break;
-		case "J": Y = 20;break;
-		case "K": Y = 21;break;
-		case "L": Y = 23;break;
-		case "M": Y = 24;break;
-		case "N": Y = 25;break;
-		case "O": Y = 26;break;
-		case "P": Y = 27;break;
-		case "Q": Y = 28;break;
-		case "R": Y = 29;break;
-		case "S": Y = 30;break;
-		case "T": Y = 31;break;
-		case "U": Y = 32;break;
-		case "V": Y = 34;break;
-		case "W": Y = 35;break;
-		case "X": Y = 36;break;
-		case "Y": Y = 37;break;
-		case "Z": Y = 38;break;
-		case "0":
-		case "1":
-		case "2":
-		case "3":
-		case "4":
-		case "5":
-		case "6":
-		case "7":
-		case "8":
-		case "9": Y=X;break;
-		default : Y=0;
-		}
-		jmd = jmd + Y * anilai[i];
-	}
-	let hasil = jmd - Math.floor(jmd / 11) * 11;
-	if (hasil == 10) 
-		hasil = 0;
-	return hasil;
->>>>>>> 4708c1d867bf5e23cb748169cca009144f800e90
+        return hasil;
     
 };
 
 let checkDgthl = (arg1)=> {
-<<<<<<< HEAD
     let anilai = [];
 	let jmd = 0;
 	let j;		
     let Y = 0;
-=======
-	let anilai = [];
-	let jmd = 0;
-	let Y = 0;
->>>>>>> 4708c1d867bf5e23cb748169cca009144f800e90
 
 	for (let i = 1; i < 11; i++) {
 		if (i==1)
@@ -339,7 +270,6 @@ let checkDgthl = (arg1)=> {
 			anilai[i] = anilai[i - 1] * 2;
 	}
 
-<<<<<<< HEAD
     for (let i = 0; i < 11; i++) {
         let X = arg1.substr(i-1, 1);
         switch (X) {
@@ -388,56 +318,6 @@ let checkDgthl = (arg1)=> {
         hasil = 0;
         return hasil;
 }
-=======
-	for (let i = 0; i < 11; i++) {
-		let X = arg1.substr(i-1, 1);
-		switch (X) {
-		case "A": Y = 10;break;
-		case "B": Y = 12;break;
-		case "C": Y = 13;break;
-		case "D": Y = 14;break;
-		case "E": Y = 15;break;
-		case "F": Y = 16;break;
-		case "G": Y = 17;break;
-		case "H": Y = 18;break;
-		case "I": Y = 19;break;
-		case "J": Y = 20;break;
-		case "K": Y = 21;break;
-		case "L": Y = 23;break;
-		case "M": Y = 24;break;
-		case "N": Y = 25;break;
-		case "O": Y = 26;break;
-		case "P": Y = 27;break;
-		case "Q": Y = 28;break;
-		case "R": Y = 29;break;
-		case "S": Y = 30;break;
-		case "T": Y = 31;break;
-		case "U": Y = 32;break;
-		case "V": Y = 34;break;
-		case "W": Y = 35;break;
-		case "X": Y = 36;break;
-		case "Y": Y = 37;break;
-		case "Z": Y = 38;break;
-		case "0":
-		case "1":
-		case "2":
-		case "3":
-		case "4":
-		case "5":
-		case "6":
-		case "7":
-		case "8":
-		case "9": Y=X;break;
-		default : Y=0;
-		}
-		jmd = jmd + Y * anilai[i];
-	}
-	let hasil = jmd - Math.floor(jmd / 11) * 11;
-	if (hasil == 10) 
-		hasil = 0;
-	return hasil;
-};
->>>>>>> 4708c1d867bf5e23cb748169cca009144f800e90
 
 let funB = (param) =>{
 
