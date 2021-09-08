@@ -228,7 +228,7 @@ let checkDigit = (arg1) =>{
         }
         j = jmd + Y * anilai[i];
 	}
-    let hasil = j - Math.floor(jmd / 11) * 11;
+    let hasil = j - Math.floor(j / 11) * 11;
     if (hasil == 10) 
         hasil = 0;
         return hasil;
@@ -293,7 +293,7 @@ let checkDgthl = (arg1)=> {
         }
         j = jmd + Y * anilai[i];
     }
-    let hasil = j - Math.floor(jmd / 11) * 11;
+    let hasil = j - Math.floor(j / 11) * 11;
     if (hasil == 10) 
         hasil = 0;
         return hasil;
