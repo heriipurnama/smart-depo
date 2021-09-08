@@ -63,7 +63,8 @@ class OrderPraController {
 					{
 						model: orderPraContainer,
 						as : "orderPraContainers",
-						attributes: ["pracrnoid","praid","crno", "cccode", "ctcode","cclength","ccheight","cpife","cpishold","cpiremark","cpigatedate","cpiflag"]
+						attributes: ["pracrnoid","praid","crno", "cccode", "ctcode","cclength","ccheight","cpife","cpishold","cpiremark","cpigatedate","cpiflag"],
+						order:[[{model: orderPraContainer, as: "orderPraContainers"}, "pracrnoid", "ASC"]]
 					},
 
 				],
