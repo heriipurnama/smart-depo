@@ -1,7 +1,7 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { orderPra } = require("../../db/models");
+const { orderPra, company, voyage, orderPraContainer } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class OrderPraController {
@@ -54,6 +54,21 @@ class OrderPraController {
 			let { count, rows: datas }  = await orderPra.findAndCountAll({
 				offset: offsets,
 				limit: limits,
+				include: [
+					{
+						model: voyage,
+						as : "voyages",
+						attributes: ["voyid", "vesid", "voyno"]
+					},
+					{
+						model: orderPraContainer,
+						as : "orderPraContainers",
+						attributes: ["pracrnoid","praid","crno", "cccode", "ctcode","cclength","ccheight","cpife","cpishold","cpiremark","cpigatedate","cpiflag"],
+						order:[[{model: orderPraContainer, as: "orderPraContainers"}, "pracrnoid", "ASC"]]
+					},
+
+				],
+				order:[[ "praid", "DESC"]]
 			});
 			baseResponse({ message: "list order pra", data:  { datas, count } })(res, 200);
 			
@@ -149,7 +164,66 @@ class OrderPraController {
 			next(error);
 		}
 	}
-    
+
+	static async createPrainNumber(req, res, next) {
+		try {
+
+			/**
+		 * Format PRAIN CODE
+		 * prefix[PI/PO] + 'paktrasl' + 'sdcode' + 8digit_number
+		 */
+
+			// get data company.
+			let resultCompany = await company.findAll({});
+			let paktrasl = resultCompany[0].dataValues.paktrasl;
+			let sdcode = resultCompany[0].dataValues.sdcode;
+			let prefixCode = "PI";
+
+			// get data pra order
+			let resultOrderPra = await orderPra.findOne({ order:[[ "praid", "DESC"]]});
+
+			if (resultOrderPra === null) {
+
+				const resultCode = `${prefixCode}${paktrasl}${sdcode}00000001`;
+				baseResponse({ message: "succes created unix code", data: resultCode })(res, 200);
+			} else {
+
+				let resultDataOrderPra = resultOrderPra.dataValues.cpiorderno;
+				let resultSubstringDataOrderPra = resultDataOrderPra.substring(7,16);
+				let convertInt = parseInt(resultSubstringDataOrderPra) + 1;
+
+				let str = "" + convertInt;
+				let pad = "00000000";
+				let number = pad.substring(0, pad.length - str.length) + str;
+				const resultCode = `${prefixCode}${paktrasl}${sdcode}${number}`;
+
+				baseResponse({ message: "succes created unix code", data: resultCode })(res, 200);
+
+			}
+		} catch (error) {
+			res.status(500);
+			next(error);
+		}
+	}
+
+	static async detailDataPraIn(req, res, next) {
+		let { praInCode } = req.body;
+        
+		try {
+			let payload = await orderPra.findOne(
+				{ where: { cpiorderno : praInCode }}
+			);
+			
+			if (!payload) {
+				throw new Error(`pra in order pra: ${praInCode} doesn't exists!`);
+			}
+			baseResponse({ message: "detail data pra order by pra in", data: payload })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 }
 
 module.exports = OrderPraController;

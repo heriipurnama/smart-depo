@@ -6,13 +6,13 @@ const Logger = require("../../utils/helper/logger");
 
 class CompanyController {
 	static async createNew(req, res, next) {
-        // let { cmCode, cmDesc, cmCode_ssl_ext } = req.body;
-        let dataDefault = req.body;
+		// let { cmCode, cmDesc, cmCode_ssl_ext } = req.body;
+		let dataDefault = req.body;
 		try {
 			const payload = await company.create(dataDefault);
 			
-            baseResponse({ message:"Company Created " , data: payload})(res, 200);
-            Logger(req);
+			baseResponse({ message:"Company Created " , data: payload})(res, 200);
+			Logger(req);
             
 		} catch (error) {
 			res.status(400);
@@ -21,8 +21,8 @@ class CompanyController {
 	}
 
 	static async update(req, res, next) {
-        // let { cmDesc, cmCode_ssl_ext, idCompany } = req.body;
-		let dataUpdate = req.body
+		// let { cmDesc, cmCode_ssl_ext, idCompany } = req.body;
+		let dataUpdate = req.body;
 		let selector = { 
 			where: { dpcode: req.body.dpcode }
 		};
