@@ -11,7 +11,7 @@ module.exports = [
 
 		return res.json({
 			status: "Failled",
-			error: [err.message],
+			message: [err.message],
 			stact: err
 		});
 	},

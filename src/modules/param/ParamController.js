@@ -2,26 +2,29 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { param } = require("../../db/models");
+const Logger = require("../../utils/helper/logger");
 
 class ParamController {
+
 	static async createNew(req, res, next) {
-        let { paramId, tab, desc, prm} = req.body;
+		let { paramId, tab, desc, prm} = req.body;
 		try {
 			const [payload, created] = await param.findOrCreate({
 				where: {
-                    param_id: paramId
+					param_id: paramId
 				},
 				defaults:{
-                    tabs: tab,
-                    description: desc,
-                    param: prm
+					tabs: tab,
+					description: desc,
+					param: prm
 				}
-            })
-            if(created === false){
-                throw new Error(`Param Exist, Param ID: ${paramId} exists!`);
-            } else {
-            baseResponse({ message:"Param Created " , data: payload})(res);
-            }
+			});
+			if(created === false){
+				throw new Error(`Param Exist, Param ID: ${paramId} exists!`);
+			} else {
+				baseResponse({ message:"Param Created " , data: payload})(res, 200);
+				Logger(req);
+			}
             
 		} catch (error) {
 			res.status(400);
@@ -30,13 +33,13 @@ class ParamController {
 	}
 
 	static async update(req, res, next) {
-        let { paramId, tab, desc, prm, seqid} = req.body;
+		let { paramId, tab, desc, prm, seqid} = req.body;
 		let dataset = {
-            param_id: paramId,
-            tabs: tab,
-            description: desc,
-            param: prm
-		}
+			param_id: paramId,
+			tabs: tab,
+			description: desc,
+			param: prm
+		};
 		let selector = { 
 			where: { id: seqid }
 		};
@@ -50,6 +53,7 @@ class ParamController {
 				message: "Update Success",
 				data: dataset,
 			})(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -63,7 +67,7 @@ class ParamController {
 		try {
 			let dataList = await param.findOne({ 
 				attributes: {
-					exclude: ['createdAt', 'updatedAt']
+					exclude: ["createdAt", "updatedAt"]
 				},
 				where: {
 					id: seqid
@@ -84,13 +88,13 @@ class ParamController {
 	}
 
 	static async list(req, res, next) {
-        let {start, rows} = req.body;
+		let {start, rows} = req.body;
 		try {
-			let payload = await param.findAll({
-                offset: start,
-                limit: rows
+			let { count, rows: datas } = await param.findAndCountAll({
+				offset: start,
+				limit: rows
 			});
-			baseResponse({ message: "List Params", data: payload })(res, 200);
+			baseResponse({ message: "List Params", data: { datas,  count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -98,15 +102,16 @@ class ParamController {
 	}
 
 	static async delete(req, res, next) {
-		let {seqid} = req.body 
+		let {seqid} = req.body; 
 		try {
 			let dataDelete = await param.destroy({
 				where:{ id: seqid}
-            });
-            if (!dataDelete) {
+			});
+			if (!dataDelete) {
 				throw new Error(`Param ID: ${seqid} doesn't exists!`);
 			}
 			baseResponse({ message: "Success Delete Param", data: dataDelete })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);

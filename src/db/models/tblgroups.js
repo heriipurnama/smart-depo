@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
+			tblgroups.hasMany(models.tblusers,
+				{
+					foreignKey: "group_id",
+				});
 		}
 
 	}

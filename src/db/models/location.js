@@ -19,19 +19,19 @@ module.exports = (sequelize, DataTypes) => {
 	location.init(
 		{
 			lccode:{
-                type: DataTypes.STRING,
-                primaryKey: true
-            },
-            lcdesc: DataTypes.STRING
+				type: DataTypes.STRING,
+				primaryKey: true
+			},
+			lcdesc: DataTypes.STRING
 		},
 		{
 			sequelize,
 			modelName: "location",
 			underscored: true,
-            freezeTableName: true,
-            tableName: "tbllocation",
-            createdAt: false,
-            updatedAt: false
+			freezeTableName: true,
+			tableName: "tbllocation",
+			createdAt: false,
+			updatedAt: false
 
 		}
 	);
@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
 	Object.defineProperty(location.prototype, "entity", {
 		get() {
 			return {
-                lccode: this.lccode,
+				lccode: this.lccode,
 				lcdesc: this.lcdesc
 			};
 		},

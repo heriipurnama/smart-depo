@@ -2,6 +2,7 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { container_code,container_type } = require("../../db/models");
+const Logger = require("../../utils/helper/logger");
 
 class ContainerCodeController {
 	static async createNew(req, res, next) {
@@ -31,11 +32,12 @@ class ContainerCodeController {
 					ccalias1: ccAlias1,
 					ccalias2: ccAlias2
 				}
-			})
+			});
 			if(created === false){
-                throw new Error(`Container Exist, cccode: ${ccCode} exists!`);
+				throw new Error(`Container Exist, cccode: ${ccCode} exists!`);
 			} else {
-				baseResponse({ message:"Container Created " , data: payload})(res);
+				baseResponse({ message:"Container Created " , data: payload})(res, 200);
+				Logger(req);
 			}
 		} catch (error) {
 			res.status(400);
@@ -54,7 +56,7 @@ class ContainerCodeController {
 			ccalias2: ccAlias2
 		};
 		let selector = { 
-			where: { id: idContainer }
+			where: { cccode: ccCode }
 		};
 		try {
 			let containerCode = ccCode;
@@ -67,6 +69,7 @@ class ContainerCodeController {
 				message: "Update Success",
 				data: dataContainer,
 			})(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -75,7 +78,7 @@ class ContainerCodeController {
 
 
 	static async listOne(req, res, next) {
-		let { idContainer, idUser } = req.body;
+		let { ccCode } = req.body;
 		
 		try {
 			let dataContainer = await container_code.findOne({ 
@@ -83,12 +86,12 @@ class ContainerCodeController {
 					exclude: ["createdAt", "updatedAt"]
 				},
 				where: {
-					id: idContainer, created_by:idUser
+					cccode: ccCode
 				}
 			});
 
 			if (!dataContainer) {
-				throw new Error(`container id: ${idContainer} doesn't exists!`);
+				throw new Error(`container code: ${ccCode} doesn't exists!`);
 			}
 			baseResponse({
 				message: "Get Data Success",
@@ -101,10 +104,10 @@ class ContainerCodeController {
 	}
 
 	static async list(req, res, next) {
-        let {start, rows} = req.body;
+		let {start, rows} = req.body;
 
 		try {
-			let payload = await container_code.findAll({
+			let { count, rows: datas } = await container_code.findAndCountAll({
 				offset: start,
 				limit: rows,
 				include:[{
@@ -112,7 +115,7 @@ class ContainerCodeController {
 					required: false, // do not generate INNER JOIN
 				}]
 			});
-			baseResponse({ message: "list containers", data: payload })(res, 200);
+			baseResponse({ message: "list container codes", data: { datas,  count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -120,12 +123,13 @@ class ContainerCodeController {
 	}
 
 	static async delete(req, res, next) {
-		let {idContainer} = req.body; 
+		let {ccCode} = req.body; 
 		try {
 			let payload = await container_code.destroy({
-				where:{id: idContainer}
+				where:{cccode: ccCode}
 			});
-			baseResponse({ message: "Success Delete Container", data: payload })(res, 200);
+			baseResponse({ message: "Success Delete Container Code", data: payload })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
