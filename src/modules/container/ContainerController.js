@@ -158,18 +158,18 @@ class ContainerController {
 
                     valid = true;
                     console.log('true');
-                    baseResponse({ message: "Valid Code", data: dataContainer })(res, 200);
+                    baseResponse({ success:true, message: "Valid Code", data: dataContainer })(res, 200);
                 } else {
 
                     valid = false;
                     console.log('false');
-                    baseResponse({ message: "Valid Code", data: valid })(res, 200);
+                    baseResponse({ success:true,message: "Data Empty", data: valid })(res, 200);
                 }
 
                     
             } else{
                 console.log('false');
-                baseResponse({ message: "Invalid Code", data: false })(res, 200)
+                baseResponse({success:false, message: "Invalid Code", data: false })(res, 200)
             }
         } catch (error) {
 			res.status(403);
@@ -182,7 +182,6 @@ class ContainerController {
 let checkDigit = (arg1) =>{
     let anilai = [];
 	let jmd = 0;
-	let j;	
     let Y = 0;
     for (let i = 1; i < 11; i++) {
         if (i==1)
@@ -194,8 +193,9 @@ let checkDigit = (arg1) =>{
         
 	}
 
-    for (let i = 0; i < 11; i++) {
-        let X = arg1.substr(i-1, 1);
+    for (let i = 1; i < 11; i++) {
+		let X = arg1.substr(i-1, 1);
+		// console.log(`X=${X}`);
         switch (X) {
             case "A": Y = 10;break;
             case "B": Y = 12;break;
@@ -235,9 +235,10 @@ let checkDigit = (arg1) =>{
             case "9": Y=X;break;
             default : Y=0;
         }
-        j = jmd + Y * anilai[i];
+		jmd = jmd + Y * anilai[i];
+		// console.log(`jmd=${jmd} + ${Y} * ${ anilai[i]}`);
 	}
-    let hasil = j - Math.floor(j / 11) * 11;
+    let hasil = jmd - Math.floor(jmd / 11) * 11;
     if (hasil == 10) 
         hasil = 0;
         return hasil;
@@ -247,7 +248,6 @@ let checkDigit = (arg1) =>{
 let checkDgthl = (arg1)=> {
     let anilai = [];
 	let jmd = 0;
-	let j;		
     let Y = 0;
 
 	for (let i = 1; i < 11; i++) {
@@ -259,7 +259,7 @@ let checkDgthl = (arg1)=> {
 			anilai[i] = anilai[i - 1] * 2;
 	}
 
-    for (let i = 0; i < 11; i++) {
+    for (let i = 1; i < 11; i++) {
         let X = arg1.substr(i-1, 1);
         switch (X) {
             case "A": Y = 10;break;
@@ -300,9 +300,9 @@ let checkDgthl = (arg1)=> {
             case "9": Y=X;break;
             default : Y=0;
         }
-        j = jmd + Y * anilai[i];
+        jmd = jmd + Y * anilai[i];
     }
-    let hasil = j - Math.floor(j / 11) * 11;
+    let hasil = jmd - Math.floor(jmd / 11) * 11;
     if (hasil == 10) 
         hasil = 0;
         return hasil;
