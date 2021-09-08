@@ -128,16 +128,16 @@ class ContainerController {
     static async checkContainerCode(req, res, next) {
         let {cContainer} = req.body;
 
-        // let cContainer = "FKS0013";
+        // let cContainer = "FKS0013"; BEAU2686690
         let len = cContainer.length;
         let mcekd = cContainer.substr(len-1,1);
         let hasil = 0;
         try {
             if (cContainer.substr(0,4).toUpperCase()== "HLCU") 
-                $hasil = checkDgthl(cContainer.substr(0, 10));
+                hasil = checkDgthl(cContainer.substr(0, 10));
             else      
                 hasil = checkDigit(cContainer.substr( 0, 10));
-
+			console.log(hasil, mcekd);
             if (hasil==mcekd) {
                 let dataContainer = await container.findAndCountAll({ 
                     where: {
@@ -172,7 +172,8 @@ class ContainerController {
 
 let checkDigit = (arg1) =>{
     let anilai = [];
-    let jmd = 0;
+	let jmd = 0;
+	let j;	
     let Y = 0;
     for (let i = 1; i < 11; i++) {
         if (i==1)
@@ -225,9 +226,9 @@ let checkDigit = (arg1) =>{
             case "9": Y=X;break;
             default : Y=0;
         }
-        jmd = jmd + Y * anilai[i];
-    }
-    let hasil = jmd - Math.floor(jmd / 11) * 11;
+        j = jmd + Y * anilai[i];
+	}
+    let hasil = j - Math.floor(jmd / 11) * 11;
     if (hasil == 10) 
         hasil = 0;
         return hasil;
@@ -236,7 +237,8 @@ let checkDigit = (arg1) =>{
 
 let checkDgthl = (arg1)=> {
     let anilai = [];
-    let jmd = 0;
+	let jmd = 0;
+	let j;		
     let Y = 0;
 
     for (let i = 1; i < 11; i++) {
@@ -289,9 +291,9 @@ let checkDgthl = (arg1)=> {
             case "9": Y=X;break;
             default : Y=0;
         }
-        jmd = jmd + Y * anilai[i];
+        j = jmd + Y * anilai[i];
     }
-    let hasil = jmd - Math.floor(jmd / 11) * 11;
+    let hasil = j - Math.floor(jmd / 11) * 11;
     if (hasil == 10) 
         hasil = 0;
         return hasil;
