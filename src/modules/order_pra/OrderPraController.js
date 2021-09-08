@@ -1,7 +1,7 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { orderPra, company, voyage } = require("../../db/models");
+const { orderPra, company, voyage, orderPraContainer } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class OrderPraController {
@@ -59,7 +59,13 @@ class OrderPraController {
 						model: voyage,
 						as : "voyages",
 						attributes: ["voyid", "vesid", "voyno"]
-					}
+					},
+					{
+						model: orderPraContainer,
+						as : "orderPraContainers",
+						attributes: ["pracrnoid","praid","crno", "cccode", "ctcode","cclength","ccheight","cpife","cpishold","cpiremark","cpigatedate","cpiflag"]
+					},
+
 				],
 				order:[[ "praid", "DESC"]]
 			});

@@ -15,7 +15,13 @@ module.exports = (sequelize, DataTypes) => {
 						name: "cpivoyid"
 					}, as : "voyages"
 				});
-
+			order_pra.belongsTo(models.orderPraContainer,
+				{
+					foreignKey: {
+						name: "praid"
+					}, as : "orderPraContainers"
+				});
+				
 		}
 
 	}
