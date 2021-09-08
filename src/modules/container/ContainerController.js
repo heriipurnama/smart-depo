@@ -130,7 +130,6 @@ class ContainerController {
 		}
 	}
     
-<<<<<<< HEAD
     static async checkContainerCode(req, res, next) {
         let {cContainer} = req.body;
 
@@ -144,20 +143,6 @@ class ContainerController {
             else      
                 hasil = checkDigit(cContainer.substr( 0, 10));
 			console.log(hasil, mcekd);
-=======
-	static async checkContainerCode(req, res, next) {
-		let {cContainer} = req.body;
-
-		// let cContainer = "FKS0013";
-		let len = cContainer.length;
-		let mcekd = cContainer.substr(len-1,1);
-		let hasil = 0;
-		try {
-			if (cContainer.substr(0,4).toUpperCase()== "HLCU") 
-				hasil = checkDgthl(cContainer.substr(0, 10));
-			else      
-				hasil = checkDigit(cContainer.substr( 0, 10));
->>>>>>> 4708c1d867bf5e23cb748169cca009144f800e90
             if (hasil==mcekd) {
                 let dataContainer = await container.findAndCountAll({ 
                     where: {
