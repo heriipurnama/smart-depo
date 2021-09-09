@@ -3,14 +3,24 @@
 
     1. https://documenter.getpostman.com/view/1906010/TzshHkCk
 
+### RUNNING Code
+    1. Running Code First Time
+        a. npm install
+        b. node app.js OR
+            npm start OR
+            npm start-dev
+    2. Running Code Second Time
+        a. node app.js OR
+            npm start OR
+            npm start-dev
 ### Running PM2
-    ~#pm2 start config-pm2-start.json    
+    pm2 start config-pm2-start.json    
 
 ### Make container Redis from Docker image Docker Registry
-    ~#docker-compose up -d 
+    docker-compose up -d 
 
 ### check running pm2
-    ~#pm2 list                                                                                                                                                                                                  
+    pm2 list                                                                                                                                                                                                  
 ⇆ PM2+ activated | Instance Name: exabytes-36490711-79fe | Dash: https://app.pm2.io/#/r/tsrm5atxp24pr7c                                                                                                                             
 ┌─────┬─────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐                                                                                      
 │ id  │ name            │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │                                                                                      
@@ -18,7 +28,7 @@
 │ 0   │ BE-SmartDepo    │ default     │ 1.0.0   │ fork    │ 21816    │ 15h    │ 146  │ online    │ 0%       │ 78.7mb   │ root     │ enabled  │  
 
 ### check docker
-    ~# docker images && docker container ps                                                                                                                                                                      
+    docker images && docker container ps                                                                                                                                                                      
 REPOSITORY   TAG       IMAGE ID       CREATED       SIZE                                                                                                                                                                            
 redis        buster    ddcca4b8a6f0   3 weeks ago   105MB                                                                                                                                                                    
 CONTAINER ID   IMAGE          COMMAND                  CREATED       STATUS       PORTS                                       NAMES                                                                                                 
