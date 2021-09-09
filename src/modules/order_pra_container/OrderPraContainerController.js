@@ -1,7 +1,7 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { orderPraContainer } = require("../../db/models");
+const { orderPraContainer, container } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class OrderPraContainerController {
@@ -9,12 +9,11 @@ class OrderPraContainerController {
 	static async createData(req, res, next) {
 		let { praid, crno, cccode, ctcode, 
 			cclength, ccheight, cpife, cpishold, 
-			cpiremark
+			cpiremark, newContainer
 		} = req.body;
         
 		try {
-
-			const payload = await orderPraContainer.create({
+			let dataOrderPraContainer = {
 				praid: praid, 
 				crno: crno, 
 				cccode: cccode, 
@@ -26,9 +25,32 @@ class OrderPraContainerController {
 				cpishold: cpishold, 
 
 				cpiremark: cpiremark
-			});
-            
-			baseResponse({ message: "succes created order Pra container", data: payload })(res, 200);
+			};
+
+			let dataNewContainer = {
+				crno: crno, 
+				cccode: cccode, 
+				mtcode: ctcode
+			};
+
+			let payloadDataContainer;
+			if (newContainer === 1) {
+				payloadDataContainer = await container.create(dataNewContainer);
+			}
+			let payloadDataOrderPraContainer = await orderPraContainer.create(dataOrderPraContainer);
+			
+			let templateMessage = newContainer === 1 ? 
+				"Succes Created Data Container And Pra Order Container" :
+				"Succes Created Data Pra Order Container";
+			let templateResponData = newContainer === 1 ? { 
+				dataNewcontainer: payloadDataContainer, 
+				dataNewOrderPraContainer: payloadDataOrderPraContainer } : 
+				{ dataNewOrderPraContainer: payloadDataOrderPraContainer };
+			
+			baseResponse({ 
+				message: templateMessage, 
+				data: templateResponData
+			})(res, 200);
 			Logger(req);
 		} catch (error) {
 			res.status(400);
