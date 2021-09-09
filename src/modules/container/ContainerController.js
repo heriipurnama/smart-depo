@@ -10,9 +10,6 @@ const Logger = require("../../utils/helper/logger");
 class ContainerController {
 	static async createNew(req, res, next) {
 		let { crNo, dset } = req.body;
-		// return res.json(req.body);
-		let defaultImage =
-			"https://i.pinimg.com/564x/82/64/00/826400943f7549d21cec0418d1a32e2b.jpg";
 		try {
 			const [payload, created] = await container.findOrCreate({ 
 				where: {
@@ -300,9 +297,9 @@ let checkDgthl = (arg1)=> {
 	return hasil;
 };
 
-let funB = (param) =>{
+// let funB = (param) =>{
 
-	console.log(`Hello from funB! ${param}`);
-};
+// 	console.log(`Hello from funB! ${param}`);
+// };
 
 module.exports = ContainerController;
