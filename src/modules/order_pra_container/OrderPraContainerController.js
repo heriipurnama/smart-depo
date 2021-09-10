@@ -61,18 +61,17 @@ class OrderPraContainerController {
 	static async listAllData(req, res, next){
 		let { offset, limit, praid } = req.query;
 
-		let offsets = parseInt(offset) || 0;
-		let limits = parseInt(limit) || 11;
-
-		let resultDatas = {
-			offset: offsets,
-			limit: limits,
-		};
-		let findByPraid = { where: { praid : praid }};
-
 		try {
 
-			let { count, rows: datas }  = await orderPraContainer.findAndCountAll(findByPraid, resultDatas );
+			let offsets = parseInt(offset) || 0;
+			let limits = parseInt(limit) || 11;
+
+			let { count, rows: datas }  = await orderPraContainer.findAndCountAll({
+				where: { praid : praid },
+				order: [[ "pracrnoid", "DESC"]],
+				limit: limits,
+				offset: offsets
+			});
 
 			baseResponse({ message: "list order pra container", data:  { datas, count } })(res, 200);
 			
