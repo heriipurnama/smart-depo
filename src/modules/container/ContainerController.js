@@ -128,7 +128,7 @@ class ContainerController {
 	}
     
 	static async checkContainerCode(req, res, next) {
-		let {cContainer} = req.body;
+		let {cContainer} = req.query;
 
 		// let cContainer = "FKS0013"; BEAU2686690
 		let len = cContainer.length;
@@ -153,12 +153,15 @@ class ContainerController {
 				if(dataContainer.count > 0){
 					valid = true;
 					baseResponse({ success:true, message: "Valid Code", data: dataContainer })(res, 200);
+					Logger(req);
 				} else {
 					valid = false;
 					baseResponse({ success:true,message: "Data Empty", data: valid })(res, 200);
+					Logger(req);
 				}
 			} else{
 				baseResponse({success:false, message: "Invalid Code", data: false })(res, 200);
+				Logger(req);
 			}
 		} catch (error) {
 			res.status(403);
