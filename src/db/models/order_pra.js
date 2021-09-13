@@ -49,7 +49,8 @@ module.exports = (sequelize, DataTypes) => {
 
 			cpives: DataTypes.STRING,
 			cpicargo: DataTypes.STRING,
-			cpideliver: DataTypes.STRING
+			cpideliver: DataTypes.STRING,
+			cpilunas: DataTypes.STRING,
 		},
 		{
 			sequelize,

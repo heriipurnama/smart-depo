@@ -39,7 +39,7 @@ class NotificationController {
 			let { count, rows: datas }  = await notification.findAndCountAll({
 				offset: offsets,
 				limit: limits,
-			}, { where: { is_read : 0 }});
+			});
 			baseResponse({ message: "list notification", data: { datas, count }})(res, 200);
 			Logger(req);
 		} catch (error) {
