@@ -1,4 +1,6 @@
 "use strict";
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 const baseResponse = require("../../utils/helper/Response");
 const { orderPra, company, voyage, orderPraContainer } = require("../../db/models");
@@ -224,6 +226,79 @@ class OrderPraController {
 		}
 	}
 
+	static async searchPrainByContainerNumber(req, res, next){
+		let { offset, limit, containerCode } = req.query;
+
+		try {
+
+			let offsets = parseInt(offset) || 0;
+			let limits = parseInt(limit) || 11;
+
+			let { count, rows: datas }  = await orderPra.findAndCountAll({
+				offset: offsets,
+				limit: limits,
+				include: [
+					{
+						model: voyage,
+						as : "voyages",
+						attributes: ["voyid", "vesid", "voyno"]
+					},
+					{
+						model: orderPraContainer,
+						as : "orderPraContainers",
+						attributes: ["pracrnoid","praid","crno", "cccode", "ctcode","cclength","ccheight","cpife","cpishold","cpiremark","cpigatedate","cpiflag"],
+						order:[[{model: orderPraContainer, as: "orderPraContainers"}, "pracrnoid", "ASC"]],
+						where: {
+							crno: { [Op.like]: `%${containerCode}%`}
+						},
+					},
+
+				],
+				order:[[ "praid", "DESC"]]
+			});
+			baseResponse({ message: "list order pra", data:  { datas, count } })(res, 200);
+			
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async printOrderByPraOrderId(req, res, next){
+		let { offset, limit, praid } = req.query;
+
+		try {
+
+			let offsets = parseInt(offset) || 0;
+			let limits = parseInt(limit) || 11;
+
+			let { count, rows: datas }  = await orderPra.findAndCountAll({
+				offset: offsets,
+				limit: limits,
+				include: [
+					{
+						model: voyage,
+						as : "voyages",
+						attributes: ["voyid", "vesid", "voyno"]
+					},
+					{
+						model: orderPraContainer,
+						as : "orderPraContainers",
+						attributes: ["pracrnoid","praid","crno", "cccode", "ctcode","cclength","ccheight","cpife","cpishold","cpiremark","cpigatedate","cpiflag"],
+						order:[[{model: orderPraContainer, as: "orderPraContainers"}, "pracrnoid", "ASC"]]
+					},
+
+				],
+				where:{ praid : praid },
+				order:[[ "praid", "DESC"]]
+			});
+			baseResponse({ message: "list order pra order", data:  { datas, count } })(res, 200);
+			
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
 }
 
 module.exports = OrderPraController;
