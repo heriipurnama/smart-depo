@@ -82,7 +82,7 @@ class OrderPraContainerController {
 	}
     
 	static async detailData(req, res, next) {
-		let { pracrnoid } = req.body;
+		let { pracrnoid } = req.query;
         
 		try {
 			let payload = await orderPraContainer.findOne(
