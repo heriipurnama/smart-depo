@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
 const baseResponse = require("../../utils/helper/Response");
-const { orderPra, company, voyage, orderPraContainer } = require("../../db/models");
+const { orderPra, company, voyage, orderPraContainer, vessel } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class OrderPraController {
@@ -280,6 +280,11 @@ class OrderPraController {
 						model: voyage,
 						as : "voyages",
 						attributes: ["voyid", "vesid", "voyno"]
+					},
+					{
+						model: vessel,
+						as : "vessels",
+						// attributes: ["voyid", "vesid", "voyno"]
 					},
 					{
 						model: orderPraContainer,
