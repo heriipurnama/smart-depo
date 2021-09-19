@@ -45,7 +45,8 @@ const orderPraContainer = require("./order_pra_container/OrderPraContainerRouter
 
 const orderPraRecept = require("./order_pra_recept/OrderPraReceptRouter");
 const notification =require("./notification/NotificationRouter");
-const orderRepo =require("./orderRepo/OrderRepoRouter");
+const orderRepo =require("./order_repo/OrderRepoRouter");
+const orderRepoContainer =require("./order_repo_container/OrderRepoContainerRouter");
 
 
 // base router
@@ -92,5 +93,6 @@ routers.use("/orderPraContainers", orderPraContainer);
 routers.use("/orderPraRecepts", orderPraRecept);
 routers.use("/notifications", notification);
 routers.use("/orderRepo", orderRepo);
+routers.use("/orderRepoContainer", orderRepoContainer);
 
 module.exports = routers;

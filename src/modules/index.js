@@ -43,5 +43,6 @@ module.exports = {
 
 	orderPraRecept: require("./order_pra_recept/OrderPraReceptController"),
 	notification: require("./notification/NotificationController"),
-	orderRepo: require("./order_repo/OrderRepoController")
+	orderRepo: require("./order_repo/OrderRepoController"),
+	orderRepoContainer: require("./order_repo_container/OrderRepoContainerController")
 };
