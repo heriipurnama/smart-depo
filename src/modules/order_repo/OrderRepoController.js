@@ -81,7 +81,7 @@ class OrderRepoController {
 	}
     
 	static async detailData(req, res, next) {
-		let { repoid } = req.body;
+		let { repoid } = req.query;
         
 		try {
 			let payload = await orderRepo.findOne(
