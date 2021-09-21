@@ -40,8 +40,8 @@ class OrderRepoContainerController {
 			let payloadDataOrderRepoContainer = await orderRepoContainer.create(dataOrderRepoContainer);
 			
 			let templateMessage = newContainer === 1 ? 
-				"Success Created Data Container And Pra Order Container" :
-				"Success Created Data Pra Order Container";
+				"Success Created Data Container And Order Repo Container" :
+				"Success Created Data Order Repo Container";
 			let templateResponData = newContainer === 1 ? { 
 				dataNewcontainer: payloadDataContainer, 
 				dataNewOrderRepoContainer: payloadDataOrderRepoContainer } : 
