@@ -18,13 +18,13 @@ module.exports = (sequelize, DataTypes) => {
 			order_repo.hasMany(models.orderRepoContainer,
 				{
 					foreignKey: {
-						name: "praid"
+						name: "repoid"
 					}, as : "orderRepoContainers"
 				});
 			order_repo.belongsTo(models.vessel,
 				{
 					foreignKey: {
-						name: "cpives"
+						name: "repoves"
 					}, as : "vessels"
 				});
 				
@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
 			cpcust: DataTypes.STRING,
 
 			repodish: DataTypes.STRING,
-			repoidisdat: DataTypes.DATE,
+			repodisdat: DataTypes.DATE,
 			liftoncharge: DataTypes.INTEGER,
 			cpdepo: DataTypes.STRING,
 			

@@ -65,8 +65,8 @@ class OrderRepoController {
 					{
 						model: orderRepoContainer,
 						as : "orderRepoContainers",
-						attributes: ["pracrnoid","repoid","crno", "cccode", "ctcode","cclength","ccheight","cpife","cpishold","cpiremark","cpigatedate","cpiflag"],
-						order:[[{model: orderRepoContainer, as: "orderRepoContainers"}, "pracrnoid", "ASC"]]
+						attributes: ["repocrnoid","repoid","crno", "cccode", "ctcode","cclength","ccheight","repofe","reposhold","reporemark","repogatedate","repoflag"],
+						order:[[{model: orderRepoContainer, as: "orderRepoContainers"}, "repocrnoid", "ASC"]]
 					},
 
 				],
@@ -81,11 +81,27 @@ class OrderRepoController {
 	}
     
 	static async detailData(req, res, next) {
-		let { repoid } = req.query;
+		let { repoid } = req.body;
         
 		try {
 			let payload = await orderRepo.findOne(
-				{ where: { repoid : repoid }}
+				{ 
+					where: { repoid : repoid },
+					include: [
+						{
+							model: voyage,
+							as : "voyages",
+							attributes: ["voyid", "vesid", "voyno"]
+						},
+						{
+							model: orderRepoContainer,
+							as : "orderRepoContainers",
+							attributes: ["repocrnoid","repoid","crno", "cccode", "ctcode","cclength","ccheight","repofe","reposhold","reporemark","repogatedate","repoflag"],
+							order:[[{model: orderRepoContainer, as: "orderRepoContainers"}, "repocrnoid", "ASC"]]
+						},
+	
+					],
+				}
 			);
 			
 			if (!payload) {
@@ -246,8 +262,8 @@ class OrderRepoController {
 					{
 						model: orderRepoContainer,
 						as : "orderRepoContainers",
-						attributes: ["pracrnoid","repoid","crno", "cccode", "ctcode","cclength","ccheight","cpife","cpishold","cpiremark","cpigatedate","cpiflag"],
-						order:[[{model: orderRepoContainer, as: "orderRepoContainers"}, "pracrnoid", "ASC"]],
+						attributes: ["repocrnoid","repoid","crno", "cccode", "ctcode","cclength","ccheight","repofe","reposhold","reporemark","repogatedate","repoflag"],
+						order:[[{model: orderRepoContainer, as: "orderRepoContainers"}, "repocrnoid", "ASC"]],
 						where: {
 							crno: { [Op.like]: `%${containerCode}%`}
 						},
@@ -256,7 +272,7 @@ class OrderRepoController {
 				],
 				order:[[ "repoid", "DESC"]]
 			});
-			baseResponse({ message: "list order pra", data:  { datas, count } })(res, 200);
+			baseResponse({ message: "list order repo", data:  { datas, count } })(res, 200);
 			
 		} catch (error) {
 			res.status(403);
@@ -289,8 +305,8 @@ class OrderRepoController {
 					{
 						model: orderRepoContainer,
 						as : "orderRepoContainers",
-						attributes: ["pracrnoid","repoid","crno", "cccode", "ctcode","cclength","ccheight","cpife","cpishold","cpiremark","cpigatedate","cpiflag"],
-						order:[[{model: orderRepoContainer, as: "orderRepoContainers"}, "pracrnoid", "ASC"]]
+						attributes: ["repocrnoid","repoid","crno", "cccode", "ctcode","cclength","ccheight","repofe","reposhold","reporemark","repogatedate","repoflag"],
+						order:[[{model: orderRepoContainer, as: "orderRepoContainers"}, "repocrnoid", "ASC"]]
 					},
 
 				],
