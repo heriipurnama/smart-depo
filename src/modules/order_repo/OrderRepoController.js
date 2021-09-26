@@ -183,7 +183,7 @@ class OrderRepoController {
 		}
 	}
 
-	static async createPrainNumber(req, res, next) {
+	static async createOrderRepoNumber(req, res, next) {
 		try {
 
 			/**
@@ -195,7 +195,7 @@ class OrderRepoController {
 			let resultCompany = await company.findAll({});
 			let paktrasl = resultCompany[0].dataValues.paktrasl;
 			let sdcode = resultCompany[0].dataValues.sdcode;
-			let prefixCode = "PI";
+			let prefixCode = "RI";
 
 			// get data repo order
 			let resultOrderRepo = await orderRepo.findOne({ order:[[ "repoid", "DESC"]]});
