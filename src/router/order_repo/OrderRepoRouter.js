@@ -14,7 +14,7 @@ routers.route("/getDetailData").get(Authentication, OrderRepoController.detailDa
 routers.route("/updateData").put(Authentication, OrderRepoController.updateData);
 
 routers.route("/deleteData").delete(Authentication, OrderRepoController.deleteData);
-routers.route("/createPrainNo").get(Authentication, OrderRepoController.createPrainNumber);
+routers.route("/createOrderRepoNo").get(Authentication, OrderRepoController.createOrderRepoNumber);
 routers.route("/detailDataPraIn").post(Authentication, OrderRepoController.detailDataPraIn);
 routers.route("/searchContainerNumbers").get(Authentication, OrderRepoController.searchPrainByContainerNumber);
 
