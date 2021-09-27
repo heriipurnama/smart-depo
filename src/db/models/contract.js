@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 		 * This method is not a part of Sequelize lifecycle.
 		 * The `models/index` file will call this method automatically.
 		 */
-		static associate(models) {
+		static associate() {
 			// define association here
 			// contract.belongsTo(models.container_code,
 			// {
@@ -177,7 +177,6 @@ module.exports = (sequelize, DataTypes) => {
 				cowwcy40: this.cowwcy40,
 				cowwcy45: this.cowwcy45,
 				cowwmtycurr: this.cowwmtycurr,
-				dpcode: this.dpcode,
 				cowwmty20: this.cowwmty20,
 				cowwmty40: this.cowwmty40,
 				cowwmty45: this.cowwmty45,
@@ -190,8 +189,6 @@ module.exports = (sequelize, DataTypes) => {
 				coscmty40: this.coscmty40,
 				coscmty45: this.coscmty45,
 				combcycurr: this.combcycurr,
-				combcy20: this.combcy20,
-				combcy20: this.combcy20,
 				combcy20: this.combcy20,
 				combmtycurr: this.combmtycurr,
 				combmty20: this.combmty20,
