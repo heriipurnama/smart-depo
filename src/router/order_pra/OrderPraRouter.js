@@ -19,5 +19,6 @@ routers.route("/detailDataPraIn").post(Authentication, OrderPraController.detail
 routers.route("/searchContainerNumbers").get(Authentication, OrderPraController.searchPrainByContainerNumber);
 
 routers.route("/printOrderByPraOrderId").get(Authentication, OrderPraController.printOrderByPraOrderId);
+routers.route("/listAllDataByUserId").get(Authentication, OrderPraController.listAllDataByUserId);
 
 module.exports = routers;

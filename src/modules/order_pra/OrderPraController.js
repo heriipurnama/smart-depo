@@ -5,7 +5,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 const baseResponse = require("../../utils/helper/Response");
-const { orderPra, company, voyage, orderPraContainer, vessel } = require("../../db/models");
+const { orderPra, company, voyage, orderPraContainer, vessel, tblusers } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class OrderPraController {
@@ -23,7 +23,7 @@ class OrderPraController {
 
 		// eslint-disable-next-line no-undef
 		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
-		let usernameByToken = datas.username;
+		let idUsernameByToken = datas.id;
 
         
 		try {
@@ -47,9 +47,9 @@ class OrderPraController {
 				cpicargo: cpicargo,
 				cpideliver: cpideliver,
 
-				crtby: usernameByToken,
+				crtby: idUsernameByToken,
 				crton: new Date(),
-				mdfby: usernameByToken,
+				mdfby: idUsernameByToken,
 				mdfon: new Date()
 			});
             
@@ -95,6 +95,46 @@ class OrderPraController {
 			next(error);
 		}
 	}
+
+	static async listAllDataByUserId(req, res, next){
+		let { offset, limit, userId } = req.query;
+
+		try {
+
+			let offsets = parseInt(offset) || 0;
+			let limits = parseInt(limit) || 11;
+
+			let { count, rows: datas }  = await orderPra.findAndCountAll({
+				offset: offsets,
+				limit: limits,
+				include: [
+					{
+						model: voyage,
+						as : "voyages",
+						attributes: ["voyid", "vesid", "voyno"]
+					},
+					{
+						model: orderPraContainer,
+						as : "orderPraContainers",
+						attributes: ["pracrnoid","praid","crno", "cccode", "ctcode","cclength","ccheight","cpife","cpishold","cpiremark","cpigatedate","cpiflag"],
+						order:[[{model: orderPraContainer, as: "orderPraContainers"}, "pracrnoid", "ASC"]]
+					},
+					{
+						model: tblusers,
+						as: "users"
+					}
+
+				],
+				where: { crtby : userId },
+				order:[[ "praid", "DESC"]]
+			});
+			baseResponse({ message: "list order pra", data:  { datas, count } })(res, 200);
+			
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
     
 	static async detailData(req, res, next) {
 		let { praid } = req.query;
@@ -127,7 +167,7 @@ class OrderPraController {
 
 		// eslint-disable-next-line no-undef
 		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
-		let usernameByToken = datas.username;
+		let idUsernameByToken = datas.id;
 
         
 		try {
@@ -160,7 +200,7 @@ class OrderPraController {
 					cpicargo: cpicargo,
 					cpideliver: cpideliver,
 
-					mdfby: usernameByToken,
+					mdfby: idUsernameByToken,
 					mdfon: new Date()
 				},
 				{ where: { praid: praid } }
