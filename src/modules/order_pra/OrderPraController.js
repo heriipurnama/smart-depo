@@ -1,6 +1,8 @@
 "use strict";
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
 
 const baseResponse = require("../../utils/helper/Response");
 const { orderPra, company, voyage, orderPraContainer, vessel } = require("../../db/models");
@@ -14,6 +16,15 @@ class OrderPraController {
 			cpirefin, cpijam, cpivoyid, cpives,
 			cpicargo, cpideliver
 		} = req.body;
+
+		let bearerheader = req.headers["authorization"];
+		const splitBearer = bearerheader.split(" ");
+		const bearer = splitBearer[1];
+
+		// eslint-disable-next-line no-undef
+		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
+		let usernameByToken = datas.username;
+
         
 		try {
 
@@ -34,7 +45,12 @@ class OrderPraController {
 				cpives: cpives,
 
 				cpicargo: cpicargo,
-				cpideliver: cpideliver
+				cpideliver: cpideliver,
+
+				crtby: usernameByToken,
+				crton: new Date(),
+				mdfby: usernameByToken,
+				mdfon: new Date()
 			});
             
 			baseResponse({ message: "succes created order Pra", data: payload })(res, 200);
@@ -105,6 +121,14 @@ class OrderPraController {
 			cpicargo, cpideliver, praid
 		} = req.body;
 
+		let bearerheader = req.headers["authorization"];
+		const splitBearer = bearerheader.split(" ");
+		const bearer = splitBearer[1];
+
+		// eslint-disable-next-line no-undef
+		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
+		let usernameByToken = datas.username;
+
         
 		try {
  
@@ -134,7 +158,10 @@ class OrderPraController {
 					cpives: cpives,
 
 					cpicargo: cpicargo,
-					cpideliver: cpideliver
+					cpideliver: cpideliver,
+
+					mdfby: usernameByToken,
+					mdfon: new Date()
 				},
 				{ where: { praid: praid } }
 			);
@@ -171,9 +198,9 @@ class OrderPraController {
 		try {
 
 			/**
-		 * Format PRAIN CODE
-		 * prefix[PI/PO] + 'paktrasl' + 'sdcode' + 8digit_number
-		 */
+		 	* Format PRAIN CODE
+		 	* prefix[PI/PO] + 'paktrasl' + 'sdcode' + 8digit_number
+		 	*/
 
 			// get data company.
 			let resultCompany = await company.findAll({});

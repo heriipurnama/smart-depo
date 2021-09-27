@@ -118,7 +118,8 @@ module.exports = (sequelize, DataTypes) => {
 			cofreedmg: DataTypes.INTEGER,
 			coadmm: DataTypes.INTEGER,
 			coadmcurr: DataTypes.STRING,
-			coadmv: DataTypes.DECIMAL
+			coadmv: DataTypes.DECIMAL,
+			cotax: DataTypes.DECIMAL
 
 		},
 		{
