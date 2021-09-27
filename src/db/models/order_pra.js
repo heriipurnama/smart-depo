@@ -21,13 +21,20 @@ module.exports = (sequelize, DataTypes) => {
 						name: "praid"
 					}, as : "orderPraContainers"
 				});
+			order_pra.belongsTo(models.tblusers,
+				{	
+					foreignKey: {
+						name: "crtby"
+					},
+					as : "users"
+				});
 			order_pra.belongsTo(models.vessel,
 				{
 					foreignKey: {
 						name: "cpives"
 					}, as : "vessels"
 				});
-				
+			
 		}
 
 	}
@@ -58,9 +65,9 @@ module.exports = (sequelize, DataTypes) => {
 			cpideliver: DataTypes.STRING,
 			cpilunas: DataTypes.STRING,
 
-			crtby: DataTypes.STRING,
+			crtby: DataTypes.INTEGER,
 			crton: DataTypes.DATE,
-			mdfby: DataTypes.STRING,
+			mdfby: DataTypes.INTEGER,
 			mdfon: DataTypes.DATE
 		},
 		{
