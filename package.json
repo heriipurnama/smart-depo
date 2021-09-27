@@ -16,7 +16,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment-timezone": "^0.5.33",
     "morgan": "^1.10.0",
-    "multer": "^1.4.2",
+    "multer": "^1.4.3",
     "mysql2": "^2.2.5",
     "next-tick": "^1.1.0",
     "nodemailer": "^6.6.3",
@@ -27,7 +27,7 @@
   "devDependencies": {
     "eslint": "^7.20.0",
     "nodemon": "^2.0.7",
-    "sequelize-cli": "^6.2.0"
+    "sequelize-cli": "^6.2.0" 
   },
   "scripts": {
     "test": "npm start",
