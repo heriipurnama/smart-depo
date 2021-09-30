@@ -187,7 +187,7 @@ let checkDigit = (arg1) =>{
 
 	for (let i = 1; i < 11; i++) {
 		let X = arg1.substr(i-1, 1);
-		// console.log(`X=${X}`);
+
 		switch (X) {
 		case "A": Y = 10;break;
 		case "B": Y = 12;break;
@@ -228,7 +228,7 @@ let checkDigit = (arg1) =>{
 		default : Y=0;
 		}
 		jmd = jmd + Y * anilai[i];
-		// console.log(`jmd=${jmd} + ${Y} * ${ anilai[i]}`);
+
 	}
 	let hasil = jmd - Math.floor(jmd / 11) * 11;
 	if (hasil == 10) 
@@ -299,10 +299,5 @@ let checkDgthl = (arg1)=> {
 		hasil = 0;
 	return hasil;
 };
-
-// let funB = (param) =>{
-
-// 	console.log(`Hello from funB! ${param}`);
-// };
 
 module.exports = ContainerController;
