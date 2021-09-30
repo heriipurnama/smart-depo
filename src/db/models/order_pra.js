@@ -34,7 +34,14 @@ module.exports = (sequelize, DataTypes) => {
 						name: "cpives"
 					}, as : "vessels"
 				});
-			
+			order_pra.hasMany(models.orderPraFile,
+				{
+					foreignKey: {
+						name: "cpiorderno"
+					}, 
+					sourceKey : "cpiorderno",
+					as : "files"
+				});
 		}
 
 	}

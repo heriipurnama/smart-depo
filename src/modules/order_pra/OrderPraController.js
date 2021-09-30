@@ -5,7 +5,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 const baseResponse = require("../../utils/helper/Response");
-const { orderPra, company, voyage, orderPraContainer, vessel, tblusers } = require("../../db/models");
+const { orderPra, company, voyage, orderPraContainer, vessel, tblusers, orderPraFile } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class OrderPraController {
@@ -84,6 +84,14 @@ class OrderPraController {
 						attributes: ["pracrnoid","praid","crno", "cccode", "ctcode","cclength","ccheight","cpife","cpishold","cpiremark","cpigatedate","cpiflag"],
 						order:[[{model: orderPraContainer, as: "orderPraContainers"}, "pracrnoid", "ASC"]]
 					},
+					{
+						model: tblusers,
+						as: "users"
+					},
+					{
+						model: orderPraFile,
+						as : "files",
+					}
 
 				],
 				order:[[ "praid", "DESC"]]
@@ -122,6 +130,10 @@ class OrderPraController {
 					{
 						model: tblusers,
 						as: "users"
+					},
+					{
+						model: orderPraFile,
+						as : "files",
 					}
 
 				],
@@ -141,7 +153,30 @@ class OrderPraController {
         
 		try {
 			let payload = await orderPra.findOne(
-				{ where: { praid : praid }}
+				{ 
+					include: [
+						{
+							model: voyage,
+							as : "voyages",
+							attributes: ["voyid", "vesid", "voyno"]
+						},
+						{
+							model: orderPraContainer,
+							as : "orderPraContainers",
+							attributes: ["pracrnoid","praid","crno", "cccode", "ctcode","cclength","ccheight","cpife","cpishold","cpiremark","cpigatedate","cpiflag"],
+							order:[[{model: orderPraContainer, as: "orderPraContainers"}, "pracrnoid", "ASC"]]
+						},
+						{
+							model: tblusers,
+							as: "users"
+						},
+						{
+							model: orderPraFile,
+							as : "files",
+						}
+
+					],
+					where: { praid : praid }}
 			);
 			
 			if (!payload) {
@@ -280,7 +315,29 @@ class OrderPraController {
         
 		try {
 			let payload = await orderPra.findOne(
-				{ where: { cpiorderno : praInCode }}
+				{  include: [
+					{
+						model: voyage,
+						as : "voyages",
+						attributes: ["voyid", "vesid", "voyno"]
+					},
+					{
+						model: orderPraContainer,
+						as : "orderPraContainers",
+						attributes: ["pracrnoid","praid","crno", "cccode", "ctcode","cclength","ccheight","cpife","cpishold","cpiremark","cpigatedate","cpiflag"],
+						order:[[{model: orderPraContainer, as: "orderPraContainers"}, "pracrnoid", "ASC"]]
+					},
+					{
+						model: tblusers,
+						as: "users"
+					},
+					{
+						model: orderPraFile,
+						as : "files",
+					}
+
+				],
+				where: { cpiorderno : praInCode }}
 			);
 			
 			if (!payload) {
@@ -319,6 +376,14 @@ class OrderPraController {
 							crno: { [Op.like]: `%${containerCode}%`}
 						},
 					},
+					{
+						model: tblusers,
+						as: "users"
+					},
+					{
+						model: orderPraFile,
+						as : "files",
+					}
 
 				],
 				order:[[ "praid", "DESC"]]
@@ -359,6 +424,14 @@ class OrderPraController {
 						attributes: ["pracrnoid","praid","crno", "cccode", "ctcode","cclength","ccheight","cpife","cpishold","cpiremark","cpigatedate","cpiflag"],
 						order:[[{model: orderPraContainer, as: "orderPraContainers"}, "pracrnoid", "ASC"]]
 					},
+					{
+						model: tblusers,
+						as: "users"
+					},
+					{
+						model: orderPraFile,
+						as : "files",
+					}
 
 				],
 				where:{ praid : praid },
