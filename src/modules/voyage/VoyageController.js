@@ -40,27 +40,33 @@ class VoyageController {
 	}
 
 	static async update(req, res, next) {
-		let { id } = req.body;
+		const { voyid, vesid, voyno, voypoo,
+			voypod, voyeta, voyta, voyetberth,
+			voytberth, voyetd, voytd } = req.body;
+
 		let dataUpdate = {
-			voyno: req.body.voyno,
-			vesid: req.body.vesid,
-			voypoo: req.body.voypoo,
-			voypod: req.body.voypod,
-			voyeta: req.body.voyeta,
-			voyta: req.body.voyta,
-			voyetberth: req.body.voyetberth,
-			voytberth: req.body.voytberth,
-			voyetd: req.body.voyetd,
-			voytd: req.body.voytd
+			voyid: voyid,
+			vesid: vesid,
+			voyno: voyno,
+			voypoo: voypoo,
+
+			voypod: voypod,
+			voyeta: voyeta,
+			voyta: voyta,
+			voyetberth: voyetberth,
+			
+			voytberth: voytberth,
+			voyetd: voyetd,
+			voytd: voytd
 		};
 		let selector = { 
-			where: { voyid: id }
+			where: { voyid: voyid }
 		};
 
 		try {
 			let dataVoyage = await voyage.update(dataUpdate, selector);
 			if (!dataVoyage) {
-				throw new Error(`Voyage ${id} doesn't exists!`);
+				throw new Error(`Voyage ${voyid} doesn't exists!`);
 			}
 			baseResponse({
 				message: "Update Success",
@@ -75,7 +81,7 @@ class VoyageController {
 
 
 	static async listOne(req, res, next) {
-		let { id } = req.body;
+		let { id } = req.query;
 		
 		try {
 			let dataVoyage = await voyage.findOne({
