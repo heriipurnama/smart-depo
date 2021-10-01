@@ -27,6 +27,21 @@ module.exports = (sequelize, DataTypes) => {
 						name: "repoves"
 					}, as : "vessels"
 				});
+			order_repo.belongsTo(models.tblusers,
+				{	
+					foreignKey: {
+						name: "crtby"
+					},
+					as : "users"
+				});
+			order_repo.hasMany(models.orderRepoFile,
+				{
+					foreignKey: {
+						name: "repoorderno"
+					}, 
+					sourceKey : "repoorderno",
+					as : "files"
+				});
 				
 		}
 
@@ -57,6 +72,11 @@ module.exports = (sequelize, DataTypes) => {
 			repocargo: DataTypes.STRING,
 			repodeliver: DataTypes.STRING,
 			repolunas: DataTypes.STRING,
+
+			crtby: DataTypes.INTEGER,
+			crton: DataTypes.DATE,
+			mdfby: DataTypes.INTEGER,
+			mdfon: DataTypes.DATE
 		},
 		{
 			sequelize,

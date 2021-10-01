@@ -3,7 +3,7 @@
 const multer = require("multer");
 require("dotenv").config();
 
-const { orderPra, orderPraFile } = require("../../db/models");
+const { orderRepo, orderRepoFile } = require("../../db/models");
 
 /**
  * @Format file-name to save
@@ -17,17 +17,17 @@ const disk = multer.diskStorage({
 	},
     
 	filename: (req, file, cb) => {
-		const { cpiorderno } = req.body;
+		const { repoorderno } = req.body;
 
 		runInsertFile();
 		async function  runInsertFile() {
 			try {
-				let getNumberPraNIn =  await orderPra.findOne({ where: { cpiorderno: cpiorderno }});
+				let getNumberPraNIn =  await orderRepo.findOne({ where: { repoorderno: repoorderno }});
 
 				if (!file.length && getNumberPraNIn === null) {
 					let fileExtension = file.originalname.split(".")[1]; // get file extension from original file name
 					let fieldName = file.fieldname;
-					let unixOrderNumber = cpiorderno ;
+					let unixOrderNumber = repoorderno ;
 					let uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
 
 					let resultRenameFileAttachment = `${fieldName}-${unixOrderNumber}-${uniqueSuffix}.${fileExtension}`;
@@ -35,16 +35,15 @@ const disk = multer.diskStorage({
 					let restUrl = `${process.env.BASE_URL}/public/${resultRenameFileAttachment}`;
 
 					const payload = {
-						cpiorderno : cpiorderno,
+						repoorderno : repoorderno,
 						url : restUrl,
 						file_time_upload : Date.now()
 					};
-					console.log("dsd");
-					await orderPraFile.create(payload);
+
+					await orderRepoFile.create(payload);
 					cb(null, resultRenameFileAttachment);
 				}else{
 					let resp = "data available!";
-					console.log("data ada");
 					cb(null, resp);
 				}
                     

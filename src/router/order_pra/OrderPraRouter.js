@@ -22,7 +22,13 @@ routers
 		OrderPraController.createData);
 routers.route("/getAllData").get(Authentication, OrderPraController.listAllData);
 routers.route("/getDetailData").get(Authentication, OrderPraController.detailData);
-routers.route("/updateData").put(Authentication, OrderPraController.updateData);
+routers.route("/updateData").put(
+	Authentication,
+	multer({
+		storage: storageFiles,
+		limits: { fileSize: maxSize },
+	}).any("file"),
+	OrderPraController.updateData);
 
 routers.route("/deleteData").delete(Authentication, OrderPraController.deleteData);
 routers.route("/createPrainNo").get(Authentication, OrderPraController.createPrainNumber);
