@@ -203,7 +203,6 @@ class OrderPraController {
 		// eslint-disable-next-line no-undef
 		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
 		let idUsernameByToken = datas.id;
-
         
 		try {
  

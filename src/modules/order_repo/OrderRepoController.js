@@ -1,9 +1,11 @@
 "use strict";
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
 
 const baseResponse = require("../../utils/helper/Response");
-const { orderRepo, company, voyage, orderRepoContainer, vessel } = require("../../db/models");
+const { orderRepo, company, voyage, orderRepoContainer, vessel, tblusers, orderRepoFile } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class OrderRepoController {
@@ -14,6 +16,14 @@ class OrderRepoController {
 			reporefin, repojam, repovoyid, repoves,
 			repocargo, repodeliver
 		} = req.body;
+
+		let bearerheader = req.headers["authorization"];
+		const splitBearer = bearerheader.split(" ");
+		const bearer = splitBearer[1];
+
+		// eslint-disable-next-line no-undef
+		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
+		let idUsernameByToken = datas.id;
         
 		try {
 
@@ -34,7 +44,12 @@ class OrderRepoController {
 				repoves: repoves,
 
 				repocargo: repocargo,
-				repodeliver: repodeliver
+				repodeliver: repodeliver,
+
+				crtby: idUsernameByToken,
+				crton: new Date(),
+				mdfby: idUsernameByToken,
+				mdfon: new Date()
 			});
             
 			baseResponse({ message: "Success Created Order Repo", data: payload })(res, 200);
@@ -68,6 +83,14 @@ class OrderRepoController {
 						attributes: ["repocrnoid","repoid","crno", "cccode", "ctcode","cclength","ccheight","repofe","reposhold","reporemark","repogatedate","repoflag"],
 						order:[[{model: orderRepoContainer, as: "orderRepoContainers"}, "repocrnoid", "ASC"]]
 					},
+					{
+						model: tblusers,
+						as: "users"
+					},
+					{
+						model: orderRepoFile,
+						as : "files",
+					}
 
 				],
 				order:[[ "repoid", "DESC"]]
@@ -99,6 +122,14 @@ class OrderRepoController {
 							attributes: ["repocrnoid","repoid","crno", "cccode", "ctcode","cclength","ccheight","repofe","reposhold","reporemark","repogatedate","repoflag"],
 							order:[[{model: orderRepoContainer, as: "orderRepoContainers"}, "repocrnoid", "ASC"]]
 						},
+						{
+							model: tblusers,
+							as: "users"
+						},
+						{
+							model: orderRepoFile,
+							as : "files",
+						}
 	
 					],
 				}
@@ -121,7 +152,14 @@ class OrderRepoController {
 			repocargo, repodeliver, repoid
 		} = req.body;
 
-        
+		let bearerheader = req.headers["authorization"];
+		const splitBearer = bearerheader.split(" ");
+		const bearer = splitBearer[1];
+
+		// eslint-disable-next-line no-undef
+		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
+		let idUsernameByToken = datas.id;
+
 		try {
  
 			let dataUsername = await orderRepo.findOne({
@@ -150,7 +188,10 @@ class OrderRepoController {
 					repoves: repoves,
 
 					repocargo: repocargo,
-					repodeliver: repodeliver
+					repodeliver: repodeliver,
+					
+					mdfby: idUsernameByToken,
+					mdfon: new Date()
 				},
 				{ where: { repoid: repoid } }
 			);
@@ -229,7 +270,29 @@ class OrderRepoController {
         
 		try {
 			let payload = await orderRepo.findOne(
-				{ where: { repoorderno : praInCode }}
+				{ 		include: [
+					{
+						model: voyage,
+						as : "voyages",
+						attributes: ["voyid", "vesid", "voyno"]
+					},
+					{
+						model: orderRepoContainer,
+						as : "orderRepoContainers",
+						attributes: ["repocrnoid","repoid","crno", "cccode", "ctcode","cclength","ccheight","repofe","reposhold","reporemark","repogatedate","repoflag"],
+						order:[[{model: orderRepoContainer, as: "orderRepoContainers"}, "repocrnoid", "ASC"]]
+					},
+					{
+						model: tblusers,
+						as: "users"
+					},
+					{
+						model: orderRepoFile,
+						as : "files",
+					}
+
+				],
+				where: { repoorderno : praInCode }}
 			);
 			
 			if (!payload) {
@@ -268,6 +331,14 @@ class OrderRepoController {
 							crno: { [Op.like]: `%${containerCode}%`}
 						},
 					},
+					{
+						model: tblusers,
+						as: "users"
+					},
+					{
+						model: orderRepoFile,
+						as : "files",
+					}
 
 				],
 				order:[[ "repoid", "DESC"]]
@@ -308,6 +379,14 @@ class OrderRepoController {
 						attributes: ["repocrnoid","repoid","crno", "cccode", "ctcode","cclength","ccheight","repofe","reposhold","reporemark","repogatedate","repoflag"],
 						order:[[{model: orderRepoContainer, as: "orderRepoContainers"}, "repocrnoid", "ASC"]]
 					},
+					{
+						model: tblusers,
+						as: "users"
+					},
+					{
+						model: orderRepoFile,
+						as : "files",
+					}
 
 				],
 				where:{ repoid : repoid },
