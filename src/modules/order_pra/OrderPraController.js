@@ -14,7 +14,7 @@ class OrderPraController {
 		let { cpiorderno, cpopr, cpcust, cpidish, 
 			cpidisdat, liftoffcharge, cpdepo, cpipratgl, 
 			cpirefin, cpijam, cpivoyid, cpives,
-			cpicargo, cpideliver
+			cpicargo, cpideliver, appv, checkbill, totalcharge
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -46,6 +46,9 @@ class OrderPraController {
 
 				cpicargo: cpicargo,
 				cpideliver: cpideliver,
+				appv: appv,
+				checkbill: checkbill,
+				totalcharge: totalcharge,
 
 				crtby: idUsernameByToken,
 				crton: new Date(),
@@ -193,7 +196,7 @@ class OrderPraController {
 		let { cpiorderno, cpopr, cpcust, cpidish, 
 			cpidisdat, liftoffcharge, cpdepo, cpipratgl, 
 			cpirefin, cpijam, cpivoyid, cpives,
-			cpicargo, cpideliver, praid
+			cpicargo, cpideliver, praid, appv, checkbill, totalcharge
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -233,6 +236,9 @@ class OrderPraController {
 
 					cpicargo: cpicargo,
 					cpideliver: cpideliver,
+					appv: appv,
+					checkbill: checkbill,
+					totalcharge: totalcharge,
 
 					mdfby: idUsernameByToken,
 					mdfon: new Date()
