@@ -72,7 +72,11 @@ module.exports = (sequelize, DataTypes) => {
 			cpideliver: DataTypes.STRING,
 			cpilunas: DataTypes.STRING,
 
+			appv: DataTypes.INTEGER,
+			checkbill: DataTypes.INTEGER,
+			totalcharge: DataTypes.DECIMAL,
 			crtby: DataTypes.INTEGER,
+
 			crton: DataTypes.DATE,
 			mdfby: DataTypes.INTEGER,
 			mdfon: DataTypes.DATE
