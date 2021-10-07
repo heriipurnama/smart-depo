@@ -39,7 +39,7 @@ const disk = multer.diskStorage({
 						url : restUrl,
 						file_time_upload : Date.now()
 					};
-					console.log("dsd");
+					console.log("update masih bug!");
 					await orderPraFile.create(payload);
 					cb(null, resultRenameFileAttachment);
 				}else{
