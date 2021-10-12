@@ -53,6 +53,8 @@ const survey =require("./survey/SurveyRouter");
 const estimation =require("./estimation/EstimationRouter");
 const approval =require("./approval/ApprovalRouter");
 
+const workOrder =require("./work_order/WorkOrderRouter");
+
 
 
 // base router
@@ -105,6 +107,8 @@ routers.use("/gateOut", gateOut);
 routers.use("/survey", survey);
 routers.use("/estimation", estimation);
 routers.use("/approval", approval);
+
+routers.use("/workorder", workOrder);
 
 
 module.exports = routers;
