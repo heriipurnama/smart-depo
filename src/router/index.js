@@ -50,6 +50,7 @@ const orderRepoContainer =require("./order_repo_container/OrderRepoContainerRout
 
 const gateOut =require("./gateout/GateOutRouter");
 const survey =require("./survey/SurveyRouter");
+const estimation =require("./estimation/EstimationRouter");
 
 
 
@@ -101,6 +102,7 @@ routers.use("/orderRepoContainer", orderRepoContainer);
 
 routers.use("/gateOut", gateOut);
 routers.use("/survey", survey);
+routers.use("/estimation", estimation);
 
 
 module.exports = routers;
