@@ -48,6 +48,10 @@ const notification =require("./notification/NotificationRouter");
 const orderRepo =require("./order_repo/OrderRepoRouter");
 const orderRepoContainer =require("./order_repo_container/OrderRepoContainerRouter");
 
+const gateOut =require("./gateout/GateOutRouter");
+const survey =require("./survey/SurveyRouter");
+
+
 
 // base router
 routers.use("/users", user);
@@ -94,5 +98,9 @@ routers.use("/orderPraRecepts", orderPraRecept);
 routers.use("/notifications", notification);
 routers.use("/orderRepo", orderRepo);
 routers.use("/orderRepoContainer", orderRepoContainer);
+
+routers.use("/gateOut", gateOut);
+routers.use("/survey", survey);
+
 
 module.exports = routers;

@@ -9,10 +9,12 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			// container.hasOne(models.container_type,
-			// {
-			// 	foreignKey: 'ctcode',
-			// });
+			container.belongsTo(models.container_process,
+			{
+				foreignKey: {
+					name: "crcpid"
+				}, as : "container_process"
+			});
 			container.belongsTo(models.container_code,
 				{
 					foreignKey: "cccode",
