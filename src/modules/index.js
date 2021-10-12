@@ -48,7 +48,9 @@ module.exports = {
 
 	gateOut: require("./gateout/GateOutController"),
 	survey: require("./survey/SurveyController"),
-	estimation: require("./estimation/EstimationController")
+	estimation: require("./estimation/EstimationController"),
+	approval: require("./approval/ApprovalController")
+
 	
 
 };
