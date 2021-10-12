@@ -49,7 +49,10 @@ module.exports = {
 	gateOut: require("./gateout/GateOutController"),
 	survey: require("./survey/SurveyController"),
 	estimation: require("./estimation/EstimationController"),
-	approval: require("./approval/ApprovalController")
+	approval: require("./approval/ApprovalController"),
+
+	workOrder: require("./work_order/WorkOrderController")
+
 
 	
 
