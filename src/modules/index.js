@@ -47,7 +47,8 @@ module.exports = {
 	orderRepoContainer: require("./order_repo_container/OrderRepoContainerController"),
 
 	gateOut: require("./gateout/GateOutController"),
-	survey: require("./survey/SurveyController")
+	survey: require("./survey/SurveyController"),
+	estimation: require("./estimation/EstimationController")
 	
 
 };
