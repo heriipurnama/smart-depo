@@ -56,6 +56,7 @@ const approval =require("./approval/ApprovalRouter");
 const workOrder =require("./work_order/WorkOrderRouter");
 const eorcost =require("./eor_cost/EorCostRouter");
 const repoin =require("./repoin/RepoInRouter");
+const repoout =require("./repoout/RepoOutRouter");
 
 
 
@@ -113,6 +114,7 @@ routers.use("/approval", approval);
 routers.use("/workorder", workOrder);
 routers.use("/eorcost", eorcost);
 routers.use("/repoin", repoin);
+routers.use("/repoout", repoout);
 
 
 module.exports = routers;

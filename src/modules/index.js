@@ -53,7 +53,8 @@ module.exports = {
 
 	workOrder: require("./work_order/WorkOrderController"),
 	eorcost: require("./eor_cost/EorCostController"),
-	repoin: require("./repoin/RepoInController")
+	repoin: require("./repoin/RepoInController"),
+	repoout: require("./repoout/RepoOutController")
 
 
 	
