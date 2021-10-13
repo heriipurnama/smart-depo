@@ -52,7 +52,8 @@ module.exports = {
 	approval: require("./approval/ApprovalController"),
 
 	workOrder: require("./work_order/WorkOrderController"),
-	eorcost: require("./eor_cost/EorCostController")
+	eorcost: require("./eor_cost/EorCostController"),
+	repoin: require("./repoin/RepoInController")
 
 
 	
