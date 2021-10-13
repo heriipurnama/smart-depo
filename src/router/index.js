@@ -54,6 +54,7 @@ const estimation =require("./estimation/EstimationRouter");
 const approval =require("./approval/ApprovalRouter");
 
 const workOrder =require("./work_order/WorkOrderRouter");
+const eorcost =require("./eor_cost/EorCostRouter");
 
 
 
@@ -109,6 +110,7 @@ routers.use("/estimation", estimation);
 routers.use("/approval", approval);
 
 routers.use("/workorder", workOrder);
+routers.use("/eorcost", eorcost);
 
 
 module.exports = routers;
