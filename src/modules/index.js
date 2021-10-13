@@ -51,7 +51,8 @@ module.exports = {
 	estimation: require("./estimation/EstimationController"),
 	approval: require("./approval/ApprovalController"),
 
-	workOrder: require("./work_order/WorkOrderController")
+	workOrder: require("./work_order/WorkOrderController"),
+	eorcost: require("./eor_cost/EorCostController")
 
 
 	
