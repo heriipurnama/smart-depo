@@ -69,6 +69,8 @@ const inventorySum =require("./inventory_sum/InventorySumRouter");
 const inventory =require("./inventory/InventoryRouter");
 const inventoryNotAvailable =require("./inventory_not_available/InventoryNotAvailableRouter");
 
+const inventoryMsc =require("./inventory_msc/InventoryMscRouter");
+
 
 
 
@@ -139,6 +141,7 @@ routers.use("/rpt_inventory_sum", inventorySum);
 routers.use("/rpt_inventory", inventory);
 
 routers.use("/rpt_inventory_not_available", inventoryNotAvailable);
+routers.use("/rpt_inventory_msc", inventoryMsc);
 
 
 
