@@ -60,6 +60,7 @@ const repoout =require("./repoout/RepoOutRouter");
 
 const sumconttype =require("./sum_cont_type/SumContTypeRouter");
 const stockcontout =require("./stock_cont_out/StockContOutRouter");
+const stockcontinventory =require("./stock_cont_inventory/StockContInventoryRouter");
 
 
 
@@ -122,6 +123,7 @@ routers.use("/repoout", repoout);
 
 routers.use("/rpt_container_type", sumconttype);
 routers.use("/rpt_stock_container_out", stockcontout);
+routers.use("/rpt_stock_container_inventory", stockcontinventory);
 
 
 
