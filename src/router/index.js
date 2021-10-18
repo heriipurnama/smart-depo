@@ -76,6 +76,7 @@ const damageStatStockContainer =require("./damage_stat_stock_container/DamageSta
 
 const damageProgress =require("./damage_progress/DamageProgressRouter");
 const dailyRepairActivity =require("./daily_repair_activity/DailyRepairActivityRouter");
+const dailyMovementOutSum =require("./daily_movement_out_sum/DailyMovementOutSumRouter");
 
 
 
@@ -154,6 +155,7 @@ routers.use("/rpt_depo_info_monthly", depoInfoMonthly);
 routers.use("/rpt_damage_stat_stock_container", damageStatStockContainer);
 routers.use("/rpt_damage_progress", damageProgress);
 routers.use("/rpt_daily_repair_activity", dailyRepairActivity);
+routers.use("/rpt_daily_movement_out_sum", dailyMovementOutSum);
 
 
 
