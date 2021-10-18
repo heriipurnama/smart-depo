@@ -62,7 +62,8 @@ module.exports = {
 	stockcontin: require("./stock_cont_in/StockContInController"),
 
 	rekapStockContInv: require("./rekap_stock_cont_inv/RekapStockContInvController"),
-	losContainer: require("./los_container/LosContainerController")
+	losContainer: require("./los_container/LosContainerController"),
+	inventorySum: require("./inventory_sum/InventorySumController")
 
 
 	
