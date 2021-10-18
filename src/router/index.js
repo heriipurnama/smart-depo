@@ -70,6 +70,7 @@ const inventory =require("./inventory/InventoryRouter");
 const inventoryNotAvailable =require("./inventory_not_available/InventoryNotAvailableRouter");
 
 const inventoryMsc =require("./inventory_msc/InventoryMscRouter");
+const depoInfoDaily =require("./depo_info_daily/DepoInfoDailyRouter");
 
 
 
@@ -142,6 +143,7 @@ routers.use("/rpt_inventory", inventory);
 
 routers.use("/rpt_inventory_not_available", inventoryNotAvailable);
 routers.use("/rpt_inventory_msc", inventoryMsc);
+routers.use("/rpt_depo_info_daily", depoInfoDaily);
 
 
 
