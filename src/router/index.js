@@ -63,6 +63,8 @@ const stockcontout =require("./stock_cont_out/StockContOutRouter");
 const stockcontinventory =require("./stock_cont_inventory/StockContInventoryRouter");
 const stockcontin =require("./stock_cont_in/StockContInRouter");
 
+const rekapStockContInv =require("./rekap_stock_cont_inv/RekapStockContInvRouter");
+
 
 
 
@@ -126,6 +128,8 @@ routers.use("/rpt_container_type", sumconttype);
 routers.use("/rpt_stock_container_out", stockcontout);
 routers.use("/rpt_stock_container_inventory", stockcontinventory);
 routers.use("/rpt_stock_container_in", stockcontin);
+
+routers.use("/rpt_rekap_stock_container_inv", rekapStockContInv);
 
 
 
