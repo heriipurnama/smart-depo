@@ -72,7 +72,8 @@ module.exports = {
 	depoInfoMonthly: require("./depo_info_monthly/DepoInfoMonthlyController"),
 
 	damageStatStockContainer: require("./damage_stat_stock_container/DamageStatStockContainerController"),
-	damageProgress: require("./damage_prog/DamageProgressController")
+	damageProgress: require("./damage_prog/DamageProgressController"),
+	dailyRepairActivity: require("./daily_repair_activity/DailyRepairActivityController")
 
 
 	
