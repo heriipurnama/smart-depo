@@ -72,6 +72,7 @@ const inventoryNotAvailable =require("./inventory_not_available/InventoryNotAvai
 const inventoryMsc =require("./inventory_msc/InventoryMscRouter");
 const depoInfoDaily =require("./depo_info_daily/DepoInfoDailyRouter");
 const depoInfoMonthly =require("./depo_info_monthly/DepoInfoMonthlyRouter");
+const damageStatStockContainer =require("./damage_stat_stock_container/DamageStatStockContainerRouter");
 
 
 
@@ -146,6 +147,9 @@ routers.use("/rpt_inventory_not_available", inventoryNotAvailable);
 routers.use("/rpt_inventory_msc", inventoryMsc);
 routers.use("/rpt_depo_info_daily", depoInfoDaily);
 routers.use("/rpt_depo_info_monthly", depoInfoMonthly);
+
+routers.use("/rpt_damage_stat_stock_container", damageStatStockContainer);
+
 
 
 
