@@ -66,6 +66,7 @@ const stockcontin =require("./stock_cont_in/StockContInRouter");
 const rekapStockContInv =require("./rekap_stock_cont_inv/RekapStockContInvRouter");
 const losContainer =require("./los_container/LosContainerRouter");
 const inventorySum =require("./inventory_sum/InventorySumRouter");
+const inventory =require("./inventory/InventoryRouter");
 
 
 
@@ -134,6 +135,7 @@ routers.use("/rpt_stock_container_in", stockcontin);
 routers.use("/rpt_rekap_stock_container_inv", rekapStockContInv);
 routers.use("/rpt_los_container", losContainer);
 routers.use("/rpt_inventory_sum", inventorySum);
+routers.use("/rpt_inventory", inventory);
 
 
 
