@@ -57,7 +57,8 @@ module.exports = {
 	repoout: require("./repoout/RepoOutController"),
 
 	sumconttype: require("./sum_cont_type/SumContTypeController"),
-	stockcontout: require("./stock_cont_out/StockContOutController")
+	stockcontout: require("./stock_cont_out/StockContOutController"),
+	stockcontinventory: require("./stock_cont_inventory/StockContInventoryController")
 
 
 	
