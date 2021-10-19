@@ -58,6 +58,9 @@ const eorcost =require("./eor_cost/EorCostRouter");
 const repoin =require("./repoin/RepoInRouter");
 const repoout =require("./repoout/RepoOutRouter");
 
+const sumconttype =require("./sum_cont_type/SumContTypeRouter");
+
+
 
 
 // base router
@@ -115,6 +118,9 @@ routers.use("/workorder", workOrder);
 routers.use("/eorcost", eorcost);
 routers.use("/repoin", repoin);
 routers.use("/repoout", repoout);
+
+routers.use("/rpt_container_type", sumconttype);
+
 
 
 module.exports = routers;
