@@ -64,7 +64,9 @@ module.exports = {
 	rekapStockContInv: require("./rekap_stock_cont_inv/RekapStockContInvController"),
 	losContainer: require("./los_container/LosContainerController"),
 	inventorySum: require("./inventory_sum/InventorySumController"),
-	inventory: require("./inventory/InventoryController")
+	inventory: require("./inventory/InventoryController"),
+
+	inventoryNotAvailable: require("./inventory_not_available/InventoryNotAvailableController")
 
 
 	
