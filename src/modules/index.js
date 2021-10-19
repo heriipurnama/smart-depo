@@ -74,7 +74,9 @@ module.exports = {
 	damageStatStockContainer: require("./damage_stat_stock_container/DamageStatStockContainerController"),
 	damageProgress: require("./damage_prog/DamageProgressController"),
 	dailyRepairActivity: require("./daily_repair_activity/DailyRepairActivityController"),
-	dailyMovementOutSum: require("./daily_movement_out_sum/DailyMovementOutSumController")
+	dailyMovementOutSum: require("./daily_movement_out_sum/DailyMovementOutSumController"),
+
+	dailyMovementOutMsc: require("./daily_movement_out_msc/DailyMovementOutMscController")
 
 
 	
