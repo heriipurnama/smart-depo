@@ -68,7 +68,8 @@ module.exports = {
 
 	inventoryNotAvailable: require("./inventory_not_available/InventoryNotAvailableController"),
 	inventoryMsc: require("./inventory_msc/InventoryMscController"),
-	depoInfoDaily: require("./depo_info_daily/DepoInfoDailyController")
+	depoInfoDaily: require("./depo_info_daily/DepoInfoDailyController"),
+	depoInfoMonthly: require("./depo_info_monthly/DepoInfoMonthlyController")
 
 
 	
