@@ -8,7 +8,9 @@ const Logger = require("../../utils/helper/logger");
 class InventoryNotAvailableController {
 
 	static async list(req, res, next) {
-        let {prcode, start, rows} = req.body;
+		let {prcode, limit, offset} = req.body;
+		let $limit = (limit=="")? `` : ` limit ${limit}`;
+        let $offset = (offset=="")? `` : ` offset ${offset}`;
 
 		try {
             let datas = await container_process.sequelize.query(`select 
@@ -39,7 +41,8 @@ class InventoryNotAvailableController {
 			and case when (con.crlastact='WA' or con.crlastact='WR') then
 					concat(cp.crno, rpver) in (select concat(rpcrno, max(rpver)) from container_repair group by rpcrno)
 				else 1 end
-		order by con.crlastact`, 
+				order by con.crlastact, cp.crno,size_20, size_40, size_hc, in_depo_date, approval_date, est_of_repair, remarks 
+				${$limit} ${$offset}`, 
             {
                 type: container_process.SELECT
             }
