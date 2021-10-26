@@ -8,11 +8,13 @@ const Logger = require("../../utils/helper/logger");
 class StockContInventoryController {
 
 	static async list(req, res, next) {
-        let {prcode, clength, ctcode, condition, start, rows} = req.body;
+        let {prcode, clength, ctcode, condition, limit, offset} = req.body;
         let $prcode = (prcode=="")? `` : ` cp.cpopr='`+prcode+`' and`;
         let $clength = (clength=="")? `` : ` cc.cclength='`+clength+`' and`;
         let $ctcode = (ctcode=="")? `` : ` cc.ctcode='`+ctcode+`' and`;
         let $condition = (condition=="")? `` : ` con.crlastcond='`+condition+`' and`;
+        let $limit = (limit=="")? `` : ` limit ${limit}`;
+        let $offset = (offset=="")? `` : ` offset ${offset}`;
         
 
 		try {
@@ -33,7 +35,7 @@ class StockContInventoryController {
                 ${$ctcode}
                 ${$condition} 
                 (cp.cpotgl is null or cp.cpotgl='0000-00-00')
-            group by cpopr, cpdepo, conditions`, 
+            group by cpopr, cpdepo, con.crlastact, cc.cclength, cc.ccheight ${$limit} ${$offset}`, 
                 {
                     type: container_process.SELECT
                 }
