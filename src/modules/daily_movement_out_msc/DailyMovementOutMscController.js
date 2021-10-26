@@ -9,9 +9,11 @@ class DailyMovementOutMscController {
 
 	static async list(req, res, next) {
         //Date == YYYY-MM-DD
-        let {date, prcode, hour_from, hour_to, start, rows} = req.body;
+        let {date, prcode, hour_from, hour_to, limit, offset} = req.body;
         let jamFrom = (hour_from=="")? `` : ` and cp.cpojam >='`+hour_from+`'`;
         let jamTo = (hour_to=="")? `` : ` and cp.cpojam >='`+hour_to+`'`;
+        let $limit = (limit=="")? `` : ` limit ${limit}`;
+        let $offset = (offset=="")? `` : ` offset ${offset}`;
 
 		try {
             let datas = await container_process.sequelize.query(`select  cp.crno as prefix, mid(cp.crno,5,6) as serial_no, right(cp.crno,1) as cd, cc.cclength as size, cc.ctcode as cd_type, 
@@ -24,12 +26,12 @@ class DailyMovementOutMscController {
                 left join container_survey sur on sur.cpid = cp.cpid
                 left join tblcontainer con on con.crno = cp.crno
                 left join tblcontainer_code cc on cc.cccode = con.cccode
-            where cp.spdepo= 
-                and cp.cpopr1='${prcode}' 
+            where cp.cpopr1='${prcode}' 
                 and cp.cpotgl='${date}' 
                 ${jamFrom}
                 ${jamTo }
-                and(cp.cpistatus<>'ON' or  cp.cpistatus is null)`, 
+                and(cp.cpistatus<>'ON' or  cp.cpistatus is null)
+                ${$limit} ${$offset}`, 
             {
                 type: container_process.SELECT
             }
