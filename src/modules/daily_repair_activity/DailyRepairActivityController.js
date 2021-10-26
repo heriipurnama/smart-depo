@@ -9,24 +9,29 @@ class DailyRepairActivityController {
 
 	static async list(req, res, next) {
         //Date == YYYY-MM-DD
-        let {date, prcode, start, rows} = req.body;
+        let {date, prcode, limit, offset} = req.body;
         let opr = (prcode=="")? '' : `cp.cpopr='`+prcode+`' and `;
+        let $limit = (limit=="")? `` : ` limit ${limit}`;
+        let $offset = (offset=="")? `` : ` offset ${offset}`;
 
 		try {
             let datas = await container_process.sequelize.query(`select  
-                cp.cpdepo, cp.cpopr, cp.sdcode, sd.sdname as sdname, t.dpname as dpname,
-                cp.cpcust as cust, cp.cpopr as opr, cp.crno as container,
-                case when cc.cclength=20 then 1 else 0 end as size_20,
-                case when cc.cclength=40 then 1 else 0 end as size_40,
-                cc.ctcode as ctype, date_format(rep.rptglappvpr, '%d-%m-%y') as appv, date_format(rep.rpmridat, '%d-%m-%y') as in_w_s,
-                date_format(rep.rpdrepair, '%d-%m-%y') as dw_start, date_format(rep.rptglwroke, '%d-%m-%y') as dw_finish,
-                date_format(rep.rpmrodat, '%d-%m-%y') as out_w_s, 
-                sum(rep_det.rdmhra) as mhr, sum(rep_det.rdlaba) as labour, 
-                case when rep.rptotalrmhr <= 10 then rep.rptotalrmhr else 0 end as tod_mm, 
-                case when rep.rptotalrmhr > 10 and rep.rptotalrmhr <= 25 then rep.rptotalrmhr else 0 end as tod_md,
-                case when rep.rptotalrmhr > 25 then rep.rptotalrmhr else 0 end as tod_mj,
-                '-' as revenue,
-                '-' as remarks
+            cp.cpdepo, cp.cpopr, t.dpcode, t.dpname as dpname,
+            cp.cpcust as cust, cp.cpopr as opr, cp.crno as container,
+            case when cc.cclength=20 then 1 else 0 end as size_20,
+            case when cc.cclength=40 then 1 else 0 end as size_40,
+            cc.ctcode as ctype, 
+            date_format(rep.rptglappvpr, '%d-%m-%y') as appv, 
+            date_format(rep.rpmridat, '%d-%m-%y') as in_w_s,
+            date_format(rep.rpdrepair, '%d-%m-%y') as dw_start, 
+            date_format(rep.rptglwroke, '%d-%m-%y') as dw_finish,
+            date_format(rep.rpmrodat, '%d-%m-%y') as out_w_s, 
+            sum(rep_det.rdmhra) as mhr, sum(rep_det.rdlaba) as labour, 
+            case when rep.rptotalrmhr <= 10 then rep.rptotalrmhr else 0 end as tod_mm, 
+            case when rep.rptotalrmhr > 10 and rep.rptotalrmhr <= 25 then rep.rptotalrmhr else 0 end as tod_md,
+            case when rep.rptotalrmhr > 25 then rep.rptotalrmhr else 0 end as tod_mj,
+            '-' as revenue,
+            '-' as remarks
             from container_process cp
                 left join tblvoyage voy on voy.voyid = cp.cpivoyid
                 left join container_survey sur on sur.cpid = cp.cpid
@@ -34,7 +39,6 @@ class DailyRepairActivityController {
                 left join container_repair_detail rep_det on rep_det.svid = rep.svid
                 left join tblcontainer con on con.crno = cp.crno
                 left join tblcontainer_code cc on cc.cccode = con.cccode
-                left join tblsubdepo sd on sd.sdcode=cp.spdepo
                 left join tbldepo t on t.dpcode=cp.cpdepo
             where  ${opr}
                 (	(date_format(rep.rpmrodat, '%y-%m-%d')='${date}' and
@@ -47,8 +51,9 @@ class DailyRepairActivityController {
                     )
                 and (rep.rpfictive is null or rep.rpfictive='')
             group by
-                cust, cp.cpopr, cp.crno, cc.cclength, cc.ctcode, rep.rptglappv, rep.rpmridat,
-                rep.rpdrepair, rep.rptglwroke, rep.rpmrodat, rep.rptotalrmhr`, 
+                cust, cp.cpdepo, cp.cpopr, cp.crno, cc.cclength, cc.ctcode, appv, rep.rpmridat,
+                rep.rpdrepair, rep.rptglwroke, rep.rpmrodat, rep.rptotalrmhr,t.dpcode, t.dpname
+            ${$limit} ${$offset}`, 
             {
                 type: container_process.SELECT
             }
