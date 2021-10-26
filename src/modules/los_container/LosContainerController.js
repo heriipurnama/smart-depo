@@ -8,12 +8,14 @@ const Logger = require("../../utils/helper/logger");
 class LosContainerController {
 
 	static async list(req, res, next) {
-        let {prcode, clength, ctcode, condition, los, start, rows} = req.body;
+        let {prcode, clength, ctcode, condition, los, limit, offset} = req.body;
         let $prcode = (prcode=="")? `` : ` cp.cpopr='`+prcode+`' and`;
         let $los = (los=="")? `` : `(datediff(now(), cp.cpitgl) + 1 ) >=`+los+` and `;
         let $clength = (clength=="")? `` : ((clength=="hc")? `(cc.ccheight > '9' or cc.cclength='45' ) and ` : `(cc.cclength='`+clength+`' and cc.ccheight < '9' ) and `);
         let $ctcode = (ctcode=="")? `` : ` cc.ctcode='`+ctcode+`' and`;
         let $condition = (condition=="")? `` : ` left(con.crlastcond,1) =left('`+condition+`',1) and`;
+        let $limit = (limit=="")? `` : ` limit ${limit}`;
+        let $offset = (offset=="")? `` : ` offset ${offset}`;
 
 		try {
             let datas = await container_process.sequelize.query(`select 
@@ -41,7 +43,7 @@ class LosContainerController {
                     cp.cpotgl is null
                     and cp.crno is not null
                     and con.crlastact<>'BI'
-                order by cpopr`, 
+                order by cpopr ${$limit} ${$offset}`, 
                 {
                     type: container_process.SELECT
                 }
