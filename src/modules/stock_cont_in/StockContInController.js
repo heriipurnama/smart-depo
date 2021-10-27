@@ -9,7 +9,9 @@ class StockContInController {
 
 	static async list(req, res, next) {
         //Date == YYYY-MM-DD
-        let {prcode, date, hour_from, hour_to, start, rows} = req.body;
+        let {prcode, date, hour_from, hour_to, offset, offset} = req.body;
+        let lmt = (limit == ""?``:` limit ${limit}`);
+        let ofs = (offset == ""?``:` offset ${offset}`);
         let jamFrom =``, jamTo =``;
         if (hour_from){
             jamFrom=`and cp.cpojam>='`+hour_from+`'`;
@@ -38,7 +40,7 @@ class StockContInController {
                 ${jamTo} 
                 and cp.cpistatus<>'OF'
                 and sur.svtype='IN'
-            group by con.crlastact`, 
+            group by con.crlastact cc.cclength, cc.ccheight ${lmt} ${ofs}`, 
                 {
                     type: container_process.SELECT
                 }
