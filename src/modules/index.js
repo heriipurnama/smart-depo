@@ -33,7 +33,7 @@ module.exports = {
 
 	repairMethod: require("./repair_method/RepairMethodController"),
 	logActivity: require("./log_activity/LogActivityController"),
-	company: require("./company/CompanyController"), 
+	company: require("./company/CompanyController"),
 	contract: require("./contract/ContractController"),
 
 	damageTariffDetail: require("./damage_tariff_detail/DamageTariffDetailController"),
@@ -76,9 +76,6 @@ module.exports = {
 	dailyRepairActivity: require("./daily_repair_activity/DailyRepairActivityController"),
 	dailyMovementOutSum: require("./daily_movement_out_sum/DailyMovementOutSumController"),
 
-	dailyMovementOutMsc: require("./daily_movement_out_msc/DailyMovementOutMscController")
-
-
-	
-
+	dailyMovementOutMsc: require("./daily_movement_out_msc/DailyMovementOutMscController"),
+	orderContainerRepoController: require("./order_container_repo/OrderContainerRepoController"),
 };

@@ -14,18 +14,18 @@ module.exports = (sequelize, DataTypes) => {
 
 	order_pra_file.init(
 		{
-			id:{
+			id: {
 				type: DataTypes.STRING,
 				primaryKey: true,
 				allowNull: false,
-				autoIncrement: true
+				autoIncrement: true,
 			},
 			cpiorderno: {
-				type: DataTypes.STRING
+				type: DataTypes.STRING,
 			},
 			url: DataTypes.STRING,
-			file_time_upload: DataTypes.DATE
-
+			file_time_upload: DataTypes.DATE,
+			flag: DataTypes.INTEGER,
 		},
 		{
 			sequelize,
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
 			freezeTableName: true,
 			tableName: "order_pra_file",
 			createdAt: false,
-			updatedAt: false
+			updatedAt: false,
 		}
 	);
 
