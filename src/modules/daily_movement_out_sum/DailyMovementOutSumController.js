@@ -9,10 +9,12 @@ class DailyMovementOutSumController {
 
 	static async list(req, res, next) {
         //Date == YYYY-MM-DD
-        let {date, date2, prcode, hour_from, hour_to, start, rows} = req.body;
+        let {date, date2, prcode, hour_from, hour_to, limit, offset} = req.body;
         let $prcode = (prcode=="")? `` : ` and cp.cpopr1='`+prcode+`' and`;
         let $hourFrom = (hour_from=="")? `` : ` and cp.cpojam>='`+hour_from+`' and`;
         let $hourTo = (hour_to=="")? `` : ` and cp.cpojam<='`+hour_to+`' and`;
+        let $limit = (limit=="")? `` : ` limit ${limit}`;
+        let $offset = (offset=="")? `` : ` offset ${offset}`;
         if (date){ 
             $date=` and year(cp.cpotgl) = right('`+date+`',4) and date_format(cp.cpotgl,'%d/%m/%y') >= '`+date+`' `;
         }else {
@@ -48,7 +50,8 @@ class DailyMovementOutSumController {
                 ${$hourTo}
                 ${$date}
                 ${$date2}
-                group by cp.cpopr1, cc.cclength, cc.ccheight`, 
+            group by cc.ctcode, cp.cpopr1, cc.cclength, cc.ccheight, dep.dpname, con.crlastcond
+            ${$limit} ${$offset}`, 
             {
                 type: container_process.SELECT
             }
