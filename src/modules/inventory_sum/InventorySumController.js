@@ -8,15 +8,17 @@ const Logger = require("../../utils/helper/logger");
 class InventorySumController {
 
 	static async list(req, res, next) {
-        let {prcode, clength, ctcode, condition, sdcode, start, rows} = req.body;
+        let {prcode, clength, ctcode, condition, sdcode, limit, offset} = req.body;
         let $sdcode = (sdcode=="")? `` : ` cp.cpdepo='`+sdcode+`' and`;
         let $prcode = (prcode=="")? `` : ` cp.cpopr='`+prcode+`' and`;
         let $clength = (clength=="")? `` : ((clength=="hc")? `(cc.ccheight > '9' or cc.cclength='45' ) and ` : `(cc.cclength='`+clength+`' and cc.ccheight < '9' ) and `);
         let $ctcode = (ctcode=="")? `` : ` cc.ctcode='`+ctcode+`' and`;
         let $condition = (condition=="")? `` : ` left(con.crlastcond,1) =left('`+condition+`',1) and`;
+        let $limit = (limit=="")? `` : ` limit ${limit}`;
+        let $offset = (offset=="")? `` : ` offset ${offset}`;
 
 		try {
-            let datas = await container_process.sequelize.query(`select sdname as cpdepo,  dpname, cpopr, 
+            let datas = await container_process.sequelize.query(`select cpdepo,dpname, cpopr,  
                 cc.ctcode as ctype, cc.cclength as clength, cc.ccheight as cheight, 
                 sum(case when cc.cclength=20 then 1 else 1 end) as box,
                 sum(case when cc.cclength=20 then 1 else 2 end) as box_teus,
@@ -29,7 +31,6 @@ class InventorySumController {
             from container_process cp
                 inner join tblcontainer con on con.crcpid = cp.cpid
                 left join tblcontainer_code cc on cc.cccode = con.cccode 
-                left join tblsubdepo sd on sd.sdcode=cp.spdepo
                 left join tbldepo d on d.dpcode=cp.cpdepo
             where  
                 ${$sdcode}  
@@ -40,7 +41,8 @@ class InventorySumController {
                 (cp.cpotgl is null or cp.cpotgl='0000-00-00')
                 and con.crlastact<>'OD' and con.crlastact<>'BI'
                 and cp.crno is not null
-            group by cpopr, sdname, ctype, clength, cheight`, 
+            group by cpopr, dpname, ctype, clength, cheight, cpdepo
+            ${$limit} ${$offset}`, 
             {
                 type: container_process.SELECT
             }
