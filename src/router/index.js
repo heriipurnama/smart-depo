@@ -44,43 +44,42 @@ const orderPra = require("./order_pra/OrderPraRouter");
 const orderPraContainer = require("./order_pra_container/OrderPraContainerRouter");
 
 const orderPraRecept = require("./order_pra_recept/OrderPraReceptRouter");
-const notification =require("./notification/NotificationRouter");
-const orderRepo =require("./order_repo/OrderRepoRouter");
-const orderRepoContainer =require("./order_repo_container/OrderRepoContainerRouter");
+const notification = require("./notification/NotificationRouter");
+const orderRepo = require("./order_repo/OrderRepoRouter");
+const orderRepoContainer = require("./order_repo_container/OrderRepoContainerRouter");
 
-const gateOut =require("./gateout/GateOutRouter");
-const survey =require("./survey/SurveyRouter");
-const estimation =require("./estimation/EstimationRouter");
-const approval =require("./approval/ApprovalRouter");
+const gateOut = require("./gateout/GateOutRouter");
+const survey = require("./survey/SurveyRouter");
+const estimation = require("./estimation/EstimationRouter");
+const approval = require("./approval/ApprovalRouter");
 
-const workOrder =require("./work_order/WorkOrderRouter");
-const eorcost =require("./eor_cost/EorCostRouter");
-const repoin =require("./repoin/RepoInRouter");
-const repoout =require("./repoout/RepoOutRouter");
+const workOrder = require("./work_order/WorkOrderRouter");
+const eorcost = require("./eor_cost/EorCostRouter");
+const repoin = require("./repoin/RepoInRouter");
+const repoout = require("./repoout/RepoOutRouter");
 
-const sumconttype =require("./sum_cont_type/SumContTypeRouter");
-const stockcontout =require("./stock_cont_out/StockContOutRouter");
-const stockcontinventory =require("./stock_cont_inventory/StockContInventoryRouter");
-const stockcontin =require("./stock_cont_in/StockContInRouter");
+const sumconttype = require("./sum_cont_type/SumContTypeRouter");
+const stockcontout = require("./stock_cont_out/StockContOutRouter");
+const stockcontinventory = require("./stock_cont_inventory/StockContInventoryRouter");
+const stockcontin = require("./stock_cont_in/StockContInRouter");
 
-const rekapStockContInv =require("./rekap_stock_cont_inv/RekapStockContInvRouter");
-const losContainer =require("./los_container/LosContainerRouter");
-const inventorySum =require("./inventory_sum/InventorySumRouter");
-const inventory =require("./inventory/InventoryRouter");
-const inventoryNotAvailable =require("./inventory_not_available/InventoryNotAvailableRouter");
+const rekapStockContInv = require("./rekap_stock_cont_inv/RekapStockContInvRouter");
+const losContainer = require("./los_container/LosContainerRouter");
+const inventorySum = require("./inventory_sum/InventorySumRouter");
+const inventory = require("./inventory/InventoryRouter");
+const inventoryNotAvailable = require("./inventory_not_available/InventoryNotAvailableRouter");
 
-const inventoryMsc =require("./inventory_msc/InventoryMscRouter");
-const depoInfoDaily =require("./depo_info_daily/DepoInfoDailyRouter");
-const depoInfoMonthly =require("./depo_info_monthly/DepoInfoMonthlyRouter");
-const damageStatStockContainer =require("./damage_stat_stock_container/DamageStatStockContainerRouter");
+const inventoryMsc = require("./inventory_msc/InventoryMscRouter");
+const depoInfoDaily = require("./depo_info_daily/DepoInfoDailyRouter");
+const depoInfoMonthly = require("./depo_info_monthly/DepoInfoMonthlyRouter");
+const damageStatStockContainer = require("./damage_stat_stock_container/DamageStatStockContainerRouter");
 
-const damageProgress =require("./damage_progress/DamageProgressRouter");
-const dailyRepairActivity =require("./daily_repair_activity/DailyRepairActivityRouter");
-const dailyMovementOutSum =require("./daily_movement_out_sum/DailyMovementOutSumRouter");
-const dailyMovementOutMsc =require("./daily_movement_out_msc/DailyMovementOutMscRouter");
+const damageProgress = require("./damage_progress/DamageProgressRouter");
+const dailyRepairActivity = require("./daily_repair_activity/DailyRepairActivityRouter");
+const dailyMovementOutSum = require("./daily_movement_out_sum/DailyMovementOutSumRouter");
+const dailyMovementOutMsc = require("./daily_movement_out_msc/DailyMovementOutMscRouter");
 
-
-
+const orderContainerRepo = require("./order_container_repo/OrderContainerRepoRouter");
 
 // base router
 routers.use("/users", user);
@@ -159,7 +158,6 @@ routers.use("/rpt_daily_repair_activity", dailyRepairActivity);
 routers.use("/rpt_daily_movement_out_sum", dailyMovementOutSum);
 
 routers.use("/rpt_daily_movement_out_msc", dailyMovementOutMsc);
-
-
+routers.use("/orderContainerRepos", orderContainerRepo);
 
 module.exports = routers;
