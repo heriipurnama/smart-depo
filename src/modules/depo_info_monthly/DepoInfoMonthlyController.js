@@ -8,7 +8,9 @@ const Logger = require("../../utils/helper/logger");
 class DepoInfoMonthlyController {
 
 	static async list(req, res, next) {
-        let {start, rows} = req.body;
+        let {limit, offset} = req.body;
+        let $limit = (limit=="")? `` : ` limit ${limit}`;
+        let $offset = (offset=="")? `` : ` offset ${offset}`;
 
 		try {
             let datas = await container_process.sequelize.query(`select 
@@ -17,7 +19,8 @@ class DepoInfoMonthlyController {
             count(cp.crno) as total
             from container_process cp
             where year(cp.cpitgl)=year(now())
-            group by cp.cpopr, month(cp.cpitgl)`, 
+            group by cp.cpopr, month(cp.cpitgl)
+            ${$limit} ${$offset}`, 
             {
                 type: container_process.SELECT
             }
