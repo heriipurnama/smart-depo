@@ -2,7 +2,6 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { container_process } = require("../../db/models");
-const Logger = require("../../utils/helper/logger");
 
 class StockContInController {
 	static async list(req, res, next) {
