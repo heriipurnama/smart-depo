@@ -77,5 +77,6 @@ module.exports = {
 	dailyMovementOutSum: require("./daily_movement_out_sum/DailyMovementOutSumController"),
 
 	dailyMovementOutMsc: require("./daily_movement_out_msc/DailyMovementOutMscController"),
-	orderContainerRepoController: require("./order_container_repo/OrderContainerRepoController"),
+	orderContainerRepo: require("./order_container_repo/OrderContainerRepoController"),
+	praIn: require("./pra_in/PraInController"),
 };

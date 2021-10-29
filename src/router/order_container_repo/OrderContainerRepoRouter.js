@@ -4,7 +4,7 @@ const express = require("express");
 const routers = express.Router();
 
 const {
-	orderContainerRepoController: OrderContainerRepoController,
+	orderContainerRepo: OrderContainerRepoController,
 } = require("../../modules");
 const Authentication = require("../../utils/middleware/Auth");
 

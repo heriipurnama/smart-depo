@@ -4,18 +4,17 @@ const baseResponse = require("../../utils/helper/Response");
 const { container_process } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
-
 class DailyRepairActivityController {
-
 	static async list(req, res, next) {
-        //Date == YYYY-MM-DD
-        let {date, prcode, limit, offset} = req.body;
-        let opr = (prcode=="")? '' : `cp.cpopr='`+prcode+`' and `;
-        let $limit = (limit=="")? `` : ` limit ${limit}`;
-        let $offset = (offset=="")? `` : ` offset ${offset}`;
+		//Date == YYYY-MM-DD
+		let { date, prcode, limit, offset } = req.body;
+		let opr = prcode == "" ? "" : "cp.cpopr='" + prcode + "' and ";
+		let $limit = limit == "" ? "" : ` limit ${limit}`;
+		let $offset = offset == "" ? "" : ` offset ${offset}`;
 
 		try {
-            let datas = await container_process.sequelize.query(`select  
+			let datas = await container_process.sequelize.query(
+				`select  
             cp.cpdepo, cp.cpopr, t.dpcode, t.dpname as dpname,
             cp.cpcust as cust, cp.cpopr as opr, cp.crno as container,
             case when cc.cclength=20 then 1 else 0 end as size_20,
@@ -53,13 +52,17 @@ class DailyRepairActivityController {
             group by
                 cust, cp.cpdepo, cp.cpopr, cp.crno, cc.cclength, cc.ctcode, appv, rep.rpmridat,
                 rep.rpdrepair, rep.rptglwroke, rep.rpmrodat, rep.rptotalrmhr,t.dpcode, t.dpname
-            ${$limit} ${$offset}`, 
-            {
-                type: container_process.SELECT
-            }
-            );
-            
-            baseResponse({ message: "List Daily Repair Activity", data: { datas } })(res, 200);
+            ${$limit} ${$offset}`,
+				{
+					type: container_process.SELECT,
+				}
+			);
+
+			baseResponse({ message: "List Daily Repair Activity", data: { datas } })(
+				res,
+				200
+			);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);

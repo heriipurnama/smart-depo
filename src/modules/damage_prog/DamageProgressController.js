@@ -2,26 +2,28 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { container_process } = require("../../db/models");
-const Logger = require("../../utils/helper/logger");
-
 
 class DamageProgressController {
-
 	static async list(req, res, next) {
-        //Date == YYYY-MM-DD
-        let {day, start, rows} = req.body;
-        let $where;
-        let $days = (day=="")? '' : `dp.cpitgl >= date_sub(curdate(),interval `+day+` day) `;
-        if ($days) {
-            $where = `where and ${$days}`;
-        }else if ( $days == ''){	
-            $where = " where ";
-        }else if ($days >'' && $days){	
-            $where = ` where ${$days}`;
-        }
+		//Date == YYYY-MM-DD
+		let { day } = req.body;
+		let $where;
+		let $days =
+			day == ""
+				? ""
+				: "dp.cpitgl >= date_sub(curdate(),interval " + day + " day) ";
+		if ($days) {
+			$where = `where and ${$days}`;
+		} else if ($days == "") {
+			$where = " where ";
+			// eslint-disable-next-line no-dupe-else-if
+		} else if ($days > "" && $days) {
+			$where = ` where ${$days}`;
+		}
 
 		try {
-            let datas = await container_process.sequelize.query(`select opr,
+			let datas = await container_process.sequelize.query(
+				`select opr,
                 sum(ws_20) as ws_20,
                 sum(ws_40) as ws_40,
                 sum(ws_hc) as ws_hc,
@@ -71,13 +73,16 @@ class DamageProgressController {
                 sum(ti_r40) as ti_r40
             from rpt_damage_progress dp	
             ${$where}
-            group by opr`, 
-                {
-                    type: container_process.SELECT
-                }
-                );
-                
-                baseResponse({ message: "List Damage Progress", data: { datas } })(res, 200);
+            group by opr`,
+				{
+					type: container_process.SELECT,
+				}
+			);
+
+			baseResponse({ message: "List Damage Progress", data: { datas } })(
+				res,
+				200
+			);
 		} catch (error) {
 			res.status(403);
 			next(error);

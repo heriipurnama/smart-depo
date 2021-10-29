@@ -2,15 +2,13 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { container_process } = require("../../db/models");
-const Logger = require("../../utils/helper/logger");
-
 
 class RepoOutController {
-
 	static async list(req, res, next) {
-		let {start, rows} = req.body;
+		let { start, rows } = req.body;
 		try {
-        let datas = await container_process.sequelize.query(`SELECT container_process.CPID,tblcontainer.CRNO,
+			let datas = await container_process.sequelize.query(
+				`SELECT container_process.CPID,tblcontainer.CRNO,
         case 
         when container_process.cpiprano is null then container_process.cpiorderno 
         else container_process.cpiprano 
@@ -26,13 +24,13 @@ class RepoOutController {
         LEFT JOIN tblvessel ON tblvessel.VESID = container_process.CPIVES
         LEFT JOIN tblvoyage ON tblvoyage.VESID = tblvessel.VESID
         WHERE retype like 'RO%'
-        `, 
-        {
-            type: container_process.SELECT
-        }
-        );
-        
-        baseResponse({ message: "List Repo Out", data: { datas } })(res, 200);
+        `,
+				{
+					type: container_process.SELECT,
+				}
+			);
+
+			baseResponse({ message: "List Repo Out", data: { datas } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
