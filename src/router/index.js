@@ -81,6 +81,7 @@ const dailyMovementOutMsc = require("./daily_movement_out_msc/DailyMovementOutMs
 
 const orderContainerRepo = require("./order_container_repo/OrderContainerRepoRouter");
 const praIn = require("./pra_in/PraInRouter");
+const containerProcess = require("./container_process/ContainerProcessRouter");
 
 // base router
 routers.use("/users", user);
@@ -161,5 +162,6 @@ routers.use("/rpt_daily_movement_out_sum", dailyMovementOutSum);
 routers.use("/rpt_daily_movement_out_msc", dailyMovementOutMsc);
 routers.use("/orderContainerRepos", orderContainerRepo);
 routers.use("/praIns", praIn);
+routers.use("/containerProcess", containerProcess);
 
 module.exports = routers;

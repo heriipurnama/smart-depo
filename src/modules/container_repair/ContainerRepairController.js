@@ -1,8 +1,7 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { container_repair,container_type } = require("../../db/models");
-const Logger = require("../../utils/helper/logger");
+const { container_repair, container_type } = require("../../db/models");
 
 class ContainerRepairController {
 	// static async createNew(req, res, next) {
@@ -17,7 +16,7 @@ class ContainerRepairController {
 	// 		// 	created_by: idUser,
 	// 		// });
 
-	// 		const [payload, created] = await container_repair.findOrCreate({ 
+	// 		const [payload, created] = await container_repair.findOrCreate({
 	// 			where: {
 	// 				cccode: ccCode
 	// 			},
@@ -52,7 +51,7 @@ class ContainerRepairController {
 	// 		ccalias1: ccAlias1,
 	// 		ccalias2: ccAlias2
 	// 	};
-	// 	let selector = { 
+	// 	let selector = {
 	// 		where: { cccode: ccCode }
 	// 	};
 	// 	try {
@@ -73,12 +72,11 @@ class ContainerRepairController {
 	// 	}
 	// }
 
-
 	// static async listOne(req, res, next) {
 	// 	let { ccCode } = req.body;
-		
+
 	// 	try {
-	// 		let dataContainer = await container_repair.findOne({ 
+	// 		let dataContainer = await container_repair.findOne({
 	// 			attributes: {
 	// 				exclude: ["createdAt", "updatedAt"]
 	// 			},
@@ -101,18 +99,23 @@ class ContainerRepairController {
 	// }
 
 	static async list(req, res, next) {
-		let {start, rows} = req.body;
+		let { start, rows } = req.body;
 
 		try {
 			let { count, rows: datas } = await container_repair.findAndCountAll({
 				offset: start,
 				limit: rows,
-				include:[{
-					model:container_type,
-					required: false, // do not generate INNER JOIN
-				}]
+				include: [
+					{
+						model: container_type,
+						required: false, // do not generate INNER JOIN
+					},
+				],
 			});
-			baseResponse({ message: "list container codes", data: { datas,  count } })(res, 200);
+			baseResponse({ message: "list container codes", data: { datas, count } })(
+				res,
+				200
+			);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -120,7 +123,7 @@ class ContainerRepairController {
 	}
 
 	// static async delete(req, res, next) {
-	// 	let {ccCode} = req.body; 
+	// 	let {ccCode} = req.body;
 	// 	try {
 	// 		let payload = await container_repair.destroy({
 	// 			where:{cccode: ccCode}
@@ -132,7 +135,6 @@ class ContainerRepairController {
 	// 		next(error);
 	// 	}
 	// }
-
 
 	// static async cek(req, res, next) {
 	// 	try {
