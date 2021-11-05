@@ -80,4 +80,6 @@ module.exports = {
 	orderContainerRepo: require("./order_container_repo/OrderContainerRepoController"),
 	praIn: require("./pra_in/PraInController"),
 	containerProcess: require("./container_process/ContainerProcessController"),
+
+	dataListReport: require("./data_list_reports/dataListReportController"),
 };
