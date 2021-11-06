@@ -32,6 +32,9 @@ module.exports = (sequelize, DataTypes) => {
 			cpiremark: DataTypes.STRING,
 			cpigatedate: DataTypes.DATE,
 			cpiflag: DataTypes.INTEGER,
+
+			cpopr: DataTypes.STRING,
+			cpcust: DataTypes.STRING,
 		},
 		{
 			sequelize,
