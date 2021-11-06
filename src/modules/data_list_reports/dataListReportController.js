@@ -333,17 +333,17 @@ class dataListReportController {
 				`SELECT container_process.CPID,tblcontainer.CRNO,
                 CASE WHEN container_process.CPIPRANO IS NULL THEN container_process.CPIORDERNO ELSE container_process.CPIPRANO END AS CPIPRANO,
           tblvoyage.VOYNO,container_process.CPIPRATGL,container_process.CPOPR,tblvoyage.VESID,
-                container_process.CPIVOY,container_process.CPITERM,container_repo.REBILL,container_repo.RETYPE,
+                container_process.CPIVOY,container_process.CPITERM,order_container_repo.REBILL,order_container_repo.RETYPE,
                 tblrepo_tariffdetail.RTID
          FROM container_process
-     INNER JOIN container_repo ON container_process.CPIORDERNO = container_repo.REORDERNO
+     INNER JOIN order_container_repo ON container_process.CPIORDERNO = order_container_repo.REORDERNO
      LEFT JOIN tblcontainer ON tblcontainer.CRNO = container_process.CRNO
      LEFT JOIN tblprincipal ON tblprincipal.PRCODE = container_process.CPOPR
      LEFT JOIN tblrepo_tariff ON tblrepo_tariff.RTNO = tblprincipal.PRREPONO
            LEFT JOIN tblrepo_tariffdetail ON tblrepo_tariff.PRCODE = tblrepo_tariffdetail.PRCODE
      LEFT JOIN tblvessel ON tblvessel.VESID = container_process.CPIVES
        LEFT JOIN tblvoyage ON tblvoyage.VESID = tblvessel.VESID
-     WHERE $type like 'RI%' LIMIT ${limits} OFFSET ${offsets}`,
+     WHERE container_process.CPIORDERNO like 'RI%' LIMIT ${limits} OFFSET ${offsets}`,
 				{
 					type: container_process.SELECT,
 				}
@@ -351,14 +351,14 @@ class dataListReportController {
 			let TotalDatas = await container_process.sequelize.query(
 				`SELECT count(*) As Total
 				FROM container_process
-				INNER JOIN container_repo ON container_process.CPIORDERNO = container_repo.REORDERNO
+				INNER JOIN order_container_repo ON container_process.CPIORDERNO = order_container_repo.REORDERNO
 				LEFT JOIN tblcontainer ON tblcontainer.CRNO = container_process.CRNO
 				LEFT JOIN tblprincipal ON tblprincipal.PRCODE = container_process.CPOPR
 				LEFT JOIN tblrepo_tariff ON tblrepo_tariff.RTNO = tblprincipal.PRREPONO
 					  LEFT JOIN tblrepo_tariffdetail ON tblrepo_tariff.PRCODE = tblrepo_tariffdetail.PRCODE
 				LEFT JOIN tblvessel ON tblvessel.VESID = container_process.CPIVES
 				  LEFT JOIN tblvoyage ON tblvoyage.VESID = tblvessel.VESID
-				WHERE $type like 'RI%'`,
+				WHERE container_process.CPIORDERNO like 'RI%'`,
 				{
 					type: container_process.SELECT,
 				}
@@ -385,16 +385,16 @@ class dataListReportController {
 				`SELECT container_process.CPID,tblcontainer.CRNO,
                 CASE WHEN container_process.CPIPRANO IS NULL THEN container_process.CPIORDERNO ELSE container_process.CPIPRANO END AS CPIPRANO,
           tblvoyage.VOYNO,container_process.CPIPRATGL,container_process.CPOPR,tblvoyage.VESID,
-                container_process.CPIVOY,container_process.CPITERM,container_repo.REBILL,container_repo.RETYPE,tblrepo_tariffdetail.RTID
+                container_process.CPIVOY,container_process.CPITERM,order_container_repo.REBILL,order_container_repo.RETYPE,tblrepo_tariffdetail.RTID
          FROM container_process
-     INNER JOIN container_repo ON container_process.CPIORDERNO = container_repo.REORDERNO
+     INNER JOIN order_container_repo ON container_process.CPIORDERNO = order_container_repo.REORDERNO
      LEFT JOIN tblcontainer ON tblcontainer.CRNO = container_process.CRNO
      LEFT JOIN tblprincipal ON tblprincipal.PRCODE = container_process.CPOPR
      LEFT JOIN tblrepo_tariff ON tblrepo_tariff.RTNO = tblprincipal.PRREPONO
            LEFT JOIN tblrepo_tariffdetail ON tblrepo_tariff.PRCODE = tblrepo_tariffdetail.PRCODE
      LEFT JOIN tblvessel ON tblvessel.VESID = container_process.CPIVES
        LEFT JOIN tblvoyage ON tblvoyage.VESID = tblvessel.VESID
-     WHERE $type like 'RO%' LIMIT ${limits} OFFSET ${offsets} `,
+     WHERE container_process.CPOORDERNO like 'RO%'  LIMIT ${limits} OFFSET ${offsets} `,
 				{
 					type: container_process.SELECT,
 				}
@@ -402,14 +402,14 @@ class dataListReportController {
 			let TotalDatas = await container_process.sequelize.query(
 				`SELECT count(*) As Total
 				FROM container_process
-				INNER JOIN container_repo ON container_process.CPIORDERNO = container_repo.REORDERNO
-				LEFT JOIN tblcontainer ON tblcontainer.CRNO = container_process.CRNO
-				LEFT JOIN tblprincipal ON tblprincipal.PRCODE = container_process.CPOPR
-				LEFT JOIN tblrepo_tariff ON tblrepo_tariff.RTNO = tblprincipal.PRREPONO
-					  LEFT JOIN tblrepo_tariffdetail ON tblrepo_tariff.PRCODE = tblrepo_tariffdetail.PRCODE
-				LEFT JOIN tblvessel ON tblvessel.VESID = container_process.CPIVES
-				  LEFT JOIN tblvoyage ON tblvoyage.VESID = tblvessel.VESID
-				WHERE $type like 'RO%'`,
+     INNER JOIN order_container_repo ON container_process.CPIORDERNO = order_container_repo.REORDERNO
+     LEFT JOIN tblcontainer ON tblcontainer.CRNO = container_process.CRNO
+     LEFT JOIN tblprincipal ON tblprincipal.PRCODE = container_process.CPOPR
+     LEFT JOIN tblrepo_tariff ON tblrepo_tariff.RTNO = tblprincipal.PRREPONO
+           LEFT JOIN tblrepo_tariffdetail ON tblrepo_tariff.PRCODE = tblrepo_tariffdetail.PRCODE
+     LEFT JOIN tblvessel ON tblvessel.VESID = container_process.CPIVES
+       LEFT JOIN tblvoyage ON tblvoyage.VESID = tblvessel.VESID
+     WHERE container_process.CPOORDERNO like 'RO%' `,
 				{
 					type: container_process.SELECT,
 				}
