@@ -84,6 +84,11 @@ const praIn = require("./pra_in/PraInRouter");
 const containerProcess = require("./container_process/ContainerProcessRouter");
 const dataListReport = require("./data_list_reports/dataListReportRouter");
 
+const inventoryContainerIn = require("./inventory_container_in/InventoryContainerInRouter");
+const inventoryContainerOut = require("./inventory_container_out/InventoryContainerOutRouter");
+const inventoryStockContainer = require("./inventory_stock_container/InventoryStockContainerRouter");
+const dailyMovementInMsc = require("./daily_movement_in_msc/DailyMovementInMscRouter");
+
 // base router
 routers.use("/users", user);
 routers.use("/messages", messages);
@@ -166,5 +171,13 @@ routers.use("/praIns", praIn);
 routers.use("/containerProcess", containerProcess);
 
 routers.use("/dataListReports", dataListReport);
+routers.use("/rpt_condition_in_container_inventory", inventoryContainerIn);
+routers.use("/rpt_condition_out_container_inventory", inventoryContainerOut);
+routers.use(
+	"/rpt_condition_stock_container_inventory",
+	inventoryStockContainer
+);
+
+routers.use("/rpt_daily_movement_in_msc", dailyMovementInMsc);
 
 module.exports = routers;

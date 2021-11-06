@@ -82,4 +82,9 @@ module.exports = {
 	containerProcess: require("./container_process/ContainerProcessController"),
 
 	dataListReport: require("./data_list_reports/dataListReportController"),
+	inventoryContainerIn: require("./inventory_container_in/InventoryContainerInController"),
+	inventoryContainerOut: require("./inventory_container_out/InventoryContainerOutController"),
+	inventoryStockContainer: require("./inventory_stock_container/InventoryStockContainerController"),
+
+	dailyMovementInMsc: require("./daily_movement_in_msc/DailyMovementInMscController"),
 };
