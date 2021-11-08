@@ -2,7 +2,6 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { container_survey } = require("../../db/models");
-const Logger = require("../../utils/helper/logger");
 
 class SurveyController {
 	static async list(req, res, next) {
