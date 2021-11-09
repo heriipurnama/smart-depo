@@ -584,6 +584,8 @@ class OrderPraController {
 							"cpiremark",
 							"cpigatedate",
 							"cpiflag",
+							"cpopr",
+							"cpcust",
 						],
 						order: [
 							[
