@@ -17,7 +17,7 @@ const disk = multer.diskStorage({
 
 	filename: (req, file, cb) => {
 		const { praid, flag } = req.body;
-		console.log("prareceptid", praid);
+
 		runInsertFile();
 		async function runInsertFile() {
 			try {

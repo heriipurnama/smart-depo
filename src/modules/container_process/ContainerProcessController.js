@@ -144,7 +144,6 @@ class ContainerProcessController {
 		} = req.body;
 
 		try {
-			console.log("req.body", req.body);
 			let payload = await container_process.update(
 				{
 					cpdepo: cpdepo,

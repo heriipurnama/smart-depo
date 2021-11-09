@@ -115,7 +115,6 @@ class PraInController {
 					data: payload,
 					message: "Succes Update Data Container",
 				};
-				console.log("payload", payload);
 			}
 
 			baseResponse({
