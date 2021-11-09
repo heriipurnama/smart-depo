@@ -395,7 +395,7 @@ class OrderContainerRepoController {
 				where: { reorderno: { [Op.like]: `${prefixCode}%` } },
 				order: [["reorderno", "DESC"]],
 			});
-			console.log("resultOrderRepo", resultOrderRepo);
+
 			if (resultOrderRepo === null) {
 				const resultCode = `${prefixCode}${paktrasl}${sdcode}00000001`;
 				baseResponse({
