@@ -10,7 +10,7 @@ class SchemaValidator {
 	// email 	        STRING 	required, pattern email, and unique
 	// password 	    STRING 	required
 
-	static user = () => {
+	static user() {
 		return [
 			check("fullName").isString().isLength({ max: 30, min: 1 }),
 			check("username")
@@ -29,18 +29,20 @@ class SchemaValidator {
 				.isEmail()
 				.isLength({ min: 1 })
 				.custom((email) => {
-					return tblusers.findOne({ where: { email: email } }).then((tblusers) => {
-						if (tblusers) {
-							return Promise.reject("Email already exists!");
-						}
-					});
+					return tblusers
+						.findOne({ where: { email: email } })
+						.then((tblusers) => {
+							if (tblusers) {
+								return Promise.reject("Email already exists!");
+							}
+						});
 				}),
-			check("password").isString().isLength({ min: 1 })
+			check("password").isString().isLength({ min: 1 }),
 		];
-	};
+	}
 
 	// validate
-	static validate = (req, res, next) => {
+	static validate(req, res, next) {
 		const errors = validationResult(req);
 		if (errors.isEmpty()) {
 			return next();
@@ -50,9 +52,9 @@ class SchemaValidator {
 		return res.status(422).json({
 			success: "Failled",
 			message: extractedErrors,
-			stact: {}
+			stact: {},
 		});
-	};
+	}
 }
 
 module.exports = SchemaValidator;

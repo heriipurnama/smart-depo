@@ -7,10 +7,9 @@ module.exports = (sequelize, DataTypes) => {
 		 * This method is not a part of Sequelize lifecycle.
 		 * The `models/index` file will call this method automatically.
 		 */
-		static associate(models) {
+		static associate() {
 			// define association here
 		}
-
 	}
 	order_pra_container.init(
 		{
@@ -18,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.INTEGER,
 				primaryKey: true,
 				allowNull: false,
-				autoIncrement: true
+				autoIncrement: true,
 			},
 			praid: DataTypes.INTEGER,
 			crno: DataTypes.STRING,
@@ -28,11 +27,14 @@ module.exports = (sequelize, DataTypes) => {
 			cclength: DataTypes.INTEGER,
 			ccheight: DataTypes.INTEGER,
 			cpife: DataTypes.STRING,
-			
+
 			cpishold: DataTypes.INTEGER,
 			cpiremark: DataTypes.STRING,
 			cpigatedate: DataTypes.DATE,
-			cpiflag: DataTypes.INTEGER
+			cpiflag: DataTypes.INTEGER,
+
+			cpopr: DataTypes.STRING,
+			cpcust: DataTypes.STRING,
 		},
 		{
 			sequelize,
@@ -40,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
 			freezeTableName: true,
 			modelName: "orderPraContainer",
 			underscored: true,
-			timestamps: false
+			timestamps: false,
 		}
 	);
 

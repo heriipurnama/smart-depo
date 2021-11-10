@@ -9,8 +9,14 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
+			order_pra_recept.hasMany(models.orderPraFile, {
+				foreignKey: {
+					name: "cpiorderno",
+				},
+				sourceKey: "praid",
+				as: "files",
+			});
 		}
-
 	}
 	order_pra_recept.init(
 		{
@@ -18,13 +24,13 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.INTEGER,
 				primaryKey: true,
 				allowNull: false,
-				autoIncrement: true
+				autoIncrement: true,
 			},
 			praid: DataTypes.INTEGER,
 			cpireceptno: DataTypes.STRING,
 			cpicurr: DataTypes.STRING,
 
-			cpirate: DataTypes.INTEGER
+			cpirate: DataTypes.INTEGER,
 		},
 		{
 			sequelize,
@@ -32,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
 			freezeTableName: true,
 			modelName: "orderPraRecept",
 			underscored: true,
-			timestamps: false
+			timestamps: false,
 		}
 	);
 

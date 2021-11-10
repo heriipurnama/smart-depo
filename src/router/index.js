@@ -44,18 +44,50 @@ const orderPra = require("./order_pra/OrderPraRouter");
 const orderPraContainer = require("./order_pra_container/OrderPraContainerRouter");
 
 const orderPraRecept = require("./order_pra_recept/OrderPraReceptRouter");
-const notification =require("./notification/NotificationRouter");
-const orderRepo =require("./order_repo/OrderRepoRouter");
-const orderRepoContainer =require("./order_repo_container/OrderRepoContainerRouter");
+const notification = require("./notification/NotificationRouter");
+const orderRepo = require("./order_repo/OrderRepoRouter");
+const orderRepoContainer = require("./order_repo_container/OrderRepoContainerRouter");
 
-const gateOut =require("./gateout/GateOutRouter");
-const survey =require("./survey/SurveyRouter");
-const estimation =require("./estimation/EstimationRouter");
-const approval =require("./approval/ApprovalRouter");
+const gateOut = require("./gateout/GateOutRouter");
+const survey = require("./survey/SurveyRouter");
+const estimation = require("./estimation/EstimationRouter");
+const approval = require("./approval/ApprovalRouter");
 
-const workOrder =require("./work_order/WorkOrderRouter");
+const workOrder = require("./work_order/WorkOrderRouter");
+const eorcost = require("./eor_cost/EorCostRouter");
+const repoin = require("./repoin/RepoInRouter");
+const repoout = require("./repoout/RepoOutRouter");
 
+const sumconttype = require("./sum_cont_type/SumContTypeRouter");
+const stockcontout = require("./stock_cont_out/StockContOutRouter");
+const stockcontinventory = require("./stock_cont_inventory/StockContInventoryRouter");
+const stockcontin = require("./stock_cont_in/StockContInRouter");
 
+const rekapStockContInv = require("./rekap_stock_cont_inv/RekapStockContInvRouter");
+const losContainer = require("./los_container/LosContainerRouter");
+const inventorySum = require("./inventory_sum/InventorySumRouter");
+const inventory = require("./inventory/InventoryRouter");
+const inventoryNotAvailable = require("./inventory_not_available/InventoryNotAvailableRouter");
+
+const inventoryMsc = require("./inventory_msc/InventoryMscRouter");
+const depoInfoDaily = require("./depo_info_daily/DepoInfoDailyRouter");
+const depoInfoMonthly = require("./depo_info_monthly/DepoInfoMonthlyRouter");
+const damageStatStockContainer = require("./damage_stat_stock_container/DamageStatStockContainerRouter");
+
+const damageProgress = require("./damage_progress/DamageProgressRouter");
+const dailyRepairActivity = require("./daily_repair_activity/DailyRepairActivityRouter");
+const dailyMovementOutSum = require("./daily_movement_out_sum/DailyMovementOutSumRouter");
+const dailyMovementOutMsc = require("./daily_movement_out_msc/DailyMovementOutMscRouter");
+
+const orderContainerRepo = require("./order_container_repo/OrderContainerRepoRouter");
+const praIn = require("./pra_in/PraInRouter");
+const containerProcess = require("./container_process/ContainerProcessRouter");
+const dataListReport = require("./data_list_reports/dataListReportRouter");
+
+const inventoryContainerIn = require("./inventory_container_in/InventoryContainerInRouter");
+const inventoryContainerOut = require("./inventory_container_out/InventoryContainerOutRouter");
+const inventoryStockContainer = require("./inventory_stock_container/InventoryStockContainerRouter");
+const dailyMovementInMsc = require("./daily_movement_in_msc/DailyMovementInMscRouter");
 
 // base router
 routers.use("/users", user);
@@ -109,6 +141,43 @@ routers.use("/estimation", estimation);
 routers.use("/approval", approval);
 
 routers.use("/workorder", workOrder);
+routers.use("/eorcost", eorcost);
+routers.use("/repoin", repoin);
+routers.use("/repoout", repoout);
 
+routers.use("/rpt_container_type", sumconttype);
+routers.use("/rpt_stock_container_out", stockcontout);
+routers.use("/rpt_stock_container_inventory", stockcontinventory);
+routers.use("/rpt_stock_container_in", stockcontin);
+
+routers.use("/rpt_rekap_stock_container_inv", rekapStockContInv);
+routers.use("/rpt_los_container", losContainer);
+routers.use("/rpt_inventory_sum", inventorySum);
+routers.use("/rpt_inventory", inventory);
+
+routers.use("/rpt_inventory_not_available", inventoryNotAvailable);
+routers.use("/rpt_inventory_msc", inventoryMsc);
+routers.use("/rpt_depo_info_daily", depoInfoDaily);
+routers.use("/rpt_depo_info_monthly", depoInfoMonthly);
+
+routers.use("/rpt_damage_stat_stock_container", damageStatStockContainer);
+routers.use("/rpt_damage_progress", damageProgress);
+routers.use("/rpt_daily_repair_activity", dailyRepairActivity);
+routers.use("/rpt_daily_movement_out_sum", dailyMovementOutSum);
+
+routers.use("/rpt_daily_movement_out_msc", dailyMovementOutMsc);
+routers.use("/orderContainerRepos", orderContainerRepo);
+routers.use("/praIns", praIn);
+routers.use("/containerProcess", containerProcess);
+
+routers.use("/dataListReports", dataListReport);
+routers.use("/rpt_condition_in_container_inventory", inventoryContainerIn);
+routers.use("/rpt_condition_out_container_inventory", inventoryContainerOut);
+routers.use(
+	"/rpt_condition_stock_container_inventory",
+	inventoryStockContainer
+);
+
+routers.use("/rpt_daily_movement_in_msc", dailyMovementInMsc);
 
 module.exports = routers;
