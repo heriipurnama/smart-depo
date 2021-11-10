@@ -8,7 +8,9 @@ const Logger = require("../../utils/helper/logger");
 class WorkOrderController {
 
 	static async list(req, res, next) {
-		let {start, rows} = req.body;
+        let {limit, offset} = req.body;
+        let $limit = (limit == "")?`` :`limit ${limit}`;
+        let $offset = (offset == "")?`` :`offset ${offset}`;
 		try {
         let datas = await container_process.sequelize.query(`Select WO.WONO,WO.WOOPR,WO.WODATE,RP.RPCRNO,CP.CPOPR,CP.CPID FROM
         container_process CP INNER JOIN tblcontainer CON ON
@@ -19,7 +21,8 @@ class WorkOrderController {
           RP.SVID = SV.SVID
            INNER JOIN container_cfs_work_order WO ON
           WO.WONO = RP.WONO
-       WHERE SV.TYPE='2' AND CON.CRLASTACTE in('WW','IW','RP','CR','OW','CP','WR') AND LEFT(WO.WONO,2)='WE' GROUP BY WO.WONO ORDER BY WO.WODATE desc,WO.WONO desc
+       WHERE SV.TYPE='2' AND CON.CRLASTACTE in('WW','IW','RP','CR','OW','CP','WR') 
+       AND LEFT(WO.WONO,2)='WE' ${$limit} ${$offset}
             `, 
             {
                 type: container_process.SELECT
