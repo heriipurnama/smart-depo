@@ -268,6 +268,59 @@ class ContainerProcessController {
 			next(error);
 		}
 	}
+
+	static async getDataGateIN(req, res, next) {
+		const {
+			cpife1,
+			cpife2,
+			retype1,
+			retype2,
+			retype3,
+			crlastact1,
+			crlastact2,
+			crno,
+		} = req.query;
+
+		try {
+			let datas = await container_process.sequelize.query(
+				`select b.crno,a.cpitgl,a.cpdepo,a.spdepo,k.prcode,i.cucode,d.cccode,
+				a.cpopr,a.cpitruck,a.cpcust,a.cpireceptno,
+		  d.ctcode,d.cclength,d.ccheight,b.crcdp,b.cracep,b.crcsc,
+		  b.crmmyy,b.crweightk,b.crweightl,b.crtarak,b.crtaral,b.crnetk,
+		  b.crnetl,b.crvol,b.crmanuf,b.crmandat,b.crpos,b.crbay,
+		  b.crrow,b.crtier,b.crlastcond,b.crlastconde,b.crlastact,e.mtdesc,
+		  a.cpiorderno,a.cpieir,a.cpirefin,a.cpipratgl,a.cpichrgbb,a.cpipaidbb,
+		  a.cpiterm,a.cpidish,a.cpidisdat,a.cpijam,a.cpicargo,a.cpiseal,
+		  a.cpivoy,a.cpideliver,a.cpidpp,a.cpidriver,a.cpinopol,a.cpiremark,a.cpiremark1,
+		  m.vesid,m.vesopr,n.voyno,r.retfrom,
+		  r.readdr,h.cncode,h.poport,
+		  (case when a.cpife='${cpife1}' then 'full' when a.cpife='${cpife2}' or a.cpife is null then 'empty' else '' end) cpife, 
+		  (case when r.retype='${retype1}' then 'depot to depot' when r.retype='${retype2}' then 'port to depot' 
+		  	when r.retype='${retype3}' then 'intercity to depot' else '' end )  retype
+	 from tblcontainer b 
+		  inner join container_process a on b.crcpid=a.cpid 
+		  inner join tblcontainer_code d on d.cccode=b.cccode
+		  left join tblprincipal k on k.prcode=a.cpopr 
+		  left join tbldebitur i on i.cucode= a.cpitruck
+		  left join tbldepo f on f.dpcode=a.dpcode 
+		  left join tblsubdepo g on g.sdcode=a.sdcode 
+		  left join tblmaterial e on e.mtcode=b.mtcode
+		  left join tblcontainer_leasing j on j.leorderno=a.cpiorderno
+		  left join tblvessel m on m.vesid = a.cpives
+		  left join tblport h on h.poid = a.cpidish
+		  left join tblvoyage n on n.voyid = a.cpivoy
+		  left join order_container_repo r on r.reorderno = a.cpiorderno
+	 where  b.crlastact in('${crlastact1}','${crlastact2}')   
+	 and  b.crno = '${crno}'`
+			);
+			const restDatas = datas[0];
+
+			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
 }
 
 module.exports = ContainerProcessController;

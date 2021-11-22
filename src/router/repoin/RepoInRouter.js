@@ -20,4 +20,8 @@ routers
 	.route("/deleteHeaderRepo/:cpiorderno")
 	.delete(Authentication, RepoInController.deleteHeaderRepo);
 
+routers
+	.route("/insertDataRepoIn")
+	.delete(Authentication, RepoInController.insertRepoIn);
+
 module.exports = routers;
