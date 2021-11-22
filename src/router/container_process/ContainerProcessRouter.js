@@ -20,5 +20,8 @@ routers
 routers
 	.route("/printEIROut")
 	.get(Authentication, containerProcessController.printEIROut);
+routers
+	.route("/getDataGateIN")
+	.get(Authentication, containerProcessController.getDataGateIN);
 
 module.exports = routers;
