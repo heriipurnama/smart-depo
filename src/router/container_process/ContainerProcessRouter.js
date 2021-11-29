@@ -23,5 +23,8 @@ routers
 routers
 	.route("/getDataGateIN")
 	.get(Authentication, containerProcessController.getDataGateIN);
+routers
+	.route("/getAllDataGateIN")
+	.get(Authentication, containerProcessController.getAllDataGateIN);
 
 module.exports = routers;
