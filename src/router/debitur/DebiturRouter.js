@@ -8,11 +8,20 @@ const Authentication = require("../../utils/middleware/Auth");
 
 // Router
 
-routers.route("/createNewData").post(Authentication, DebiturController.createData);
+routers
+	.route("/createNewData")
+	.post(Authentication, DebiturController.createData);
 routers.route("/getAllData").get(Authentication, DebiturController.listAllData);
-routers.route("/getDetailData").get(Authentication, DebiturController.detailData);
+routers
+	.route("/getDetailData")
+	.get(Authentication, DebiturController.detailData);
 routers.route("/updateData").put(Authentication, DebiturController.updateData);
 
-routers.route("/deleteData").delete(Authentication, DebiturController.deleteData);
+routers
+	.route("/getAllDataByCutype")
+	.get(Authentication, DebiturController.listAllDataByCutype);
+routers
+	.route("/deleteData")
+	.delete(Authentication, DebiturController.deleteData);
 
 module.exports = routers;
