@@ -187,7 +187,7 @@ class UserController {
 	}
 
 	static async getAlluser(req, res, next) {
-		let { offset, limit } = req.query;
+		let { offset, limit, search, orderColumn, orderType } = req.query;
 
 		try {
 
@@ -203,7 +203,15 @@ class UserController {
 						as : "groups",
 						attributes: ["group_id", "group_name", "description"]
 					}
-				]
+				],				
+				where: {
+					[Op.or]: [
+					  { username: { [Op.like]: `%${search}%`} },
+					  { fullname: { [Op.like]: `%${search}%`} },
+					  { email: { [Op.like]: `%${search}%`} }
+					]
+				},
+				order: [[ `${orderColumn}`, `${orderType}`]]
 			});
 			baseResponse({ message: "list users", data: { datas, count }})(res, 200);
 			/**
