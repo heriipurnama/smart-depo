@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
 
 	contract.init(
 		{
-			prcode:{
+			prcode: {
 				type: DataTypes.STRING,
 				primaryKey: true,
 			},
@@ -119,8 +119,8 @@ module.exports = (sequelize, DataTypes) => {
 			coadmm: DataTypes.INTEGER,
 			coadmcurr: DataTypes.STRING,
 			coadmv: DataTypes.DECIMAL,
-			cotax: DataTypes.DECIMAL
-
+			cotax: DataTypes.DECIMAL,
+			comaterai: DataTypes.DECIMAL,
 		},
 		{
 			sequelize,
@@ -129,7 +129,7 @@ module.exports = (sequelize, DataTypes) => {
 			freezeTableName: true,
 			tableName: "tblcontract",
 			createdAt: false,
-			updatedAt: false
+			updatedAt: false,
 		}
 	);
 
@@ -232,7 +232,8 @@ module.exports = (sequelize, DataTypes) => {
 				cofreedmg: this.cofreedmg,
 				coadmm: this.coadmm,
 				coadmcurr: this.coadmcurr,
-				coadmv: this.coadmv
+				coadmv: this.coadmv,
+				comaterai: DataTypes.DECIMAL,
 			};
 		},
 	});
