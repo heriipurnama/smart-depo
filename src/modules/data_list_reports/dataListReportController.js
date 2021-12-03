@@ -45,11 +45,11 @@ class dataListReportController {
 		}
 	}
 	static async listSurvey(req, res, next) {
-		let { limit, offset } = req.query;
+		let { limit, offset, search } = req.query;
 
 		let limits = limit !== undefined ? limit : 10;
 		let offsets = offset !== undefined ? offset : 0;
-
+		
 		try {
 			let datas = await container_process.sequelize.query(
 				`SELECT SVY.SVID,CON.CRNO,PR.PRCODE,
@@ -73,7 +73,7 @@ class dataListReportController {
             
                 LEFT JOIN tbldepo DP ON CP.DPCODE=DP.DPCODE
                 LEFT JOIN tblsubdepo SD ON CP.SDCODE = SD.SDCODE 
-				WHERE CON.CRLASTACT = 'WE' LIMIT ${limits} OFFSET ${offsets}`,
+				WHERE CON.CRLASTACT = 'WE' OR CON.CRNO = '${search}' OR PR.PRCODE = '${search}' LIMIT ${limits} OFFSET ${offsets}`,
 				{
 					type: container_process.SELECT,
 				}
@@ -97,7 +97,7 @@ class dataListReportController {
             
                 LEFT JOIN tbldepo DP ON CP.DPCODE=DP.DPCODE
                 LEFT JOIN tblsubdepo SD ON CP.SDCODE = SD.SDCODE 
-				WHERE CON.CRLASTACT = 'WE'`,
+				WHERE CON.CRLASTACT = 'WE' OR CON.CRNO = '${search}' OR PR.PRCODE = '${search}' `,
 				{
 					type: container_process.SELECT,
 				}
