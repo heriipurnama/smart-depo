@@ -3,6 +3,7 @@
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const Op = Sequelize.Op;
 
 const baseResponse = require("../../utils/helper/Response");
 const { tblusers, tblgroups } = require("../../db/models");
