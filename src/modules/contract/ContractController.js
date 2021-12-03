@@ -3,6 +3,8 @@
 const baseResponse = require("../../utils/helper/Response");
 const { contract } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 class ContractController {
 	static async createNew(req, res, next) {
@@ -66,12 +68,19 @@ class ContractController {
 	}
 
 	static async list(req, res, next) {
-		let {start, rows} = req.body;
+		let {start, rows, search, orderColumn, orderType} = req.body;
 
 		try {
 			let { count, rows: datas } = await contract.findAndCountAll({
 				offset: start,
-				limit: rows
+				limit: rows,
+				where: {
+					[Op.or]: [
+					  { cono: { [Op.like]: `%${search}%`} },
+					  { prcode: search }
+					]
+				},
+				order: [[ `${orderColumn}`, `${orderType}`]]
 			});
 			baseResponse({ message: "List Contracts", data: { datas, count } })(res, 200);
 		} catch (error) {
