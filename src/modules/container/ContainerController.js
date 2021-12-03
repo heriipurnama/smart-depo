@@ -82,8 +82,10 @@ class ContainerController {
 	}
 
 	static async list(req, res, next) {
-		let {start, rows} = req.body;
-
+		let {start, rows, search, orderColumn, orderType} = req.body;
+		let oc = (orderColumn == "")?"crno":orderColumn;
+		let mdl = (orderColumn =="" || orderColumn == 'crno')?"container":"container_code";
+		let ot = (orderType == "")?"DESC":orderType;
 		try {
 			let { count, rows: datas } = await container.findAndCountAll({
 				offset: start,
@@ -92,6 +94,16 @@ class ContainerController {
 					model:container_code,
 					required: false // do not generate INNER JOIN
 				}]
+				,				
+				where: {
+					[Op.or]: [
+					  { crno: { [Op.like]: `%${search}%`} },
+					  {'$container_code.ctcode$' :{ [Op.like]: `%${search}%`}},
+					  {'$container_code.cclength$' :{ [Op.like]: `%${search}%`}},
+					  {'$container_code.ccheight$' :{ [Op.like]: `%${search}%`}}					  
+					]
+				},
+				order: [[{ model: mdl }, oc, ot]]
 			});
 			baseResponse({ message: "list containers", data: { datas,  count } })(res, 200);
 		} catch (error) {
