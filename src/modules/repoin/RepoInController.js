@@ -1,7 +1,17 @@
 "use strict";
 
+const jwt = require("jsonwebtoken");
+const Sequelize = require("sequelize");
+require("dotenv").config();
+const Op = Sequelize.Op;
+
 const baseResponse = require("../../utils/helper/Response");
-const { container_process } = require("../../db/models");
+const {
+	container_process,
+	company,
+	orderContainerRepo,
+	voyage,
+} = require("../../db/models");
 
 class RepoInController {
 	static async list(req, res, next) {
@@ -231,73 +241,322 @@ class RepoInController {
 	}
 
 	static async insertRepoIn(req, res, next) {
+		let {
+			voyno,
+			vesid,
+			retype,
+			voyid,
+			cpopr,
+			cpcust,
+			cpidish,
+			cpijam,
+			cpdepo,
+
+			spdepo,
+			cpideliver,
+			cpidisdat,
+			cpichrgbb,
+			cpipratgl,
+
+			retfrom,
+			retto,
+			replace1,
+			readdr,
+
+			recity,
+			reautno,
+			redate,
+			redline,
+
+			recpack20,
+			revpack20,
+			recpack40,
+			revpack40,
+
+			recpack45,
+			revpack45,
+			recpacktot20,
+			revpacktot20,
+
+			recpacktot40,
+			revpacktot40,
+			recpacktot45,
+			revpacktot45,
+
+			reclift,
+			revlift,
+			reappv,
+			redoc,
+
+			recdoc,
+			revdoc,
+			rechaul20,
+			re20,
+
+			rechaultot20,
+			retot20,
+			rechaul40,
+			re40,
+
+			rechaultot40,
+			retot40,
+			rechaul45,
+			re45,
+
+			rechaultot45,
+			retot45,
+			subtotcurpack,
+			subtotpack,
+
+			subtotcurbreak,
+			subtotbreak,
+			subtotcurcharge1,
+			reother1,
+
+			subtotcurcharge2,
+			reother2,
+			totcurall,
+			rebill,
+
+			reismtcon,
+			reischarged,
+		} = req.body;
+
+		let bearerheader = req.headers["authorization"];
+		const splitBearer = bearerheader.split(" ");
+		const bearer = splitBearer[1];
+
+		// eslint-disable-next-line no-undef
+		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
+		let usernameByToken = datas.username;
+
 		try {
-			// create cpi number
-			// static async createPrainNumber(req, res, next) {
-			// 	try {
-			// 		/**
-			// 		 * Format PRAIN CODE
-			// 		 * prefix[PI/PO] + 'paktrasl' + 'sdcode' + 8digit_number
-			// 		 */
+			/**
+			 * Make UNIX Numbering System
+			 * Format CONTAINER PROCESS CODE
+			 * prefix[CI] + 'paktrasl' + 'sdcode' + 8digit_number
+			 */
 
-			// 		// get data company.
-			// 		let resultCompany = await company.findAll({});
-			// 		let paktrasl = resultCompany[0].dataValues.paktrasl;
-			// 		let sdcode = resultCompany[0].dataValues.sdcode;
-			// 		let prefixCode = "CI";
+			// get data company.
+			let resultCompany = await company.findAll({});
+			let paktrasl = resultCompany[0].dataValues.paktrasl;
+			let sdcode = resultCompany[0].dataValues.sdcode;
+			let prefixCode = {
+				containerProcess: "CP",
+				orderContainerRepo: "RI",
+			};
 
-			// 		// get data pra order
-			// 		let resultOrderPra = await orderPra.findOne({
-			// 			order: [["praid", "DESC"]],
-			// 		});
+			// get data container process
+			let resultOrderPra = await container_process.findOne({
+				order: [["cpid", "DESC"]],
+			});
 
-			// 		if (resultOrderPra === null) {
-			// 			const resultCode = `${prefixCode}${paktrasl}${sdcode}00000001`;
-			// 			baseResponse({ message: "succes created unix code", data: resultCode })(
-			// 				res,
-			// 				200
-			// 			);
-			// 		} else {
-			// 			let resultDataOrderPra = resultOrderPra.dataValues.cpiorderno;
-			// 			let resultSubstringDataOrderPra = resultDataOrderPra.substring(7, 16);
-			// 			let convertInt = parseInt(resultSubstringDataOrderPra) + 1;
+			// get data order container process},
+			let resultOrderContainerRepo = await orderContainerRepo.findOne({
+				where: { reorderno: { [Op.like]: "RI%" } },
+				order: [["reorderno", "DESC"]],
+			});
 
-			// 			let str = "" + convertInt;
-			// 			let pad = "00000000";
-			// 			let number = pad.substring(0, pad.length - str.length) + str;
-			// 			const resultCode = `${prefixCode}${paktrasl}${sdcode}${number}`;
+			var resultCodeContainerProcess;
+			if (resultOrderPra === null) {
+				resultCodeContainerProcess = `${prefixCode.containerProcess}${paktrasl}${sdcode}00000001`;
+			} else {
+				let resultDataOrderPra = resultOrderPra.dataValues.cpid;
+				let resultSubstringDataOrderPra = resultDataOrderPra.substring(7, 16);
+				let convertInt = parseInt(resultSubstringDataOrderPra) + 1;
 
-			// 			baseResponse({ message: "succes created unix code", data: resultCode })(
-			// 				res,
-			// 				200
-			// 			);
-			// 		}
-			// 	} catch (error) {
-			// 		res.status(500);
-			// 		next(error);
-			// 	}
-			// }
-			let data = await container_process.sequelize.query(
-				`SELECT container_process.CPID,tblcontainer.CRNO,
-            CASE WHEN container_process.CPIPRANO IS NULL THEN container_process.CPIORDERNO ELSE container_process.CPIPRANO END AS CPIPRANO,
-            tblvoyage.VOYNO,container_process.CPIPRATGL,container_process.CPOPR,tblvoyage.VESID,
-            container_process.CPIVOY,container_process.CPITERM,order_container_repo.REBILL,order_container_repo.RETYPE,tblrepo_tariffdetail.RTID
-            FROM container_process
-            INNER JOIN order_container_repo ON container_process.CPIORDERNO = order_container_repo.REORDERNO
-            LEFT JOIN tblcontainer ON tblcontainer.CRNO = container_process.CRNO
-            LEFT JOIN tblprincipal ON tblprincipal.PRCODE = container_process.CPOPR
-            LEFT JOIN tblrepo_tariff ON tblrepo_tariff.RTNO = tblprincipal.PRREPONO
-            LEFT JOIN tblrepo_tariffdetail ON tblrepo_tariff.PRCODE = tblrepo_tariffdetail.PRCODE
-            LEFT JOIN tblvessel ON tblvessel.VESID = container_process.CPIVES
-            LEFT JOIN tblvoyage ON tblvoyage.VESID = tblvessel.VESID
-            WHERE retype like 'RI%'
-            `,
+				let str = "" + convertInt;
+				let pad = "00000000";
+				let number = pad.substring(0, pad.length - str.length) + str;
+				// eslint-disable-next-line no-unused-vars
+				resultCodeContainerProcess = `${prefixCode.containerProcess}${paktrasl}${sdcode}${number}`;
+			}
+
+			var resultCodeOrderContainerRepo;
+			if (resultOrderContainerRepo === null) {
+				resultCodeOrderContainerRepo = `${prefixCode.orderContainerRepo}${paktrasl}${sdcode}00000001`;
+			} else {
+				let resultDataOrderPra = resultOrderContainerRepo.dataValues.reorderno;
+				let resultSubstringDataOrderPra = resultDataOrderPra.substring(7, 16);
+				let convertInt = parseInt(resultSubstringDataOrderPra) + 1;
+
+				let str = "" + convertInt;
+				let pad = "00000000";
+				let number = pad.substring(0, pad.length - str.length) + str;
+				// eslint-disable-next-line no-unused-vars
+				resultCodeOrderContainerRepo = `${prefixCode.orderContainerRepo}${paktrasl}${sdcode}${number}`;
+			}
+
+			let sqlvoy = await voyage.sequelize.query(
+				`select * from tblvoyage
+				 where voyno = "${voyno}" and vesid = "${vesid}"`,
 				{
-					type: container_process.SELECT,
+					type: voyage.SELECT,
 				}
 			);
-			let datas = data[0];
-			baseResponse({ message: "List Repo In", data: { datas } })(res, 200);
+
+			var dataVoyId;
+			if (sqlvoy[0].length === 1) {
+				dataVoyId = sqlvoy[0][0].voyid;
+			} else {
+				// insert to tabel voyage
+
+				let payloadVoyage = await voyage.create({
+					vesid: vesid,
+					voyno: voyid,
+					voyeta: new Date(),
+					voyta: new Date(),
+
+					voyetberth: new Date(),
+					voytberth: new Date(),
+					voyetd: new Date(),
+					voytd: new Date(),
+				});
+				dataVoyId = payloadVoyage.dataValues.voyid;
+			}
+
+			var payloadContainerProcess;
+			if (retype === 22) {
+				// insert to tabel container_process
+
+				payloadContainerProcess = await container_process.create({
+					cpid: resultCodeContainerProcess,
+					cpopr: cpopr,
+					cpcust: cpcust,
+					cpidish: cpidish,
+
+					cpidisdat: cpidisdat,
+					cpijam: cpijam,
+					cpichrgbb: cpichrgbb,
+					cpivoyid: dataVoyId,
+
+					cpdepo: cpdepo,
+					spdepo: spdepo,
+					cpiorderno: resultCodeOrderContainerRepo,
+					cpideliver: cpideliver,
+
+					cpife: 0,
+					cpiprano: resultCodeOrderContainerRepo,
+					cpipratgl: cpipratgl,
+					cpiterm: "mty",
+
+					cpistatus: "re",
+					cpicrton: new Date(),
+					cpicrtby: usernameByToken,
+					cpivoy: voyid,
+
+					cpives: vesid,
+					cpireceptno: "kw-repo",
+				});
+			} else {
+				payloadContainerProcess = await container_process.create({
+					cpid: resultCodeContainerProcess,
+					cpopr: cpopr,
+					cpcust: cpcust,
+					cpidish: cpidish,
+
+					cpijam: cpijam,
+					cpichrgbb: cpichrgbb,
+					cpivoyid: dataVoyId,
+
+					cpdepo: cpdepo,
+					spdepo: spdepo,
+					cpiorderno: resultCodeOrderContainerRepo,
+					cpideliver: cpideliver,
+
+					cpife: 0,
+					cpiprano: resultCodeOrderContainerRepo,
+					cpipratgl: cpipratgl,
+					cpiterm: "mty",
+
+					cpistatus: "re",
+					cpicrton: new Date(),
+					cpicrtby: usernameByToken,
+					cpivoy: voyid,
+
+					cpives: vesid,
+				});
+			}
+
+			const payloadOrderContainerRepo = await orderContainerRepo.create({
+				reorderno: resultCodeOrderContainerRepo,
+				retype: retype,
+				retfrom: retfrom,
+				retto: retto,
+
+				replace1: replace1,
+				readdr: readdr,
+				recity: recity,
+				reautno: reautno,
+
+				redline: redline,
+				redate: redate,
+				recpack20: recpack20,
+				revpack20: revpack20,
+
+				recpack40: recpack40,
+				revpack40: revpack40,
+				recpack45: recpack45,
+				revpack45: revpack45,
+
+				recpacktot20: recpacktot20,
+				revpacktot20: revpacktot20,
+				recpacktot40: recpacktot40,
+				revpacktot40: revpacktot40,
+
+				recpacktot45: recpacktot45,
+				revpacktot45: revpacktot45,
+				reclift: reclift,
+				revlift: revlift,
+
+				reappv: reappv,
+				redoc: redoc,
+				recdoc: recdoc,
+				revdoc: revdoc,
+
+				rechaul20: rechaul20,
+				re20: re20,
+				rechaultot20: rechaultot20,
+				retot20: retot20,
+				rechaul40: rechaul40,
+
+				re40: re40,
+				rechaultot40: rechaultot40,
+				retot40: retot40,
+				rechaul45: rechaul45,
+
+				re45: re45,
+				rechaultot45: rechaultot45,
+				retot45: retot45,
+				subtotcurpack: subtotcurpack,
+
+				subtotpack: subtotpack,
+				subtotcurbreak: subtotcurbreak,
+				subtotbreak: subtotbreak,
+				subtotcurcharge1: subtotcurcharge1,
+
+				reother1: reother1,
+				subtotcurcharge2: subtotcurcharge2,
+				reother2: reother2,
+				totcurall: totcurall,
+
+				rebill: rebill,
+				reismtcon: reismtcon,
+				reischarged: reischarged,
+
+				recrton: new Date(),
+				recrtby: usernameByToken,
+			});
+
+			let succesMessage = {
+				"succes created container process": payloadContainerProcess,
+				"succes created order Container Repo": payloadOrderContainerRepo,
+			};
+
+			baseResponse({
+				message: "succes created repo praIn",
+				data: succesMessage,
+			})(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
