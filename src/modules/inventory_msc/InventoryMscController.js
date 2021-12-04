@@ -2,22 +2,21 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { container_process } = require("../../db/models");
-const Logger = require("../../utils/helper/logger");
-
 
 class InventoryMscController {
-
 	static async list(req, res, next) {
-        let {prcode, clength, ctcode, condition, limit, offset} = req.body;
-        let $prcode = (prcode=="")? `` : ` cp.cpopr='`+prcode+`' and`;
-        let $clength = (clength=="")? `` : ` cc.cclength='`+clength+`' and`;
-        let $ctcode = (ctcode=="")? `` : ` cc.ctcode='`+ctcode+`' and`;
-        let $condition = (condition=="")? `` : ` con.crlastcond='`+condition+`' and`;
-        let $limit = (limit=="")? `` : ` limit ${limit}`;
-        let $offset = (offset=="")? `` : ` offset ${offset}`;
+		let { prcode, clength, ctcode, condition, limit, offset } = req.body;
+		let $prcode = prcode == "" ? "" : " cp.cpopr='" + prcode + "' and";
+		let $clength = clength == "" ? "" : " cc.cclength='" + clength + "' and";
+		let $ctcode = ctcode == "" ? "" : " cc.ctcode='" + ctcode + "' and";
+		let $condition =
+			condition == "" ? "" : " con.crlastcond='" + condition + "' and";
+		let $limit = limit == "" ? "" : ` limit ${limit}`;
+		let $offset = offset == "" ? "" : ` offset ${offset}`;
 
 		try {
-            let datas = await container_process.sequelize.query(`select 
+			let datas = await container_process.sequelize.query(
+				`select 
                 left(cp.crno, 4) as prefix,
                 mid(cp.crno, 5, 6) as serial_no,
                 right(cp.crno, 1) as cd,
@@ -46,13 +45,16 @@ class InventoryMscController {
                 ${$ctcode}
                 ${$condition}
                 (cp.cpotgl is null or cp.cpotgl='0000-00-00')
-            order by prefix ${$limit} ${$offset}`, 
-            {
-                type: container_process.SELECT
-            }
-            );
-            
-            baseResponse({ message: "List Inventory MSC", data: { datas } })(res, 200);
+            order by prefix ${$limit} ${$offset}`,
+				{
+					type: container_process.SELECT,
+				}
+			);
+
+			baseResponse({ message: "List Inventory MSC", data: { datas } })(
+				res,
+				200
+			);
 		} catch (error) {
 			res.status(403);
 			next(error);
