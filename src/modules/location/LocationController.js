@@ -3,6 +3,8 @@
 const baseResponse = require("../../utils/helper/Response");
 const { location } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 class LocationController {
 
@@ -82,11 +84,20 @@ class LocationController {
 	}
 
 	static async list(req, res, next) {
-		let {start, rows} = req.body;
+		let {start, rows, search, orderColumn, orderType} = req.body;
+		let oc = (orderColumn == "")?"lccode":orderColumn;
+		let ot = (orderType == "")?"DESC":orderType;
 		try {
 			let { count, rows: datas } = await location.findAndCountAll({
 				offset: start,
-				limit: rows
+				limit: rows,				
+				where: {
+					[Op.or]: [
+					  { lccode: { [Op.like]: `%${search}%`} },
+					  { lcdesc: { [Op.like]: `%${search}%`} }					  
+					]
+				},
+				order: [[oc, ot]]
 			});
 			baseResponse({ message: "List Location", data: { datas,  count } })(res, 200);
 		} catch (error) {
