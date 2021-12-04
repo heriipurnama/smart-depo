@@ -22,6 +22,6 @@ routers
 
 routers
 	.route("/insertDataRepoIn")
-	.get(Authentication, RepoInController.insertRepoIn);
+	.post(Authentication, RepoInController.insertRepoIn);
 
 module.exports = routers;
