@@ -3,6 +3,8 @@
 const baseResponse = require("../../utils/helper/Response");
 const { damage_type } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 class DamageTypeController {
 
@@ -84,8 +86,9 @@ class DamageTypeController {
 	}
 
 	static async list(req, res, next) {
-		let {start, rows} = req.body;
-
+		let {start, rows, search, orderColumn, orderType} = req.body;
+		let oc = (orderColumn == "")?"dycode":orderColumn;
+		let ot = (orderType == "")?"DESC":orderType;
 		try {
 			let { count, rows: datas }  = await damage_type.findAndCountAll({
 				offset: start,
@@ -93,6 +96,14 @@ class DamageTypeController {
 				// attributes: {
 				// 	exclude: ['createdAt', 'updatedAt']
 				// }
+				,				
+				where: {
+					[Op.or]: [
+					  { dycode: { [Op.like]: `%${search}%`} },
+					  { dydesc: { [Op.like]: `%${search}%`} }					  
+					]
+				},
+				order: [[oc, ot]]
 			});
 			baseResponse({ message: "List Damage Types", data: { datas, count } })(res, 200);
 			Logger(req);

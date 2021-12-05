@@ -3,6 +3,8 @@
 const baseResponse = require("../../utils/helper/Response");
 const { container_code, container_type } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 class ContainerCodeController {
 	static async createNew(req, res, next) {
@@ -105,18 +107,26 @@ class ContainerCodeController {
 	}
 
 	static async list(req, res, next) {
-		let { start, rows } = req.body;
-
+		let {start, rows, search, orderColumn, orderType} = req.body;
+		let oc = (orderColumn == "")?"cccode":orderColumn;
+		let ot = (orderType == "")?"DESC":orderType;
 		try {
 			let { count, rows: datas } = await container_code.findAndCountAll({
 				offset: start,
 				limit: rows,
-				include: [
-					{
-						model: container_type,
-						required: false, // do not generate INNER JOIN
-					},
-				],
+				include:[{
+					model:container_type,
+					required: false, // do not generate INNER JOIN
+				}],				
+				where: {
+					[Op.or]: [
+					  { cccode : { [Op.like]: `%${search}%`} },
+					  { ctcode :{ [Op.like]: `%${search}%`}},
+					  { cclength :{ [Op.like]: `%${search}%`}},
+					  { ccheight :{ [Op.like]: `%${search}%`}}					  
+					]
+				},
+				order: [[ oc, ot]]
 			});
 			baseResponse({ message: "list container codes", data: { datas, count } })(
 				res,
