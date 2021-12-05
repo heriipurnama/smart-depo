@@ -69,6 +69,8 @@ class ContractController {
 
 	static async list(req, res, next) {
 		let {start, rows, search, orderColumn, orderType} = req.body;
+		let oc = (orderColumn =="")?"cono":orderColumn;
+		let ot = (orderType =="")?"cono":orderType;
 
 		try {
 			let { count, rows: datas } = await contract.findAndCountAll({
@@ -77,10 +79,10 @@ class ContractController {
 				where: {
 					[Op.or]: [
 					  { cono: { [Op.like]: `%${search}%`} },
-					  { prcode: search }
+					  { prcode: { [Op.like]: `%${search}%`} }
 					]
 				},
-				order: [[ `${orderColumn}`, `${orderType}`]]
+				order: [[ `${oc}`, `${ot}`]]
 			});
 			baseResponse({ message: "List Contracts", data: { datas, count } })(res, 200);
 		} catch (error) {
