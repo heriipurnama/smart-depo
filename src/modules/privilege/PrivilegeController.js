@@ -1,36 +1,43 @@
+/* eslint-disable no-undef */
 "use strict";
 
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const baseResponse = require("../../utils/helper/Response");
-const { privilege,tblmodules } = require("../../db/models");
-const encriptDecript = require("../../utils/middleware/EncriptDecript");
+const { privilege, tblmodules } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class PrivilegeController {
-
 	static async createNew(req, res, next) {
-		let { group_id, module_id, has_insert, has_update, has_delete, has_approval, has_view, has_printpdf, has_printxls } = req.body;
+		let {
+			group_id,
+			has_insert,
+			has_update,
+			has_delete,
+			has_approval,
+			has_view,
+			has_printpdf,
+		} = req.body;
 		let blk = [];
 		// res.json(blk);
 		try {
-				let mdl = await tblmodules.findAndCountAll();
-				mdl.rows.forEach((value, index) => {
-					blk[index]= {
-						group_id: group_id,
-						module_id: value.module_id,
-						has_insert: has_insert,
-						has_update: has_update,
-						has_delete: has_delete,
-						has_approval: has_approval,
-						has_view: has_view,
-						has_printpdf: has_printpdf,
-						has_printxls: has_printpdf
-					}
-				});
+			let mdl = await tblmodules.findAndCountAll();
+			mdl.rows.forEach((value, index) => {
+				blk[index] = {
+					group_id: group_id,
+					module_id: value.module_id,
+					has_insert: has_insert,
+					has_update: has_update,
+					has_delete: has_delete,
+					has_approval: has_approval,
+					has_view: has_view,
+					has_printpdf: has_printpdf,
+					has_printxls: has_printpdf,
+				};
+			});
 			const payload = await privilege.bulkCreate(blk);
-			// const payload = await privilege.create({ 
+			// const payload = await privilege.create({
 			// 		group_id: group_id,
 			// 		module_id: module_id,
 			// 		has_insert: has_insert,
@@ -41,10 +48,13 @@ class PrivilegeController {
 			// 		has_printpdf: printpdf,
 			// 		has_printxls: printxls
 			// })
-			if(!payload){
+			if (!payload) {
 				throw new Error("Create Privilege Failed");
 			} else {
-				baseResponse({ message:"Privilege Created " , data: payload})(res, 200);
+				baseResponse({ message: "Privilege Created ", data: payload })(
+					res,
+					200
+				);
 				Logger(req);
 			}
 		} catch (error) {
@@ -54,7 +64,18 @@ class PrivilegeController {
 	}
 
 	static async update(req, res, next) {
-		let { id, group_id, module_id, has_insert, has_update, has_delete, has_approval, has_view, printpdf, printxls } = req.body;
+		let {
+			id,
+			group_id,
+			module_id,
+			has_insert,
+			has_update,
+			has_delete,
+			has_approval,
+			has_view,
+			printpdf,
+			printxls,
+		} = req.body;
 		let dataUpdate = {
 			group_id: group_id,
 			module_id: module_id,
@@ -64,13 +85,12 @@ class PrivilegeController {
 			has_approval: has_approval,
 			has_view: has_view,
 			has_printpdf: printpdf,
-			has_printxls: printxls
+			has_printxls: printxls,
 		};
-		let selector = { 
-			where: { privilege_id: id }
+		let selector = {
+			where: { privilege_id: id },
 		};
 		try {
-			
 			let dataPrivilege = await privilege.update(dataUpdate, selector);
 
 			if (!dataPrivilege) {
@@ -87,21 +107,21 @@ class PrivilegeController {
 		}
 	}
 
-
 	static async listOne(req, res, next) {
 		let { id } = req.body;
-		
+
 		try {
-			let dataPrivilege = await privilege.findOne({ 
+			let dataPrivilege = await privilege.findOne({
 				where: {
-					privilege_id: id
-				}
-				,
-				include:[{
-					model:tblmodules,
-					required: true, // do not generate INNER JOIN
-					attributes: { exclude:["createdAt", "updatedAt"]}
-				}]
+					privilege_id: id,
+				},
+				include: [
+					{
+						model: tblmodules,
+						required: true, // do not generate INNER JOIN
+						attributes: { exclude: ["createdAt", "updatedAt"] },
+					},
+				],
 			});
 
 			if (!dataPrivilege) {
@@ -118,22 +138,22 @@ class PrivilegeController {
 	}
 
 	static async list(req, res, next) {
-        
-		let { start, rows} = req.body;
+		let { start, rows } = req.body;
 		try {
-
 			// let acc = jwt.verify(bearer, process.env.SECRET_KEY);
 			// let groupId = acc.groupId
 			let payload = await privilege.findAll({
 				offset: start,
 				limit: rows,
-                
-				include:[{
-					model:tblmodules,
-					as: "modules",
-					required: false, // do not generate INNER JOIN
-					attributes: { exclude:["createdAt", "updatedAt"]}
-				}]
+
+				include: [
+					{
+						model: tblmodules,
+						as: "modules",
+						required: false, // do not generate INNER JOIN
+						attributes: { exclude: ["createdAt", "updatedAt"] },
+					},
+				],
 			});
 			baseResponse({ message: "list privilege", data: payload })(res, 200);
 		} catch (error) {
@@ -143,12 +163,15 @@ class PrivilegeController {
 	}
 
 	static async delete(req, res, next) {
-		let {id} = req.body; 
+		let { id } = req.body;
 		try {
 			let payload = await privilege.destroy({
-				where:{privilege_id: id}
+				where: { privilege_id: id },
 			});
-			baseResponse({ message: "Success Delete Privilege", data: payload })(res, 200);
+			baseResponse({ message: "Success Delete Privilege", data: payload })(
+				res,
+				200
+			);
 			Logger(req);
 		} catch (error) {
 			res.status(403);
@@ -160,7 +183,7 @@ class PrivilegeController {
 		let bearerheader = req.headers["authorization"];
 		const splitBearer = bearerheader.split(" ");
 		const bearer = splitBearer[1];
-		let { start, rows} = req.body;
+		let { start, rows } = req.body;
 		try {
 			let acc = jwt.verify(bearer, process.env.SECRET_KEY);
 			let groupId = acc.groupId;
@@ -168,16 +191,18 @@ class PrivilegeController {
 				offset: start,
 				limit: rows,
 				where: {
-					group_id: groupId
+					group_id: groupId,
 				},
 				// attributes:	['privilege_id', 'group_id', 'module_id']
 				// ,
-				include:[{
-					model:tblmodules,
-					as: "modules",
-					required: false, // do not generate INNER JOIN
-					attributes: { exclude:["createdAt", "updatedAt"]}
-				}]
+				include: [
+					{
+						model: tblmodules,
+						as: "modules",
+						required: false, // do not generate INNER JOIN
+						attributes: { exclude: ["createdAt", "updatedAt"] },
+					},
+				],
 			});
 			baseResponse({ message: "list privilege", data: payload })(res, 200);
 		} catch (error) {
@@ -185,7 +210,6 @@ class PrivilegeController {
 			next(error);
 		}
 	}
-
 
 	static async cek(req, res, next) {
 		try {

@@ -22,6 +22,6 @@ routers
 
 routers
 	.route("/insertDataRepoIn")
-	.delete(Authentication, RepoInController.insertRepoIn);
+	.post(Authentication, RepoInController.insertRepoIn);
 
 module.exports = routers;
