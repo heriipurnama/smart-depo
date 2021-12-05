@@ -190,7 +190,9 @@ class UserController {
 
 	static async getAlluser(req, res, next) {
 		let { offset, limit, search, orderColumn, orderType } = req.query;
-
+		let oc = (orderColumn == "")?"username":orderColumn;
+		let ot = (orderType == "")?"DESC":orderType;
+		let mdl = (orderColumn =="groups" )?"tblgroups":"tblusers";
 		try {
 
 			let offsets = parseInt(offset) || 0;
@@ -213,7 +215,7 @@ class UserController {
 					  { email: { [Op.like]: `%${search}%`} }
 					]
 				},
-				order: [[ `${orderColumn}`, `${orderType}`]]
+				order: [[{ model: mdl }, oc, ot]]
 			});
 			baseResponse({ message: "list users", data: { datas, count }})(res, 200);
 			/**
