@@ -3,6 +3,8 @@
 const baseResponse = require("../../utils/helper/Response");
 const { container_type } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 class ContainerTypeController {
 	static async createNew(req, res, next) {
@@ -86,8 +88,10 @@ class ContainerTypeController {
 	}
 
 	static async list(req, res, next) {
-		let { start, rows } = req.body;
-
+		let {start, rows, search, orderColumn, orderType} = req.body;
+		let oc = (orderColumn == "")?"ctcode":orderColumn;
+		// let mdl = (orderColumn =="" || orderColumn == 'ctcode')?"container":"container_code";
+		let ot = (orderType == "")?"DESC":orderType;
 		try {
 			let { count, rows: datas } = await container_type.findAndCountAll({
 				offset: start,
@@ -100,7 +104,14 @@ class ContainerTypeController {
 				// 		model:container_type,
 				// 		required: false, // do not generate INNER JOIN
 				// 		attributes: { exclude:['createdAt', 'updatedAt']}
-				// 	}]
+				// 	}]	
+				where: {
+					[Op.or]: [
+					  { ctcode: { [Op.like]: `%${search}%`} },
+					  { ctdesc: { [Op.like]: `%${search}%`} }					  
+					]
+				},
+				order: [[oc, ot]]
 			});
 			baseResponse({
 				message: "List Container Types",
