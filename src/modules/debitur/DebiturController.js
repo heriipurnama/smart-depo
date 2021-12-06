@@ -3,6 +3,8 @@
 const baseResponse = require("../../utils/helper/Response");
 const { debitur } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 class DebiturController {
 	static async createData(req, res, next) {
@@ -53,17 +55,26 @@ class DebiturController {
 	}
 
 	static async listAllDataByCutype(req, res, next) {
-		let { offset, limit, cutype } = req.query;
-
+		let { offset, limit, cutype, search, orderColumn, orderType } = req.query;
+		let oc = (orderColumn == "")?"cucode":orderColumn;
+		let ot = (orderType == "")?"DESC":orderType;
 		try {
 			let offsets = parseInt(offset) || 0;
 			let limits = parseInt(limit) || 11;
 
 			let { count, rows: datas } = await debitur.findAndCountAll({
-				where: { cutype: cutype },
+				// where: { cutype: cutype },
 
 				offset: offsets,
 				limit: limits,
+				where: {
+					[Op.and]: [{ cutype: cutype }],
+					[Op.or]: [
+					  { cucode: { [Op.like]: `%${search}%`} },
+					  { cuname: { [Op.like]: `%${search}%`} }					  
+					]
+				},
+				order: [[oc, ot]]
 			});
 			baseResponse({ message: "list debitur", data: { datas, count } })(
 				res,
