@@ -24,4 +24,8 @@ routers
 	.route("/insertDataRepoIn")
 	.post(Authentication, RepoInController.insertRepoIn);
 
+routers
+	.route("/insertDataPraRepoInDetails")
+	.post(Authentication, RepoInController.insertPraRepoInDetail);
+
 module.exports = routers;
