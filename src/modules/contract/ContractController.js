@@ -70,7 +70,7 @@ class ContractController {
 	static async list(req, res, next) {
 		let {start, rows, search, orderColumn, orderType} = req.body;
 		let oc = (orderColumn =="")?"cono":orderColumn;
-		let ot = (orderType =="")?"cono":orderType;
+		let ot = (orderType =="")?"DESC":orderType;
 
 		try {
 			let { count, rows: datas } = await contract.findAndCountAll({
