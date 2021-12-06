@@ -13,6 +13,7 @@ const {
 	vessel,
 	tblusers,
 	orderPraFile,
+	orderPraRecept
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
@@ -567,6 +568,11 @@ class OrderPraController {
 						model: vessel,
 						as: "vessels",
 						// attributes: ["voyid", "vesid", "voyno"]
+					},
+					{
+						model: orderPraRecept,
+						as: "orderPraRecept",
+						
 					},
 					{
 						model: orderPraContainer,
