@@ -77,7 +77,7 @@ class OrderPraController {
 				mdfon: new Date(),
 			});
 
-			const payloadPraFile = await orderPraFile.findOne({
+			const payloadPraFile = await orderPraFile.findAll({
 				where: { cpiorderno: cpiorderno },
 			});
 
