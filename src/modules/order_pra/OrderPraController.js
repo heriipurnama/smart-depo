@@ -78,7 +78,15 @@ class OrderPraController {
 				mdfon: new Date(),
 			});
 
-			baseResponse({ message: "succes created order Pra", data: payload })(
+			const payloadPraFile = await orderPraFile.findOne({
+				where: { cpiorderno: cpiorderno },
+			});
+
+			const message = {
+				"data order Pra": payload,
+				"data order pra file": payloadPraFile,
+			};
+			baseResponse({ message: "succes created order Pra", data: message })(
 				res,
 				200
 			);
