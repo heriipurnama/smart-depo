@@ -192,7 +192,7 @@ class UserController {
 		let { offset, limit, search, orderColumn, orderType } = req.query;
 		let oc = (orderColumn == "")?"username":orderColumn;
 		let ot = (orderType == "")?"DESC":orderType;
-		let mdl = (orderColumn =="groups" )?"tblgroups":"tblusers";
+		let mdl = (orderColumn =="group_name" )?"groups":"tblusers";
 		try {
 
 			let offsets = parseInt(offset) || 0;
@@ -207,12 +207,14 @@ class UserController {
 						as : "groups",
 						attributes: ["group_id", "group_name", "description"]
 					}
-				],				
+				]
+				,				
 				where: {
 					[Op.or]: [
 					  { username: { [Op.like]: `%${search}%`} },
 					  { fullname: { [Op.like]: `%${search}%`} },
-					  { email: { [Op.like]: `%${search}%`} }
+					  { email: { [Op.like]: `%${search}%`} },
+					  {'$groups.group_name$':{ [Op.like]: `%${search}%`}}
 					]
 				},
 				order: [[{ model: mdl }, oc, ot]]
