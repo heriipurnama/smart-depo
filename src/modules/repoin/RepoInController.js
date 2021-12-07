@@ -632,7 +632,6 @@ class RepoInController {
 			cpivoyid,
 			cpivoy,
 
-			repocrnoid,
 			repoid,
 			ctcode,
 			cclength,
