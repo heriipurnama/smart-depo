@@ -11,9 +11,21 @@ const {
 	company,
 	orderContainerRepo,
 	voyage,
+
+	container,
+	container_code,
+	orderRepoContainer,
 } = require("../../db/models");
+const Logger = require("../../utils/helper/logger");
 
 class RepoInController {
+	/**
+	 * @REPO  REPO PRA IN - Header
+	 * @param {*} req
+	 * @param {*} res
+	 * @param {*} next
+	 */
+
 	static async list(req, res, next) {
 		try {
 			let data = await container_process.sequelize.query(
@@ -37,6 +49,7 @@ class RepoInController {
 			);
 			let datas = data[0];
 			baseResponse({ message: "List Repo In", data: { datas } })(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -234,12 +247,13 @@ class RepoInController {
 				res,
 				200
 			);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
 		}
 	}
-	// repo PRA IN - Header
+
 	static async insertRepoIn(req, res, next) {
 		let {
 			voyno,
@@ -557,92 +571,79 @@ class RepoInController {
 				message: "succes created repo praIn",
 				data: succesMessage,
 			})(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
 		}
 	}
-	// repo PRA IN - Detail
+
+	/**
+	 * @REPO  REPO PRA IN - Detail
+	 * @param {*} req
+	 * @param {*} res
+	 * @param {*} next
+	 */
+
+	static async viewDataRepoInDetails(req, res, next) {
+		try {
+			let data = await container_process.sequelize.query(
+				`	select a.crno,b.crno,b.cccode,c.cccode,c.ctcode,
+					c.cclength,c.ccheight,b.mtcode,a.cpiremark
+		  			from container_process a 
+		  			inner join tblcontainer b on b.crno = a.crno
+		  			inner join tblcontainer_code c on c.cccode = b.cccode
+            `,
+				{
+					type: container_process.SELECT,
+				}
+			);
+			let datas = data[0];
+			baseResponse({ message: "List Repo In Detail", data: { datas } })(
+				res,
+				200
+			);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	static async insertPraRepoInDetail(req, res, next) {
 		let {
-			voyno,
-			vesid,
-			retype,
-			voyid,
+			crno,
+			cccode,
+			cpiorderno,
+			mtcode,
+
 			cpopr,
 			cpcust,
 			cpidish,
 			cpijam,
 			cpdepo,
 
-			spdepo,
 			cpideliver,
 			cpidisdat,
 			cpichrgbb,
 			cpipratgl,
 
-			retfrom,
-			retto,
-			replace1,
-			readdr,
+			cpives,
+			cpiremark,
+			cpivoyid,
+			cpivoy,
 
-			recity,
-			reautno,
-			redate,
-			redline,
+			repocrnoid,
+			repoid,
+			ctcode,
+			cclength,
 
-			recpack20,
-			revpack20,
-			recpack40,
-			revpack40,
+			ccheight,
+			repofe,
+			reposhold,
+			reporemark,
 
-			recpack45,
-			revpack45,
-			recpacktot20,
-			revpacktot20,
-
-			recpacktot40,
-			revpacktot40,
-			recpacktot45,
-			revpacktot45,
-
-			reclift,
-			revlift,
-			reappv,
-			redoc,
-
-			recdoc,
-			revdoc,
-			rechaul20,
-			re20,
-
-			rechaultot20,
-			retot20,
-			rechaul40,
-			re40,
-
-			rechaultot40,
-			retot40,
-			rechaul45,
-			re45,
-
-			rechaultot45,
-			retot45,
-			subtotcurpack,
-			subtotpack,
-
-			subtotcurbreak,
-			subtotbreak,
-			subtotcurcharge1,
-			reother1,
-
-			subtotcurcharge2,
-			reother2,
-			totcurall,
-			rebill,
-
-			reismtcon,
-			reischarged,
+			repogatedate,
+			repoflag,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -657,7 +658,7 @@ class RepoInController {
 			/**
 			 * Make UNIX Numbering System
 			 * Format CONTAINER PROCESS CODE
-			 * prefix[CI] + 'paktrasl' + 'sdcode' + 8digit_number
+			 * prefix[CP] + 'paktrasl' + 'sdcode' + 8digit_number
 			 */
 
 			// get data company.
@@ -666,18 +667,11 @@ class RepoInController {
 			let sdcode = resultCompany[0].dataValues.sdcode;
 			let prefixCode = {
 				containerProcess: "CP",
-				orderContainerRepo: "RI",
 			};
 
 			// get data container process
 			let resultOrderPra = await container_process.findOne({
 				order: [["cpid", "DESC"]],
-			});
-
-			// get data order container process},
-			let resultOrderContainerRepo = await orderContainerRepo.findOne({
-				where: { reorderno: { [Op.like]: "RI%" } },
-				order: [["reorderno", "DESC"]],
 			});
 
 			var resultCodeContainerProcess;
@@ -694,192 +688,218 @@ class RepoInController {
 				// eslint-disable-next-line no-unused-vars
 				resultCodeContainerProcess = `${prefixCode.containerProcess}${paktrasl}${sdcode}${number}`;
 			}
-
-			var resultCodeOrderContainerRepo;
-			if (resultOrderContainerRepo === null) {
-				resultCodeOrderContainerRepo = `${prefixCode.orderContainerRepo}${paktrasl}${sdcode}00000001`;
-			} else {
-				let resultDataOrderPra = resultOrderContainerRepo.dataValues.reorderno;
-				let resultSubstringDataOrderPra = resultDataOrderPra.substring(7, 16);
-				let convertInt = parseInt(resultSubstringDataOrderPra) + 1;
-
-				let str = "" + convertInt;
-				let pad = "00000000";
-				let number = pad.substring(0, pad.length - str.length) + str;
-				// eslint-disable-next-line no-unused-vars
-				resultCodeOrderContainerRepo = `${prefixCode.orderContainerRepo}${paktrasl}${sdcode}${number}`;
-			}
-
-			let sqlvoy = await voyage.sequelize.query(
-				`select * from tblvoyage
-				 where voyno = "${voyno}" and vesid = "${vesid}"`,
+			// check available container code
+			let containerCheck = await container.sequelize.query(
+				` select con.crlastact,cp.crno,cp.cpiorderno,max(cp.cpid) from container_process cp,
+				tblcontainer con where
+				cp.crno = con.crno and con.crlastact <> 'od' and cp.crno='${crno}'
+			    group by cp.crno, con.crlastact,cp.cpiorderno`,
 				{
-					type: voyage.SELECT,
+					type: container.SELECT,
 				}
 			);
 
-			var dataVoyId;
-			if (sqlvoy[0].length === 1) {
-				dataVoyId = sqlvoy[0][0].voyid;
+			if (containerCheck[0].length === 0) {
+				// check for valid container code!
+				let containerCodeCheck = await container_code.sequelize.query(
+					` select  cccode from  tblcontainer_code 
+					where cccode='${cccode}'`,
+					{
+						type: container_code.SELECT,
+					}
+				);
+				if (containerCodeCheck[0].length === 1) {
+					/**
+					 * cpichrgbb
+					 *  value 1 / 0
+					 */
+
+					//searching repo type
+					let orderContainerRepoCheck =
+						await orderContainerRepo.sequelize.query(
+							` select retype from  order_container_repo 
+							where reorderno='${cpiorderno}'`,
+							{
+								type: orderContainerRepo.SELECT,
+							}
+						);
+
+					var restContainerProcess;
+					if (orderContainerRepoCheck[0][0].retype === 22) {
+						restContainerProcess = await container_process.create({
+							cpid: resultCodeContainerProcess,
+							crno: crno,
+							cpopr: cpopr,
+							cpcust: cpcust,
+							cpidish: cpidish,
+
+							cpidisdat: cpidisdat,
+							cpdepo: cpdepo,
+							cpichrgbb: cpichrgbb,
+
+							cpipratgl: cpipratgl,
+							cpijam: cpijam,
+							cpishold: 0,
+
+							cpife: 0,
+							cpives: cpives,
+							cpiorderno: cpiorderno,
+							cpiremark: cpiremark,
+
+							cpideliver: cpideliver,
+							cpivoyid: cpivoyid,
+							cpivoy: cpivoy,
+							cpiterm: "mty",
+
+							cpistatus: "re",
+							cpicrton: Date.now(),
+							cpicrtby: usernameByToken,
+						});
+					} else {
+						restContainerProcess = await container_process.create({
+							cpid: resultCodeContainerProcess,
+							crno: crno,
+							cpopr: cpopr,
+							cpcust: cpcust,
+							cpidish: cpidish,
+
+							cpdepo: cpdepo,
+							cpichrgbb: cpichrgbb,
+							cpipratgl: cpipratgl,
+
+							cpijam: cpijam,
+							cpishold: 0,
+							cpife: 0,
+
+							cpives: cpives,
+							cpiorderno: cpiorderno,
+							cpiremark: cpiremark,
+							cpideliver: cpideliver,
+
+							cpivoyid: cpivoyid,
+							cpivoy: cpivoy,
+							cpiterm: "mty",
+							cpistatus: "re",
+
+							cpicrton: Date.now(),
+							cpicrtby: usernameByToken,
+						});
+					}
+
+					// insert order repo controller!
+					const restOrderRepoContainer = await orderRepoContainer.create({
+						repoid: repoid,
+						crno: crno,
+						cccode: cccode,
+						ctcode: ctcode,
+
+						cclength: cclength,
+						ccheight: ccheight,
+						repofe: repofe,
+						reposhold: reposhold,
+
+						reporemark: reporemark,
+						repogatedate: repogatedate,
+
+						repoflag: repoflag,
+					});
+
+					// TODO:check avalaible crno data
+					let containerCRNOCheck = await container.sequelize.query(
+						`select crno from tblcontainer where crno ='${crno}'`,
+						{
+							type: container.SELECT,
+						}
+					);
+
+					var restInsertContainer;
+					if (containerCRNOCheck[0].length === 0) {
+						restInsertContainer = await container.create({
+							crno: crno,
+							cccode: cccode,
+
+							mtcode: mtcode,
+							crlastact: "bi",
+							crcpid: resultCodeContainerProcess,
+						});
+					} else {
+						await container.update(
+							{
+								crlastact: "bi",
+								crcpid: resultCodeContainerProcess,
+							},
+							{ where: { crno: crno } }
+						);
+						restInsertContainer = await container.findOne({
+							where: { crno: crno },
+						});
+					}
+
+					const message = {
+						"Result Insert Container Process": restContainerProcess,
+						"Result Insert Order Repo Container": restOrderRepoContainer,
+						"Result Insert/Update Container": restInsertContainer,
+					};
+
+					baseResponse({
+						message: "succes created Repo Pra In",
+						data: message,
+					})(res, 200);
+				} else {
+					baseResponse({
+						message: "id cccode/container code invalid !!!",
+						data: containerCodeCheck[0],
+					})(res, 400);
+				}
 			} else {
-				// insert to tabel voyage
-
-				let payloadVoyage = await voyage.create({
-					vesid: vesid,
-					voyno: voyid,
-					voyeta: new Date(),
-					voyta: new Date(),
-
-					voyetberth: new Date(),
-					voytberth: new Date(),
-					voyetd: new Date(),
-					voytd: new Date(),
-				});
-				dataVoyId = payloadVoyage.dataValues.voyid;
+				baseResponse({
+					message: "Data available!",
+					data: containerCheck[0],
+				})(res, 409);
 			}
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
 
-			var payloadContainerProcess;
-			if (retype === 22) {
-				// insert to tabel container_process
+	static async updateDataRepoInDetails(req, res, next) {
+		const { cpid, cpiremark } = req.body;
 
-				payloadContainerProcess = await container_process.create({
-					cpid: resultCodeContainerProcess,
-					cpopr: cpopr,
-					cpcust: cpcust,
-					cpidish: cpidish,
+		let bearerheader = req.headers["authorization"];
+		const splitBearer = bearerheader.split(" ");
+		const bearer = splitBearer[1];
 
-					cpidisdat: cpidisdat,
-					cpijam: cpijam,
-					cpichrgbb: cpichrgbb,
-					cpivoyid: dataVoyId,
+		// eslint-disable-next-line no-undef
+		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
+		let usernameByToken = datas.username;
 
-					cpdepo: cpdepo,
-					spdepo: spdepo,
-					cpiorderno: resultCodeOrderContainerRepo,
-					cpideliver: cpideliver,
+		function convert(str) {
+			var date = new Date(str),
+				mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+				day = ("0" + date.getDate()).slice(-2);
+			return [date.getFullYear(), mnth, day].join("-");
+		}
+		let date = convert(new Date());
 
-					cpife: 0,
-					cpiprano: resultCodeOrderContainerRepo,
-					cpipratgl: cpipratgl,
-					cpiterm: "mty",
-
-					cpistatus: "re",
-					cpicrton: new Date(),
-					cpicrtby: usernameByToken,
-					cpivoy: voyid,
-
-					cpives: vesid,
-					cpireceptno: "kw-repo",
-				});
-			} else {
-				payloadContainerProcess = await container_process.create({
-					cpid: resultCodeContainerProcess,
-					cpopr: cpopr,
-					cpcust: cpcust,
-					cpidish: cpidish,
-
-					cpijam: cpijam,
-					cpichrgbb: cpichrgbb,
-					cpivoyid: dataVoyId,
-
-					cpdepo: cpdepo,
-					spdepo: spdepo,
-					cpiorderno: resultCodeOrderContainerRepo,
-					cpideliver: cpideliver,
-
-					cpife: 0,
-					cpiprano: resultCodeOrderContainerRepo,
-					cpipratgl: cpipratgl,
-					cpiterm: "mty",
-
-					cpistatus: "re",
-					cpicrton: new Date(),
-					cpicrtby: usernameByToken,
-					cpivoy: voyid,
-
-					cpives: vesid,
-				});
-			}
-
-			const payloadOrderContainerRepo = await orderContainerRepo.create({
-				reorderno: resultCodeOrderContainerRepo,
-				retype: retype,
-				retfrom: retfrom,
-				retto: retto,
-
-				replace1: replace1,
-				readdr: readdr,
-				recity: recity,
-				reautno: reautno,
-
-				redline: redline,
-				redate: redate,
-				recpack20: recpack20,
-				revpack20: revpack20,
-
-				recpack40: recpack40,
-				revpack40: revpack40,
-				recpack45: recpack45,
-				revpack45: revpack45,
-
-				recpacktot20: recpacktot20,
-				revpacktot20: revpacktot20,
-				recpacktot40: recpacktot40,
-				revpacktot40: revpacktot40,
-
-				recpacktot45: recpacktot45,
-				revpacktot45: revpacktot45,
-				reclift: reclift,
-				revlift: revlift,
-
-				reappv: reappv,
-				redoc: redoc,
-				recdoc: recdoc,
-				revdoc: revdoc,
-
-				rechaul20: rechaul20,
-				re20: re20,
-				rechaultot20: rechaultot20,
-				retot20: retot20,
-				rechaul40: rechaul40,
-
-				re40: re40,
-				rechaultot40: rechaultot40,
-				retot40: retot40,
-				rechaul45: rechaul45,
-
-				re45: re45,
-				rechaultot45: rechaultot45,
-				retot45: retot45,
-				subtotcurpack: subtotcurpack,
-
-				subtotpack: subtotpack,
-				subtotcurbreak: subtotcurbreak,
-				subtotbreak: subtotbreak,
-				subtotcurcharge1: subtotcurcharge1,
-
-				reother1: reother1,
-				subtotcurcharge2: subtotcurcharge2,
-				reother2: reother2,
-				totcurall: totcurall,
-
-				rebill: rebill,
-				reismtcon: reismtcon,
-				reischarged: reischarged,
-
-				recrton: new Date(),
-				recrtby: usernameByToken,
-			});
-
-			let succesMessage = {
-				"succes created container process": payloadContainerProcess,
-				"succes created order Container Repo": payloadOrderContainerRepo,
-			};
-
-			baseResponse({
-				message: "succes created repo praIn",
-				data: succesMessage,
-			})(res, 200);
+		try {
+			let data = await container_process.sequelize.query(
+				` update container_process set
+					cpiremark='${cpiremark}',
+					cpimdfon= '${date}',
+					cpimdfby='${usernameByToken}'
+	        	where cpid='${cpid}'
+            `,
+				{
+					type: container_process.UPDATE,
+				}
+			);
+			let datas = data[0];
+			baseResponse({ message: "Update Repo In Detail", data: { datas } })(
+				res,
+				200
+			);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);

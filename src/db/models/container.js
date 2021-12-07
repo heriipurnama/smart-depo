@@ -9,24 +9,23 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			container.belongsTo(models.container_process,
-			{
+			container.belongsTo(models.container_process, {
 				foreignKey: {
-					name: "crcpid"
-				}, as : "container_process"
+					name: "crcpid",
+				},
+				as: "container_process",
 			});
-			container.belongsTo(models.container_code,
-				{
-					foreignKey: "cccode",
-				});
+			container.belongsTo(models.container_code, {
+				foreignKey: "cccode",
+			});
 		}
 	}
 
 	container.init(
 		{
-			crno:{
+			crno: {
 				type: DataTypes.STRING,
-				primaryKey: true
+				primaryKey: true,
 			},
 			mtcode: DataTypes.STRING,
 			cccode: DataTypes.STRING,
@@ -55,8 +54,7 @@ module.exports = (sequelize, DataTypes) => {
 			crlastcond: DataTypes.STRING,
 			crlastbxeng: DataTypes.STRING,
 			crcpid: DataTypes.STRING,
-			lastact: DataTypes.STRING
-
+			lastact: DataTypes.STRING,
 		},
 		{
 			sequelize,
@@ -65,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
 			freezeTableName: true,
 			tableName: "tblcontainer",
 			createdAt: false,
-			updatedAt: false
+			updatedAt: false,
 		}
 	);
 
@@ -100,7 +98,7 @@ module.exports = (sequelize, DataTypes) => {
 				crlastcond: this.crlastcond,
 				crlastbxeng: this.crlastbxeng,
 				crcpid: this.crcpid,
-				lastact: this.lastact
+				lastact: this.lastact,
 			};
 		},
 	});

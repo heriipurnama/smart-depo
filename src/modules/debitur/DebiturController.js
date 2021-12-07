@@ -56,8 +56,8 @@ class DebiturController {
 
 	static async listAllDataByCutype(req, res, next) {
 		let { offset, limit, cutype, search, orderColumn, orderType } = req.query;
-		let oc = (orderColumn == "")?"cucode":orderColumn;
-		let ot = (orderType == "")?"DESC":orderType;
+		let oc = orderColumn == "" ? "cucode" : orderColumn;
+		let ot = orderType == "" ? "DESC" : orderType;
 		try {
 			let offsets = parseInt(offset) || 0;
 			let limits = parseInt(limit) || 11;
@@ -70,11 +70,11 @@ class DebiturController {
 				where: {
 					[Op.and]: [{ cutype: cutype }],
 					[Op.or]: [
-					  { cucode: { [Op.like]: `%${search}%`} },
-					  { cuname: { [Op.like]: `%${search}%`} }					  
-					]
+						{ cucode: { [Op.like]: `%${search}%` } },
+						{ cuname: { [Op.like]: `%${search}%` } },
+					],
 				},
-				order: [[oc, ot]]
+				order: [[oc, ot]],
 			});
 			baseResponse({ message: "list debitur", data: { datas, count } })(
 				res,

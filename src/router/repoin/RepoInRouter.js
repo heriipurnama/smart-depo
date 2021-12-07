@@ -16,16 +16,21 @@ routers
 routers
 	.route("/searchTotalPackage")
 	.get(Authentication, RepoInController.searchTotalPackage);
+
 routers
 	.route("/deleteHeaderRepo/:cpiorderno")
 	.delete(Authentication, RepoInController.deleteHeaderRepo);
-
 routers
 	.route("/insertDataRepoIn")
 	.post(Authentication, RepoInController.insertRepoIn);
 
 routers
+	.route("/viewDataRepoInDetails")
+	.get(Authentication, RepoInController.viewDataRepoInDetails);
+routers
 	.route("/insertDataPraRepoInDetails")
 	.post(Authentication, RepoInController.insertPraRepoInDetail);
-
+routers
+	.route("/updateDataRepoInDetails")
+	.put(Authentication, RepoInController.updateDataRepoInDetails);
 module.exports = routers;
