@@ -6,7 +6,17 @@ const Logger = require("../../utils/helper/logger");
 
 class OrderPraReceptController {
 	static async createData(req, res, next) {
-		let { praid, cpireceptno, cpicurr, cpirate } = req.body;
+		let {
+			praid,
+			cpireceptno,
+			cpicurr,
+			cpirate,
+			tot_lolo,
+			biaya_adm,
+			total_pajak,
+			materai,
+			total_tagihan,
+		} = req.body;
 
 		try {
 			const payload = await orderPraRecept.create({
@@ -15,6 +25,11 @@ class OrderPraReceptController {
 				cpicurr: cpicurr,
 
 				cpirate: cpirate,
+				tot_lolo: tot_lolo,
+				biaya_adm: biaya_adm,
+				total_pajak: total_pajak,
+				materai: materai,
+				total_tagihan: total_tagihan,
 			});
 
 			baseResponse({
@@ -85,7 +100,18 @@ class OrderPraReceptController {
 	}
 
 	static async updateData(req, res, next) {
-		let { prareceptid, praid, cpireceptno, cpicurr, cpirate } = req.body;
+		let {
+			prareceptid,
+			praid,
+			cpireceptno,
+			cpicurr,
+			cpirate,
+			tot_lolo,
+			biaya_adm,
+			total_pajak,
+			materai,
+			total_tagihan,
+		} = req.body;
 
 		let dataBody = {
 			prareceptid: prareceptid,
@@ -94,6 +120,11 @@ class OrderPraReceptController {
 			cpicurr: cpicurr,
 
 			cpirate: cpirate,
+			tot_lolo: tot_lolo,
+			biaya_adm: biaya_adm,
+			total_pajak: total_pajak,
+			materai: materai,
+			total_tagihan: total_tagihan,
 		};
 
 		let selectedWhere = { where: { prareceptid: prareceptid } };
