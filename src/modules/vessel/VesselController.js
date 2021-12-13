@@ -3,6 +3,8 @@
 const baseResponse = require("../../utils/helper/Response");
 const { vessel, country } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 class VesselController {
 
@@ -84,7 +86,9 @@ class VesselController {
 	}
 
 	static async list(req, res, next) {
-		let {start, rows} = req.body;
+		let {start, rows, search, orderColumn, orderType} = req.body;
+		let oc = (orderColumn == "")?"vesid":orderColumn;
+		let ot = (orderType == "")?"DESC":orderType;
 		try {
 			let { count, rows: datas } = await vessel.findAndCountAll({
 				offset: start,
@@ -92,7 +96,15 @@ class VesselController {
 				include:[{
 					model:country,
 					required: false // do not generate INNER JOIN
-				}]
+				}],				
+				where: {
+					[Op.or]: [
+					  { vesid: { [Op.like]: `%${search}%`} },
+					  { vestitle :{ [Op.like]: `%${search}%`}},
+					  { vesopr :{ [Op.like]: `%${search}%`}}					  
+					]
+				},
+				order: [[oc, ot]]
 			});
 			baseResponse({ message: "List Vessels", data: { datas, count } })(res, 200);
 		} catch (error) {
