@@ -32,6 +32,8 @@ module.exports = (sequelize, DataTypes) => {
 
 			cpirate: DataTypes.INTEGER,
 			tot_lolo: DataTypes.INTEGER,
+			biaya_cleaning: DataTypes.INTEGER,
+
 			biaya_adm: DataTypes.INTEGER,
 			total_pajak: DataTypes.INTEGER,
 			materai: DataTypes.INTEGER,

@@ -35,6 +35,11 @@ module.exports = (sequelize, DataTypes) => {
 
 			cpopr: DataTypes.STRING,
 			cpcust: DataTypes.STRING,
+			biaya_lolo: DataTypes.INTEGER,
+			biaya_clean: DataTypes.INTEGER,
+
+			cleaning_type: DataTypes.STRING,
+			deposit: DataTypes.INTEGER,
 		},
 		{
 			sequelize,

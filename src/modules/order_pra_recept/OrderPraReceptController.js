@@ -16,6 +16,7 @@ class OrderPraReceptController {
 			total_pajak,
 			materai,
 			total_tagihan,
+			biaya_cleaning,
 		} = req.body;
 
 		try {
@@ -25,6 +26,7 @@ class OrderPraReceptController {
 				cpicurr: cpicurr,
 
 				cpirate: cpirate,
+				biaya_cleaning: biaya_cleaning,
 				tot_lolo: tot_lolo,
 				biaya_adm: biaya_adm,
 				total_pajak: total_pajak,
@@ -111,6 +113,7 @@ class OrderPraReceptController {
 			total_pajak,
 			materai,
 			total_tagihan,
+			biaya_cleaning,
 		} = req.body;
 
 		let dataBody = {
@@ -121,6 +124,7 @@ class OrderPraReceptController {
 
 			cpirate: cpirate,
 			tot_lolo: tot_lolo,
+			biaya_cleaning: biaya_cleaning,
 			biaya_adm: biaya_adm,
 			total_pajak: total_pajak,
 			materai: materai,
