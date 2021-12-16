@@ -17,13 +17,12 @@ const serviceEmailRegister = require("../../utils/services/ServiceEmailRegister"
 const Logger = require("../../utils/helper/logger");
 
 class UserController {
-
 	static async signup(req, res, next) {
 		let { groupId, fullName, email, username, password } = req.body;
-		
+
 		try {
 			const payload = await tblusers.create({
-				group_id: groupId, 
+				group_id: groupId,
 				fullname: fullName,
 				username: username,
 				email: email,
@@ -32,7 +31,6 @@ class UserController {
 				created_date: new Date(),
 				updated_by: username,
 				updated_date: new Date(),
-				
 			});
 			const usernameEncript = encriptDecript.encrypt(payload.username);
 			baseResponse({ message: "user created", data: payload })(res, 200);
@@ -56,7 +54,7 @@ class UserController {
 
 		try {
 			const payload = await tblusers.create({
-				group_id: groupId, 
+				group_id: groupId,
 				fullname: fullName,
 				username: username,
 				email: email,
@@ -66,7 +64,6 @@ class UserController {
 				created_date: new Date(),
 				updated_by: usernameByToken,
 				updated_date: new Date(),
-				
 			});
 			baseResponse({ message: "user created", data: payload })(res, 200);
 		} catch (error) {
@@ -79,10 +76,9 @@ class UserController {
 		let { username, oldPassword, newPassword } = req.body;
 
 		try {
-
 			let usernameEmail = username;
 			let dataUsername = await tblusers.findOne({
-				where: { username: usernameEmail }
+				where: { username: usernameEmail },
 			});
 
 			if (!dataUsername) {
@@ -104,12 +100,15 @@ class UserController {
 					is_block: "n",
 					updated_by: usernameEmail,
 					updated_date: new Date(),
-					last_pass_change: new Date()
+					last_pass_change: new Date(),
 				},
 				{ where: { username: usernameEmail } }
 			);
 
-			baseResponse({ message: "password updated!", data:`password succes update for user : ${username}` })(res, 200);
+			baseResponse({
+				message: "password updated!",
+				data: `password succes update for user : ${username}`,
+			})(res, 200);
 			Logger(req);
 		} catch (error) {
 			res.status(403);
@@ -129,8 +128,8 @@ class UserController {
 			if (!dataUsername) {
 				throw new Error(`username ${usernameEmail} doesn't exists!`);
 			}
-			
-			if( dataUsername.is_block === "y" ) {
+
+			if (dataUsername.is_block === "y") {
 				throw new Error(`username ${usernameEmail} not activated!`);
 			}
 
@@ -146,7 +145,6 @@ class UserController {
 				message: "Login succes",
 				data: token(dataUsername),
 			})(res, 200);
-
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -155,8 +153,9 @@ class UserController {
 
 	static async activated(req, res, next) {
 		try {
-
-			const decriptUsername = encriptDecript.decrypt(req.query.alg_wc_ev_verify_email);
+			const decriptUsername = encriptDecript.decrypt(
+				req.query.alg_wc_ev_verify_email
+			);
 			const userDetails = await tblusers.update(
 				{
 					is_block: "n",
@@ -165,13 +164,16 @@ class UserController {
 				},
 				{ where: { username: decriptUsername } }
 			);
-			if(userDetails == 1){
-				const resultDataUser = await tblusers.findOne({ 
-					where: { username: decriptUsername }
+			if (userDetails == 1) {
+				const resultDataUser = await tblusers.findOne({
+					where: { username: decriptUsername },
 				});
-				baseResponse({ message: `User ${resultDataUser.username} Activated`, data: resultDataUser})(res, 200);
+				baseResponse({
+					message: `User ${resultDataUser.username} Activated`,
+					data: resultDataUser,
+				})(res, 200);
 				Logger(req);
-			}	
+			}
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -190,11 +192,10 @@ class UserController {
 
 	static async getAlluser(req, res, next) {
 		let { offset, limit, search, orderColumn, orderType } = req.query;
-		let oc = (orderColumn == "")?"username":orderColumn;
-		let ot = (orderType == "")?"DESC":orderType;
-		let mdl = (orderColumn =="group_name" )?"groups":"tblusers";
+		let oc = orderColumn == "" ? "username" : orderColumn;
+		let ot = orderType == "" ? "DESC" : orderType;
+		let mdl = orderColumn == "group_name" ? "groups" : "tblusers";
 		try {
-
 			let offsets = parseInt(offset) || 0;
 			let limits = parseInt(limit) || 10;
 
@@ -204,22 +205,21 @@ class UserController {
 				include: [
 					{
 						model: tblgroups,
-						as : "groups",
-						attributes: ["group_id", "group_name", "description"]
-					}
-				]
-				,				
+						as: "groups",
+						attributes: ["group_id", "group_name", "description"],
+					},
+				],
 				where: {
 					[Op.or]: [
-					  { username: { [Op.like]: `%${search}%`} },
-					  { fullname: { [Op.like]: `%${search}%`} },
-					  { email: { [Op.like]: `%${search}%`} },
-					  {'$groups.group_name$':{ [Op.like]: `%${search}%`}}
-					]
+						{ username: { [Op.like]: `%${search}%` } },
+						{ fullname: { [Op.like]: `%${search}%` } },
+						{ email: { [Op.like]: `%${search}%` } },
+						{ "$groups.group_name$": { [Op.like]: `%${search}%` } },
+					],
 				},
-				order: [[{ model: mdl }, oc, ot]]
+				order: [[{ model: mdl }, oc, ot]],
 			});
-			baseResponse({ message: "list users", data: { datas, count }})(res, 200);
+			baseResponse({ message: "list users", data: { datas, count } })(res, 200);
 			/**
 			 * param
 			 * req, message, data
@@ -237,9 +237,9 @@ class UserController {
 
 		try {
 			let payload = await tblusers.findOne({
-				where: { user_id : userId }
+				where: { user_id: userId },
 			});
-			
+
 			if (!payload) {
 				throw new Error(`user id: ${userId} doesn't exists!`);
 			}
@@ -256,10 +256,9 @@ class UserController {
 		let { username, newPassword, userEmail } = req.body;
 
 		try {
-
 			let usernameEmail = username;
 			let dataUsername = await tblusers.findOne({
-				where: { username: usernameEmail }
+				where: { username: usernameEmail },
 			});
 
 			if (!dataUsername) {
@@ -267,7 +266,7 @@ class UserController {
 			}
 
 			let dataEmail = await tblusers.findOne({
-				where: { email: userEmail }
+				where: { email: userEmail },
 			});
 
 			if (!dataEmail) {
@@ -280,12 +279,15 @@ class UserController {
 					is_block: "n",
 					updated_by: usernameEmail,
 					updated_date: new Date(),
-					last_pass_change: new Date()
+					last_pass_change: new Date(),
 				},
 				{ where: { username: usernameEmail } }
 			);
 
-			baseResponse({ message: `password updated! and user ${username} activated!`, data: dataUsername })(res, 200);
+			baseResponse({
+				message: `password updated! and user ${username} activated!`,
+				data: dataUsername,
+			})(res, 200);
 			Logger(req);
 		} catch (error) {
 			res.status(403);
@@ -298,14 +300,14 @@ class UserController {
 
 		try {
 			let payload = await tblusers.findOne({
-				where: { user_id : userId },
+				where: { user_id: userId },
 				include: [
 					{
 						model: tblgroups,
-						as : "groups",
-						attributes: ["group_id", "group_name", "description"]
-					}
-				]
+						as: "groups",
+						attributes: ["group_id", "group_name", "description"],
+					},
+				],
 			});
 			if (!payload) {
 				throw new Error(`user id: ${userId} doesn't exists!`);
@@ -319,14 +321,22 @@ class UserController {
 	}
 
 	static async upateDataUser(req, res, next) {
-		let { userId, groupId, prcode, username, fullName, email, password, isBlock } = req.body;
+		let {
+			userId,
+			groupId,
+			prcode,
+			username,
+			fullName,
+			email,
+			password,
+			isBlock,
+		} = req.body;
 
 		try {
-
 			let payload = await tblusers.findOne({
-				where: { user_id : userId }
+				where: { user_id: userId },
 			});
-			
+
 			if (!payload) {
 				throw new Error(`user id: ${userId} doesn't exists!`);
 			}
@@ -340,18 +350,18 @@ class UserController {
 			let usernameByToken = datas.username;
 
 			const userDetails = await tblusers.update(
-				{	
+				{
 					group_id: groupId,
-					username:username,
+					username: username,
 					prcode: prcode,
-					fullname:fullName,
-					email:email,
-					is_block:isBlock,
+					fullname: fullName,
+					email: email,
+					is_block: isBlock,
 					password: bcrypt.hashSync(password, 10),
 					updated_by: usernameByToken,
 					updated_date: new Date(),
 				},
-				{ where: { user_id : userId } }
+				{ where: { user_id: userId } }
 			);
 
 			if (!userDetails) {
@@ -359,13 +369,10 @@ class UserController {
 			}
 
 			let resultUser = await tblusers.findOne({
-				where: { user_id : userId }
+				where: { user_id: userId },
 			});
 
-			baseResponse({ message: "user updated", data: resultUser })(
-				res,
-				200
-			);
+			baseResponse({ message: "user updated", data: resultUser })(res, 200);
 			Logger(req);
 		} catch (error) {
 			res.status(403);
@@ -373,12 +380,12 @@ class UserController {
 		}
 	}
 
-	static async deleteDataUser(req, res, next){
+	static async deleteDataUser(req, res, next) {
 		let { userId } = req.body;
 
 		try {
 			let payload = await tblusers.destroy({
-				where: { user_id : userId }
+				where: { user_id: userId },
 			});
 
 			if (!payload) {
@@ -392,7 +399,6 @@ class UserController {
 			next(error);
 		}
 	}
-
 }
 
 module.exports = UserController;
