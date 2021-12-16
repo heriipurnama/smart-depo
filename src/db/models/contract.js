@@ -118,7 +118,8 @@ module.exports = (sequelize, DataTypes) => {
             cofreedmg: DataTypes.INTEGER,
             coadmm: DataTypes.INTEGER,
             coadmcurr: DataTypes.STRING,
-            coadmv: DataTypes.DECIMAL
+            coadmv: DataTypes.DECIMAL,
+	    deposit: DataTypes.DECIMAL
 
         },
         {
@@ -234,7 +235,8 @@ module.exports = (sequelize, DataTypes) => {
                 cofreedmg: this.cofreedmg,
                 coadmm: this.coadmm,
                 coadmcurr: this.coadmcurr,
-                coadmv: this.coadmv
+                coadmv: this.coadmv,
+		deposit: this.deposit
 			};
 		},
 	});
