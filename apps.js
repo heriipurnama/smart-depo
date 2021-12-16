@@ -27,7 +27,7 @@ app.use(logMorgan);
 app.use("/public", express.static("public/uploads/docs", {fallthrough: false}));
 
 // eslint-disable-next-line no-undef
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4001;
 
 app.use("/api/v1", routers);
 errorHandler.forEach((handler) => app.use(handler));
