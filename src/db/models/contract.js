@@ -121,6 +121,7 @@ module.exports = (sequelize, DataTypes) => {
 			coadmv: DataTypes.DECIMAL,
 			cotax: DataTypes.DECIMAL,
 			comaterai: DataTypes.DECIMAL,
+			deposit: DataTypes.DECIMAL
 		},
 		{
 			sequelize,
@@ -233,7 +234,8 @@ module.exports = (sequelize, DataTypes) => {
 				coadmm: this.coadmm,
 				coadmcurr: this.coadmcurr,
 				coadmv: this.coadmv,
-				comaterai: DataTypes.DECIMAL,
+				comaterai: this.comaterai,
+				deposit: this.deposit
 			};
 		},
 	});
