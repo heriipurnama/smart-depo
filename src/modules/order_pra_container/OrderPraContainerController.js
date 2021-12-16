@@ -21,6 +21,11 @@ class OrderPraContainerController {
 			cpiflag,
 			cpopr,
 			cpcust,
+
+			biaya_lolo,
+			biaya_clean,
+			cleaning_type,
+			deposit,
 		} = req.body;
 
 		try {
@@ -41,6 +46,11 @@ class OrderPraContainerController {
 
 				cpopr: cpopr,
 				cpcust: cpcust,
+
+				biaya_lolo: biaya_lolo,
+				biaya_clean: biaya_clean,
+				cleaning_type: cleaning_type,
+				deposit: deposit,
 			};
 
 			let dataNewContainer = {
@@ -65,8 +75,8 @@ class OrderPraContainerController {
 				newContainer === 1
 					? {
 						dataNewcontainer: payloadDataContainer,
-						dataNewOrderPraContainer: payloadDataOrderPraContainer,
-					}
+						dataNewOrderPraContainer: payloadDataOrderPraContainer, // eslint-disable-next-line no-mixed-spaces-and-tabs
+					  }
 					: { dataNewOrderPraContainer: payloadDataOrderPraContainer };
 
 			baseResponse({
@@ -129,6 +139,7 @@ class OrderPraContainerController {
 
 	static async updateData(req, res, next) {
 		let {
+			pracrnoid,
 			praid,
 			crno,
 			cccode,
@@ -138,11 +149,15 @@ class OrderPraContainerController {
 			cpife,
 			cpishold,
 			cpiremark,
-			pracrnoid,
 			cpigatedate,
 			cpiflag,
 			cpopr,
 			cpcust,
+
+			biaya_lolo,
+			biaya_clean,
+			cleaning_type,
+			deposit,
 		} = req.body;
 
 		let dataBody = {
@@ -162,6 +177,10 @@ class OrderPraContainerController {
 
 			cpopr: cpopr,
 			cpcust: cpcust,
+			biaya_lolo: biaya_lolo,
+			biaya_clean: biaya_clean,
+			cleaning_type: cleaning_type,
+			deposit: deposit,
 		};
 
 		let selectedWhere = { where: { pracrnoid: pracrnoid } };

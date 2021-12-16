@@ -31,6 +31,13 @@ module.exports = (sequelize, DataTypes) => {
 			cpicurr: DataTypes.STRING,
 
 			cpirate: DataTypes.INTEGER,
+			tot_lolo: DataTypes.INTEGER,
+			biaya_cleaning: DataTypes.INTEGER,
+
+			biaya_adm: DataTypes.INTEGER,
+			total_pajak: DataTypes.INTEGER,
+			materai: DataTypes.INTEGER,
+			total_tagihan: DataTypes.INTEGER,
 		},
 		{
 			sequelize,
