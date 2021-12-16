@@ -14,7 +14,7 @@ colors.setTheme({
 	help: "cyan",
 	warn: "yellow",
 	success: "bgBlue",
-	error: "red"
+	error: "red",
 });
 
 const app = express();
@@ -24,10 +24,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(logMorgan);
 
-app.use("/public", express.static("public/uploads/docs", {fallthrough: false}));
+app.use(
+	"/public",
+	express.static("public/uploads/docs", { fallthrough: false })
+);
 
 // eslint-disable-next-line no-undef
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 4000;
 
 app.use("/api/v1", routers);
 errorHandler.forEach((handler) => app.use(handler));
