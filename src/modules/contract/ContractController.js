@@ -11,10 +11,9 @@ class ContractController {
 		let dataDefault = req.body;
 		try {
 			const payload = await contract.create(dataDefault);
-			
-			baseResponse({ message:"Contract Created " , data: payload})(res, 200);
+
+			baseResponse({ message: "Contract Created ", data: payload })(res, 200);
 			Logger(req);
-            
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -23,8 +22,8 @@ class ContractController {
 
 	static async update(req, res, next) {
 		let dataUpdate = req.body;
-		let selector = { 
-			where: { prcode: req.body.prcode }
+		let selector = {
+			where: { prcode: req.body.prcode },
 		};
 		try {
 			let dataContract = await contract.update(dataUpdate, selector);
@@ -43,15 +42,14 @@ class ContractController {
 		}
 	}
 
-
 	static async listOne(req, res, next) {
 		let { idContract } = req.body;
-		
+
 		try {
-			let dataContract = await contract.findOne({ 
+			let dataContract = await contract.findOne({
 				where: {
-					prcode: idContract
-				}
+					prcode: idContract,
+				},
 			});
 
 			if (!dataContract) {
@@ -68,9 +66,9 @@ class ContractController {
 	}
 
 	static async list(req, res, next) {
-		let {start, rows, search, orderColumn, orderType} = req.body;
-		let oc = (orderColumn =="")?"cono":orderColumn;
-		let ot = (orderType =="")?"DESC":orderType;
+		let { start, rows, search, orderColumn, orderType } = req.body;
+		let oc = orderColumn == "" ? "cono" : orderColumn;
+		let ot = orderType == "" ? "DESC" : orderType;
 
 		try {
 			let { count, rows: datas } = await contract.findAndCountAll({
@@ -78,13 +76,16 @@ class ContractController {
 				limit: rows,
 				where: {
 					[Op.or]: [
-					  { cono: { [Op.like]: `%${search}%`} },
-					  { prcode: { [Op.like]: `%${search}%`} }
-					]
+						{ cono: { [Op.like]: `%${search}%` } },
+						{ prcode: { [Op.like]: `%${search}%` } },
+					],
 				},
-				order: [[ `${oc}`, `${ot}`]]
+				order: [[`${oc}`, `${ot}`]],
 			});
-			baseResponse({ message: "List Contracts", data: { datas, count } })(res, 200);
+			baseResponse({ message: "List Contracts", data: { datas, count } })(
+				res,
+				200
+			);
 		} catch (error) {
 			res.status(403);
 			next(error);
@@ -92,22 +93,24 @@ class ContractController {
 	}
 
 	static async delete(req, res, next) {
-		let {idContract} = req.body; 
+		let { idContract } = req.body;
 		try {
 			let dataContract = await contract.destroy({
-				where:{prcode: idContract}
+				where: { prcode: idContract },
 			});
 			if (!dataContract) {
 				throw new Error(`Contract: ${idContract} doesn't exists!`);
 			}
-			baseResponse({ message: "Success Delete Contract", data: dataContract })(res, 200);
+			baseResponse({ message: "Success Delete Contract", data: dataContract })(
+				res,
+				200
+			);
 			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);
 		}
 	}
-
 }
 
 module.exports = ContractController;

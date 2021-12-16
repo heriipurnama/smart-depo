@@ -13,7 +13,7 @@ const {
 	vessel,
 	tblusers,
 	orderPraFile,
-	orderPraRecept
+	orderPraRecept,
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
@@ -580,7 +580,6 @@ class OrderPraController {
 					{
 						model: orderPraRecept,
 						as: "orderPraRecept",
-						
 					},
 					{
 						model: orderPraContainer,
@@ -600,6 +599,10 @@ class OrderPraController {
 							"cpiflag",
 							"cpopr",
 							"cpcust",
+							"biaya_lolo",
+							"biaya_clean",
+							"cleaning_type",
+							"deposit",
 						],
 						order: [
 							[
