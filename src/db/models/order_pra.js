@@ -87,7 +87,8 @@ module.exports = (sequelize, DataTypes) => {
 
 			crton: DataTypes.DATE,
 			mdfby: DataTypes.INTEGER,
-			mdfon: DataTypes.DATE
+			mdfon: DataTypes.DATE,
+			type_do: DataTypes.INTEGER
 		},
 		{
 			sequelize,
