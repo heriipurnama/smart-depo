@@ -38,6 +38,7 @@ class OrderPraController {
 			appv,
 			checkbill,
 			totalcharge,
+			typedo,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -76,6 +77,7 @@ class OrderPraController {
 				crton: new Date(),
 				mdfby: idUsernameByToken,
 				mdfon: new Date(),
+				type_do: typedo,
 			});
 
 			const payloadPraFile = await orderPraFile.findAll({
@@ -303,6 +305,7 @@ class OrderPraController {
 			appv,
 			checkbill,
 			totalcharge,
+			typedo,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -347,6 +350,7 @@ class OrderPraController {
 
 					mdfby: idUsernameByToken,
 					mdfon: new Date(),
+					type_do: typedo,
 				},
 				{ where: { praid: praid } }
 			);
