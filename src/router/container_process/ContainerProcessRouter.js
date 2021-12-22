@@ -29,5 +29,8 @@ routers
 routers
 	.route("/getByCpiorderno")
 	.get(Authentication, containerProcessController.getByCpiorderno);
+routers
+	.route("/getByCpiId")
+	.get(Authentication, containerProcessController.getByCpiId);
 
 module.exports = routers;
