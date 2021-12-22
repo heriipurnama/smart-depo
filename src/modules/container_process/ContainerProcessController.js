@@ -453,7 +453,7 @@ class ContainerProcessController {
 
 	static async getByCpiId(req, res, next) {
 		const {
-			crcpid
+			crcpid,
 		} = req.query;
 
 		try {
