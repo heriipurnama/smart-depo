@@ -69,6 +69,8 @@ class OrderContainerRepoController {
 			rebill,
 			reismtcon,
 			reischarged,
+			cpopr,
+			cpcust,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -142,6 +144,8 @@ class OrderContainerRepoController {
 				recrton: new Date(),
 				remdfby: usernameByToken,
 				remdfon: new Date(),
+				cpopr: cpopr,
+				cpcust: cpcust,
 			});
 
 			baseResponse({
@@ -258,6 +262,8 @@ class OrderContainerRepoController {
 			rebill,
 			reismtcon,
 			reischarged,
+			cpopr,
+			cpcust,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -337,6 +343,8 @@ class OrderContainerRepoController {
 					reischarged: reischarged,
 					remdfby: usernameByToken,
 					remdfon: new Date(),
+					cpopr: cpopr,
+					cpcust: cpcust,
 				},
 				{ where: { reorderno: reorderno } }
 			);

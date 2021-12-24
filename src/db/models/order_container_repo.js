@@ -79,6 +79,8 @@ module.exports = (sequelize, DataTypes) => {
 			recrton: DataTypes.DATE,
 			remdfby: DataTypes.STRING,
 			remdfon: DataTypes.DATE,
+			cpopr: DataTypes.STRING,
+			cpcust: DataTypes.STRING,
 		},
 		{
 			sequelize,
