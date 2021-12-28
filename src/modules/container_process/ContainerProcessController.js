@@ -1,5 +1,6 @@
 "use strict";
 
+const jwt = require("jsonwebtoken");
 const baseResponse = require("../../utils/helper/Response");
 const { container_process } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
