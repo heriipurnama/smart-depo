@@ -123,9 +123,9 @@ class ContainerProcessController {
 
 			await container_process.update(
 				{
-					securityIn_id: userId,
-					securityIn_name: usernameByToken,
-					securityIn_datetime: datetime,
+					securityinid: userId,
+					securityinname: usernameByToken,
+					securityindatetime: datetime,
 				},
 				{ where: { cpid: cpid } }
 			);
