@@ -32,5 +32,9 @@ routers
 routers
 	.route("/getByCpiId")
 	.get(Authentication, containerProcessController.getByCpiId);
+routers
+	.route("/updateSecurityIn")
+	.put(Authentication, containerProcessController.updateSecurityIn);
+
 
 module.exports = routers;

@@ -98,6 +98,48 @@ class ContainerProcessController {
 		}
 	}
 
+	static async updateSecurityIn(req, res, next){
+		let { cpid } = req.body;
+
+		let bearerheader = req.headers["authorization"];
+		const splitBearer = bearerheader.split(" ");
+		const bearer = splitBearer[1];
+
+		// eslint-disable-next-line no-undef
+		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
+		let usernameByToken = datas.username;
+		let userId = datas.id;
+		let datetime = new Date();
+
+		try {
+			let dataUsername = await container_process.findOne({
+				where: { cpid: cpid },
+			});
+
+			if (!dataUsername) {
+				throw new Error(`container_process ${cpid} doesn't exists!`);
+			}
+
+			await container_process.update(
+				{
+					securityIn_id: userId,
+					securityIn_name: usernameByToken,
+					securityIn_datetime: datetime,
+				},
+				{ where: { cpid: cpid } }
+			);
+
+			baseResponse({
+				message: "security updated!",
+				data: `container_process succes update for cpid : ${cpid}`,
+			})(res, 200);
+			Logger(req);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	static async deleteData(req, res, next) {
 		let { dpcode } = req.body;
 

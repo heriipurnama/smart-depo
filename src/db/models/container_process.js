@@ -159,6 +159,13 @@ module.exports = (sequelize, DataTypes) => {
 
 			wastuff: DataTypes.STRING,
 			wastrip: DataTypes.STRING,
+			securityIn_id: DataTypes.INTEGER,
+			securityIn_name: DataTypes.STRING,
+			securityIn_datetime: DataTypes.DATE,
+			securityOut_id: DataTypes.INTEGER,
+			securityOut_name: DataTypes.STRING,
+			securityOut_datetime: DataTypes.DATE,
+
 		},
 		{
 			sequelize,
