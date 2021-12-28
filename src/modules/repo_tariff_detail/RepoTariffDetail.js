@@ -78,11 +78,12 @@ class RepoTariffDetail {
 	}
     
 	static async detailData(req, res, next) {
-		let { prcode } = req.body;
+		let { prcode, rttype } = req.body;
         
 		try {
 			let payload = await repoTariffDetail.findOne(
-				{ where: { prcode : prcode }}
+				{ where: { prcode : prcode,
+					rttype : rttype}}
 			);
 			
 			if (!payload) {
