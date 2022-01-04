@@ -71,7 +71,6 @@ class OrderContainerRepoController {
 			reischarged,
 			cpopr,
 			cpcust,
-			repoid,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
