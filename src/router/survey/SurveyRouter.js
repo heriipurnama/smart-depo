@@ -7,5 +7,8 @@ const { survey: SurveyController } = require("../../modules");
 const Authentication = require("../../utils/middleware/Auth");
 
 routers.route("/getAll").get(Authentication, SurveyController.list);
+routers.route("/checkValid").get(Authentication, SurveyController.checkValid);
+routers.route("/getDetail").get(Authentication, SurveyController.getDetail);
+routers.route("/createNew").post(Authentication, SurveyController.createData);
 
 module.exports = routers;
