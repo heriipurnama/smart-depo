@@ -147,7 +147,7 @@ class OrderContainerRepoController {
 				remdfon: new Date(),
 				cpopr: cpopr,
 				cpcust: cpcust,
-				repoid:repoid,
+				repoid: repoid,
 			});
 
 			baseResponse({
@@ -348,7 +348,7 @@ class OrderContainerRepoController {
 					remdfon: new Date(),
 					cpopr: cpopr,
 					cpcust: cpcust,
-					repoid:repoid,
+					repoid: repoid,
 				},
 				{ where: { reorderno: reorderno } }
 			);
