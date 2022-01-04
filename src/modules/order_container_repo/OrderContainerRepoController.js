@@ -147,7 +147,6 @@ class OrderContainerRepoController {
 				remdfon: new Date(),
 				cpopr: cpopr,
 				cpcust: cpcust,
-				repoid: repoid,
 			});
 
 			baseResponse({
