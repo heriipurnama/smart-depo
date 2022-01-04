@@ -1,8 +1,10 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { container_survey } = require("../../db/models");
+const { container_survey, company } = require("../../db/models");
 const jwt = require("jsonwebtoken");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 
 class SurveyController {
@@ -190,7 +192,13 @@ class SurveyController {
 			TYPE:1,
 			SVNOTES:SVNOTES
 		};
+		try{
 			insertTBLSurvey = await container_survey.create(dataNewContainerSurvey);
+
+		} catch(error){
+			res.status(403);
+			next(error);
+		}
 			
 
 		if( CTCODE =='RF' ){ //Reefer Container
@@ -866,6 +874,51 @@ class SurveyController {
 
 	}
 
+	static async getSvnumber(req, res, next){
+		try {
+
+			/**
+		   * Format
+		   * prefix[SV] + 'paktrasl' + 'sdcode' + 8digit_number
+		   */
+	  
+			// get data company.
+			let resultCompany = await company.findAll({});
+			let paktrasl = resultCompany[0].dataValues.paktrasl;
+			let sdcode = resultCompany[0].dataValues.sdcode;
+			let prefixCode = "SV";
+	  
+			// get data repo order
+			let resultOrderRepo = await container_survey.findOne({ 
+				where: {
+					svid: { [Op.like]: `%SV%`}
+				},
+				order:[[ "svid", "DESC"]]
+			});
+	  
+			if (resultOrderRepo === null) {
+	  
+			  const resultCode = `${prefixCode}${paktrasl}${sdcode}00000001`;
+			  baseResponse({ message: "Success Created Unix Code", data: resultCode })(res, 200);
+			} else {
+	  
+			  let resultDataOrderRepo = resultOrderRepo.dataValues.repoorderno;
+			  let resultSubstringDataOrderRepo = resultDataOrderRepo.substring(7,16);
+			  let convertInt = parseInt(resultSubstringDataOrderRepo) + 1;
+	  
+			  let str = "" + convertInt;
+			  let pad = "00000000";
+			  let number = pad.substring(0, pad.length - str.length) + str;
+			  const resultCode = `${prefixCode}${paktrasl}${sdcode}${number}`;
+	  
+			  baseResponse({ message: "Success Created Unix Code", data: resultCode })(res, 200);
+	  
+			}
+		  } catch (error) {
+			res.status(500);
+			next(error);
+		  }
+	}
 }
 
 module.exports = SurveyController;
