@@ -190,7 +190,7 @@ class SurveyController {
 			TYPE:1,
 			SVNOTES:SVNOTES
 		};
-		// 	insertTBLSurvey = await container_survey.create(dataNewContainerSurvey);
+			insertTBLSurvey = await container_survey.create(dataNewContainerSurvey);
 			
 
 		if( CTCODE =='RF' ){ //Reefer Container
