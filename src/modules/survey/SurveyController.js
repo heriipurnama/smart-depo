@@ -149,7 +149,7 @@ class SurveyController {
 		let	$CRCSC = (CRCSC != undefined)? 0 : 1;
 		let	$CRACEP = (CRACEP != undefined)? 0 : 1;
 		let	$CRMANDAT = CRCMANDAT;
-		var $TYPE_SURVEY="", $CPID;
+		var $TYPE_SURVEY="", $CPID="";
 		var now = (new Date()).toISOString().split('T')[0];
 		var $updateTBLcontainer;
 		let $TableName1 = 'tblcontainer';
@@ -170,7 +170,7 @@ class SurveyController {
 			
 			if(MyResult !=null){
 				let $CPISTATUS = MyResult['CPISTATUS'];
-				$CPID =  MyResult['CPISTATUS'];
+				$CPID =  MyResult['CPID'];
 				switch($CPISTATUS.trim()){
 					case 'NO': //Pra In
 					$TYPE_SURVEY='IN';
@@ -187,23 +187,13 @@ class SurveyController {
 		
 		
 		//Insert ke tabel Survey
-		let dataNewContainerSurvey = {
-			SVID: SVID,
-			CPID: $CPID,
-			SYID: SYID,
-			SVCRNO:SVCRNO,
-			SVTYPE:$TYPE_SURVEY,
-			SVSURDAT:SVSURDAT,
-			SVCOND:SVCOND,
-			SVCRTON:SVCRTON,
-			SVCRTBY:SVCRTBY,
-			TYPE:1,
-			SVNOTES:SVNOTES
-		};
-		
 		try{
-			let insertTBLSurvey = await container_survey.create(dataNewContainerSurvey);
-
+			
+			var insertContainerSurvey = await container_survey.sequelize.query(`Insert into container_survey(SVID,CPID,SYID,SVCRNO,SVTYPE,SVSURDAT,SVCOND,SVCRTON,SVCRTBY,TYPE,SVNOTES)Values('${SVID}','${$CPID}','${SYID}','${SVCRNO}','${$TYPE_SURVEY}','${SVSURDAT}','${SVCOND}','${SVCRTON}','${usernameByToken}',1,'${SVNOTES}')`,
+						{
+							type: container_survey.INSERT
+						});
+			
 		} catch(error){
 			res.status(403);
 			next(error);
@@ -225,7 +215,7 @@ class SurveyController {
 
 			//Update tabel Container Proses
 			try{
-				var updateTBLProcess = await container_survey.sequelize.query(`Update container_process set MANUFDATE='${MANUFDATE}' Where CPID='${CPID}'`,
+				var updateTBLProcess = await container_survey.sequelize.query(`Update container_process set MANUFDATE='${MANUFDATE}' Where CPID='${$CPID}'`,
 				{
 					type: container_survey.INSERT
 				});
@@ -516,7 +506,7 @@ class SurveyController {
 		}
 		baseResponse({
 			message: "Success Insert Data",
-			data: dataNewContainerSurvey
+			data: insertContainerSurvey
 		})(res, 200);
 
 	}
@@ -829,7 +819,7 @@ class SurveyController {
 		//Hapus record tabel survey
 		try {
 
-			$SQL1 = await container_survey.sequelize.query(`Delete from ${$TableName7} Where ".PRIMARY_KEY."='${PRIMARY_KEY}' and CPID = '${CPID}'`,
+			$SQL1 = await container_survey.sequelize.query(`Delete from ${$TableName7} Where ".PRIMARY_KEY."='${PRIMARY_KEY}' and CPID = '${MyResult['CPID']}'`,
 			{
 				type: container_survey.DELETE,
 			});
