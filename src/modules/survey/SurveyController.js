@@ -98,10 +98,10 @@ class SurveyController {
 				date_format(container_survey.svsurdat,'%d/%m/%y') as svsurdat,
 				date_format(container_process.cpipratgl,'%d/%m/%y') as cpipratgl,
 				tblcontainer.crbay,tblcontainer.crrow,tblcontainer.crtier,tblcontainer.crlastcond,tblcontainer.crlastconde,container_process.manufdate,
-				tblcontainer.crlastact,container_process.cpishold,container_process.cpiprano,container_process.cpiorderno,container_process.cpieir,container_process.cpirefin,container_survey.svcond,container_survey.syid,
+				tblcontainer.crlastact,container_process.cpishold,container_process.cpiprano,container_process.cpiorderno,container_process.cpieir,container_process.cpirefin,container_survey.svcond,
 				container_process.cpodesti,container_process.cpijam,container_process.cpichrgbb,container_process.cpipaidbb,container_process.cpife,container_process.cpiterm,container_process.cpidish,container_process.cpidisdat,
 				container_process.cpives,container_process.cpicargo,container_process.cpiseal,container_process.cpivoyid,container_process.cpives,container_process.cpideliver,container_process.cpidpp,
-				container_process.cpidriver,container_process.cpinopol,container_process.cpiremark,container_process.cpinotes,tblvoyage.voyno,tblvoyage.vesid,tblvessel.vesopr
+				container_process.cpidriver,container_process.cpinopol,container_process.cpiremark,container_process.cpinotes,tblvoyage.voyno,tblvoyage.vesid,tblvessel.vesopr,tblprincipal.prcode,tbldebitur.cucode
 						from tblcontainer
 						left join container_process on tblcontainer.crcpid = container_process.cpid
 						left join container_survey on container_process.cpid = container_survey.cpid
@@ -109,6 +109,8 @@ class SurveyController {
 						left join tblmaterial on tblcontainer.mtcode = tblmaterial.mtcode
 						left join tblvoyage on tblvoyage.voyid = container_process.cpivoyid	
 						left join tblvessel on tblvessel.vesid = container_process.cpives
+						left join tblprincipal on tblprincipal.prcode = container_process.cpopr
+						left join tbldebitur on tblprincipal.cucode = tbldebitur.cucode
 				where tblcontainer.crno = '${CRNO}' `,
 				{
 					type: container_survey.SELECT,
