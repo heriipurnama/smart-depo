@@ -882,7 +882,7 @@ class SurveyController {
 			/**
 		   * Format
 		   * prefix[SV] + 'paktrasl' + 'sdcode' + 8digit_number
-		   */
+		   */ 
 	  
 			// get data company.
 			let resultCompany = await company.findAll({});
