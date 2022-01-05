@@ -891,22 +891,22 @@ class SurveyController {
 			let prefixCode = "SV";
 	  
 			// get data repo order
-			let resultOrderRepo = await container_survey.findOne({ 
+			let resultSurvey = await container_survey.findOne({ 
 				where: {
 					svid: { [Op.like]: `%SV%`}
 				},
 				order:[[ "svid", "DESC"]]
 			});
 	  
-			if (resultOrderRepo === null) {
+			if (resultSurvey === null) {
 	  
 			  const resultCode = `${prefixCode}${paktrasl}${sdcode}00000001`;
 			  baseResponse({ message: "Success Created Unix Code", data: resultCode })(res, 200);
 			} else {
 	  
-			  let resultDataOrderRepo = resultOrderRepo.dataValues.repoorderno;
-			  let resultSubstringDataOrderRepo = resultDataOrderRepo.substring(7,16);
-			  let convertInt = parseInt(resultSubstringDataOrderRepo) + 1;
+			  let resultDataSurvey = resultSurvey.dataValues.svid;
+			  let resultSubstringDataSurvey = resultDataSurvey.substring(7,16);
+			  let convertInt = parseInt(resultSubstringDataSurvey) + 1;
 	  
 			  let str = "" + convertInt;
 			  let pad = "00000000";
