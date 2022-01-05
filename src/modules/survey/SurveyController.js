@@ -71,7 +71,7 @@ class SurveyController {
 		let { CRNO, CRLASTACT}= req.query;
 		try{
 			let validCrno = await container_survey.sequelize.query(
-				`SELECT CRLASTACT FROM tblcontainer WHERE CRNO LIKE %'${CRNO}'% AND CRLASTACT = '${CRLASTACT}' `,
+				`SELECT CRLASTACT FROM tblcontainer WHERE CRNO LIKE '%${CRNO}%' AND CRLASTACT = '${CRLASTACT}' `,
 				{
 					type: container_survey.SELECT,
 					plain: true
@@ -882,7 +882,7 @@ class SurveyController {
 			/**
 		   * Format
 		   * prefix[SV] + 'paktrasl' + 'sdcode' + 8digit_number
-		   */
+		   */ 
 	  
 			// get data company.
 			let resultCompany = await company.findAll({});
