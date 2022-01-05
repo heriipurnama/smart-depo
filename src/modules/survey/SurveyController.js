@@ -77,7 +77,13 @@ class SurveyController {
 					plain: true
 				}
 			);
-			let valid = (validCrno['CRLASTACT'] == 'WS')?'valid':'invalid';
+			let valid;
+			if (validCrno !== null){
+
+				valid = (validCrno['CRLASTACT'] == 'WS')?'valid':'invalid';
+			} else {
+				valid = 'invalid';
+			}
 			baseResponse({
 				message: "Check Valid",
 				data: {valid},
