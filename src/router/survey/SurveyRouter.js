@@ -11,5 +11,7 @@ routers.route("/checkValid").get(Authentication, SurveyController.checkValid);
 routers.route("/getDetail").get(Authentication, SurveyController.getDetail);
 routers.route("/createNew").post(Authentication, SurveyController.createData);
 routers.route("/getSVID").get(Authentication, SurveyController.getSvnumber);
+routers.route("/updateData").put(Authentication, SurveyController.updateData);
+routers.route("/deleteData").delete(Authentication, SurveyController.deleteData);
 
 module.exports = routers;
