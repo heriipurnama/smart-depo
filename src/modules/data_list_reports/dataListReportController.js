@@ -52,7 +52,7 @@ class dataListReportController {
 		
 		try {
 			let datas = await container_process.sequelize.query(
-				`SELECT SVY.SVID,CON.CRNO,PR.PRCODE,
+				`SELECT SVY.SVID,CON.CRNO,PR.PRCODE,CP.CPIORDERNO,
 				CASE WHEN DATE_FORMAT(CP.CPITGL,'%d/%m/%Y')='00/00/0000' 
 				THEN '' ELSE DATE_FORMAT(CP.CPITGL,'%d/%m/%Y') END AS CPITGL,DATE_FORMAT(SVY.SVSURDAT,'%d/%m/%Y') as SVSURDAT,
 				SVY.SVCOND 
