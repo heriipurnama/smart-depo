@@ -518,7 +518,9 @@ class SurveyController {
 		} = req.body;
 		var $TableName1 	= "tblcontainer";
 		var now = (new Date()).toISOString().split('T')[0];
-		const bearer = splitBearer[1];		
+		let bearerheader = req.headers["authorization"];
+		const splitBearer = bearerheader.split(" ");
+		const bearer = splitBearer[1];
 		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
 		let usernameByToken = datas.username;
 		var TYPE_SURVEY='';
@@ -535,10 +537,16 @@ class SurveyController {
 		});
 		var $CPID = MyResult['CPID'];
 		//Update tabel Container Proses
-		$UpdateProses = await container_survey.sequelize.query(`Update container_process set MANUFDATE='${MANUFDATE}' Where CPID='${$CPID}'`,
-		{
-			type: container_survey.INSERT
-		});
+		try{
+
+			var $UpdateProses = await container_survey.sequelize.query(`Update container_process set MANUFDATE='${MANUFDATE}' Where CPID='${$CPID}'`,
+			{
+				type: container_survey.INSERT
+			});
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
 
 		//Mencari Tipe Survey Container
 		var $SQLSurv = await container_survey.sequelize.query(`SELECT CPISTATUS from container_process Where CRNO='${CRNO}' and CPIORDERNO='${CPIPRANO}'`,
@@ -546,24 +554,32 @@ class SurveyController {
 			type: container_survey.SELECT,
 			plain: true
 		});
+
 		switch($SQLSurv['CPISTATUS']){
 			case 'NO': //Pra In
-				TYPE_SURVEY='IN';
-				break;
+			TYPE_SURVEY='IN';
+			break;
 			case 'OF': //Leasing
-				TYPE_SURVEY='OF';
+			TYPE_SURVEY='OF';
 				break;
-
-			case 'RE': //Repo PraIn
+				
+				case 'RE': //Repo PraIn
 				TYPE_SURVEY='EN';
 				break;
 		}
+	
 
 		if( CTCODE=='RF' ){ //Reefer Container
-			$SQL3 =  await container_survey.sequelize.query(`UPDATE tblcontainer SET MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${CRACEP},CRCSC=${$CRCSC},CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
-			{
-				type: container_survey.INSERT
-			});		
+			try{
+
+				$SQL3 =  await container_survey.sequelize.query(`UPDATE tblcontainer SET MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${CRACEP},CRCSC=${$CRCSC},CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
+				{
+					type: container_survey.INSERT
+				});		
+			} catch (error) {
+				res.status(403);
+				next(error);
+			}
 			
 
 		  	if( CRLASTACT=='WE' || CRLASTACT=='WA' ){
@@ -623,19 +639,21 @@ class SurveyController {
 						});
 						
 						if( $ResultCheck['SVID'].length > 0 ){
-
-							$SQL3 = await container_survey.sequelize.query(`insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'1','${SYID}')`,
-							{
-								type: container_survey.INSERT,
-							});
-					
+							try{
+								$SQL3 = await container_survey.sequelize.query(`insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'1','${SYID}')`,
+								{
+									type: container_survey.INSERT,
+								});
+							}catch (error) {
+								res.status(403);
+								next(error);
+							}
+								
 						}
 
 					}
 
 				}
-
-
 
 
 				//1. Jika kondisi OK, tapi Engine rusak
@@ -643,71 +661,117 @@ class SurveyController {
 					
 					if( CRLASTCONDE.length > 0 ){
 						//Update tabel container
-						$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTACTE='WS',CRLASTCOND='AC' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
-						{
-							type: container_survey.INSERT,
-						});
+						try{
+							$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTACTE='WS',CRLASTCOND='AC' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+							{
+								type: container_survey.INSERT,
+							});
+						} catch (error) {
+							res.status(403);
+							next(error);
+						}
 				
 					}else{
 						if( (CRLASTCOND=='AC' || CRLASTCONDE=='AC') || (CRLASTCOND=='AX' || CRLASTCONDE=='AC') || (CRLASTCONDE=='AX' || CRLASTCONDE =='AX') || (CRLASTCOND=='AC' || CRLASTCOND=='AC') ){
-							$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTCOND='".${CRLASTCOND}',CRLASTACTE='CO',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
-							{
-							type: container_survey.INSERT,
-							});
+							try{
+
+								$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTCOND='".${CRLASTCOND}',CRLASTACTE='CO',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+								{
+									type: container_survey.INSERT,
+								});
+							} catch (error) {
+								res.status(403);
+								next(error);
+							}
 				
 
 						}else{
-							$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTCOND='AC',CRLASTACTE='WS',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '$CRNO}' and CRCPID = '${$CPID}'`,{
-							type: container_survey.INSERT
-							});		
+							try {
+								$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTCOND='AC',CRLASTACTE='WS',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '$CRNO}' and CRCPID = '${$CPID}'`,{
+									type: container_survey.INSERT
+								});		
+							} catch (error) {
+								res.status(403);
+								next(error);
+							}
 						}
 
 					}
 
 				} else if( ( CRLASTCOND =='AC' || CRLASTCONDE =='AX') && (CRLASTCOND !='AC' || CRLASTCOND !='AX') ){
 					//Update tabel container
-					$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='WE',CRLASTCOND='${CRLASTCOND}',CRLASTACTE='CO',CRLASTCONDE='AC' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
-					{
-						type: container_survey.INSERT
-					});
+					try{
+						$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='WE',CRLASTCOND='${CRLASTCOND}',CRLASTACTE='CO',CRLASTCONDE='AC' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+						{
+							type: container_survey.INSERT
+						});
+					} catch (error) {
+						res.status(403);
+						next(error);
+					}
 
 				} else if( ( CRLASTCOND =='AC' && CRLASTCONDE =='AX') || (CRLASTCOND =='AX' && CRLASTCONDE == 'AC') || (CRLASTCOND =='AX' && CRLASTCONDE =='AX') || (CRLASTCOND =='AC' && CRLASTCONDE =='AC') ){
 					//Update tabel container
-					$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTACTE='CO',CRLASTCOND='${CRLASTCOND}',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
-					{
-						type: container_survey.INSERT
-					});
+					try {
+						$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTACTE='CO',CRLASTCOND='${CRLASTCOND}',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+						{
+							type: container_survey.INSERT
+						});
+					} catch (error) {
+						res.status(403);
+						next(error);
+					}
 
 				}else if( (CRLASTCOND !='AC' && CRLASTCONDE !='AC') || (CRLASTCOND !='AX' && CRLASTCONDE !='AX') ){
 
 					if( !strlen($_POST["CRLASTCONDE"]) ){
-					    //Update tabel container
-						$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTCOND='${CRLASTCOND}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
-						{
-						type: container_survey.INSERT
-						});
+						//Update tabel container
+						try {
+							$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTCOND='${CRLASTCOND}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+							{
+								type: container_survey.INSERT
+							});
+						} catch (error) {
+							res.status(403);
+							next(error);
+						}
 				
 					}else{
-					    //Update tabel container
-						$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTCOND='${CRLASTCOND}',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}`,
-						{
-							type: container_survey.INSERT
-						});		
+						//Update tabel container
+						try {
+							$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTCOND='${CRLASTCOND}',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}`,
+							{
+								type: container_survey.INSERT
+							});		
+						} catch (error) {
+							res.status(403);
+							next(error);
+						}
 					}
 				}
 
-				$SQL= await container_survey.sequelize.query(`Update coins_survey set SVCOND='${CRLASTCOND}',SVSURDAT='${SVSURDAT}' Where SVCRNO = '${CRNO}' and CPID = '${$CPID}`,
-				{
-					type: container_survey.INSERT
-				});
+				try{
+					$SQL= await container_survey.sequelize.query(`Update coins_survey set SVCOND='${CRLASTCOND}',SVSURDAT='${SVSURDAT}' Where SVCRNO = '${CRNO}' and CPID = '${$CPID}`,
+					{
+						type: container_survey.INSERT
+					});
+				} catch (error) {
+					res.status(403);
+					next(error);
+				}
 
 		 	}//END WE || WA
 
 		}else{ // Non Reefer
-			$SQL3 = await container_survey.sequelize.query(`UPDATE ${$TableName1} SET MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${$CRACEP},CRCSC=${$CRCSC},CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
-			{
-				type: container_survey.INSERT
-			});
+			try {
+				$SQL3 = await container_survey.sequelize.query(`UPDATE ${$TableName1} SET MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${$CRACEP},CRCSC=${$CRCSC},CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
+				{
+					type: container_survey.INSERT
+				});
+			} catch (error) {
+				res.status(403);
+				next(error);
+			}
 
 			if( CRLASTACT =='WE' || CRLASTACT =='WA' ){
 				if( CRLASTCOND =='AC' || CRLASTCOND =='AX' ){
@@ -726,16 +790,14 @@ class SurveyController {
 								type: container_survey.SELECT,
 								plain: true
 							});
-					// $ResultPRCODE=$DBConnection->dbc->get_row($SQLPRCODE);
 
 					let getEOR = await container_survey.sequelize.query(`SELECT LPAD(max(RPNOEST) +1,6,'0') as RPNOEST from container_repair order by RPNOEST desc limit 1`,
 					{
 						type: container_survey.SELECT,
 						plain: true
 					});
-					// $Result = $DBConnection->dbc->get_row($SQLEOR);
+					
 					let EORNo = (getEOR == null)? 1: getEOR['RPNOEST'];
-
 					if (getPRCODE['PRFLAG']=='1'){ //leasing
 
 						$ResultCheck= await container_survey.sequelize.query(`Select SVID from container_repair where SVID='${$SVID}'`,
@@ -746,10 +808,15 @@ class SurveyController {
 						
 						if( $ResultCheck['SVID'].length > 0  ){
 							//Approve tabel repair
-							$SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPV,RPTGLAPPV,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${$SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'${now}',1,'1','${SYID} )`,
-							{
-								type: container_survey.INSERT,
-							});
+							try {
+								$SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPV,RPTGLAPPV,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${$SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'${now}',1,'1','${SYID} )`,
+								{
+									type: container_survey.INSERT,
+								});
+							} catch (error) {
+								res.status(403);
+								next(error);
+							}
 						}
 
 					}else{ //Shipping
@@ -762,35 +829,58 @@ class SurveyController {
 						});
 
 						if( $ResultCheck['SVID'] ){
-							$SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${$SVID}',1,'${now}','${EORNo}','${CRNO}','$now','${usernameByToken}',1,'${now}',1,'1','${SYID}')`,
-							{
-								type: container_survey.INSERT,
-							});
+							try {
+								$SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${$SVID}',1,'${now}','${EORNo}','${CRNO}','$now','${usernameByToken}',1,'${now}',1,'1','${SYID}')`,
+								{
+									type: container_survey.INSERT,
+								});
+							} catch (error) {
+								res.status(403);
+								next(error);
+							}
 						
 						}
 
 					}
 
-
-					$SQL4= await container_survey.sequelize.query(`Update ${$TableName1} SET CRLASTACT='CO',CRLASTCOND='${CRLASTCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
-					{
-						type: container_survey.INSERT,
-					});
+					try{
+						$SQL4= await container_survey.sequelize.query(`Update ${$TableName1} SET CRLASTACT='CO',CRLASTCOND='${CRLASTCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
+						{
+							type: container_survey.INSERT,
+						});
+					} catch (error) {
+						res.status(403);
+						next(error);
+					}
 
 				}else{
-					$SQL4=  await container_survey.sequelize.query(`Update ${$TableName1} SET CRLASTCOND='${CRLASTCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
-					{
-						type: container_survey.INSERT,
-					});
+					try {
+						$SQL4=  await container_survey.sequelize.query(`Update ${$TableName1} SET CRLASTCOND='${CRLASTCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
+						{
+							type: container_survey.INSERT,
+						});
+					} catch (error) {
+						res.status(403);
+						next(error);
+					}
 					
 				}
 
-				$SQL= await container_survey.sequelize.query(`Update coins_survey set SVCOND='${CRLASTCOND}',SVSURDAT='${SVSURDAT}' Where SVCRNO = '${CRNO}' and CPID = '${$CPID}`,
-				{
-					type: container_survey.INSERT,
-				});
+				try {
+					$SQL= await container_survey.sequelize.query(`Update coins_survey set SVCOND='${CRLASTCOND}',SVSURDAT='${SVSURDAT}' Where SVCRNO = '${CRNO}' and CPID = '${$CPID}`,
+					{
+						type: container_survey.INSERT,
+					});
+				} catch (error) {
+					res.status(403);
+					next(error);
+				}
 			}//END WE || WA
 		}
+		baseResponse({
+			message: "Success Update Data",
+			data: $UpdateProses
+		})(res, 200);
 	}
 
 	static async deleteData(req, res, next) {
