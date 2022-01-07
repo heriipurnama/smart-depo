@@ -334,6 +334,7 @@ class RepoInController {
 
 			reismtcon,
 			reischarged,
+			repocode,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -357,7 +358,7 @@ class RepoInController {
 			let sdcode = resultCompany[0].dataValues.sdcode;
 			let prefixCode = {
 				containerProcess: "CP",
-				orderContainerRepo: "RI",
+				orderContainerRepo: repocode,
 			};
 
 			// get data container process
@@ -430,40 +431,8 @@ class RepoInController {
 			}
 
 			var payloadContainerProcess;
-			if (retype === 22) {
-				// insert to tabel container_process
 
-				payloadContainerProcess = await container_process.create({
-					cpid: resultCodeContainerProcess,
-					cpopr: cpopr,
-					cpcust: cpcust,
-					cpidish: cpidish,
-
-					cpidisdat: cpidisdat,
-					cpijam: cpijam,
-					cpichrgbb: cpichrgbb,
-					cpivoyid: dataVoyId,
-
-					cpdepo: cpdepo,
-					spdepo: spdepo,
-					cpiorderno: resultCodeOrderContainerRepo,
-					cpideliver: cpideliver,
-
-					cpife: 0,
-					cpiprano: resultCodeOrderContainerRepo,
-					cpipratgl: cpipratgl,
-					cpiterm: "mty",
-
-					cpistatus: "re",
-					cpicrton: new Date(),
-					cpicrtby: usernameByToken,
-					cpivoy: voyid,
-
-					cpives: vesid,
-					cpireceptno: "kw-repo",
-				});
-			} else {
-				payloadContainerProcess = await container_process.create({
+			payloadContainerProcess = await container_process.create({
 					cpid: resultCodeContainerProcess,
 					cpopr: cpopr,
 					cpcust: cpcust,
@@ -489,8 +458,8 @@ class RepoInController {
 					cpivoy: voyid,
 
 					cpives: vesid,
-				});
-			}
+			});
+
 
 			const payloadOrderContainerRepo = await orderContainerRepo.create({
 				reorderno: resultCodeOrderContainerRepo,
