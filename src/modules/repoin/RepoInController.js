@@ -693,38 +693,8 @@ class RepoInController {
 						);
 
 					var restContainerProcess;
-					if (orderContainerRepoCheck[0][0].retype === 22) {
-						restContainerProcess = await container_process.create({
-							cpid: resultCodeContainerProcess,
-							crno: crno,
-							cpopr: cpopr,
-							cpcust: cpcust,
-							cpidish: cpidish,
 
-							cpidisdat: cpidisdat,
-							cpdepo: cpdepo,
-							cpichrgbb: cpichrgbb,
-
-							cpipratgl: cpipratgl,
-							cpijam: cpijam,
-							cpishold: 0,
-
-							cpife: 0,
-							cpives: cpives,
-							cpiorderno: cpiorderno,
-							cpiremark: cpiremark,
-
-							cpideliver: cpideliver,
-							cpivoyid: cpivoyid,
-							cpivoy: cpivoy,
-							cpiterm: "mty",
-
-							cpistatus: "re",
-							cpicrton: Date.now(),
-							cpicrtby: usernameByToken,
-						});
-					} else {
-						restContainerProcess = await container_process.create({
+					restContainerProcess = await container_process.create({
 							cpid: resultCodeContainerProcess,
 							crno: crno,
 							cpopr: cpopr,
@@ -751,8 +721,8 @@ class RepoInController {
 
 							cpicrton: Date.now(),
 							cpicrtby: usernameByToken,
-						});
-					}
+					});
+
 
 					// insert order repo controller!
 					const restOrderRepoContainer = await orderRepoContainer.create({
