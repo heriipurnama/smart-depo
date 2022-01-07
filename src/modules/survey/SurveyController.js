@@ -884,10 +884,7 @@ class SurveyController {
 	}
 
 	static async deleteData(req, res, next) {
-		let { SVID, SYID, SVCRNO, SVSURDAT, SVCOND, SVCRTON, SVCRTBY, 
-			SVNOTES, CPID, CPIPRANO, CRNO, CPIORDERNO, CRCMANDAT, CRCDP, CRACEP, CRCSC, CTCODE, MTCODE1,
-			CRWEIGHTK, CRWEIGHTL, CRTARAK, CRTARAL, CRNETK, CRNETL, CRVOL, MANUFDATE, CRLASTCOND, CRLASTCONDE, CRBAY, CRPOS, CRROW, CRTIER,CRMANUF, PRIMARY_KEY
-		} = req.body;
+		let { SVID, RPID, BID, CPIPRANO, CRNO} = req.body;
 		let $TableName1 	= "tblcontainer";
 		let $TableName6 	= "container_process";
 		let $TableName7 	= "container_survey";
@@ -909,7 +906,7 @@ class SurveyController {
 		//Hapus record tabel survey
 		try {
 
-			$SQL1 = await container_survey.sequelize.query(`Delete from ${$TableName7} Where ".PRIMARY_KEY."='${PRIMARY_KEY}' and CPID = '${MyResult['CPID']}'`,
+			$SQL1 = await container_survey.sequelize.query(`Delete from ${$TableName7} Where bid ='${BID}' and CPID = '${MyResult['CPID']}'`,
 			{
 				type: container_survey.DELETE,
 			});
@@ -922,7 +919,7 @@ class SurveyController {
 		//Hapus record tabel repair
 		try {
 
-			$SQL3 = await container_survey.sequelize.query(`Delete from ${$TableName8} Where ".PRIMARY_KEY."='${PRIMARY_KEY}'`,
+			$SQL3 = await container_survey.sequelize.query(`Delete from ${$TableName8} Where rpid ='${RPID}'`,
 			{
 				type: container_survey.DELETE,
 			});
@@ -935,7 +932,7 @@ class SurveyController {
 		//Hapus record tabel repair detail
 		try {
 
-			$SQL4 = await container_survey.sequelize.query(`Delete from ${$TableName14} Where ".PRIMARY_KEY."='${PRIMARY_KEY}'`,
+			$SQL4 = await container_survey.sequelize.query(`Delete from ${$TableName14} Where svid ='${SVID}'`,
 			{
 				type: container_survey.DELETE,
 			});
