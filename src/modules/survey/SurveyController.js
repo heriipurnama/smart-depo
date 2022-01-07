@@ -884,7 +884,7 @@ class SurveyController {
 	}
 
 	static async deleteData(req, res, next) {
-		let { SVID, RPID, BID, CPIPRANO, CRNO} = req.body;
+		let { SVID, RPID, BID, CPIPRANO, CRNO} = req.query;
 		let $TableName1 	= "tblcontainer";
 		let $TableName6 	= "container_process";
 		let $TableName7 	= "container_survey";
@@ -893,7 +893,7 @@ class SurveyController {
 		//Mencari CPID(Container Proses ID) di tabel Container Proses
 		try{
 
-			var $MyResult = await container_survey.sequelize.query(`SELECT CPID from ${$TableName6} Where CRNO='${CRNO}' and CPIORDERNO='${CPIPRANO}'`,
+			var MyResult = await container_survey.sequelize.query(`SELECT CPID from ${$TableName6} Where CRNO='${CRNO}' and CPIORDERNO='${CPIPRANO}'`,
 			{
 				type: container_survey.SELECT,
 				plain: true
@@ -906,7 +906,7 @@ class SurveyController {
 		//Hapus record tabel survey
 		try {
 
-			$SQL1 = await container_survey.sequelize.query(`Delete from ${$TableName7} Where bid ='${BID}' and CPID = '${MyResult['CPID']}'`,
+			let $SQL1 = await container_survey.sequelize.query(`Delete from ${$TableName7} Where bid ='${BID}' and CPID = '${MyResult['CPID']}'`,
 			{
 				type: container_survey.DELETE,
 			});
@@ -919,7 +919,7 @@ class SurveyController {
 		//Hapus record tabel repair
 		try {
 
-			$SQL3 = await container_survey.sequelize.query(`Delete from ${$TableName8} Where rpid ='${RPID}'`,
+			let $SQL3 = await container_survey.sequelize.query(`Delete from ${$TableName8} Where rpid ='${RPID}'`,
 			{
 				type: container_survey.DELETE,
 			});
@@ -932,7 +932,7 @@ class SurveyController {
 		//Hapus record tabel repair detail
 		try {
 
-			$SQL4 = await container_survey.sequelize.query(`Delete from ${$TableName14} Where svid ='${SVID}'`,
+			let $SQL4 = await container_survey.sequelize.query(`Delete from ${$TableName14} Where svid ='${SVID}'`,
 			{
 				type: container_survey.DELETE,
 			});
@@ -944,7 +944,7 @@ class SurveyController {
 		//Update record pd tabel Container menjadi WS( Waiting Survey )
 		try {
 
-			$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='WS',CRLASTACTE=NULL,CRLASTCOND=NULL,CRLASTACTE=NULL,CRLASTCONDE=NULL Where CRNO = '${CRNO}'`,
+			let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='WS',CRLASTACTE=NULL,CRLASTCOND=NULL,CRLASTACTE=NULL,CRLASTCONDE=NULL Where CRNO = '${CRNO}'`,
 			{
 				type: container_survey.INSERT,
 			});
