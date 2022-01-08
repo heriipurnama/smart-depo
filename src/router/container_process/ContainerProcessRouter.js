@@ -37,10 +37,10 @@ routers
 	.put(Authentication, containerProcessController.updateSecurityIn);
 routers
 	.route("/getBarcodeGateIn")
-	.put(Authentication, containerProcessController.getBarcodeGateIn);
+	.get(Authentication, containerProcessController.getBarcodeGateIn);
 routers
 	.route("/getBarcodeSurvey")
-	.put(Authentication, containerProcessController.getBarcodeSurvey);
+	.get(Authentication, containerProcessController.getBarcodeSurvey);
 
 
 module.exports = routers;
