@@ -35,6 +35,12 @@ routers
 routers
 	.route("/updateSecurityIn")
 	.put(Authentication, containerProcessController.updateSecurityIn);
+routers
+	.route("/getBarcodeGateIn")
+	.put(Authentication, containerProcessController.getBarcodeGateIn);
+routers
+	.route("/getBarcodeSurvey")
+	.put(Authentication, containerProcessController.getBarcodeSurvey);
 
 
 module.exports = routers;

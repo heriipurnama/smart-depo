@@ -390,6 +390,7 @@ class OrderPraController {
 	}
 
 	static async createPrainNumber(req, res, next) {
+		let { pracode } = req.body;
 		try {
 			/**
 			 * Format PRAIN CODE
@@ -400,7 +401,7 @@ class OrderPraController {
 			let resultCompany = await company.findAll({});
 			let paktrasl = resultCompany[0].dataValues.paktrasl;
 			let sdcode = resultCompany[0].dataValues.sdcode;
-			let prefixCode = "PI";
+			let prefixCode = pracode;
 
 			// get data pra order
 			let resultOrderPra = await orderPra.findOne({
