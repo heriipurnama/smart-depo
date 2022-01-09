@@ -573,7 +573,7 @@ class ContainerProcessController {
 						  left join tblport h on h.poid = a.cpidish
 						  left join tblvoyage n on n.voyid = a.cpivoy
 						  left join order_container_repo r on r.reorderno = a.cpiorderno
-				 where  b.crcpid  = '${crcpid}' and d.crlasact = 'BI' and a.securityinid <> 0`
+				 where  b.crcpid  = '${crcpid}' and b.crlasact = 'BI' and a.securityinid <> 0`
 			);
 			const restDatas = datas[0];
 
@@ -618,7 +618,7 @@ class ContainerProcessController {
 						  left join tblport h on h.poid = a.cpidish
 						  left join tblvoyage n on n.voyid = a.cpivoy
 						  left join order_container_repo r on r.reorderno = a.cpiorderno
-				 where  b.crcpid  = '${crcpid}' and d.crlasact = 'WS'`
+				 where  b.crcpid  = '${crcpid}' and b.crlasact = 'WS'`
 			);
 			const restDatas = datas[0];
 
