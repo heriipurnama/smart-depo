@@ -463,6 +463,10 @@ class RepoInController {
 
 			const payloadOrderContainerRepo = await orderContainerRepo.create({
 				reorderno: resultCodeOrderContainerRepo,
+				recpivoyid: voyid,
+				recpives: vesid,
+				cpopr: cpopr,
+				cpcust: cpcust,
 				retype: retype,
 				retfrom: retfrom,
 				retto: retto,
