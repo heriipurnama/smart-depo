@@ -4,6 +4,7 @@ module.exports = {
 	user: require("./users/UserController"),
 	message: require("./message/MessageController"),
 	container_code: require("./container_code/ContainerCodeController"),
+	mnr_tarif: require("./mnr_tarif/MnrTarifController"),
 	containerType: require("./container_type/ContainerTypeController"),
 
 	damageType: require("./damage_type/DamageTypeController"),
