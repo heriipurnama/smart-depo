@@ -6,6 +6,7 @@ const routers = express.Router();
 const user = require("./users/UserRouter");
 const messages = require("./message/MessageRouter");
 const container_code = require("./container_code/ContainerCodeRouter");
+const mnr_tarif = require("./mnr_tarif/MnrTarifRouter");
 const containerType = require("./container_type/ContainerTypeRouter");
 
 const damageType = require("./damage_type/DamageTypeRouter");
@@ -93,6 +94,7 @@ const dailyMovementInMsc = require("./daily_movement_in_msc/DailyMovementInMscRo
 routers.use("/users", user);
 routers.use("/messages", messages);
 routers.use("/containercode", container_code);
+routers.use("/mnrtarif", mnr_tarif);
 routers.use("/containertype", containerType);
 
 routers.use("/damagetype", damageType);

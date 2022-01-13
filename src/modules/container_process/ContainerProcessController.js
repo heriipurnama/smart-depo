@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const baseResponse = require("../../utils/helper/Response");
 const { container_process } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 class ContainerProcessController {
 	static async createData(req, res, next) {
@@ -184,6 +186,7 @@ class ContainerProcessController {
 			cpideliver,
 			cpitruck,
 			cpiorderno,
+			crno,
 		} = req.body;
 
 		try {
@@ -206,9 +209,15 @@ class ContainerProcessController {
 					cpireceptno: cpireceptno,
 					cpideliver: cpideliver,
 					cpitruck: cpitruck,
+					crno: crno,
 					cpijam: new Date().toLocaleTimeString(),
 				},
-				{ where: { cpiorderno: cpiorderno } }
+				{ where: {
+						[Op.and]: [
+							{cpiorderno: cpiorderno },
+							{crno: crno }
+						]
+				}}
 			);
 
 			baseResponse({
