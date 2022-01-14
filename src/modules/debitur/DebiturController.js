@@ -112,8 +112,8 @@ class DebiturController {
 
 		try {
 
-			let { rows: datas } = await debitur.findAll({
-				where:{cutype: cutype}
+			let { count, rows: datas } = await debitur.findAndCountAll({
+				where: { cutype: cutype }
 			});
 			baseResponse({ message: "list debitur", data: { datas } })(
 				res,
