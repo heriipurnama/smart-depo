@@ -112,10 +112,10 @@ class DebiturController {
 
 		try {
 
-			let { payload } = await debitur.findAll({
+			let { rows: datas } = await debitur.findAll({
 				where:{cutype: cutype}
 			});
-			baseResponse({ message: "list debitur", data: payload })(
+			baseResponse({ message: "list debitur", data: { datas } })(
 				res,
 				200
 			);
