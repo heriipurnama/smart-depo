@@ -109,7 +109,7 @@ class OrderPraController {
 			let { count, rows: datas } = await orderPra.findAndCountAll({
 				offset: offsets,
 				limit: limits,
-				where: { reorderno: { [Op.like]: `${pracode}%` } },
+				where: { cpiorderno: { [Op.like]: `${pracode}%` } },
 				include: [
 					{
 						model: voyage,
