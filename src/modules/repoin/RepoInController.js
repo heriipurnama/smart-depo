@@ -761,13 +761,13 @@ class RepoInController {
 							cccode: cccode,
 
 							mtcode: mtcode,
-							crlastact: "bi",
+							crlastact: "BI",
 							crcpid: resultCodeContainerProcess,
 						});
 					} else {
 						await container.update(
 							{
-								crlastact: "bi",
+								crlastact: "BI",
 								crcpid: resultCodeContainerProcess,
 							},
 							{ where: { crno: crno } }

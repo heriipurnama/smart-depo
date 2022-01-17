@@ -40,6 +40,8 @@ module.exports = (sequelize, DataTypes) => {
 
 			cleaning_type: DataTypes.STRING,
 			deposit: DataTypes.INTEGER,
+			biaya_lain: DataTypes.DECIMAL,
+			pph23: DataTypes.DECIMAL,
 		},
 		{
 			sequelize,
