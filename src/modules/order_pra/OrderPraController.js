@@ -609,6 +609,8 @@ class OrderPraController {
 							"biaya_clean",
 							"cleaning_type",
 							"deposit",
+							"biaya_lain",
+							"pph23",
 						],
 						order: [
 							[
