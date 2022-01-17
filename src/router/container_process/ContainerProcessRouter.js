@@ -36,6 +36,9 @@ routers
 	.route("/updateSecurityIn")
 	.put(Authentication, containerProcessController.updateSecurityIn);
 routers
+	.route("/updateSecurityOut")
+	.put(Authentication, containerProcessController.updateSecurityOut);
+routers
 	.route("/getBarcodeGateIn")
 	.get(Authentication, containerProcessController.getBarcodeGateIn);
 routers
