@@ -100,7 +100,7 @@ class OrderPraController {
 	}
 
 	static async listAllData(req, res, next) {
-		let { offset, limit } = req.query;
+		let { pracode, offset, limit } = req.query;
 
 		try {
 			let offsets = parseInt(offset) || 0;
@@ -109,6 +109,7 @@ class OrderPraController {
 			let { count, rows: datas } = await orderPra.findAndCountAll({
 				offset: offsets,
 				limit: limits,
+				where: { reorderno: { [Op.like]: `${pracode}%` } },
 				include: [
 					{
 						model: voyage,
