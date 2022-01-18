@@ -17,13 +17,13 @@ module.exports = (sequelize, DataTypes) => {
                 {
                     foreignKey: {
                         name: "msk_id"
-                    }, as : "msk_gudang_detail"
+                    }, as : "masukGudangDetail"
                 });
             msk_gudang.belongsTo(models.tblwarehouse,
                 {
                     foreignKey: {
                         name: "wh_id"
-                    }, as : "tblwarehouse"
+                    }, as : "tblwarehouses"
                 });
         }
     }
