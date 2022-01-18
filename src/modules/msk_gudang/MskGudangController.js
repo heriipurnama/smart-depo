@@ -50,7 +50,7 @@ class MskGudangController {
                 wh_id: wh_id,
             });
 
-            let msk_gudang = await msk_gudang.findOne({
+            let masukGud = await msk_gudang.findOne({
                 where: {
                     nomor_polisi: nomor_polisi
                 }
@@ -58,7 +58,7 @@ class MskGudangController {
             let lotConvert = JSON.parse(gudang_detail);
             gudang_detail.map(async item => {
                 await msk_gudang_detail.create({
-                    msk_id: msk_gudang.msk_id,
+                    msk_id: masukGud.msk_id,
                     nomor_lot: lotConvert.lot,
                 });
             })
