@@ -1,7 +1,7 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { msk_gudang} = require("../../db/models");
+const { msk_gudang, msk_gudang_detail, tblwarehouse} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -9,6 +9,7 @@ const Op = Sequelize.Op;
 class MskGudangController {
     static async createData(req, res, next) {
         let {
+            gudang_detail,
             nomor_polisi,
             nomor_wo,
             cucode,
@@ -25,6 +26,7 @@ class MskGudangController {
             crton,
             mdfby,
             mdfon,
+            wh_id,
         } = req.body;
 
         try {
@@ -45,12 +47,24 @@ class MskGudangController {
                 crton: crton,
                 mdfby: mdfby,
                 mdfon: mdfon,
+                wh_id: wh_id,
             });
+
+            const  mskId = payload.msk_id;
+            gudang_detail.map(item => {
+                Object.entries(item).map(async ([lot]) => {
+                    await msk_gudang_detail.create({
+                        msk_id: mskId,
+                        nomor_lot: lot,
+                    });
+                })
+            })
 
             baseResponse({ message: "succes created mskGudang", data: payload })(
                 res,
                 200
             );
+
             Logger(req);
         }catch (error){
             res.status(400);
@@ -68,6 +82,16 @@ class MskGudangController {
             let { count, rows: datas } = await msk_gudang.findAndCountAll({
                 offset: offsets,
                 limit: limits,
+                include:[
+                    {
+                        model: msk_gudang_detail,
+                        required: false // do not generate INNER JOIN
+                    },
+                    {
+                        model: tblwarehouse,
+                        required: false
+                    }
+                ]
             });
             baseResponse({ message: "list mskGudang", data: { datas, count } })(
                 res,
@@ -98,6 +122,7 @@ class MskGudangController {
             crton,
             mdfby,
             mdfon,
+            wh_id,
         } = req.body;
 
         try {
@@ -127,6 +152,7 @@ class MskGudangController {
                     crton: crton,
                     mdfby: mdfby,
                     mdfon: mdfon,
+                    wh_id: wh_id,
                 },
                 { where: { msk_id: msk_id } }
             );
@@ -136,6 +162,25 @@ class MskGudangController {
                 data: `mskGudang succes update for msk_id : ${msk_id}`,
             })(res, 200);
             Logger(req);
+        } catch (error) {
+            res.status(403);
+            next(error);
+        }
+    }
+
+    static async detailData(req, res, next) {
+        let { msk_id } = req.body;
+
+        try {
+            let payload = await msk_gudang.findOne({ where: { msk_id: msk_id } });
+
+            if (!payload) {
+                throw new Error(`msk_id mskGudang: ${msk_id} doesn't exists!`);
+            }
+            baseResponse({ message: "detail data mskGudang msk_id", data: payload })(
+                res,
+                200
+            );
         } catch (error) {
             res.status(403);
             next(error);
@@ -154,6 +199,14 @@ class MskGudangController {
                 throw new Error(`msk_id: ${msk_id} doesn't exists!`);
             }
 
+            let payloadTwo = await msk_gudang_detail.destroy({
+                where: { msk_id: msk_id },
+            });
+
+            if (!payloadTwo) {
+                throw new Error(`msk_id: ${msk_id} doesn't exists!`);
+            }
+
             baseResponse({
                 message: `mskGudang deleted for msk_id: ${msk_id}`,
                 data: payload,
@@ -166,3 +219,5 @@ class MskGudangController {
     }
 
 }
+
+module.exports = MskGudangController;
