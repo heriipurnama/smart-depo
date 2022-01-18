@@ -33,6 +33,9 @@ routers
 	.route("/getByCpiId")
 	.get(Authentication, containerProcessController.getByCpiId);
 routers
+	.route("/getByCpiIdOut")
+	.get(Authentication, containerProcessController.getByCpiIdOut);
+routers
 	.route("/updateSecurityIn")
 	.put(Authentication, containerProcessController.updateSecurityIn);
 routers

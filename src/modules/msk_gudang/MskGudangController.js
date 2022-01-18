@@ -230,8 +230,8 @@ class MskGudangController {
                     type: debitur.SELECT
                 }
                 );
-
-            baseResponse({ message: "List debitur", data: { datas } })(res, 200);
+            let totalData = datas[0];
+            baseResponse({ message: "List debitur", data: totalData  })(res, 200);
 
         }catch (error){
             res.status(403);
@@ -246,7 +246,8 @@ class MskGudangController {
                     type: tblwarehouse.SELECT
                 }
             );
-            baseResponse({ message: "List warehouse", data: { datas } })(res, 200);
+            let totalData = datas[0];
+            baseResponse({ message: "List warehouse", data: totalData  })(res, 200);
 
         }catch (error){
             res.status(403);
