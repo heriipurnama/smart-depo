@@ -1,7 +1,7 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { msk_gudang, msk_gudang_detail, tblwarehouse} = require("../../db/models");
+const { msk_gudang, msk_gudang_detail, tblwarehouse, debitur} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -223,7 +223,7 @@ class MskGudangController {
 
     static async getCucode(req, res, next) {
         try {
-            let datas = await debitur.sequelize.query(`SELECT * FROM tbldebitur WHERE  cutype ='5' `,
+            let datas = await debitur.sequelize.query(`SELECT * FROM debitur WHERE  cutype ='5' `,
                 {
                     type: debitur.SELECT
                 }
