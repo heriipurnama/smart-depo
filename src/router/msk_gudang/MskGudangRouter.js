@@ -19,5 +19,11 @@ routers.route("/updateData").put(Authentication, MskGudangController.updateData)
 routers
     .route("/deleteData")
     .delete(Authentication, MskGudangController.deleteData);
+routers
+    .route("/getCucode")
+    .get(Authentication, MskGudangController.getCucode());
+routers
+    .route("/getWarehouse")
+    .get(Authentication, MskGudangController.getWarehouse());
 
 module.exports = routers;

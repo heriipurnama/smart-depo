@@ -1,7 +1,7 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { msk_gudang, msk_gudang_detail, tblwarehouse} = require("../../db/models");
+const { msk_gudang, msk_gudang_detail, tblwarehouse, tbldebitur, container_process} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -217,6 +217,37 @@ class MskGudangController {
             Logger(req);
         } catch (error) {
             res.status(400);
+            next(error);
+        }
+    }
+
+    static async getCucode(req, res, next) {
+        try {
+            let datas = await tbldebitur.sequelize.query(`SELECT * FROM tbldebitur WHERE  cutype ='5'`,
+                {
+                    type: tbldebitur.SELECT
+                }
+                );
+
+            baseResponse({ message: "List debitur", data: { datas } })(res, 200);
+
+        }catch (error){
+            res.status(403);
+            next(error);
+        }
+    }
+
+    static async getWarehouse(req, res, next) {
+        try {
+            let datas = await tblwarehouse.sequelize.query(`SELECT * FROM tblwarehouse`,
+                {
+                    type: tblwarehouse.SELECT
+                }
+            );
+            baseResponse({ message: "List warehouse", data: { datas } })(res, 200);
+
+        }catch (error){
+            res.status(403);
             next(error);
         }
     }
