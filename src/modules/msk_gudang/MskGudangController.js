@@ -87,7 +87,7 @@ class MskGudangController {
                 limit: limits,
                 include:[
                     {
-                        model: msk_gudang_detail,
+                        model: mskGudangDetails,
                         required: false // do not generate INNER JOIN
                     },
                     {
