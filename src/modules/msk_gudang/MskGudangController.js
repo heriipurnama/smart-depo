@@ -50,16 +50,18 @@ class MskGudangController {
                 wh_id: wh_id,
             });
 
-            const  mskId = payload.msk_id;
-            gudang_detail.map(item => {
-                Object.entries(item).map(async ([lot]) => {
-                    await msk_gudang_detail.create({
-                        msk_id: mskId,
-                        nomor_lot: lot,
-                    });
-                })
+            let msk_gudang = await msk_gudang.findOne({
+                where: {
+                    nomor_polisi: nomor_polisi
+                }
+            });
+            let lotConvert = JSON.parse(gudang_detail);
+            gudang_detail.map(async item => {
+                await msk_gudang_detail.create({
+                    msk_id: msk_gudang.msk_id,
+                    nomor_lot: lotConvert.lot,
+                });
             })
-
             baseResponse({ message: "succes created mskGudang", data: payload })(
                 res,
                 200

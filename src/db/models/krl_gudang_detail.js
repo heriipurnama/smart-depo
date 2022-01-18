@@ -20,6 +20,8 @@ module.exports = (sequelize, DataTypes) => {
         {
             krld_id:{
                 type: DataTypes.INTEGER,
+                allowNull: false,
+                autoIncrement: true,
                 primaryKey: true
             },
             krl_id: DataTypes.INTEGER,
