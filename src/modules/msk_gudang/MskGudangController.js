@@ -223,7 +223,7 @@ class MskGudangController {
 
     static async getCucode(req, res, next) {
         try {
-            let datas = await debitur.sequelize.query(`SELECT * FROM debitur WHERE  cutype ='5' `,
+            let datas = await debitur.sequelize.query(`SELECT * FROM tbldebitur WHERE  cutype ='5' `,
                 {
                     type: debitur.SELECT
                 }
