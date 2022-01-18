@@ -90,6 +90,7 @@ const inventoryContainerOut = require("./inventory_container_out/InventoryContai
 const inventoryStockContainer = require("./inventory_stock_container/InventoryStockContainerRouter");
 const dailyMovementInMsc = require("./daily_movement_in_msc/DailyMovementInMscRouter");
 const masukGudang = require("./msk_gudang/MskGudangRouter");
+const keluarGudang = require("./krl_gudang/KrlGudangRouter");
 
 // base router
 routers.use("/users", user);
@@ -173,6 +174,7 @@ routers.use("/orderContainerRepos", orderContainerRepo);
 routers.use("/praIns", praIn);
 routers.use("/containerProcess", containerProcess);
 routers.use("/masukGudang", masukGudang);
+routers.use("/keluarGudang", keluarGudang);
 
 routers.use("/dataListReports", dataListReport);
 routers.use("/rpt_condition_in_container_inventory", inventoryContainerIn);
