@@ -55,7 +55,7 @@ class MskGudangController {
                     nomor_polisi: nomor_polisi
                 }
             });
-            let lotConvert = JSON.parse(gudang_detail);
+            let lotConvert = JSON.parse(JSON.stringify(gudang_detail));
             for (let i=0; i<lotConvert.length; i++){
                 await msk_gudang_detail.create({
                     msk_id: masukGud.msk_id,
