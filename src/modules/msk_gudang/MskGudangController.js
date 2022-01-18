@@ -56,12 +56,13 @@ class MskGudangController {
                 }
             });
             let lotConvert = JSON.parse(gudang_detail);
-            gudang_detail.map(async item => {
+            for (let i=0; i<lotConvert.length; i++){
                 await msk_gudang_detail.create({
                     msk_id: masukGud.msk_id,
-                    nomor_lot: lotConvert.lot,
+                    nomor_lot: lotConvert[i].lot,
                 });
-            })
+            }
+
             baseResponse({ message: "succes created mskGudang", data: payload })(
                 res,
                 200
