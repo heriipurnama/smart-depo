@@ -88,10 +88,12 @@ class MskGudangController {
                 include:[
                     {
                         model: msk_gudang_detail,
+                        as: "masukGudangDetail",
                         required: false // do not generate INNER JOIN
                     },
                     {
                         model: tblwarehouse,
+                        as: "tblwarehouses",
                         required: false
                     }
                 ]
