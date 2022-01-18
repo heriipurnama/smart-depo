@@ -32,6 +32,8 @@ module.exports = (sequelize, DataTypes) => {
         {
             msk_id:{
                 type: DataTypes.INTEGER,
+                allowNull: false,
+                autoIncrement: true,
                 primaryKey: true
             },
             wh_id: DataTypes.INTEGER,

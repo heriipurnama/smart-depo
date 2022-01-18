@@ -20,6 +20,8 @@ module.exports = (sequelize, DataTypes) => {
         {
             mskd_id:{
                 type: DataTypes.INTEGER,
+                allowNull: false,
+                autoIncrement: true,
                 primaryKey: true
             },
             msk_id: DataTypes.INTEGER,
