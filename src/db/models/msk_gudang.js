@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
                 {
                     foreignKey: {
                         name: "msk_id"
-                    }, as : "mskGudangDetails"
+                    }, as : "msk_gudang_detail"
                 });
             msk_gudang.belongsTo(models.tblwarehouse,
                 {
