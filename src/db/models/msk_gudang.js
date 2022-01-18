@@ -13,6 +13,18 @@ module.exports = (sequelize, DataTypes) => {
             // {
             // 	foreignKey: 'ctcode',
             // })
+            msk_gudang.hasMany(models.msk_gudang_detail,
+                {
+                    foreignKey: {
+                        name: "msk_id"
+                    }, as : "mskGudangDetails"
+                });
+            msk_gudang.belongsTo(models.tblwarehouse,
+                {
+                    foreignKey: {
+                        name: "wh_id"
+                    }, as : "tblwarehouse"
+                });
         }
     }
 
@@ -22,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 primaryKey: true
             },
+            wh_id: DataTypes.INTEGER,
             nomor_polisi: DataTypes.STRING,
             nomor_wo: DataTypes.STRING,
             cucode: DataTypes.STRING,

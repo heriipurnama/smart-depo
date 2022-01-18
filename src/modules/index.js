@@ -88,4 +88,5 @@ module.exports = {
 	inventoryStockContainer: require("./inventory_stock_container/InventoryStockContainerController"),
 
 	dailyMovementInMsc: require("./daily_movement_in_msc/DailyMovementInMscController"),
+	mskGudang: require("./msk_gudang/MskGudangController"),
 };
