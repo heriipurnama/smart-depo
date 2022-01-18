@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
             tujuan: DataTypes.STRING,
             gross_wt: DataTypes.INTEGER,
             nett_wt: DataTypes.INTEGER,
-            tgl_masuk: DataTypes.DATE,
+            tgl_terima: DataTypes.DATE,
             crtby: DataTypes.INTEGER,
             crton: DataTypes.DATE,
             mdfby: DataTypes.INTEGER,
