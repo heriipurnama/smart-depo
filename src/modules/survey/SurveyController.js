@@ -662,7 +662,7 @@ class SurveyController {
 					if( CRLASTCONDE.length > 0 ){
 						//Update tabel container
 						try{
-							$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTACTE='WS',CRLASTCOND='AC' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+							let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTACTE='WS',CRLASTCOND='AC' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
 							{
 								type: container_survey.INSERT,
 							});
@@ -675,7 +675,7 @@ class SurveyController {
 						if( (CRLASTCOND=='AC' || CRLASTCONDE=='AC') || (CRLASTCOND=='AX' || CRLASTCONDE=='AC') || (CRLASTCONDE=='AX' || CRLASTCONDE =='AX') || (CRLASTCOND=='AC' || CRLASTCOND=='AC') ){
 							try{
 
-								$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTCOND='".${CRLASTCOND}',CRLASTACTE='CO',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+								let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTCOND='".${CRLASTCOND}',CRLASTACTE='CO',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
 								{
 									type: container_survey.INSERT,
 								});
@@ -687,7 +687,7 @@ class SurveyController {
 
 						}else{
 							try {
-								$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTCOND='AC',CRLASTACTE='WS',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '$CRNO}' and CRCPID = '${$CPID}'`,{
+								let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTCOND='AC',CRLASTACTE='WS',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '$CRNO}' and CRCPID = '${$CPID}'`,{
 									type: container_survey.INSERT
 								});		
 							} catch (error) {
@@ -701,7 +701,7 @@ class SurveyController {
 				} else if( ( CRLASTCOND =='AC' || CRLASTCONDE =='AX') && (CRLASTCOND !='AC' || CRLASTCOND !='AX') ){
 					//Update tabel container
 					try{
-						$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='WE',CRLASTCOND='${CRLASTCOND}',CRLASTACTE='CO',CRLASTCONDE='AC' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+						let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='WE',CRLASTCOND='${CRLASTCOND}',CRLASTACTE='CO',CRLASTCONDE='AC' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
 						{
 							type: container_survey.INSERT
 						});
@@ -713,7 +713,7 @@ class SurveyController {
 				} else if( ( CRLASTCOND =='AC' && CRLASTCONDE =='AX') || (CRLASTCOND =='AX' && CRLASTCONDE == 'AC') || (CRLASTCOND =='AX' && CRLASTCONDE =='AX') || (CRLASTCOND =='AC' && CRLASTCONDE =='AC') ){
 					//Update tabel container
 					try {
-						$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTACTE='CO',CRLASTCOND='${CRLASTCOND}',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+						let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTACTE='CO',CRLASTCOND='${CRLASTCOND}',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
 						{
 							type: container_survey.INSERT
 						});
@@ -727,7 +727,7 @@ class SurveyController {
 					if( !strlen($_POST["CRLASTCONDE"]) ){
 						//Update tabel container
 						try {
-							$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTCOND='${CRLASTCOND}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+							let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTCOND='${CRLASTCOND}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
 							{
 								type: container_survey.INSERT
 							});
@@ -739,7 +739,7 @@ class SurveyController {
 					}else{
 						//Update tabel container
 						try {
-							$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTCOND='${CRLASTCOND}',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}`,
+							let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTCOND='${CRLASTCOND}',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}`,
 							{
 								type: container_survey.INSERT
 							});		
@@ -751,7 +751,7 @@ class SurveyController {
 				}
 
 				try{
-					$SQL= await container_survey.sequelize.query(`Update coins_survey set SVCOND='${CRLASTCOND}',SVSURDAT='${SVSURDAT}' Where SVCRNO = '${CRNO}' and CPID = '${$CPID}`,
+					let $SQL= await container_survey.sequelize.query(`Update coins_survey set SVCOND='${CRLASTCOND}',SVSURDAT='${SVSURDAT}' Where SVCRNO = '${CRNO}' and CPID = '${$CPID}`,
 					{
 						type: container_survey.INSERT
 					});
@@ -844,7 +844,7 @@ class SurveyController {
 					}
 
 					try{
-						$SQL4= await container_survey.sequelize.query(`Update ${$TableName1} SET CRLASTACT='CO',CRLASTCOND='${CRLASTCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
+						let $SQL4= await container_survey.sequelize.query(`Update ${$TableName1} SET CRLASTACT='CO',CRLASTCOND='${CRLASTCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
 						{
 							type: container_survey.INSERT,
 						});
@@ -855,7 +855,7 @@ class SurveyController {
 
 				}else{
 					try {
-						$SQL4=  await container_survey.sequelize.query(`Update ${$TableName1} SET CRLASTCOND='${CRLASTCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
+						let $SQL4=  await container_survey.sequelize.query(`Update ${$TableName1} SET CRLASTCOND='${CRLASTCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
 						{
 							type: container_survey.INSERT,
 						});
@@ -867,7 +867,7 @@ class SurveyController {
 				}
 
 				try {
-					$SQL= await container_survey.sequelize.query(`Update coins_survey set SVCOND='${CRLASTCOND}',SVSURDAT='${SVSURDAT}' Where SVCRNO = '${CRNO}' and CPID = '${$CPID}`,
+					let $SQL= await container_survey.sequelize.query(`Update coins_survey set SVCOND='${CRLASTCOND}',SVSURDAT='${SVSURDAT}' Where SVCRNO = '${CRNO}' and CPID = '${$CPID}`,
 					{
 						type: container_survey.INSERT,
 					});
