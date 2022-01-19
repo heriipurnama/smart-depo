@@ -59,7 +59,7 @@ class KrlGudangController{
             for (let i=0; i<lotConvert.length; i++){
                 await krl_gudang_detail.create({
                     krl_id: keluarGud.krl_id,
-                    nomor_lot: lotConvert[i].lot,
+                    nomor_lot: lotConvert[i],
                 });
             }
 

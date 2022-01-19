@@ -59,7 +59,7 @@ class MskGudangController {
             for (let i=0; i<lotConvert.length; i++){
                 await msk_gudang_detail.create({
                     msk_id: masukGud.msk_id,
-                    nomor_lot: lotConvert[i].lot,
+                    nomor_lot: lotConvert[i],
                 });
             }
 
