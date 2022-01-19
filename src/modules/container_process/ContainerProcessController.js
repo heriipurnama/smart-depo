@@ -232,7 +232,7 @@ class ContainerProcessController {
 		} = req.body;
 
 		try {
-			var genNumber = '1';
+			var genNumber = 1;
 			let MyResult = await container_process.sequelize.query(`SELECT count(CPIEIR) as CPIEIR FROM container_process`,
 				{
 					type: container_process.SELECT,
@@ -254,7 +254,7 @@ class ContainerProcessController {
 					cpiefin: cpiefin,
 					cpichrgbb: cpichrgbb,
 					cpipaidbb: cpipaidbb,
-					cpieir: genNumber,
+					cpieir: parseInt(genNumber),
 					cpinopol: cpinopol,
 					cpidriver: cpidriver,
 					cpicargo: cpicargo,
