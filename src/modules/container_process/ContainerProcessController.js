@@ -2,7 +2,7 @@
 
 const jwt = require("jsonwebtoken");
 const baseResponse = require("../../utils/helper/Response");
-const { container_process } = require("../../db/models");
+const { container_process, container_survey} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -232,6 +232,20 @@ class ContainerProcessController {
 		} = req.body;
 
 		try {
+			var genNumber = '1';
+			let MyResult = await container_process.sequelize.query(`SELECT count(CPIEIR) as CPIEIR FROM container_process`,
+				{
+					type: container_process.SELECT,
+					plain: true
+				});
+			if (MyResult !== null) {
+				genNumber = await container_process.sequelize.query(`SELECT max(CPIEIR)+1 as CPIEIR FROM container_process`,
+					{
+						type: container_process.SELECT,
+						plain: true
+					});
+			}
+
 			let payload = await container_process.update(
 				{
 					cpdepo: cpdepo,
@@ -240,7 +254,7 @@ class ContainerProcessController {
 					cpiefin: cpiefin,
 					cpichrgbb: cpichrgbb,
 					cpipaidbb: cpipaidbb,
-					cpieir: cpieir,
+					cpieir: genNumber,
 					cpinopol: cpinopol,
 					cpidriver: cpidriver,
 					cpicargo: cpicargo,
