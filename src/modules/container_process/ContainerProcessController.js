@@ -281,10 +281,10 @@ class ContainerProcessController {
 			const payloades = await container.update(
 				{ crlastact: "WE"},
 				{ where: { crno: crno } }
-			);
+			); 
 
 			const payloadeswe = await orderPraContainer.update(
-				{ cpigatedate: new Date().toLocaleTimeString()},
+				{ cpigatedate: new Date()},
 				{ where: { crno: crno } }
 			);
 
