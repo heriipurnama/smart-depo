@@ -145,7 +145,7 @@ class SurveyController {
 		const bearer = splitBearer[1];
 		// eslint-disable-next-line no-undef
 		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
-		let userToken = datas.userid;
+		let userToken = datas.id;
 		let $CRCDP = (CRCDP != undefined)? 0 : 1;
 		let	$CRCSC = (CRCSC != undefined)? 0 : 1;
 		let	$CRACEP = (CRACEP != undefined)? 0 : 1;
@@ -190,7 +190,7 @@ class SurveyController {
 		//Insert ke tabel Survey
 		try{
 			
-			var insertContainerSurvey = await container_survey.sequelize.query(`Insert into container_survey(SVID,CPID,SYID,SVCRNO,SVTYPE,SVSURDAT,SVCOND,SVCRTON,SVCRTBY,TYPE,SVNOTES)Values('${SVID}','${$CPID}','${SYID}','${SVCRNO}','${$TYPE_SURVEY}','${SVSURDAT}','${SVCOND}','${SVCRTON}','${SVCRTBY}',1,'${SVNOTES}')`,
+			var insertContainerSurvey = await container_survey.sequelize.query(`Insert into container_survey(SVID,CPID,SYID,SVCRNO,SVTYPE,SVSURDAT,SVCOND,SVCRTON,SVCRTBY,TYPE,SVNOTES)Values('${SVID}','${$CPID}','${userToken}','${SVCRNO}','${$TYPE_SURVEY}','${SVSURDAT}','${SVCOND}','${SVCRTON}','${SVCRTBY}',1,'${SVNOTES}')`,
 						{
 							type: container_survey.INSERT
 						});
@@ -524,6 +524,7 @@ class SurveyController {
 		const bearer = splitBearer[1];
 		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
 		let usernameByToken = datas.username;
+		let userId = datas.id;
 		var TYPE_SURVEY='';
 		let $CRCDP = (CRCDP != undefined)? 0 : 1;
 		let	$CRCSC = (CRCSC != undefined)? 0 : 1;
@@ -620,7 +621,7 @@ class SurveyController {
 					
 							//Approve tabel repair
 							try {
-								var $SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPV,RPTGLAPPV,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'${now}',1,'1','${SYID}')`,
+								var $SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPV,RPTGLAPPV,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'${now}',1,'1','${userId}')`,
 								{
 									type: container_survey.INSERT,
 								});
@@ -641,7 +642,7 @@ class SurveyController {
 						
 						if( $ResultCheck['SVID'].length > 0 ){
 							try{
-								$SQL3 = await container_survey.sequelize.query(`insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'1','${SYID}')`,
+								$SQL3 = await container_survey.sequelize.query(`insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'1','${userId}')`,
 								{
 									type: container_survey.INSERT,
 								});
@@ -810,7 +811,7 @@ class SurveyController {
 						if( $ResultCheck['SVID'].length > 0  ){
 							//Approve tabel repair
 							try {
-								$SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPV,RPTGLAPPV,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${$SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'${now}',1,'1','${SYID} )`,
+								$SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPV,RPTGLAPPV,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${$SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'${now}',1,'1','${userId} )`,
 								{
 									type: container_survey.INSERT,
 								});
@@ -831,7 +832,7 @@ class SurveyController {
 
 						if( $ResultCheck['SVID'] ){
 							try {
-								$SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${$SVID}',1,'${now}','${EORNo}','${CRNO}','$now','${usernameByToken}',1,'${now}',1,'1','${SYID}')`,
+								$SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${$SVID}',1,'${now}','${EORNo}','${CRNO}','$now','${usernameByToken}',1,'${now}',1,'1','${userId}')`,
 								{
 									type: container_survey.INSERT,
 								});

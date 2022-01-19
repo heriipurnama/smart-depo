@@ -2,7 +2,7 @@
 
 const jwt = require("jsonwebtoken");
 const baseResponse = require("../../utils/helper/Response");
-const { container_process, container_survey, container} = require("../../db/models");
+const { container_process, container_survey, container, orderPraContainer} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -280,6 +280,11 @@ class ContainerProcessController {
 
 			const payloades = await container.update(
 				{ crlastact: "WE"},
+				{ where: { crno: crno } }
+			);
+
+			const payloadeswe = await orderPraContainer.update(
+				{ cpigatedate: new Date().toLocaleTimeString()},
 				{ where: { crno: crno } }
 			);
 
