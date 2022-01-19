@@ -189,7 +189,7 @@ class SurveyController {
 		//Insert ke tabel Survey
 		try{
 			
-			var insertContainerSurvey = await container_survey.sequelize.query(`Insert into container_survey(SVID,CPID,SYID,SVCRNO,SVTYPE,SVSURDAT,SVCOND,SVCRTON,SVCRTBY,TYPE,SVNOTES)Values('${SVID}','${$CPID}','${SYID}','${SVCRNO}','${$TYPE_SURVEY}','${SVSURDAT}','${SVCOND}','${SVCRTON}','${userToken}',1,'${SVNOTES}')`,
+			var insertContainerSurvey = await container_survey.sequelize.query(`Insert into container_survey(SVID,CPID,SYID,SVCRNO,SVTYPE,SVSURDAT,SVCOND,SVCRTON,SVCRTBY,TYPE,SVNOTES)Values('${SVID}','${$CPID}','${SYID}','${SVCRNO}','${$TYPE_SURVEY}','${SVSURDAT}','${SVCOND}','${SVCRTON}','${SVCRTBY}',1,'${SVNOTES}')`,
 						{
 							type: container_survey.INSERT
 						});
