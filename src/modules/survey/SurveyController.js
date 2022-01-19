@@ -203,7 +203,7 @@ class SurveyController {
 
 		// if( CTCODE =='RF' ){ //Reefer Container
 			try{
-				var $updateTBLContainer = await container_survey.sequelize.query( `UPDATE tblcontainer SET MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${$CRACEP},CRCSC= ${$CRCSC},CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
+				var $updateTBLContainer = await container_survey.sequelize.query( `UPDATE tblcontainer SET MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${$CRACEP},CRCSC= ${$CRCSC},CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}', CRLASTCOND='${SVCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
 				{
 					type: container_survey.INSERT
 				});
