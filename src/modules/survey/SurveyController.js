@@ -80,7 +80,7 @@ class SurveyController {
 			let valid;
 			if (validCrno !== null){
 
-				valid = (validCrno['CRLASTACT'] == 'WS')?'valid':'invalid';
+				valid = (validCrno['CRLASTACT'] == 'WS' || validCrno['CRLASTACT'] == 'BI')?'valid':'invalid';
 			} else {
 				valid = 'invalid';
 			}
