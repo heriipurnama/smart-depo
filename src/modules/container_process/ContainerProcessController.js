@@ -239,11 +239,12 @@ class ContainerProcessController {
 					plain: true
 				});
 			if (MyResult !== null) {
-				genNumber = await container_process.sequelize.query(`SELECT max(CPIEIR)+1 as CPIEIR FROM container_process`,
+				let rests = await container_process.sequelize.query(`SELECT max(CPIEIR)+1 as CPIEIR FROM container_process`,
 					{
 						type: container_process.SELECT,
 						plain: true
 					});
+				genNumber = rests['CPIEIR'];
 			}
 
 			let payload = await container_process.update(
