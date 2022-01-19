@@ -71,7 +71,7 @@ class SurveyController {
 		let { CRNO, CRLASTACT}= req.query;
 		try{
 			let validCrno = await container_survey.sequelize.query(
-				`SELECT CRLASTACT FROM tblcontainer WHERE CRNO LIKE '%${CRNO}%' AND CRLASTACT = '${CRLASTACT}' `,
+				`SELECT CRLASTACT FROM tblcontainer WHERE CRNO LIKE '%${CRNO}%' AND (CRLASTACT = 'BI' OR CRLASTACT = 'WS') `,
 				{
 					type: container_survey.SELECT,
 					plain: true
@@ -80,7 +80,8 @@ class SurveyController {
 			let valid;
 			if (validCrno !== null){
 
-				valid = (validCrno['CRLASTACT'] == 'WS' || validCrno['CRLASTACT'] == 'BI')?'valid':'invalid';
+				//valid = (validCrno['CRLASTACT'] == 'WS' || validCrno['CRLASTACT'] == 'BI')?'valid':'invalid';
+				valid = 'valid';
 			} else {
 				valid = 'invalid';
 			}
