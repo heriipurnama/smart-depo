@@ -714,34 +714,26 @@ class ContainerProcessController {
 
 		try {
 			let datas = await container_process.sequelize.query(
-				`select b.crno,a.cpitgl,a.cpdepo,a.spdepo,k.prcode,i.cucode,d.cccode,
-						a.cpopr,a.cpitruck,a.cpcust,a.cpireceptno,a.cpid,
-						d.ctcode,d.cclength,d.ccheight,b.crcdp,b.cracep,b.crcsc,
-						b.crmmyy,b.crweightk,b.crweightl,b.crtarak,b.crtaral,b.crnetk,
-						b.crnetl,b.crvol,b.crmanuf,b.crmandat,b.crpos,b.crbay,
-						b.crrow,b.crtier,b.crlastcond,b.crlastconde,b.crlastact,e.mtdesc,
-						a.cpiorderno,a.cpieir,a.cpirefin,a.cpipratgl,a.cpichrgbb,a.cpipaidbb,
-						a.cpiterm,a.cpidish,a.cpidisdat,a.cpijam,a.cpicargo,a.cpiseal,
-						a.cpivoy,a.cpideliver,a.cpidpp,a.cpidriver,a.cpinopol,a.cpiremark,a.cpiremark1,
-						m.vesid,m.vesopr,n.voyno,r.retfrom,
-						r.readdr,h.cncode,h.poport,
-						(case when a.cpife='1' then 'full' when a.cpife='0' or a.cpife is null then 'empty' else '' end) cpife,
-						(case when r.retype='21' then 'depot to depot' when r.retype='22' then 'port to depot'
-							  when r.retype='23' then 'intercity to depot' else '' end )  retype
-				 from tblcontainer b
-						  inner join container_process a on b.crcpid=a.cpid
-						  inner join tblcontainer_code d on d.cccode=b.cccode
-						  left join tblprincipal k on k.prcode=a.cpopr
-						  left join tbldebitur i on i.cucode= a.cpitruck
-						  left join tbldepo f on f.dpcode=a.dpcode
-						  left join tblsubdepo g on g.sdcode=a.sdcode
-						  left join tblmaterial e on e.mtcode=b.mtcode
-						  left join tblcontainer_leasing j on j.leorderno=a.cpiorderno
-						  left join tblvessel m on m.vesid = a.cpives
-						  left join tblport h on h.poid = a.cpidish
-						  left join tblvoyage n on n.voyid = a.cpivoy
-						  left join order_container_repo r on r.reorderno = a.cpiorderno
-				 where  b.crcpid  = '${crcpid}' and (b.crlastact = 'BI' OR b.crlastact = 'WS') `
+				`select container_process.cpireceptno,container_survey.svcrno,container_survey.svnotes,tblcontainer_code.cccode,tblcontainer_code.ctcode,tblcontainer_code.cclength,tblcontainer_code.ccheight,tblcontainer.mtcode as mtcode1,
+						tblcontainer.crcdp,tblcontainer.cracep,tblcontainer.crcsc,container_process.cpitgl,tblcontainer.crweightk,tblcontainer.crweightl,tblcontainer.crtarak,tblcontainer.crtaral,
+						tblcontainer.crnetk,tblcontainer.crnetl,tblcontainer.crvol,tblmaterial.mtdesc,tblcontainer.crmanuf,tblcontainer.crpos,
+						date_format(container_survey.svsurdat,'%d/%m/%y') as svsurdat,
+						date_format(container_process.cpipratgl,'%d/%m/%y') as cpipratgl,
+						tblcontainer.crbay,tblcontainer.crrow,tblcontainer.crtier,tblcontainer.crlastcond,tblcontainer.crlastconde,container_process.manufdate,
+						tblcontainer.crlastact,container_process.cpishold,container_process.cpiprano,container_process.cpiorderno,container_process.cpieir,container_process.cpirefin,container_survey.svcond,
+						container_process.cpodesti,container_process.cpijam,container_process.cpichrgbb,container_process.cpipaidbb,container_process.cpife,container_process.cpiterm,container_process.cpidish,container_process.cpidisdat,
+						container_process.cpives,container_process.cpicargo,container_process.cpiseal,container_process.cpivoyid,container_process.cpives,container_process.cpideliver,container_process.cpidpp,
+						container_process.cpidriver,container_process.cpinopol,container_process.cpiremark,container_process.cpinotes,tblvoyage.voyno,tblvoyage.vesid,tblvessel.vesopr,tblprincipal.prcode,tbldebitur.cucode
+				 		from tblcontainer
+						  left join container_process on tblcontainer.crcpid = container_process.cpid
+						  left join container_survey on container_process.cpid = container_survey.cpid
+						  left join tblcontainer_code on tblcontainer.cccode = tblcontainer_code.cccode
+						  left join tblmaterial on tblcontainer.mtcode = tblmaterial.mtcode
+						  left join tblvoyage on tblvoyage.voyid = container_process.cpivoyid
+						  left join tblvessel on tblvessel.vesid = container_process.cpives
+						  left join tblprincipal on tblprincipal.prcode = container_process.cpopr
+						  left join tbldebitur on tblprincipal.cucode = tbldebitur.cucode
+				 		where  tblcontainer.crcpid  = '${crcpid}' and (tblcontainer.crlastact = 'BI' OR tblcontainer.crlastact = 'WS') `
 			);
 			const restDatas = datas[0];
 
