@@ -714,7 +714,7 @@ class ContainerProcessController {
 
 		try {
 			let datas = await container_process.sequelize.query(
-				`select container_process.cpireceptno,container_survey.svcrno,container_survey.svnotes,tblcontainer_code.cccode,tblcontainer_code.ctcode,tblcontainer_code.cclength,tblcontainer_code.ccheight,tblcontainer.mtcode as mtcode1,
+				`select tblcontainer.crno, container_process.cpireceptno,container_survey.svcrno,container_survey.svnotes,tblcontainer_code.cccode,tblcontainer_code.ctcode,tblcontainer_code.cclength,tblcontainer_code.ccheight,tblcontainer.mtcode as mtcode1,
 						tblcontainer.crcdp,tblcontainer.cracep,tblcontainer.crcsc,container_process.cpitgl,tblcontainer.crweightk,tblcontainer.crweightl,tblcontainer.crtarak,tblcontainer.crtaral,
 						tblcontainer.crnetk,tblcontainer.crnetl,tblcontainer.crvol,tblmaterial.mtdesc,tblcontainer.crmanuf,tblcontainer.crpos,
 						date_format(container_survey.svsurdat,'%d/%m/%y') as svsurdat,
