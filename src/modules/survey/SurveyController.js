@@ -161,7 +161,6 @@ class SurveyController {
 								plain: true
 							});
 		let $CRLASTACT = (checkContainer == null)?"":checkContainer['CRLASTACT'];
-		// if($CRLASTACT.trim()!='WS' ){
 		if($CRLASTACT.trim()=='WS' || $CRLASTACT.trim()=='BI'  ){
 			var MyResult = await container_survey.sequelize.query(`SELECT CPID, CPISTATUS from container_process where CRNO='${CRNO}' and CPIORDERNO = '${CPIORDERNO}'`,
 			{
@@ -186,325 +185,38 @@ class SurveyController {
 			}
 		}
 		
-		
+		let checkExist = await container_survey.sequelize.query(`SELECT SVID,CPID from container_survey where SVID='${SVID}' and CPID ='${$CPID}'`,
+							{
+								type: container_survey.SELECT,
+								plain: true
+							});
 		//Insert ke tabel Survey
+		if (checkExist != null){
+			try{
+				
+				var insertContainerSurvey = await container_survey.sequelize.query(`Insert into container_survey(SVID,CPID,SYID,SVCRNO,SVTYPE,SVSURDAT,SVCOND,SVCRTON,SVCRTBY,TYPE,SVNOTES)Values('${SVID}','${$CPID}','${SYID}','${SVCRNO}','${$TYPE_SURVEY}','${SVSURDAT}','${SVCOND}','${SVCRTON}','${SVCRTBY}',1,'${SVNOTES}')`,
+				{
+					type: container_survey.INSERT
+				});
+				
+			} catch(error){
+				res.status(403);
+				next(error);
+			}
+		}
+			
+
 		try{
-			
-			var insertContainerSurvey = await container_survey.sequelize.query(`Insert into container_survey(SVID,CPID,SYID,SVCRNO,SVTYPE,SVSURDAT,SVCOND,SVCRTON,SVCRTBY,TYPE,SVNOTES)Values('${SVID}','${$CPID}','${userToken}','${SVCRNO}','${$TYPE_SURVEY}','${SVSURDAT}','${SVCOND}','${SVCRTON}','${SVCRTBY}',1,'${SVNOTES}')`,
-						{
-							type: container_survey.INSERT
-						});
-			
+			var $updateTBLContainer = await container_survey.sequelize.query( `UPDATE tblcontainer SET MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${$CRACEP},CRCSC= ${$CRCSC},CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
+			{
+				type: container_survey.INSERT
+			});
+
 		} catch(error){
 			res.status(403);
 			next(error);
 		}
 			
-
-		// if( CTCODE =='RF' ){ //Reefer Container
-			try{
-				var $updateTBLContainer = await container_survey.sequelize.query( `UPDATE tblcontainer SET MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${$CRACEP},CRCSC= ${$CRCSC},CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}', CRLASTCOND='${SVCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
-				{
-					type: container_survey.INSERT
-				});
-
-			} catch(error){
-				res.status(403);
-				next(error);
-			}
-			
-
-			//Update tabel Container Proses
-			// try{
-			// 	var updateTBLProcess = await container_survey.sequelize.query(`Update container_process set MANUFDATE='${MANUFDATE}' Where CPID='${$CPID}'`,
-			// 	{
-			// 		type: container_survey.INSERT
-			// 	});
-
-			// } catch(error){
-			// 	res.status(403);
-			// 	next(error);
-			// }
-			
-
-
-			// if( (CRLASTCOND=='AC' || CRLASTCOND=='AX') && (CRLASTCONDE=='AC' || CRLASTCONDE=='AX') ){
-
-			// 	//Mencari Principal
-			// 	try {
-
-			// 		var getPRCODE = await container_survey.sequelize.query(`
-			// 			Select PR.PRFLAG1 as PRFLAG1 from 
-			// 			container_process CP 
-			// 			INNER JOIN tblprincipal PR ON
-			// 			CP.CPOPR = PR.PRCODE
-			// 			INNER JOIN coins_survey SV ON
-			// 			SV.CPID = CP.CPID
-			// 			WHERE SV.SVID = '${SVID}' AND SV.TYPE='1' AND
-			// 			CP.CPID = '${$CPID}'`,
-			// 		{
-			// 			type: container_survey.SELECT,
-			// 			plain: true
-			// 		});
-			// 	} catch(error){
-			// 		res.status(403);
-			// 		next(error);
-			// 	}
-	
-			// 	try{
-			// 		var getEOR = await container_survey.sequelize.query(`SELECT LPAD(max(RPNOEST) +1,6,'0') as RPNOEST from container_repair order by RPNOEST desc limit 1`,{
-			// 			type: container_survey.SELECT,
-			// 			plain: true
-			// 		});
-
-			// 	} catch(error){
-			// 		res.status(403);
-			// 		next(error);
-			// 	}
-			// 	let EORNo = (getEOR == null)? 1: getEOR['RPNOEST'];
-			// 	var insertContainerRepair;
-			// 	if (getPRCODE['PRFLAG1']=='1'){ //leasing
-			// 		//Approve tabel repair
-			// 		try{
-			// 			insertContainerRepair = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPV,RPTGLAPPV,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${SVID}',1,'${now}','${EORNo}','${CRNOW}','${now}','${usernameByToken}',1,'${now}',1,'${now}',1,'1','${SYID}')`,
-			// 			{
-			// 				type: container_survey.INSERT
-			// 			});
-
-			// 		} catch(error){
-			// 			res.status(403);
-			// 			next(error);
-			// 		}
-
-			// 	}else{ //Shipping
-			// 		//Approve tabel repair, hanya principal
-			// 		try{
-			// 			let insertContainerRepair = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'1','${SYID}')`,
-			// 			{
-			// 				type: container_survey.INSERT
-			// 			});
-
-			// 		} catch(error){
-			// 			res.status(403);
-			// 			next(error);
-			// 		}
-
-			// 	}
-
-			// }
-
-
-
-			
-			//1. Jika kondisi OK, tapi Engine rusak
-			// if ( (CRLASTCOND=='AC' || CRLASTCOND=='AX') && (CRLASTCONDE !='AC' || CRLASTCONDE!='AX')){
-				
-			// 	if( CRLASTCONDE.length < 1 ){
-			// 		//Update tabel container
-			// 		try{
-			// 			$updateTBLcontainer = await container_survey.sequelize.query(`Update tblcontainer set CRLASTACT='CO',CRLASTACTE='WS',CRLASTCOND='AC' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
-			// 			{
-			// 				type: container_survey.INSERT
-			// 			});
-
-			// 		} catch (error) {
-			// 			res.status(403);
-			// 			next(error);
-			// 		}
-							
-			// 	}else{
-
-			// 		if( (CRLASTCOND=='AC' || CRLASTCONDE=='AC') || (CRLASTCOND=='AX' || CRLASTCONDE=='AC') || (CRLASTCONDE=='AX' || CRLASTCONDE=='AX') || (CRLASTCOND=='AC' || CRLASTCOND=='AC') ){
-			// 			try{
-			// 				$updateTBLcontainer = await container_survey.sequelize.query(`Update tblcontainer set CRLASTACT='CO',CRLASTCOND='${CRLASTCOND}',CRLASTACTE='WS',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}`,
-			// 				{
-			// 					type: container_survey.INSERT
-			// 				});
-							
-			// 			} catch (error) {
-			// 				res.status(403);
-			// 				next(error);
-			// 			}
-
-			// 		}else{
-			// 			try{
-			// 				$updateTBLcontainer = await container_survey.sequelize.query(`Update tblcontainer set CRLASTACT='CO',CRLASTCOND='AC',CRLASTACTE='WS',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
-			// 				{
-			// 					type: container_survey.INSERT
-			// 				});
-							
-			// 			} catch (error) {
-			// 				res.status(403);
-			// 				next(error);
-			// 			}
-						
-			// 		}
-
-					
-			// 	}
-
-			// } else if( (CRLASTCOND =='AC' || CRLASTCONDE=='AX') && (CRLASTCOND !='AC' || CRLASTCOND!='AX') ){
-			// 	//Update tabel container
-			// 	try{
-			// 		$updateTBLcontainer = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='WE',CRLASTCOND='${CRLASTCOND}',CRLASTACTE='CO',CRLASTCONDE='AC' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
-			// 		{
-			// 			type: container_survey.INSERT
-			// 		});
-			// 	} catch (error) {
-			// 		res.status(403);
-			// 		next(error);
-			// 	}	
-
-			// } else if( (CRLASTCOND=='AC' && CRLASTCONDE=='AX') || (CRLASTCOND=='AX' && CRLASTCONDE=='AC') || (CRLASTCOND=='AX' && CRLASTCONDE=='AX') || ($_POST["CRLASTCOND"]=='AC' && CRLASTCONDE=='AC') ){
-			// 	//Update tabel container
-			// 	try{
-
-			// 		$updateTBLcontainer = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTACTE='CO',CRLASTCOND='${CRLASTCOND}',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
-			// 		{
-			// 			type: container_survey.INSERT
-			// 		});
-			// 	} catch (error) {
-			// 		res.status(403);
-			// 		next(error);
-			// 	}	
-			
-			// } else if( (CRLASTCOND!='AC' && CRLASTCOND!='AC') || (CRLASTCOND!='AX' && CRLASTCONDE!='AX') ){
-			// 	//print "masuk5";die();
-			// 	if( !strlen($_POST["CRLASTCONDE"]) ){
-			// 		//Update tabel container
-			// 		try{
-
-			// 			$updateTBLcontainer = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='WE',CRLASTACTE='WS',CRLASTCOND='${CRLASTCOND}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
-			// 			{
-			// 				type: container_survey.INSERT
-			// 			});
-			// 		} catch (error) {
-			// 			res.status(403);
-			// 			next(error);
-			// 		}	
-						
-			// 	}else{
-			// 		//Update tabel container
-			// 		try{
-
-			// 			$updateTBLcontainer = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='WE',CRLASTCOND='${CRLASTCOND}',CRLASTACTE='WS',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
-			// 			{
-			// 				type: container_survey.INSERT
-							
-			// 			});
-			// 		} catch (error) {
-			// 			res.status(403);
-			// 			next(error);
-			// 		}	
-					
-			// 	}
-			// }
-	
-		// } else{ 
-	
-		// Non Reefer
-			// try{
-
-			// 	$updateTBLcontainer = await container_survey.sequelize.query(`UPDATE ${$TableName1} SET MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${$CRACEP},CRCSC=${$CRCSC},CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}',CRLASTCOND='${CRLASTCOND}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
-			// 	{
-			// 		type: container_survey.INSERT
-			// 	});
-			// } catch (error) {
-			// 	res.status(403);
-			// 	next(error);
-			// }	
-			
-
-			// if( CRLASTCOND =='AC' || CRLASTCOND=='AX' ){
-
-			// 	//Mencari Principal
-			// 	try{
-
-			// 		let $SQLPRCODE = await container_survey.sequelize.query(`Select PR.PRFLAG1 as PRFLAG1 from container_process CP 
-			// 		INNER JOIN tblprincipal PR ON CP.CPOPR = PR.PRCODE 
-			// 		INNER JOIN coins_survey SV ON SV.CPID = CP.CPID 
-			// 		WHERE SV.SVID ='${SVID}' AND SV.TYPE='1' AND CP.CPID = '${$CPID}'`,
-			// 		{
-			// 			type: container_survey.SELECT,
-			// 			plain: true
-			// 		});
-			// 		var $ResultPRCODE = $SQLPRCODE['PRFLAG1'];
-			// 	} catch (error) {
-			// 		res.status(403);
-			// 		next(error);
-			// 	}	
-
-
-			// 	try{
-			// 		var $SQLEOR = await container_survey.sequelize.query(`SELECT LPAD(max(RPNOEST) +1,6,'0') as RPNOEST from container_repair order by RPNOEST desc limit 1`,
-			// 		{
-			// 			type: container_survey.SELECT,
-			// 			plain: true
-			// 		});
-			// 	} catch (error) {
-			// 		res.status(403);
-			// 		next(error);
-			// 	}	
-			
-			
-			// 	let EORNo = ($SQLEOR == null)? 1: $SQLEOR['RPNOEST'];
-			// 	var $insertTBLRepair;
-			// 	if ($ResultPRCODE=='1'){ //leasing
-
-			// 		//Approve tabel repair
-			// 		try{
-
-			// 			$insertTBLRepair = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPV,RPTGLAPPV,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'${now}',1,'1','${SYID}')`,
-			// 			{
-			// 				type: container_survey.INSERT
-			// 			});
-			// 		} catch (error) {
-			// 			res.status(403);
-			// 			next(error);
-			// 		}	
-						
-						
-			// 	}else{ //Shipping
-			// 		//Approve tabel repair, hanya principal
-			// 		try {
-
-			// 			$insertTBLRepair = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('".${SVID}."',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'1','${SYID}')`,
-			// 			{
-			// 				type: container_survey.INSERT
-			// 			});
-			// 		} catch (error) {
-			// 			res.status(403);
-			// 			next(error);
-			// 		}
-				
-
-			// 	}
-
-			// 	try{
-
-			// 		$updateTBLcontainer =  await container_survey.sequelize.query(`Update ${$TableName1} SET CRLASTACT='CO',CRLASTCOND='${CRLASTCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
-			// 		{
-			// 			type: container_survey.INSERT
-			// 		});
-			// 	} catch (error) {
-			// 		res.status(403);
-			// 		next(error);
-			// 	}
-
-			// }else{
-			// 	try {
-
-			// 		$updateTBLcontainer=await container_survey.sequelize.query(`Update ${$TableName1} SET CRLASTACT='WE',CRLASTCOND='${CRLASTCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
-			// 		{
-			// 			type: container_survey.INSERT
-			// 		});
-			// 	}
-			// 	catch (error) {
-			// 		res.status(403);
-			// 		next(error);
-			// 	}
-			// }
-		// }
 		baseResponse({
 			message: "Success Insert Data",
 			data: insertContainerSurvey
