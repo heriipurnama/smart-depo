@@ -100,7 +100,7 @@ class OrderPraController {
 	}
 
 	static async listAllData(req, res, next) {
-		let { offset, limit } = req.query;
+		let { pracode, offset, limit } = req.query;
 
 		try {
 			let offsets = parseInt(offset) || 0;
@@ -109,6 +109,7 @@ class OrderPraController {
 			let { count, rows: datas } = await orderPra.findAndCountAll({
 				offset: offsets,
 				limit: limits,
+				where: { cpiorderno: { [Op.like]: `${pracode}%` } },
 				include: [
 					{
 						model: voyage,
@@ -390,6 +391,7 @@ class OrderPraController {
 	}
 
 	static async createPrainNumber(req, res, next) {
+		let { pracode } = req.body;
 		try {
 			/**
 			 * Format PRAIN CODE
@@ -400,7 +402,7 @@ class OrderPraController {
 			let resultCompany = await company.findAll({});
 			let paktrasl = resultCompany[0].dataValues.paktrasl;
 			let sdcode = resultCompany[0].dataValues.sdcode;
-			let prefixCode = "PI";
+			let prefixCode = pracode;
 
 			// get data pra order
 			let resultOrderPra = await orderPra.findOne({
@@ -607,6 +609,8 @@ class OrderPraController {
 							"biaya_clean",
 							"cleaning_type",
 							"deposit",
+							"biaya_lain",
+							"pph23",
 						],
 						order: [
 							[

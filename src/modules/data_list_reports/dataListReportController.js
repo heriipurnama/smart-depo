@@ -52,7 +52,7 @@ class dataListReportController {
 		
 		try {
 			let datas = await container_process.sequelize.query(
-				`SELECT SVY.SVID,CON.CRNO,PR.PRCODE,
+				`SELECT SVY.SVID,CON.CRNO,PR.PRCODE,CP.CPIORDERNO, CP.CPID, SVY.bid, CR.rpid,
 				CASE WHEN DATE_FORMAT(CP.CPITGL,'%d/%m/%Y')='00/00/0000' 
 				THEN '' ELSE DATE_FORMAT(CP.CPITGL,'%d/%m/%Y') END AS CPITGL,DATE_FORMAT(SVY.SVSURDAT,'%d/%m/%Y') as SVSURDAT,
 				SVY.SVCOND 
@@ -73,6 +73,7 @@ class dataListReportController {
             
                 LEFT JOIN tbldepo DP ON CP.DPCODE=DP.DPCODE
                 LEFT JOIN tblsubdepo SD ON CP.SDCODE = SD.SDCODE 
+                LEFT JOIN container_repair CR ON SVY.SVID = CR.SVID 
 				WHERE CON.CRLASTACT = 'WE' OR CON.CRNO = '${search}' OR PR.PRCODE = '${search}' LIMIT ${limits} OFFSET ${offsets}`,
 				{
 					type: container_process.SELECT,

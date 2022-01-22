@@ -71,7 +71,7 @@ class SurveyController {
 		let { CRNO, CRLASTACT}= req.query;
 		try{
 			let validCrno = await container_survey.sequelize.query(
-				`SELECT CRLASTACT FROM tblcontainer WHERE CRNO LIKE '%${CRNO}%' AND CRLASTACT = '${CRLASTACT}' `,
+				`SELECT CRLASTACT FROM tblcontainer WHERE CRNO LIKE '%${CRNO}%' AND (CRLASTACT = 'BI' OR CRLASTACT = 'WS') `,
 				{
 					type: container_survey.SELECT,
 					plain: true
@@ -80,7 +80,8 @@ class SurveyController {
 			let valid;
 			if (validCrno !== null){
 
-				valid = (validCrno['CRLASTACT'] == 'WS')?'valid':'invalid';
+				//valid = (validCrno['CRLASTACT'] == 'WS' || validCrno['CRLASTACT'] == 'BI')?'valid':'invalid';
+				valid = 'valid';
 			} else {
 				valid = 'invalid';
 			}
@@ -144,7 +145,7 @@ class SurveyController {
 		const bearer = splitBearer[1];
 		// eslint-disable-next-line no-undef
 		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
-		let userToken = datas.userid;
+		let userToken = datas.id;
 		let $CRCDP = (CRCDP != undefined)? 0 : 1;
 		let	$CRCSC = (CRCSC != undefined)? 0 : 1;
 		let	$CRACEP = (CRACEP != undefined)? 0 : 1;
@@ -235,6 +236,7 @@ class SurveyController {
 		const bearer = splitBearer[1];
 		let datas = jwt.verify(bearer, process.env.SECRET_KEY);
 		let usernameByToken = datas.username;
+		let userId = datas.id;
 		var TYPE_SURVEY='';
 		let $CRCDP = (CRCDP != undefined)? 0 : 1;
 		let	$CRCSC = (CRCSC != undefined)? 0 : 1;
@@ -331,7 +333,7 @@ class SurveyController {
 					
 							//Approve tabel repair
 							try {
-								var $SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPV,RPTGLAPPV,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'${now}',1,'1','${SYID}')`,
+								var $SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPV,RPTGLAPPV,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'${now}',1,'1','${userId}')`,
 								{
 									type: container_survey.INSERT,
 								});
@@ -352,7 +354,7 @@ class SurveyController {
 						
 						if( $ResultCheck['SVID'].length > 0 ){
 							try{
-								$SQL3 = await container_survey.sequelize.query(`insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'1','${SYID}')`,
+								$SQL3 = await container_survey.sequelize.query(`insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'1','${userId}')`,
 								{
 									type: container_survey.INSERT,
 								});
@@ -374,7 +376,7 @@ class SurveyController {
 					if( CRLASTCONDE.length > 0 ){
 						//Update tabel container
 						try{
-							$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTACTE='WS',CRLASTCOND='AC' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+							let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTACTE='WS',CRLASTCOND='AC' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
 							{
 								type: container_survey.INSERT,
 							});
@@ -387,7 +389,7 @@ class SurveyController {
 						if( (CRLASTCOND=='AC' || CRLASTCONDE=='AC') || (CRLASTCOND=='AX' || CRLASTCONDE=='AC') || (CRLASTCONDE=='AX' || CRLASTCONDE =='AX') || (CRLASTCOND=='AC' || CRLASTCOND=='AC') ){
 							try{
 
-								$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTCOND='".${CRLASTCOND}',CRLASTACTE='CO',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+								let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTCOND='".${CRLASTCOND}',CRLASTACTE='CO',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
 								{
 									type: container_survey.INSERT,
 								});
@@ -399,7 +401,7 @@ class SurveyController {
 
 						}else{
 							try {
-								$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTCOND='AC',CRLASTACTE='WS',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '$CRNO}' and CRCPID = '${$CPID}'`,{
+								let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTCOND='AC',CRLASTACTE='WS',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '$CRNO}' and CRCPID = '${$CPID}'`,{
 									type: container_survey.INSERT
 								});		
 							} catch (error) {
@@ -413,7 +415,7 @@ class SurveyController {
 				} else if( ( CRLASTCOND =='AC' || CRLASTCONDE =='AX') && (CRLASTCOND !='AC' || CRLASTCOND !='AX') ){
 					//Update tabel container
 					try{
-						$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='WE',CRLASTCOND='${CRLASTCOND}',CRLASTACTE='CO',CRLASTCONDE='AC' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+						let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='WE',CRLASTCOND='${CRLASTCOND}',CRLASTACTE='CO',CRLASTCONDE='AC' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
 						{
 							type: container_survey.INSERT
 						});
@@ -425,7 +427,7 @@ class SurveyController {
 				} else if( ( CRLASTCOND =='AC' && CRLASTCONDE =='AX') || (CRLASTCOND =='AX' && CRLASTCONDE == 'AC') || (CRLASTCOND =='AX' && CRLASTCONDE =='AX') || (CRLASTCOND =='AC' && CRLASTCONDE =='AC') ){
 					//Update tabel container
 					try {
-						$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTACTE='CO',CRLASTCOND='${CRLASTCOND}',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+						let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTACT='CO',CRLASTACTE='CO',CRLASTCOND='${CRLASTCOND}',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
 						{
 							type: container_survey.INSERT
 						});
@@ -439,7 +441,7 @@ class SurveyController {
 					if( !strlen($_POST["CRLASTCONDE"]) ){
 						//Update tabel container
 						try {
-							$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTCOND='${CRLASTCOND}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
+							let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTCOND='${CRLASTCOND}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}'`,
 							{
 								type: container_survey.INSERT
 							});
@@ -451,7 +453,7 @@ class SurveyController {
 					}else{
 						//Update tabel container
 						try {
-							$SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTCOND='${CRLASTCOND}',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}`,
+							let $SQL2 = await container_survey.sequelize.query(`Update ${$TableName1} set CRLASTCOND='${CRLASTCOND}',CRLASTCONDE='${CRLASTCONDE}' Where CRNO = '${CRNO}' and CRCPID = '${$CPID}`,
 							{
 								type: container_survey.INSERT
 							});		
@@ -463,7 +465,7 @@ class SurveyController {
 				}
 
 				try{
-					$SQL= await container_survey.sequelize.query(`Update coins_survey set SVCOND='${CRLASTCOND}',SVSURDAT='${SVSURDAT}' Where SVCRNO = '${CRNO}' and CPID = '${$CPID}`,
+					let $SQL= await container_survey.sequelize.query(`Update coins_survey set SVCOND='${CRLASTCOND}',SVSURDAT='${SVSURDAT}' Where SVCRNO = '${CRNO}' and CPID = '${$CPID}`,
 					{
 						type: container_survey.INSERT
 					});
@@ -521,7 +523,7 @@ class SurveyController {
 						if( $ResultCheck['SVID'].length > 0  ){
 							//Approve tabel repair
 							try {
-								$SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPV,RPTGLAPPV,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${$SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'${now}',1,'1','${SYID} )`,
+								$SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPV,RPTGLAPPV,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${$SVID}',1,'${now}','${EORNo}','${CRNO}','${now}','${usernameByToken}',1,'${now}',1,'${now}',1,'1','${userId} )`,
 								{
 									type: container_survey.INSERT,
 								});
@@ -542,7 +544,7 @@ class SurveyController {
 
 						if( $ResultCheck['SVID'] ){
 							try {
-								$SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${$SVID}',1,'${now}','${EORNo}','${CRNO}','$now','${usernameByToken}',1,'${now}',1,'1','${SYID}')`,
+								$SQL3 = await container_survey.sequelize.query(`Insert into container_repair(SVID,RPVER,RPTGLEST,RPNOEST,RPCRNO,RPCRTON,RPCRTBY,RPSTSAPPVPR,RPTGLAPPVPR,RPBILLON,RPFINALEST,SYID)Values('${$SVID}',1,'${now}','${EORNo}','${CRNO}','$now','${usernameByToken}',1,'${now}',1,'1','${userId}')`,
 								{
 									type: container_survey.INSERT,
 								});
@@ -556,7 +558,7 @@ class SurveyController {
 					}
 
 					try{
-						$SQL4= await container_survey.sequelize.query(`Update ${$TableName1} SET CRLASTACT='CO',CRLASTCOND='${CRLASTCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
+						let $SQL4= await container_survey.sequelize.query(`Update ${$TableName1} SET CRLASTACT='CO',CRLASTCOND='${CRLASTCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
 						{
 							type: container_survey.INSERT,
 						});
@@ -567,7 +569,7 @@ class SurveyController {
 
 				}else{
 					try {
-						$SQL4=  await container_survey.sequelize.query(`Update ${$TableName1} SET CRLASTCOND='${CRLASTCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
+						let $SQL4=  await container_survey.sequelize.query(`Update ${$TableName1} SET CRLASTCOND='${CRLASTCOND}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
 						{
 							type: container_survey.INSERT,
 						});
@@ -579,7 +581,7 @@ class SurveyController {
 				}
 
 				try {
-					$SQL= await container_survey.sequelize.query(`Update coins_survey set SVCOND='${CRLASTCOND}',SVSURDAT='${SVSURDAT}' Where SVCRNO = '${CRNO}' and CPID = '${$CPID}`,
+					let $SQL= await container_survey.sequelize.query(`Update coins_survey set SVCOND='${CRLASTCOND}',SVSURDAT='${SVSURDAT}' Where SVCRNO = '${CRNO}' and CPID = '${$CPID}`,
 					{
 						type: container_survey.INSERT,
 					});

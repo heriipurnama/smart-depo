@@ -17,6 +17,8 @@ class OrderPraReceptController {
 			materai,
 			total_tagihan,
 			biaya_cleaning,
+			totbiaya_lain,
+			totpph23,
 		} = req.body;
 
 		try {
@@ -32,6 +34,8 @@ class OrderPraReceptController {
 				total_pajak: total_pajak,
 				materai: materai,
 				total_tagihan: total_tagihan,
+				totbiaya_lain: totbiaya_lain,
+				totpph23: totpph23,
 			});
 
 			baseResponse({
@@ -114,6 +118,8 @@ class OrderPraReceptController {
 			materai,
 			total_tagihan,
 			biaya_cleaning,
+			totbiaya_lain,
+			totpph23,
 		} = req.body;
 
 		let dataBody = {
@@ -129,6 +135,8 @@ class OrderPraReceptController {
 			total_pajak: total_pajak,
 			materai: materai,
 			total_tagihan: total_tagihan,
+			totbiaya_lain: totbiaya_lain,
+			totpph23: totpph23,
 		};
 
 		let selectedWhere = { where: { prareceptid: prareceptid } };

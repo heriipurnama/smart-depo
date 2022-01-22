@@ -4,6 +4,7 @@ module.exports = {
 	user: require("./users/UserController"),
 	message: require("./message/MessageController"),
 	container_code: require("./container_code/ContainerCodeController"),
+	mnr_tarif: require("./mnr_tarif/MnrTarifController"),
 	containerType: require("./container_type/ContainerTypeController"),
 
 	damageType: require("./damage_type/DamageTypeController"),
@@ -87,4 +88,6 @@ module.exports = {
 	inventoryStockContainer: require("./inventory_stock_container/InventoryStockContainerController"),
 
 	dailyMovementInMsc: require("./daily_movement_in_msc/DailyMovementInMscController"),
+	mskGudang: require("./msk_gudang/MskGudangController"),
+	krlGudang: require("./krl_gudang/KrlGudangController"),
 };

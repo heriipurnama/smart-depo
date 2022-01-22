@@ -6,6 +6,7 @@ const routers = express.Router();
 const user = require("./users/UserRouter");
 const messages = require("./message/MessageRouter");
 const container_code = require("./container_code/ContainerCodeRouter");
+const mnr_tarif = require("./mnr_tarif/MnrTarifRouter");
 const containerType = require("./container_type/ContainerTypeRouter");
 
 const damageType = require("./damage_type/DamageTypeRouter");
@@ -88,11 +89,14 @@ const inventoryContainerIn = require("./inventory_container_in/InventoryContaine
 const inventoryContainerOut = require("./inventory_container_out/InventoryContainerOutRouter");
 const inventoryStockContainer = require("./inventory_stock_container/InventoryStockContainerRouter");
 const dailyMovementInMsc = require("./daily_movement_in_msc/DailyMovementInMscRouter");
+const masukGudang = require("./msk_gudang/MskGudangRouter");
+const keluarGudang = require("./krl_gudang/KrlGudangRouter");
 
 // base router
 routers.use("/users", user);
 routers.use("/messages", messages);
 routers.use("/containercode", container_code);
+routers.use("/mnrtarif", mnr_tarif);
 routers.use("/containertype", containerType);
 
 routers.use("/damagetype", damageType);
@@ -169,6 +173,8 @@ routers.use("/rpt_daily_movement_out_msc", dailyMovementOutMsc);
 routers.use("/orderContainerRepos", orderContainerRepo);
 routers.use("/praIns", praIn);
 routers.use("/containerProcess", containerProcess);
+routers.use("/masukGudang", masukGudang);
+routers.use("/keluarGudang", keluarGudang);
 
 routers.use("/dataListReports", dataListReport);
 routers.use("/rpt_condition_in_container_inventory", inventoryContainerIn);

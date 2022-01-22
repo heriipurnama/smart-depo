@@ -107,6 +107,24 @@ class DebiturController {
 		}
 	}
 
+	static async listCutype(req, res, next) {
+		let { cutype } = req.query;
+
+		try {
+
+			let { count, rows: datas } = await debitur.findAndCountAll({
+				where: { cutype: cutype }
+			});
+			baseResponse({ message: "list debitur", data: { datas } })(
+				res,
+				200
+			);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	static async detailData(req, res, next) {
 		let { cucode } = req.body;
 

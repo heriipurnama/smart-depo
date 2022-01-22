@@ -15,6 +15,9 @@ routers.route("/getAllData").get(Authentication, DebiturController.listAllData);
 routers
 	.route("/getDetailData")
 	.get(Authentication, DebiturController.detailData);
+routers
+	.route("/listCutype")
+	.get(Authentication, DebiturController.listCutype);
 routers.route("/updateData").put(Authentication, DebiturController.updateData);
 
 routers

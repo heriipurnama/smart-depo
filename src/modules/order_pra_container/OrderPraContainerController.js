@@ -26,6 +26,8 @@ class OrderPraContainerController {
 			biaya_clean,
 			cleaning_type,
 			deposit,
+			biaya_lain,
+			pph23,
 		} = req.body;
 
 		try {
@@ -51,6 +53,8 @@ class OrderPraContainerController {
 				biaya_clean: biaya_clean,
 				cleaning_type: cleaning_type,
 				deposit: deposit,
+				biaya_lain: biaya_lain,
+				pph23: pph23,
 			};
 
 			let dataNewContainer = {
@@ -158,6 +162,8 @@ class OrderPraContainerController {
 			biaya_clean,
 			cleaning_type,
 			deposit,
+			biaya_lain,
+			pph23,
 		} = req.body;
 
 		let dataBody = {
@@ -181,6 +187,8 @@ class OrderPraContainerController {
 			biaya_clean: biaya_clean,
 			cleaning_type: cleaning_type,
 			deposit: deposit,
+			biaya_lain: biaya_lain,
+			pph23: pph23,
 		};
 
 		let selectedWhere = { where: { pracrnoid: pracrnoid } };

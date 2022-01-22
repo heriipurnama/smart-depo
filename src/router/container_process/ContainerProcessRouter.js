@@ -33,8 +33,20 @@ routers
 	.route("/getByCpiId")
 	.get(Authentication, containerProcessController.getByCpiId);
 routers
+	.route("/getByCpiIdOut")
+	.get(Authentication, containerProcessController.getByCpiIdOut);
+routers
 	.route("/updateSecurityIn")
 	.put(Authentication, containerProcessController.updateSecurityIn);
+routers
+	.route("/updateSecurityOut")
+	.put(Authentication, containerProcessController.updateSecurityOut);
+routers
+	.route("/getBarcodeGateIn")
+	.get(Authentication, containerProcessController.getBarcodeGateIn);
+routers
+	.route("/getBarcodeSurvey")
+	.get(Authentication, containerProcessController.getBarcodeSurvey);
 
 
 module.exports = routers;

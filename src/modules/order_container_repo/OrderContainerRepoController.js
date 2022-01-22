@@ -264,6 +264,7 @@ class OrderContainerRepoController {
 			reischarged,
 			cpopr,
 			cpcust,
+			repoid,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -345,6 +346,7 @@ class OrderContainerRepoController {
 					remdfon: new Date(),
 					cpopr: cpopr,
 					cpcust: cpcust,
+					repoid: repoid,
 				},
 				{ where: { reorderno: reorderno } }
 			);
