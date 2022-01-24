@@ -24,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			vesopr: DataTypes.STRING,
 			cncode: DataTypes.STRING,
-			vestitle: DataTypes.STRING
+			vestitle: DataTypes.STRING,
+			prcode: DataTypes.STRING,
 
 		},
 		{
