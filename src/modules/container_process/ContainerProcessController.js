@@ -533,7 +533,7 @@ class ContainerProcessController {
 		try {
 			let datas = await container_process.sequelize.query(
 				`select b.crno,a.cpitgl,a.cpdepo,a.spdepo,k.prcode,i.cucode,d.cccode,
-				a.cpopr,a.cpitruck,a.cpcust,a.cpireceptno,a.cpid,
+				a.cpopr,a.cpitruck,a.cpcust,opr.cpireceptno, a.cpireceptno,a.cpid,
 		  d.ctcode,d.cclength,d.ccheight,b.crcdp,b.cracep,b.crcsc,
 		  b.crmmyy,b.crweightk,b.crweightl,b.crtarak,b.crtaral,b.crnetk,
 		  b.crnetl,b.crvol,b.crmanuf,b.crmandat,b.crpos,b.crbay,
@@ -559,7 +559,9 @@ class ContainerProcessController {
 		  left join tblport h on h.poid = a.cpidish
 		  left join tblvoyage n on n.voyid = a.cpivoy
 		  left join order_container_repo r on r.reorderno = a.cpiorderno
-	 where  a.cpiorderno  like '%${cpiorderno}%'
+		  left join order_pra op on  op.cpiorderno = a.cpiorderno
+		  left join order_pra_recept opr on op.praid = opr.praid
+		where  a.cpiorderno  like '%${cpiorderno}%' and opr.cpireceptno not like '-'
 	 and  b.crno = '${crno}'`
 			);
 			const restDatas = datas[0];
