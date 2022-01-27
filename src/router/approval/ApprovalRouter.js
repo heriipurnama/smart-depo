@@ -6,7 +6,7 @@ const routers = express.Router();
 const { approval: ApprovalController } = require("../../modules");
 const Authentication = require("../../utils/middleware/Auth");
 
-//route approval
+//route
 routers.route("/list").get(Authentication, ApprovalController.list);
 routers
 	.route("/listHeaderContainer")
