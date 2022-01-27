@@ -396,7 +396,7 @@ class ContainerProcessController {
 			next(error);
 		}
 	}
-
+	// get
 	static async getDataGateIN(req, res, next) {
 		const {
 			cpife1,
