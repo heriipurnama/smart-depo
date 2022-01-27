@@ -14,7 +14,7 @@ const {
 
 	container,
 	container_code,
-	orderRepoContainer,
+	orderRepoContainer, container_survey,
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
@@ -842,6 +842,34 @@ class RepoInController {
 				200
 			);
 			Logger(req);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async checkValid(req, res, next) {
+		let { CRNO}= req.query;
+		try{
+			let validCrno = await container_survey.sequelize.query(
+				`SELECT CRLASTACT FROM tblcontainer WHERE CRNO LIKE '%${CRNO}%' AND CRLASTACT = 'CO' `,
+				{
+					type: container_survey.SELECT,
+					plain: true
+				}
+			);
+			let valid;
+			if (validCrno !== null){
+
+				//valid = (validCrno['CRLASTACT'] == 'WS' || validCrno['CRLASTACT'] == 'BI')?'valid':'invalid';
+				valid = 'valid';
+			} else {
+				valid = 'invalid';
+			}
+			baseResponse({
+				message: "Check Valid",
+				data: {valid},
+			})(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
