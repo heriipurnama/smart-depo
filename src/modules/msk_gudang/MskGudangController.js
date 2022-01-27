@@ -59,7 +59,7 @@ class MskGudangController {
             for (let i=0; i<lotConvert.length; i++){
                 await msk_gudang_detail.create({
                     msk_id: masukGud.msk_id,
-                    nomor_lot: lotConvert[i].lot,
+                    nomor_lot: lotConvert[i],
                 });
             }
 
@@ -88,10 +88,12 @@ class MskGudangController {
                 include:[
                     {
                         model: msk_gudang_detail,
+                        as: "masukGudangDetail",
                         required: false // do not generate INNER JOIN
                     },
                     {
                         model: tblwarehouse,
+                        as: "tblwarehouses",
                         required: false
                     }
                 ]
@@ -228,8 +230,8 @@ class MskGudangController {
                     type: debitur.SELECT
                 }
                 );
-
-            baseResponse({ message: "List debitur", data: { datas } })(res, 200);
+            let totalData = datas[0];
+            baseResponse({ message: "List debitur", data: totalData  })(res, 200);
 
         }catch (error){
             res.status(403);
@@ -244,7 +246,8 @@ class MskGudangController {
                     type: tblwarehouse.SELECT
                 }
             );
-            baseResponse({ message: "List warehouse", data: { datas } })(res, 200);
+            let totalData = datas[0];
+            baseResponse({ message: "List warehouse", data: totalData  })(res, 200);
 
         }catch (error){
             res.status(403);

@@ -92,6 +92,7 @@ const dailyMovementInMsc = require("./daily_movement_in_msc/DailyMovementInMscRo
 
 const masukGudang = require("./msk_gudang/MskGudangRouter");
 const estimasi = require("./estimasi/EstimasiRouter");
+const keluarGudang = require("./krl_gudang/KrlGudangRouter");
 
 // base router
 routers.use("/users", user);
@@ -175,6 +176,7 @@ routers.use("/orderContainerRepos", orderContainerRepo);
 routers.use("/praIns", praIn);
 routers.use("/containerProcess", containerProcess);
 routers.use("/masukGudang", masukGudang);
+routers.use("/keluarGudang", keluarGudang);
 
 routers.use("/dataListReports", dataListReport);
 routers.use("/rpt_condition_in_container_inventory", inventoryContainerIn);

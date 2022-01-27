@@ -9,7 +9,7 @@ const Op = Sequelize.Op;
 class VesselController {
 
 	static async createNew(req, res, next) {
-		let { id, opr, country, title } = req.body;
+		let { id, opr, country, title, prcode } = req.body;
 		try {
 			const [payload, created] = await vessel.findOrCreate({
 				where: {
@@ -18,7 +18,8 @@ class VesselController {
 				defaults:{
 					vesopr: opr,
 					cncode: country,
-					vestitle: title
+					vestitle: title,
+					prcode: prcode
 				}
 			});
 			if(created === false){
@@ -27,7 +28,7 @@ class VesselController {
 				baseResponse({ message:"Vessel Created " , data: payload})(res, 200);
 				Logger(req);
 			}
-            
+
 		} catch (error) {
 			res.status(400);
 			next(error);
@@ -35,13 +36,14 @@ class VesselController {
 	}
 
 	static async update(req, res, next) {
-		let { id, opr, country, title } = req.body;
+		let { id, opr, country, title, prcode } = req.body;
 		let dataUpdate = {
 			vesopr: opr,
 			cncode: country,
-			vestitle: title
+			vestitle: title,
+			prcode: prcode
 		};
-		let selector = { 
+		let selector = {
 			where: { vesid: id }
 		};
 		try {
@@ -64,7 +66,7 @@ class VesselController {
 
 	static async listOne(req, res, next) {
 		let { id } = req.body;
-		
+
 		try {
 			let dataVessel = await vessel.findOne({
 				where: {
@@ -96,12 +98,12 @@ class VesselController {
 				include:[{
 					model:country,
 					required: false // do not generate INNER JOIN
-				}],				
+				}],
 				where: {
 					[Op.or]: [
-					  { vesid: { [Op.like]: `%${search}%`} },
-					  { vestitle :{ [Op.like]: `%${search}%`}},
-					  { vesopr :{ [Op.like]: `%${search}%`}}					  
+						{ vesid: { [Op.like]: `%${search}%`} },
+						{ vestitle :{ [Op.like]: `%${search}%`}},
+						{ vesopr :{ [Op.like]: `%${search}%`}}
 					]
 				},
 				order: [[oc, ot]]
@@ -114,7 +116,7 @@ class VesselController {
 	}
 
 	static async delete(req, res, next) {
-		let {id} = req.body; 
+		let {id} = req.body;
 		try {
 			let dataVessel = await vessel.destroy({
 				where:{vesid: id}
@@ -129,14 +131,14 @@ class VesselController {
 			next(error);
 		}
 	}
-    
+
 	static async cek(req, res, next) {
 		try {
 			res.status(200);
 			return res.json(req.body);
 		} catch (error) {
 			res.status(403);
-			next(error);
+			next(error);s
 		}
 	}
 }
