@@ -1,5 +1,7 @@
 "use strict";
 
+require("dotenv").config();
+
 const baseResponse = require("../../utils/helper/Response");
 const {
 	container_process,
@@ -7,7 +9,7 @@ const {
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
-class ApprovalController {
+class EstimasiController {
 	static async list(req, res, next) {
 		let { number, limit, offset } = req.query;
 		let limits = limit == undefined ? "" : ` limit ${limit}`;
@@ -343,4 +345,4 @@ class ApprovalController {
 	}
 }
 
-module.exports = ApprovalController;
+module.exports = EstimasiController;

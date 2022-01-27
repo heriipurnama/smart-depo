@@ -268,7 +268,6 @@ class RepoInController {
 
 			spdepo,
 			cpideliver,
-			cpidisdat,
 			cpichrgbb,
 			cpipratgl,
 
@@ -433,33 +432,32 @@ class RepoInController {
 			var payloadContainerProcess;
 
 			payloadContainerProcess = await container_process.create({
-					cpid: resultCodeContainerProcess,
-					cpopr: cpopr,
-					cpcust: cpcust,
-					cpidish: cpidish,
+				cpid: resultCodeContainerProcess,
+				cpopr: cpopr,
+				cpcust: cpcust,
+				cpidish: cpidish,
 
-					cpijam: cpijam,
-					cpichrgbb: cpichrgbb,
-					cpivoyid: dataVoyId,
+				cpijam: cpijam,
+				cpichrgbb: cpichrgbb,
+				cpivoyid: dataVoyId,
 
-					cpdepo: cpdepo,
-					spdepo: spdepo,
-					cpiorderno: resultCodeOrderContainerRepo,
-					cpideliver: cpideliver,
+				cpdepo: cpdepo,
+				spdepo: spdepo,
+				cpiorderno: resultCodeOrderContainerRepo,
+				cpideliver: cpideliver,
 
-					cpife: 0,
-					cpiprano: resultCodeOrderContainerRepo,
-					cpipratgl: cpipratgl,
-					cpiterm: "mty",
+				cpife: 0,
+				cpiprano: resultCodeOrderContainerRepo,
+				cpipratgl: cpipratgl,
+				cpiterm: "mty",
 
-					cpistatus: "re",
-					cpicrton: new Date(),
-					cpicrtby: usernameByToken,
-					cpivoy: voyid,
+				cpistatus: "re",
+				cpicrton: new Date(),
+				cpicrtby: usernameByToken,
+				cpivoy: voyid,
 
-					cpives: vesid,
+				cpives: vesid,
 			});
-
 
 			const payloadOrderContainerRepo = await orderContainerRepo.create({
 				reorderno: resultCodeOrderContainerRepo,
@@ -556,7 +554,7 @@ class RepoInController {
 	 * @param {*} req
 	 * @param {*} res
 	 * @param {*} next
-	 */ 
+	 */
 
 	static async viewDataRepoInDetails(req, res, next) {
 		try {
@@ -699,34 +697,33 @@ class RepoInController {
 					var restContainerProcess;
 
 					restContainerProcess = await container_process.create({
-							cpid: resultCodeContainerProcess,
-							crno: crno,
-							cpopr: cpopr,
-							cpcust: cpcust,
-							cpidish: cpidish,
+						cpid: resultCodeContainerProcess,
+						crno: crno,
+						cpopr: cpopr,
+						cpcust: cpcust,
+						cpidish: cpidish,
 
-							cpdepo: cpdepo,
-							cpichrgbb: cpichrgbb,
-							cpipratgl: cpipratgl,
+						cpdepo: cpdepo,
+						cpichrgbb: cpichrgbb,
+						cpipratgl: cpipratgl,
 
-							cpijam: cpijam,
-							cpishold: 0,
-							cpife: 0,
+						cpijam: cpijam,
+						cpishold: 0,
+						cpife: 0,
 
-							cpives: cpives,
-							cpiorderno: cpiorderno,
-							cpiremark: cpiremark,
-							cpideliver: cpideliver,
+						cpives: cpives,
+						cpiorderno: cpiorderno,
+						cpiremark: cpiremark,
+						cpideliver: cpideliver,
 
-							cpivoyid: cpivoyid,
-							cpivoy: cpivoy,
-							cpiterm: "mty",
-							cpistatus: "re",
+						cpivoyid: cpivoyid,
+						cpivoy: cpivoy,
+						cpiterm: "mty",
+						cpistatus: "re",
 
-							cpicrton: Date.now(),
-							cpicrtby: usernameByToken,
+						cpicrton: Date.now(),
+						cpicrtby: usernameByToken,
 					});
-
 
 					// insert order repo controller!
 					const restOrderRepoContainer = await orderRepoContainer.create({

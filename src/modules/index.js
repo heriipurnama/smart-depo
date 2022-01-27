@@ -89,5 +89,6 @@ module.exports = {
 
 	dailyMovementInMsc: require("./daily_movement_in_msc/DailyMovementInMscController"),
 	mskGudang: require("./msk_gudang/MskGudangController"),
+	estimasi: require("./estimasi/EstimasiController"),
 	krlGudang: require("./krl_gudang/KrlGudangController"),
 };
