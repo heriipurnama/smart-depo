@@ -320,6 +320,29 @@ class UserController {
 		}
 	}
 
+	static async detailDataUserMobile(req, res, next) {
+		try {
+			let payload = await tblusers.findOne({
+				where: { user_id: req.query.userId },
+				include: [
+					{
+						model: tblgroups,
+						as: "groups",
+						attributes: ["group_id", "group_name", "description"],
+					},
+				],
+			});
+			if (!payload) {
+				throw new Error(`user id: ${req.query.userId} doesn't exists!`);
+			}
+			baseResponse({ message: "detail data user", data: payload })(res, 200);
+			Logger(req);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	static async upateDataUser(req, res, next) {
 		let {
 			userId,

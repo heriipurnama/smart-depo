@@ -22,6 +22,7 @@ routers.route("/auth/updatePassword").put(Authentication, UserController.updateP
 routers.route("/auth/sendEmailActivated").post(Authentication, UserController.emailActivated);
 routers.route("/auth/changePassword").put(UserController.changePassword);
 routers.route("/auth/detailDataUser").get(Authentication, UserController.detailDataUser);
+routers.route("/auth/detailDataUserMobile").get(Authentication, UserController.detailDataUserMobile);
 
 routers.route("/auth/upateDataUser").put(Authentication, UserController.upateDataUser);
 routers.route("/auth/delete").delete(Authentication, UserController.deleteDataUser);

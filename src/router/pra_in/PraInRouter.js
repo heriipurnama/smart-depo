@@ -11,5 +11,8 @@ const Authentication = require("../../utils/middleware/Auth");
 routers
 	.route("/createNewData")
 	.post(Authentication, PraInController.createNewData);
+routers
+	.route("/checkValid")
+	.get(Authentication, PraInController.checkValid);
 
 module.exports = routers;
