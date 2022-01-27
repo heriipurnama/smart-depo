@@ -2,7 +2,12 @@
 
 const jwt = require("jsonwebtoken");
 const baseResponse = require("../../utils/helper/Response");
-const { container_process, container_survey, container, orderPraContainer} = require("../../db/models");
+const {
+	container_process,
+	container_survey,
+	container,
+	orderPraContainer,
+} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -101,7 +106,7 @@ class ContainerProcessController {
 		}
 	}
 
-	static async updateSecurityIn(req, res, next){
+	static async updateSecurityIn(req, res, next) {
 		let { cpid } = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -143,7 +148,7 @@ class ContainerProcessController {
 		}
 	}
 
-	static async updateSecurityOut(req, res, next){
+	static async updateSecurityOut(req, res, next) {
 		let { cpid } = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -233,18 +238,22 @@ class ContainerProcessController {
 
 		try {
 			var genNumber = 1;
-			let MyResult = await container_process.sequelize.query(`SELECT count(CPIEIR) as CPIEIR FROM container_process`,
+			let MyResult = await container_process.sequelize.query(
+				`SELECT count(CPIEIR) as CPIEIR FROM container_process`,
 				{
 					type: container_process.SELECT,
-					plain: true
-				});
+					plain: true,
+				}
+			);
 			if (MyResult !== null) {
-				let rests = await container_process.sequelize.query(`SELECT max(CPIEIR)+1 as CPIEIR FROM container_process`,
+				let rests = await container_process.sequelize.query(
+					`SELECT max(CPIEIR)+1 as CPIEIR FROM container_process`,
 					{
 						type: container_process.SELECT,
-						plain: true
-					});
-				genNumber = rests['CPIEIR'];
+						plain: true,
+					}
+				);
+				genNumber = rests["CPIEIR"];
 			}
 
 			let payload = await container_process.update(
@@ -267,24 +276,23 @@ class ContainerProcessController {
 					cpideliver: cpideliver,
 					cpitruck: cpitruck,
 					crno: crno,
-					crlastact: 'WE',
+					crlastact: "WE",
 					cpijam: new Date().toLocaleTimeString(),
 				},
-				{ where: {
-						[Op.and]: [
-							{cpiorderno: cpiorderno },
-							{crno: crno }
-						]
-				}}
+				{
+					where: {
+						[Op.and]: [{ cpiorderno: cpiorderno }, { crno: crno }],
+					},
+				}
 			);
 
 			const payloades = await container.update(
-				{ crlastact: "WE"},
+				{ crlastact: "WE" },
 				{ where: { crno: crno } }
-			); 
+			);
 
 			const payloadeswe = await orderPraContainer.update(
-				{ cpigatedate: new Date()},
+				{ cpigatedate: new Date() },
 				{ where: { crno: crno } }
 			);
 
@@ -525,10 +533,7 @@ class ContainerProcessController {
 	}
 	//print kitir IN
 	static async getByCpiorderno(req, res, next) {
-		const {
-			cpiorderno,
-			crno,
-		} = req.query;
+		const { cpiorderno, crno } = req.query;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -574,9 +579,7 @@ class ContainerProcessController {
 	}
 	//untuk scand barcode security mobile In
 	static async getByCpiId(req, res, next) {
-		const {
-			crcpid,
-		} = req.query;
+		const { crcpid } = req.query;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -619,9 +622,7 @@ class ContainerProcessController {
 	}
 	//untuk scand barcode security mobile/web OUT
 	static async getByCpiIdOut(req, res, next) {
-		const {
-			crcpid,
-		} = req.query;
+		const { crcpid } = req.query;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -665,9 +666,7 @@ class ContainerProcessController {
 	}
 
 	static async getBarcodeGateIn(req, res, next) {
-		const {
-			crcpid,
-		} = req.query;
+		const { crcpid } = req.query;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -710,9 +709,7 @@ class ContainerProcessController {
 	}
 
 	static async getBarcodeSurvey(req, res, next) {
-		const {
-			crcpid,
-		} = req.query;
+		const { crcpid } = req.query;
 
 		try {
 			let datas = await container_process.sequelize.query(
