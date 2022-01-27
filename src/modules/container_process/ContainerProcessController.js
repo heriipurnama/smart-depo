@@ -101,7 +101,7 @@ class ContainerProcessController {
 		}
 	}
 
-	static async updateSecurityIn(req, res, next){
+	static async updateSecurityIn(req, res, next) {
 		let { cpid } = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -143,7 +143,7 @@ class ContainerProcessController {
 		}
 	}
 
-	static async updateSecurityOut(req, res, next){
+	static async updateSecurityOut(req, res, next) {
 		let { cpid } = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -252,15 +252,14 @@ class ContainerProcessController {
 					cpideliver: cpideliver,
 					cpitruck: cpitruck,
 					crno: crno,
-					crlastact: 'WS',
+					crlastact: "WS",
 					cpijam: new Date().toLocaleTimeString(),
 				},
-				{ where: {
-						[Op.and]: [
-							{cpiorderno: cpiorderno },
-							{crno: crno }
-						]
-				}}
+				{
+					where: {
+						[Op.and]: [{ cpiorderno: cpiorderno }, { crno: crno }],
+					},
+				}
 			);
 
 			baseResponse({
@@ -500,10 +499,7 @@ class ContainerProcessController {
 	}
 
 	static async getByCpiorderno(req, res, next) {
-		const {
-			cpiorderno,
-			crno,
-		} = req.query;
+		const { cpiorderno, crno } = req.query;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -547,9 +543,7 @@ class ContainerProcessController {
 	}
 
 	static async getByCpiId(req, res, next) {
-		const {
-			crcpid,
-		} = req.query;
+		const { crcpid } = req.query;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -592,9 +586,7 @@ class ContainerProcessController {
 	}
 
 	static async getBarcodeGateIn(req, res, next) {
-		const {
-			crcpid,
-		} = req.query;
+		const { crcpid } = req.query;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -637,9 +629,7 @@ class ContainerProcessController {
 	}
 
 	static async getBarcodeSurvey(req, res, next) {
-		const {
-			crcpid,
-		} = req.query;
+		const { crcpid } = req.query;
 
 		try {
 			let datas = await container_process.sequelize.query(
