@@ -4,16 +4,15 @@ const baseResponse = require("../../utils/helper/Response");
 const { container_process } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
-
 class InventoryNotAvailableController {
-
 	static async list(req, res, next) {
-		let {prcode, limit, offset} = req.body;
-		let $limit = (limit=="")? `` : ` limit ${limit}`;
-        let $offset = (offset=="")? `` : ` offset ${offset}`;
+		let { prcode, limit, offset } = req.body;
+		let $limit = limit == "" ? `` : ` limit ${limit}`;
+		let $offset = offset == "" ? `` : ` offset ${offset}`;
 
 		try {
-            let datas = await container_process.sequelize.query(`select 
+			let datas = await container_process.sequelize.query(
+				`select 
 			distinct 
 			cp.crno as container_no,
 			cc.ctcode as ctype,
@@ -42,13 +41,16 @@ class InventoryNotAvailableController {
 					concat(cp.crno, rpver) in (select concat(rpcrno, max(rpver)) from container_repair group by rpcrno)
 				else 1 end
 				order by con.crlastact, cp.crno,size_20, size_40, size_hc, in_depo_date, approval_date, est_of_repair, remarks 
-				${$limit} ${$offset}`, 
-            {
-                type: container_process.SELECT
-            }
-            );
-            
-            baseResponse({ message: "List Inventory Not Available", data: { datas } })(res, 200);
+				${$limit} ${$offset}`,
+				{
+					type: container_process.SELECT,
+				}
+			);
+
+			baseResponse({
+				message: "List Inventory Not Available",
+				data: { datas },
+			})(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
