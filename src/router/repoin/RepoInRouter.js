@@ -33,4 +33,7 @@ routers
 routers
 	.route("/updateDataRepoInDetails")
 	.put(Authentication, RepoInController.updateDataRepoInDetails);
+routers
+	.route("/checkValid")
+	.get(Authentication, RepoInController.checkValid);
 module.exports = routers;

@@ -2,8 +2,10 @@
 const jwt = require("jsonwebtoken");
 
 const baseResponse = require("../../utils/helper/Response");
-const { container_process, company, container } = require("../../db/models");
+const { container_process, company, container, container_survey} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 class PraInController {
 	static async createNewData(req, res, next) {
@@ -127,6 +129,34 @@ class PraInController {
 			Logger(req);
 		} catch (error) {
 			res.status(400);
+			next(error);
+		}
+	}
+
+	static async checkValid(req, res, next) {
+		let { CRNO}= req.query;
+		try{
+			let validCrno = await container_survey.sequelize.query(
+				`SELECT CRLASTACT FROM tblcontainer WHERE CRNO LIKE '%${CRNO}%' AND (CRLASTACT = 'OD' OR CRLASTACT = 'BI') `,
+				{
+					type: container_survey.SELECT,
+					plain: true
+				}
+			);
+			let valid;
+			if (validCrno !== null){
+
+				//valid = (validCrno['CRLASTACT'] == 'WS' || validCrno['CRLASTACT'] == 'BI')?'valid':'invalid';
+				valid = 'valid';
+			} else {
+				valid = 'invalid';
+			}
+			baseResponse({
+				message: "Check Valid",
+				data: {valid},
+			})(res, 200);
+		} catch (error) {
+			res.status(403);
 			next(error);
 		}
 	}
