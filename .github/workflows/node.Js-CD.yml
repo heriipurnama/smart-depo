@@ -6,7 +6,7 @@ name: CD to server
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [master]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -32,10 +32,10 @@ jobs:
           script: |
             /root/.nvm/versions/node/v14.17.4/bin/pm2 list
             cd /home/smartdepo/be/smart-depo
-            git pull origin master
+            git pull origin master2
             git status
             npm install --only=prod
             /root/.nvm/versions/node/v14.17.4/bin/pm2 list
             tail -15 /root/.pm2/pm2.log && tail -15 /root/.pm2/logs/BE-SmartDepo-error.log  && tail -15 /root/.pm2/logs/BE-SmartDepo-out.log
-  
+
     # createdBy: heriipurnama
