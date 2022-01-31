@@ -428,7 +428,7 @@ class RepoInController {
 				});
 				dataVoyId = payloadVoyage.dataValues.voyid;
 			}
-
+           /*
 			var payloadContainerProcess;
 
 			payloadContainerProcess = await container_process.create({
@@ -446,11 +446,11 @@ class RepoInController {
 				cpiorderno: resultCodeOrderContainerRepo,
 				cpideliver: cpideliver,
 
+
 				cpife: 0,
 				cpiprano: resultCodeOrderContainerRepo,
 				cpipratgl: cpipratgl,
 				cpiterm: "mty",
-
 				cpistatus: "re",
 				cpicrton: new Date(),
 				cpicrtby: usernameByToken,
@@ -458,6 +458,9 @@ class RepoInController {
 
 				cpives: vesid,
 			});
+
+		   */
+
 
 			const payloadOrderContainerRepo = await orderContainerRepo.create({
 				reorderno: resultCodeOrderContainerRepo,
@@ -534,9 +537,14 @@ class RepoInController {
 			});
 
 			let succesMessage = {
+				"succes created order Container Repo": payloadOrderContainerRepo,
+			};
+			/*
+			let succesMessage = {
 				"succes created container process": payloadContainerProcess,
 				"succes created order Container Repo": payloadOrderContainerRepo,
 			};
+			*/
 
 			baseResponse({
 				message: "succes created repo praIn",

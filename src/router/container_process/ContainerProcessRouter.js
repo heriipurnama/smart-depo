@@ -30,6 +30,9 @@ routers
 	.route("/getByCpiorderno")
 	.get(Authentication, containerProcessController.getByCpiorderno);
 routers
+	.route("/getKitirPepoIn")
+	.get(Authentication, containerProcessController.getKitirPepoIn);	
+routers
 	.route("/getByCpiId")
 	.get(Authentication, containerProcessController.getByCpiId);
 routers
