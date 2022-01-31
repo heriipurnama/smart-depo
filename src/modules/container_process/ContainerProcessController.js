@@ -2,7 +2,12 @@
 
 const jwt = require("jsonwebtoken");
 const baseResponse = require("../../utils/helper/Response");
-const { container_process, container_survey, container, orderPraContainer} = require("../../db/models");
+const {
+	container_process,
+	container_survey,
+	container,
+	orderPraContainer,
+} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -101,7 +106,7 @@ class ContainerProcessController {
 		}
 	}
 
-	static async updateSecurityIn(req, res, next){
+	static async updateSecurityIn(req, res, next) {
 		let { cpid } = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -143,7 +148,7 @@ class ContainerProcessController {
 		}
 	}
 
-	static async updateSecurityOut(req, res, next){
+	static async updateSecurityOut(req, res, next) {
 		let { cpid } = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -233,18 +238,22 @@ class ContainerProcessController {
 
 		try {
 			var genNumber = 1;
-			let MyResult = await container_process.sequelize.query(`SELECT count(CPIEIR) as CPIEIR FROM container_process`,
+			let MyResult = await container_process.sequelize.query(
+				`SELECT count(CPIEIR) as CPIEIR FROM container_process`,
 				{
 					type: container_process.SELECT,
-					plain: true
-				});
+					plain: true,
+				}
+			);
 			if (MyResult !== null) {
-				let rests = await container_process.sequelize.query(`SELECT max(CPIEIR)+1 as CPIEIR FROM container_process`,
+				let rests = await container_process.sequelize.query(
+					`SELECT max(CPIEIR)+1 as CPIEIR FROM container_process`,
 					{
 						type: container_process.SELECT,
-						plain: true
-					});
-				genNumber = rests['CPIEIR'];
+						plain: true,
+					}
+				);
+				genNumber = rests["CPIEIR"];
 			}
 
 			let payload = await container_process.update(
@@ -267,24 +276,23 @@ class ContainerProcessController {
 					cpideliver: cpideliver,
 					cpitruck: cpitruck,
 					crno: crno,
-					crlastact: 'WE',
+					crlastact: "WE",
 					cpijam: new Date().toLocaleTimeString(),
 				},
-				{ where: {
-						[Op.and]: [
-							{cpiorderno: cpiorderno },
-							{crno: crno }
-						]
-				}}
+				{
+					where: {
+						[Op.and]: [{ cpiorderno: cpiorderno }, { crno: crno }],
+					},
+				}
 			);
 
 			const payloades = await container.update(
-				{ crlastact: "WE"},
+				{ crlastact: "WE" },
 				{ where: { crno: crno } }
-			); 
+			);
 
 			const payloadeswe = await orderPraContainer.update(
-				{ cpigatedate: new Date()},
+				{ cpigatedate: new Date() },
 				{ where: { crno: crno } }
 			);
 
@@ -388,7 +396,7 @@ class ContainerProcessController {
 			next(error);
 		}
 	}
-
+	// get
 	static async getDataGateIN(req, res, next) {
 		const {
 			cpife1,
@@ -525,10 +533,7 @@ class ContainerProcessController {
 	}
 	//print kitir IN
 	static async getByCpiorderno(req, res, next) {
-		const {
-			cpiorderno,
-			crno,
-		} = req.query;
+		const { cpiorderno, crno } = req.query;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -572,11 +577,54 @@ class ContainerProcessController {
 			next(error);
 		}
 	}
+
+	//print kitir REPOIN
+	static async getKitirPepoIn(req, res, next) {
+		const { cpiorderno, crno } = req.query;
+
+		try {
+			let datas = await container_process.sequelize.query(
+				`select b.crno,a.cpitgl,a.cpdepo,a.spdepo,k.prcode,i.cucode,d.cccode,
+				a.cpopr,a.cpitruck,a.cpcust, cpireceptno,a.cpid,
+		  d.ctcode,d.cclength,d.ccheight,b.crcdp,b.cracep,b.crcsc,
+		  b.crmmyy,b.crweightk,b.crweightl,b.crtarak,b.crtaral,b.crnetk,
+		  b.crnetl,b.crvol,b.crmanuf,b.crmandat,b.crpos,b.crbay,
+		  b.crrow,b.crtier,b.crlastcond,b.crlastconde,b.crlastact,e.mtdesc,
+		  a.cpiorderno,a.cpieir,a.cpirefin,a.cpipratgl,a.cpichrgbb,a.cpipaidbb,
+		  a.cpiterm,a.cpidish,a.cpidisdat,a.cpijam,a.cpicargo,a.cpiseal,
+		  a.cpivoy,a.cpideliver,a.cpidpp,a.cpidriver,a.cpinopol,a.cpiremark,a.cpiremark1,
+		  m.vesid,m.vesopr,n.voyno,r.retfrom,
+		  r.readdr,h.cncode,h.poport,
+		  (case when a.cpife='1' then 'full' when a.cpife='0' or a.cpife is null then 'empty' else '' end) cpife,
+		  (case when r.retype='21' then 'depot to depot' when r.retype='22' then 'port to depot'
+		  	when r.retype='23' then 'intercity to depot' else '' end )  retype
+	 from tblcontainer b
+		  inner join container_process a on b.crcpid=a.cpid
+		  inner join tblcontainer_code d on d.cccode=b.cccode
+		  left join tblprincipal k on k.prcode=a.cpopr
+		  left join tbldebitur i on i.cucode= a.cpitruck
+		  left join tbldepo f on f.dpcode=a.dpcode
+		  left join tblsubdepo g on g.sdcode=a.sdcode
+		  left join tblmaterial e on e.mtcode=b.mtcode
+		  left join tblcontainer_leasing j on j.leorderno=a.cpiorderno
+		  left join tblvessel m on m.vesid = a.cpives
+		  left join tblport h on h.poid = a.cpidish
+		  left join tblvoyage n on n.voyid = a.cpivoy
+		  left join order_container_repo r on r.reorderno = a.cpiorderno
+		where  a.cpiorderno  like '%${cpiorderno}%' and  b.crno = '${crno}'`
+			);
+			const restDatas = datas[0];
+
+			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	//untuk scand barcode security mobile In
 	static async getByCpiId(req, res, next) {
-		const {
-			crcpid,
-		} = req.query;
+		const { crcpid } = req.query;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -619,9 +667,7 @@ class ContainerProcessController {
 	}
 	//untuk scand barcode security mobile/web OUT
 	static async getByCpiIdOut(req, res, next) {
-		const {
-			crcpid,
-		} = req.query;
+		const { crcpid } = req.query;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -665,9 +711,7 @@ class ContainerProcessController {
 	}
 
 	static async getBarcodeGateIn(req, res, next) {
-		const {
-			crcpid,
-		} = req.query;
+		const { crcpid } = req.query;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -710,9 +754,7 @@ class ContainerProcessController {
 	}
 
 	static async getBarcodeSurvey(req, res, next) {
-		const {
-			crcpid,
-		} = req.query;
+		const { crcpid } = req.query;
 
 		try {
 			let datas = await container_process.sequelize.query(
