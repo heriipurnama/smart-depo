@@ -42,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
 			deposit: DataTypes.INTEGER,
 			biaya_lain: DataTypes.DECIMAL,
 			pph23: DataTypes.DECIMAL,
+			sealno: DataTypes.STRING,
 		},
 		{
 			sequelize,
