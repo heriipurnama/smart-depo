@@ -166,6 +166,7 @@ class OrderPraContainerController {
 			deposit,
 			biaya_lain,
 			pph23,
+			sealno,
 		} = req.body;
 
 		let dataBody = {
@@ -191,6 +192,7 @@ class OrderPraContainerController {
 			deposit: deposit,
 			biaya_lain: biaya_lain,
 			pph23: pph23,
+			sealno: sealno,
 		};
 
 		let selectedWhere = { where: { pracrnoid: pracrnoid } };
