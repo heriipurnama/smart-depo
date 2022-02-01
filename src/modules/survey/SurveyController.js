@@ -171,17 +171,7 @@ class SurveyController {
 			if(MyResult !=null){
 				let $CPISTATUS = MyResult['CPISTATUS'];
 				$CPID =  MyResult['CPID'];
-				// switch($CPISTATUS.trim()){
-				// 	case 'NO': //Pra In
 					$TYPE_SURVEY='IN';
-				// 	break;
-				// 	case 'OF': //Leasing
-				// 	$TYPE_SURVEY='OF';
-				// 	break;
-				// 	case 'RE': //Repo PraIn
-				// 	$TYPE_SURVEY='EN';
-				// 	break;
-				// }
 			}
 		}
 		
@@ -191,7 +181,7 @@ class SurveyController {
 								plain: true
 							});
 		//Insert ke tabel Survey
-		if (checkExist != null){
+		if (checkExist == null){
 			try{
 				
 				var insertContainerSurvey = await container_survey.sequelize.query(`Insert into container_survey(SVID,CPID,SYID,SVCRNO,SVTYPE,SVSURDAT,SVCOND,SVCRTON,SVCRTBY,TYPE,SVNOTES)Values('${SVID}','${$CPID}','${SYID}','${SVCRNO}','${$TYPE_SURVEY}','${SVSURDAT}','${SVCOND}','${SVCRTON}','${SVCRTBY}',1,'${SVNOTES}')`,
@@ -284,6 +274,7 @@ class SurveyController {
 	
 
 		if( CTCODE=='RF' ){ //Reefer Container
+			/*
 			try{
 
 				$SQL3 =  await container_survey.sequelize.query(`UPDATE tblcontainer SET MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${CRACEP},CRCSC=${$CRCSC},CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
@@ -475,6 +466,7 @@ class SurveyController {
 				}
 
 		 	}//END WE || WA
+			 */
 
 		}else{ // Non Reefer
 			try {
