@@ -37,7 +37,7 @@ class GateOutController {
 
 		try {
 			let datas = await container_process.sequelize.query(
-				`select con.cpid, con.crno,dp.dpname,cp.cpotgl,sub.sdname,pr.prcode,deb.cucode,deb.cuname,con.cccode,
+				`select con.crcpid, con.crno,dp.dpname,cp.cpotgl,sub.sdname,pr.prcode,deb.cucode,deb.cuname,con.cccode,
 						cp.cpopr,cp.cpopr1,cp.cpcust,cp.cpcust1,cp.cpotruck,
 						cp.cporeceptno,cp.svsurdat,
 						cp.syid,concode.ctcode,concode.cclength,concode.ccheight,con.crcdp,con.cracep,con.crcsc,
