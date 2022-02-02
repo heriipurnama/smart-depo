@@ -17,6 +17,9 @@ routers
 	.route("/getAllData")
 	.get(Authentication, OrderContainerRepoController.listAllData);
 routers
+	.route("/getAllDataOut")
+	.get(Authentication, OrderContainerRepoController.listAllDataOut);
+routers
 	.route("/getDetailData")
 	.get(Authentication, OrderContainerRepoController.detailData);
 routers

@@ -578,6 +578,57 @@ class ContainerProcessController {
 		}
 	}
 
+	//print kitir OUT
+	static async getByCpiordernoOut(req, res, next) {
+		const { cpoorderno, crno } = req.query;
+
+		try {
+			let datas = await container_process.sequelize.query(
+				`select b.crno,
+						a.cpcust1, a.cpopr1, a.cpochrgbm, a.cpopaidbm, a.cpocurr, a.cporate,
+						a.cpovbm, a.cpolonopr, a.cpoorderno, a.cpoprano,  a.cpopratgl,
+						a.cpotgl, a.cpojam, a.cpostatus, a.cporeceiv, a.cpoload, a.cpoloaddat,
+						a.cpoloadjam, a.cpoterm, a.cpofe, a.cpocargo, a.cpoprin, a.cpodpp, a.cpodppinout,
+						a.cposeal, a.cpoves, a.cpotruck, a.cponopol, a.cporemark, a.cpoflgprt, a.cpoeir,
+						a.cporefout, a.cpovoyid, a.cpodesti,
+						a.cponotes, a.svsurdat, a.syid, a.gtcond,
+						k.prcode,i.cucode,d.cccode,
+						opr.cpireceptno cporeceptno,d.ctcode,d.cclength,d.ccheight,b.crcdp,b.cracep,b.crcsc,
+						b.crmmyy,b.crweightk,b.crweightl,b.crtarak,b.crtaral,b.crnetk,
+						b.crnetl,b.crvol,b.crmanuf,b.crmandat,b.crpos,b.crbay,
+						b.crrow,b.crtier,b.crlastcond,b.crlastconde,b.crlastact,e.mtdesc,
+						m.vesid,m.vesopr,n.voyno,r.retfrom,
+						r.readdr,h.cncode,h.poport,
+						(case when a.cpofe='1' then 'full' when a.cpofe='0' or a.cpofe is null then 'empty' else '' end) cpofe,
+						(case when r.retype='11' then 'depot to depot' when r.retype='12' then 'depot to port '
+							  when r.retype='13' then 'depot to intercity' else '' end )  retype
+				 from tblcontainer b
+						  inner join container_process a on b.crcpid=a.cpid
+						  inner join tblcontainer_code d on d.cccode=b.cccode
+						  left join tblprincipal k on k.prcode=a.cpopr
+						  left join tbldebitur i on i.cucode= a.cpitruck
+						  left join tbldepo f on f.dpcode=a.dpcode
+						  left join tblsubdepo g on g.sdcode=a.sdcode
+						  left join tblmaterial e on e.mtcode=b.mtcode
+						  left join tblcontainer_leasing j on j.leorderno=a.cpiorderno
+						  left join tblvessel m on m.vesid = a.cpives
+						  left join tblport h on h.poid = a.cpidish
+						  left join tblvoyage n on n.voyid = a.cpivoy
+						  left join order_container_repo r on r.reorderno = a.cpiorderno
+						  left join order_pra op on  op.cpiorderno = a.cpiorderno
+						  left join order_pra_recept opr on op.praid = opr.praid
+				 where  a.cpoorderno  like '%${cpoorderno}%' and opr.cpireceptno not like '-'
+				   and  b.crno = '${crno}'`
+			);
+			const restDatas = datas[0];
+
+			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	//print kitir REPOIN
 	static async getKitirPepoIn(req, res, next) {
 		const { cpiorderno, crno } = req.query;

@@ -180,6 +180,30 @@ class OrderContainerRepoController {
 		}
 	}
 
+	//List Repo Out
+	static async listAllDataOut(req, res, next) {
+		let { offset, limit } = req.query;
+
+		try {
+			let offsets = parseInt(offset) || 0;
+			let limits = parseInt(limit) || 11;
+			let reorder = "RO";
+
+			let { count, rows: datas } = await orderContainerRepo.findAndCountAll({
+				where: { reorderno: reorder },
+				offset: offsets,
+				limit: limits,
+			});
+			baseResponse({
+				message: "list orderContainerRepo",
+				data: { datas, count },
+			})(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	static async detailData(req, res, next) {
 		let { reorderno } = req.body;
 
