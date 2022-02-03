@@ -629,6 +629,84 @@ class ContainerProcessController {
 		}
 	}
 
+	//Repo Out dan GateOut
+	static async getKitirRepoGateOut(req, res, next) {
+		const { cpoorderno, crno } = req.query;
+
+		try {
+			let datas = await container_process.sequelize.query(
+				`select a.cpid, a.crno,
+						a.cpcust1, a.cpopr1, a.cpochrgbm, a.cpopaidbm, a.cpocurr, a.cporate,
+						a.cpovbm, a.cpolonopr, a.cpoorderno, a.cpoprano,  a.cpopratgl,
+						a.cpotgl, a.cpojam, a.cpostatus, a.cporeceiv, a.cpoload, a.cpoloaddat,
+						a.cpoloadjam, a.cpoterm, a.cpofe, a.cpocargo, a.cpoprin, a.cpodpp, a.cpodppinout,
+						a.cposeal, a.cpoves, a.cpotruck, a.cponopol,a.cpodriver,  a.cporemark, a.cpoflgprt, a.cpoeir,
+						a.cporefout, a.cpovoyid, a.cpodesti,
+						a.cponotes, a.svsurdat, a.syid, a.gtcond,
+						d.cccode,
+						a.cporeceptno,d.ctcode,d.cclength,d.ccheight,b.crcdp,b.cracep,b.crcsc,
+						b.crmmyy,b.crweightk,b.crweightl,b.crtarak,b.crtaral,b.crnetk,
+						b.crnetl,b.crvol,b.crmanuf,b.crmandat,b.crpos,b.crbay,
+						b.crrow,b.crtier,b.crlastcond,b.crlastconde,b.crlastact,e.mtdesc,
+						m.vesid,m.vesopr,n.voyno
+				 from tblcontainer b
+						  inner join container_process a on b.crcpid=a.cpid
+						  inner join tblcontainer_code d on d.cccode=b.cccode
+						  left join tblmaterial e on e.mtcode=b.mtcode
+						  left join tblvessel m on m.vesid = a.cpives
+						  left join tblvoyage n on n.voyid = a.cpivoy
+				 where  a.cpoorderno  like '%${cpoorderno}%'
+				   and  b.crno = '${crno}'`
+			);
+			const restDatas = datas[0];
+
+			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	//PraOut
+	static async getKitirPraOut(req, res, next) {
+		const { cpoorderno, crno } = req.query;
+
+		try {
+			let datas = await container_process.sequelize.query(
+				`select a.cpid, a.crno,
+						a.cpcust1, a.cpopr1, a.cpochrgbm, a.cpopaidbm, a.cpocurr, a.cporate,
+						a.cpovbm, a.cpolonopr, a.cpoorderno, a.cpoprano,  a.cpopratgl,
+						a.cpotgl, a.cpojam, a.cpostatus, a.cporeceiv, a.cpoload, a.cpoloaddat,
+						a.cpoloadjam, a.cpoterm, a.cpofe, a.cpocargo, a.cpoprin, a.cpodpp, a.cpodppinout,
+						a.cposeal, a.cpoves, a.cpotruck, a.cponopol,a.cpodriver,  a.cporemark, a.cpoflgprt, a.cpoeir,
+						a.cporefout, a.cpovoyid, a.cpodesti,
+						a.cponotes, a.svsurdat, a.syid, a.gtcond,
+						d.cccode,
+						opr.cpireceptno cporeceptno,d.ctcode,d.cclength,d.ccheight,b.crcdp,b.cracep,b.crcsc,
+						b.crmmyy,b.crweightk,b.crweightl,b.crtarak,b.crtaral,b.crnetk,
+						b.crnetl,b.crvol,b.crmanuf,b.crmandat,b.crpos,b.crbay,
+						b.crrow,b.crtier,b.crlastcond,b.crlastconde,b.crlastact,e.mtdesc,
+						m.vesid,m.vesopr,n.voyno
+				 from tblcontainer b
+						  inner join container_process a on b.crcpid=a.cpid
+						  inner join tblcontainer_code d on d.cccode=b.cccode
+						  left join tblmaterial e on e.mtcode=b.mtcode
+						  left join tblvessel m on m.vesid = a.cpives
+						  left join tblvoyage n on n.voyid = a.cpivoy
+						  left join order_pra op on  op.cpiorderno = a.cpiorderno
+						  left join order_pra_recept opr on op.praid = opr.praid
+				 where  a.cpoorderno  like '%${cpoorderno}%' and opr.cpireceptno not like '-'
+				   and  b.crno = '${crno}'`
+			);
+			const restDatas = datas[0];
+
+			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	//print kitir REPOIN
 	static async getKitirPepoIn(req, res, next) {
 		const { cpiorderno, crno } = req.query;
