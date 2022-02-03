@@ -1,8 +1,8 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { container, container_process, principal, container_repair, container_survey 
-        } = require("../../db/models");
+const { container, container_process, tblsurveyor
+} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class GateOutController {
@@ -29,6 +29,19 @@ class GateOutController {
 			next(error);
 		}
 	}
+
+	static async listAllSurveyor(req, res, next) {
+		// let {start, rows} = req.body;
+		try {
+			let datas  = await tblsurveyor.findAll({
+			});
+			baseResponse({ message: "List surveyor", data: datas })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	//Gate out untuk web
 	static async getByCrno(req, res, next) {
 		const {
