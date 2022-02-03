@@ -126,6 +126,24 @@ class GateOutController {
 		} = req.body;
 
 		try {
+			var genNumber = 1;
+			let MyResult = await container_process.sequelize.query(
+				`SELECT count(CPOEIR) as CPOEIR FROM container_process`,
+				{
+					type: container_process.SELECT,
+					plain: true,
+				}
+			);
+			if (MyResult !== null) {
+				let rests = await container_process.sequelize.query(
+					`SELECT max(CPOEIR)+1 as CPOEIR FROM container_process`,
+					{
+						type: container_process.SELECT,
+						plain: true,
+					}
+				);
+				genNumber = rests["CPOEIR"];
+			}
 			let payload = await container_process.update(
 				{
 					cpotgl: cpotgl,
@@ -138,7 +156,7 @@ class GateOutController {
 					svsurdat: svsurdat,
 					syid: syid,
 					cpoorderno: cpoorderno,
-					cpoeir: cpoeir,
+					cpoeir: parseInt(genNumber),
 					cporefout: cporefout,
 					cpopratgl: cpopratgl,
 					cpochrgbm: cpochrgbm,
