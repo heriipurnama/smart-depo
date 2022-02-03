@@ -190,7 +190,7 @@ class OrderContainerRepoController {
 			let reorder = "RO";
 
 			let { count, rows: datas } = await orderContainerRepo.findAndCountAll({
-				where: { reorderno: reorder },
+				where: { reorderno: { [Op.like]: `%${reorder}%` } },
 				offset: offsets,
 				limit: limits,
 			});
