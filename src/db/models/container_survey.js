@@ -39,6 +39,7 @@ module.exports = (sequelize, DataTypes, QueryTypes) => {
             svprint: DataTypes.STRING,
             svrpid: DataTypes.INTEGER,
             type: DataTypes.STRING,
+            rmcode: DataTypes.STRING,
 
         },
         {
