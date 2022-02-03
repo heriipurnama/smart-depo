@@ -584,7 +584,7 @@ class ContainerProcessController {
 
 		try {
 			let datas = await container_process.sequelize.query(
-				`select b.crno,
+				`select b.crno, a.cpid,
 						a.cpcust1, a.cpopr1, a.cpochrgbm, a.cpopaidbm, a.cpocurr, a.cporate,
 						a.cpovbm, a.cpolonopr, a.cpoorderno, a.cpoprano,  a.cpopratgl,
 						a.cpotgl, a.cpojam, a.cpostatus, a.cporeceiv, a.cpoload, a.cpoloaddat,
