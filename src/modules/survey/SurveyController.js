@@ -18,7 +18,7 @@ class SurveyController {
 			let datas = await container_survey.sequelize.query(
 				`select SVY.SVID,CON.CRNO,PR.PRCODE, 
                 CASE CP.CPITGL WHEN DATE_FORMAT(CP.CPITGL,'%d/%m/%Y')='00/00/0000' THEN '' ELSE DATE_FORMAT(CP.CPITGL,'%d/%m/%Y') END AS CPITGL,
-                DATE_FORMAT(SVY.SVSURDAT,'%d/%m/%Y') as SVSURDAT,SVY.SVCOND
+                DATE_FORMAT(SVY.SVSURDAT,'%d/%m/%Y') as SVSURDAT,SVY.SVCOND, SVY.RMCODE
                 from tblcontainer CON 
                 INNER JOIN container_process CP ON CON.CRCPID = CP.CPID
                 INNER JOIN container_survey SVY ON CP.CPID=SVY.CPID
@@ -103,7 +103,7 @@ class SurveyController {
 				tblcontainer.crcdp,tblcontainer.cracep,tblcontainer.crcsc,container_process.cpitgl,tblcontainer.crweightk,tblcontainer.crweightl,tblcontainer.crtarak,tblcontainer.crtaral,
 				tblcontainer.crnetk,tblcontainer.crnetl,tblcontainer.crvol,tblmaterial.mtdesc,tblcontainer.crmanuf,tblcontainer.crpos,
 				date_format(container_survey.svsurdat,'%d/%m/%y') as svsurdat,
-				date_format(container_process.cpipratgl,'%d/%m/%y') as cpipratgl,
+				date_format(container_process.cpipratgl,'%d/%m/%y') as cpipratgl, container_survey.rmcode,
 				tblcontainer.crbay,tblcontainer.crrow,tblcontainer.crtier,tblcontainer.crlastcond,tblcontainer.crlastconde,container_process.manufdate,
 				tblcontainer.crlastact,container_process.cpishold,container_process.cpiprano,container_process.cpiorderno,container_process.cpieir,container_process.cpirefin,container_survey.svcond,
 				container_process.cpodesti,container_process.cpijam,container_process.cpichrgbb,container_process.cpipaidbb,container_process.cpife,container_process.cpiterm,container_process.cpidish,container_process.cpidisdat,
@@ -136,7 +136,7 @@ class SurveyController {
 	}
 
 	static async createData(req, res, next) {
-		let { SVID, SYID, SVCRNO, SVSURDAT, SVCOND, SVCRTON, SVCRTBY, 
+		let { RMCODE, SVID, SYID, SVCRNO, SVSURDAT, SVCOND, SVCRTON, SVCRTBY,
 			SVNOTES, CRNO, CPIORDERNO, CRCMANDAT, CRCDP, CRACEP, CRCSC, CTCODE, MTCODE1,
 			CRWEIGHTK, CRWEIGHTL, CRTARAK, CRTARAL, CRNETK, CRNETL, CRVOL, MANUFDATE, CRLASTCOND, CRLASTCONDE, CRBAY, CRPOS, CRROW, CRTIER,CRMANUF
 		} = req.body;
@@ -184,7 +184,7 @@ class SurveyController {
 		if (checkExist == null){
 			try{
 				
-				var insertContainerSurvey = await container_survey.sequelize.query(`Insert into container_survey(SVID,CPID,SYID,SVCRNO,SVTYPE,SVSURDAT,SVCOND,SVCRTON,SVCRTBY,TYPE,SVNOTES)Values('${SVID}','${$CPID}','${SYID}','${SVCRNO}','${$TYPE_SURVEY}','${SVSURDAT}','${SVCOND}','${SVCRTON}','${SVCRTBY}',1,'${SVNOTES}')`,
+				var insertContainerSurvey = await container_survey.sequelize.query(`Insert into container_survey(SVID,CPID,SYID,SVCRNO,SVTYPE,SVSURDAT,SVCOND,SVCRTON,SVCRTBY,TYPE,SVNOTES, RMCODE)Values('${SVID}','${$CPID}','${SYID}','${SVCRNO}','${$TYPE_SURVEY}','${SVSURDAT}','${SVCOND}','${SVCRTON}','${SVCRTBY}',1,'${SVNOTES}','${RMCODE}')`,
 				{
 					type: container_survey.INSERT
 				});
@@ -197,7 +197,7 @@ class SurveyController {
 			
 
 		try{
-			var $updateTBLContainer = await container_survey.sequelize.query( `UPDATE tblcontainer SET CRLASTCOND='${CRLASTCOND}',MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${$CRACEP},CRCSC= ${$CRCSC},CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
+			var $updateTBLContainer = await container_survey.sequelize.query( `UPDATE tblcontainer SET CRLASTCOND='${CRLASTCOND}',MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${$CRACEP},CRCSC= ${$CRCSC},CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}',RMCODE='${RMCODE}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
 			{
 				type: container_survey.INSERT
 			});
@@ -215,7 +215,7 @@ class SurveyController {
 	}
 
 	static async updateData(req, res, next) {
-		let { SVID, SYID, SVCRNO, SVSURDAT, SVCOND, SVCRTON, SVCRTBY, 
+		let { RMCODE, SVID, SYID, SVCRNO, SVSURDAT, SVCOND, SVCRTON, SVCRTBY,
 			SVNOTES, CPIPRANO, CRNO, CPIORDERNO, CRCMANDAT, CRCDP, CRACEP, CRCSC, CTCODE, MTCODE1,
 			CRWEIGHTK, CRWEIGHTL, CRTARAK, CRTARAL, CRNETK, CRNETL, CRVOL, MANUFDATE, CRLASTCOND,CRLASTACT, CRLASTCONDE, CRBAY, CRPOS, CRROW, CRTIER,CRMANUF
 		} = req.body;
@@ -573,7 +573,7 @@ class SurveyController {
 				}
 
 				try {
-					let $SQL= await container_survey.sequelize.query(`Update coins_survey set SVCOND='${CRLASTCOND}',SVSURDAT='${SVSURDAT}' Where SVCRNO = '${CRNO}' and CPID = '${$CPID}`,
+					let $SQL= await container_survey.sequelize.query(`Update coins_survey set SVCOND='${CRLASTCOND}',SVSURDAT='${SVSURDAT}',RMCODE='${RMCODE}' Where SVCRNO = '${CRNO}' and CPID = '${$CPID}`,
 					{
 						type: container_survey.INSERT,
 					});
