@@ -32,6 +32,14 @@ routers
 routers
 	.route("/getByCpiordernoOut")
 	.get(Authentication, containerProcessController.getByCpiordernoOut);
+//----
+routers
+	.route("/getKitirPraOut")
+	.get(Authentication, containerProcessController.getKitirPraOut);
+routers
+	.route("/getKitirRepoGateOut")
+	.get(Authentication, containerProcessController.getKitirRepoGateOut);
+//---
 routers
 	.route("/getKitirPepoIn")
 	.get(Authentication, containerProcessController.getKitirPepoIn);	
