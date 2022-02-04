@@ -32,7 +32,8 @@ module.exports = (sequelize, DataTypes) => {
 			reposhold: DataTypes.INTEGER,
 			reporemark: DataTypes.STRING,
 			repogatedate: DataTypes.DATE,
-			repoflag: DataTypes.INTEGER
+			repoflag: DataTypes.INTEGER,
+			sealno: DataTypes.STRING
 		},
 		{
 			sequelize,

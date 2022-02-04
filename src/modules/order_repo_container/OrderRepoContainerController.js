@@ -9,7 +9,7 @@ class OrderRepoContainerController {
 	static async createData(req, res, next) {
 		let { repoid, crno, cccode, ctcode, 
 			cclength, ccheight, repofe, reposhold, 
-			reporemark, newContainer
+			reporemark, newContainer, sealno
 		} = req.body;
         
 		try {
@@ -24,7 +24,8 @@ class OrderRepoContainerController {
 				repofe: repofe, 
 				reposhold: reposhold, 
 
-				reporemark: reporemark
+				reporemark: reporemark,
+				sealno: sealno
 			};
 
 			let dataNewContainer = {
@@ -102,7 +103,7 @@ class OrderRepoContainerController {
 	static async updateData(req, res, next) {
 		let { repoid, crno, cccode, ctcode, 
 			cclength, ccheight, repofe, reposhold, 
-			reporemark, repocrnoid
+			reporemark, repocrnoid, sealno
 		} = req.body;
 
 		let dataBody = {
@@ -116,7 +117,8 @@ class OrderRepoContainerController {
 			repofe: repofe, 
 			reposhold: reposhold, 
 
-			reporemark: reporemark
+			reporemark: reporemark,
+			sealno: sealno
 		};
 
 		let selectedWhere = { where: { repocrnoid: repocrnoid }};
