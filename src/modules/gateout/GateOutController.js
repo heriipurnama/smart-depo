@@ -79,7 +79,7 @@ class GateOutController {
 						  left join tblusers usr on usr.user_id = svey.syid
 						  left join order_container_repo repo on repo.reorderno = cp.cpoorderno
 				 where con.crno='${crno}'
-				   and con.crlastact='OD' `
+				   and con.crlastact like '%CO%' `
 			);
 			const restDatas = datas[0];
 
