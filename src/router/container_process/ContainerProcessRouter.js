@@ -40,6 +40,14 @@ routers
 	.route("/getKitirRepoGateOut")
 	.get(Authentication, containerProcessController.getKitirRepoGateOut);
 //---
+//----
+routers
+	.route("/getKitirPraOutByCpid")
+	.get(Authentication, containerProcessController.getKitirPraOutByCpid);
+routers
+	.route("/getKitirRepoGateOutByCpid")
+	.get(Authentication, containerProcessController.getKitirRepoGateOutByCpid);
+//---
 routers
 	.route("/getKitirPepoIn")
 	.get(Authentication, containerProcessController.getKitirPepoIn);	
