@@ -15,6 +15,10 @@ const Chace = require("../../utils/middleware/Chace");
 
 routers.route("/auth/signup").post( schemaValidation.user(), schemaValidation.validate, UserController.signup);
 routers.route("/auth/signin").post(UserController.signin);
+routers.route("/auth/signinSecurity").post(UserController.signinSecurity);
+routers.route("/auth/signinGateIn").post(UserController.signinGateIn);
+routers.route("/auth/signinWarehouse").post(UserController.signinWarehouse);
+
 routers.route("/auth/activate").get(UserController.activated);
 routers.route("/auth/registers").post( Authentication, AuthorizeAdmin, schemaValidation.user(), schemaValidation.validate, UserController.register);
 
