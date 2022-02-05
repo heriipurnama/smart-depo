@@ -151,6 +151,132 @@ class UserController {
 		}
 	}
 
+	static async signinSecurity(req, res, next) {
+		let { username, password } = req.body;
+
+		try {
+			let usernameEmail = username;
+			let group = 4;
+			let dataUsername = await tblusers.findOne({
+				where: { 
+					[Op.and]: [
+						{username: usernameEmail},
+						{group_id : group}
+
+					],
+				},
+			});
+			if (!dataUsername) {
+				throw new Error(`username ${usernameEmail} doesn't exists!`);
+			}
+
+			if (dataUsername.is_block === "y") {
+				throw new Error(`username ${usernameEmail} not activated!`);
+			}
+
+			const isPassword = await bcrypt.compareSync(
+				password,
+				dataUsername.password
+			);
+
+			if (!isPassword) {
+				throw new Error("Wrong Password!");
+			}
+			baseResponse({
+				message: "Login succes",
+				data: token(dataUsername),
+			})(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async signinWarehouse(req, res, next) {
+		let { username, password } = req.body;
+
+		try {
+			let usernameEmail = username;
+			let group = 3;
+			let dataUsername = await tblusers.findOne({
+				where: { 
+					[Op.and]: [
+						{username: usernameEmail},
+						{group_id : group}
+
+					],
+				},
+			});
+			if (!dataUsername) {
+				throw new Error(`username ${usernameEmail} doesn't exists!`);
+			}
+
+			if (dataUsername.is_block === "y") {
+				throw new Error(`username ${usernameEmail} not activated!`);
+			}
+
+			const isPassword = await bcrypt.compareSync(
+				password,
+				dataUsername.password
+			);
+
+			if (!isPassword) {
+				throw new Error("Wrong Password!");
+			}
+			baseResponse({
+				message: "Login succes",
+				data: token(dataUsername),
+			})(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async signinGateIn(req, res, next) {
+		let { username, password } = req.body;
+
+		try {
+			let usernameEmail = username;
+			let group1 = 5;
+			let group2 = 6;
+			let group3 = 7;
+			let dataUsername = await tblusers.findOne({
+				where: { 
+					[Op.and]: [
+						{username: usernameEmail},
+						{group_id : group1}
+					],
+				},
+			});
+
+			if (!dataUsername) {
+				throw new Error(`username ${usernameEmail} doesn't exists!`);
+			}
+
+			if (dataUsername.is_block === "y") {
+				throw new Error(`username ${usernameEmail} not activated!`);
+			}
+
+			const isPassword = await bcrypt.compareSync(
+				password,
+				dataUsername.password
+			);
+
+			if (!isPassword) {
+				throw new Error("Wrong Password!");
+			}
+			baseResponse({
+				message: "Login succes",
+				data: token(dataUsername),
+			})(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+
 	static async activated(req, res, next) {
 		try {
 			const decriptUsername = encriptDecript.decrypt(
