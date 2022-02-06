@@ -156,7 +156,7 @@ class UserController {
 
 		try {
 			let usernameEmail = username;
-			let group = 4;
+			let group = 12;
 			let dataUsername = await tblusers.findOne({
 				where: { 
 					[Op.and]: [

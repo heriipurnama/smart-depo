@@ -406,6 +406,9 @@ class OrderPraController {
 
 			// get data pra order
 			let resultOrderPra = await orderPra.findOne({
+				where: {
+					cpiorderno: { [Op.like]: `%${prefixCode}%`}
+				},
 				order: [["praid", "DESC"]],
 			});
 
@@ -611,6 +614,7 @@ class OrderPraController {
 							"deposit",
 							"biaya_lain",
 							"pph23",
+							"sealno",
 						],
 						order: [
 							[
