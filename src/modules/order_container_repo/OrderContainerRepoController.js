@@ -71,6 +71,8 @@ class OrderContainerRepoController {
 			reischarged,
 			cpopr,
 			cpcust,
+			recpives,
+			recpivoyid,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -146,6 +148,8 @@ class OrderContainerRepoController {
 				remdfon: new Date(),
 				cpopr: cpopr,
 				cpcust: cpcust,
+				recpives: recpives,
+				recpivoyid: recpivoyid,
 			});
 
 			baseResponse({
@@ -165,10 +169,13 @@ class OrderContainerRepoController {
 		try {
 			let offsets = parseInt(offset) || 0;
 			let limits = parseInt(limit) || 11;
+			let reorder = "RI";
 
 			let { count, rows: datas } = await orderContainerRepo.findAndCountAll({
+				where: { reorderno: { [Op.like]: `%${reorder}%` } },
 				offset: offsets,
 				limit: limits,
+				order:[[ "repoid", "DESC"]]
 			});
 			baseResponse({
 				message: "list orderContainerRepo",
@@ -193,6 +200,7 @@ class OrderContainerRepoController {
 				where: { reorderno: { [Op.like]: `%${reorder}%` } },
 				offset: offsets,
 				limit: limits,
+				order:[[ "repoid", "DESC"]]
 			});
 			baseResponse({
 				message: "list orderContainerRepo",
@@ -289,6 +297,8 @@ class OrderContainerRepoController {
 			cpopr,
 			cpcust,
 			repoid,
+			recpives,
+			recpivoyid,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -371,6 +381,8 @@ class OrderContainerRepoController {
 					cpopr: cpopr,
 					cpcust: cpcust,
 					repoid: repoid,
+					recpives: recpives,
+					recpivoyid: recpivoyid,
 				},
 				{ where: { reorderno: reorderno } }
 			);
