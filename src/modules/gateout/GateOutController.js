@@ -50,20 +50,81 @@ class GateOutController {
 
 		try {
 			let datas = await container_process.sequelize.query(
-				`select con.crcpid, con.crno,dp.dpname,cp.cpotgl,sub.sdname,pr.prcode,deb.cucode,deb.cuname,con.cccode,
-						cp.cpopr,cp.cpopr1,cp.cpcust,cp.cpcust1,cp.cpotruck,
-						cp.cporeceptno,cp.svsurdat,
-						cp.syid,concode.ctcode,concode.cclength,concode.ccheight,con.crcdp,con.cracep,con.crcsc,
-						con.crweightk,con.crweightl,con.crtarak,con.crtaral,con.crnetk,
-						con.crnetl,con.crvol,con.crmanuf,con.crmandat,con.crpos,con.crbay,svey.svcond,
-						con.crrow,con.crtier,con.crlastcond,con.crlastconde,con.crlastact,mtrl.mtdesc,
-						cp.cpoorderno,cp.cpoeir,cp.cporefout,cp.cpopratgl,cp.cpochrgbm,cp.cpopaidbm,
-						(case when cp.cpofe='1' then 'full' when cp.cpofe='0' or cp.cpofe is null then 'empty' else '' end ) as cpofe,
-						(case when repo.retype='11' then 'depot to depot' when repo.retype='12' then 'depot to port' when repo.retype='13' then 'depot to intercity' else '' end ) as retype,
-						cp.cpoterm,cp.cpoload,cp.cpoloaddat,cp.cpojam,cp.cpocargo,voy.vesid,
-						cp.cposeal,cp.cpovoy,cp.cpoves,cp.cporeceiv,cp.cpodpp,ves.vesopr,
-						cp.cpodriver,cp.cponopol,cp.cporemark,repo.retfrom,usr.username syname,
-						prt.cncode,prt.poport
+				`select DISTINCT con.crcpid,
+								 con.crno,
+								 dp.dpname,
+								 cp.cpotgl,
+								 sub.sdname,
+								 pr.prcode,
+								 deb.cucode,
+								 deb.cuname,
+								 con.cccode,
+								 cp.cpopr,
+								 cp.cpopr1,
+								 cp.cpcust,
+								 cp.cpcust1,
+								 cp.cpotruck,
+								 cp.cporeceptno,
+								 cp.svsurdat,
+								 cp.syid,
+								 concode.ctcode,
+								 concode.cclength,
+								 concode.ccheight,
+								 con.crcdp,
+								 con.cracep,
+								 con.crcsc,
+								 con.crweightk,
+								 con.crweightl,
+								 con.crtarak,
+								 con.crtaral,
+								 con.crnetk,
+								 con.crnetl,
+								 con.crvol,
+								 con.crmanuf,
+								 con.crmandat,
+								 con.crpos,
+								 con.crbay,
+								 svey.svcond,
+								 con.crrow,
+								 con.crtier,
+								 con.crlastcond,
+								 con.crlastconde,
+								 con.crlastact,
+								 mtrl.mtdesc,
+								 cp.cpoorderno,
+								 cp.cpoeir,
+								 cp.cporefout,
+								 cp.cpopratgl,
+								 cp.cpochrgbm,
+								 cp.cpopaidbm,
+								 (case
+									  when cp.cpofe = '1' then 'full'
+									  when cp.cpofe = '0' or cp.cpofe is null then 'empty'
+									  else '' end) as cpofe,
+								 (case
+									  when repo.retype = '11' then 'depot to depot'
+									  when repo.retype = '12' then 'depot to port'
+									  when repo.retype = '13' then 'depot to intercity'
+									  else '' end) as retype,
+								 cp.cpoterm,
+								 cp.cpoload,
+								 cp.cpoloaddat,
+								 cp.cpojam,
+								 cp.cpocargo,
+								 voy.vesid,
+								 cp.cposeal,
+								 cp.cpovoy,
+								 cp.cpoves,
+								 cp.cporeceiv,
+								 cp.cpodpp,
+								 ves.vesopr,
+								 cp.cpodriver,
+								 cp.cponopol,
+								 cp.cporemark,
+								 repo.retfrom,
+								 usr.username syname,
+								 prt.cncode,
+								 prt.poport
 				 from tblcontainer con
 						  inner join container_process cp on con.crcpid = cp.cpid
 						  inner join tblcontainer_code concode on concode.cccode = con.cccode
@@ -78,7 +139,7 @@ class GateOutController {
 						  left join container_survey svey on svey.cpid = cp.cpid
 						  left join tblusers usr on usr.user_id = svey.syid
 						  left join order_container_repo repo on repo.reorderno = cp.cpoorderno
-				 where con.crno='${crno}' `
+				 where con.crno ='${crno}' `
 			);
 			const restDatas = datas[0];
 
