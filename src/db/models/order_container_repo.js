@@ -83,6 +83,7 @@ module.exports = (sequelize, DataTypes) => {
 			cpcust: DataTypes.STRING,
 			recpivoyid: DataTypes.INTEGER,
 			recpives: DataTypes.STRING,
+			repovendor: DataTypes.STRING,
 			repoid: {
 				type: DataTypes.INTEGER,
 				primaryKey: false,

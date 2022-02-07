@@ -7,6 +7,7 @@ const {
 	container_survey,
 	container,
 	orderPraContainer,
+	orderRepoContainer,
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
@@ -293,6 +294,12 @@ class ContainerProcessController {
 
 			const payloadeswe = await orderPraContainer.update(
 				{ cpigatedate: new Date() },
+				{ where: { crno: crno } }
+			);
+
+			//--- order_repo_container
+			const payloadrepo = await orderRepoContainer.update(
+				{ repogatedate: new Date() },
 				{ where: { crno: crno } }
 			);
 

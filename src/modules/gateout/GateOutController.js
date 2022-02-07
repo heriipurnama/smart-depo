@@ -1,7 +1,8 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { container, container_process, tblsurveyor
+const { container, container_process, tblsurveyor, orderPraContainer,
+	orderRepoContainer
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
@@ -238,6 +239,22 @@ class GateOutController {
 				},
 				{ where: {cpid: cpid
 					}}
+			);
+
+			const payloades = await container.update(
+				{ crlastact: "OD" },
+				{ where: { crno: crno } }
+			);
+
+			const payloadeswe = await orderPraContainer.update(
+				{ cpigatedate: new Date() },
+				{ where: { crno: crno } }
+			);
+
+			//--- order_repo_container
+			const payloadrepo = await orderRepoContainer.update(
+				{ repogatedate: new Date() },
+				{ where: { crno: crno } }
 			);
 
 			baseResponse({
