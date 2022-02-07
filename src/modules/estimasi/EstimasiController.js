@@ -362,7 +362,7 @@ class EstimasiController {
 						left join tblcontract	     ct  on ct.prcode = pr.prcode
 						left join tblcontainer_code	 cc  on con.cccode = cc.cccode
 						left join container_repair   cr  on cr.svid = cs.svid		
-			   where sur.type='1' and  cs.cpid='${number}' 
+			   where sur.type='1' and  cs.cpid='${crcpid}' 
            	 	`,
 					{
 						type: container_process.SELECT,
@@ -403,7 +403,7 @@ class EstimasiController {
 							left join tblcurrency             cur on cur.tucode=rd.rdcurr
 							inner join container_repair        cp  on cp.svid = rd.svid
 							inner join container_survey	      cs  on cs.svid = rd.svid		
-						where  cs.cpid='${number}' 
+						where  cs.cpid='${crcpid}' 
 						`,
 					{
 						type: container_process.SELECT,
