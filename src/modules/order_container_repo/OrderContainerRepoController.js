@@ -73,6 +73,7 @@ class OrderContainerRepoController {
 			cpcust,
 			recpives,
 			recpivoyid,
+			repovendor,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -150,6 +151,7 @@ class OrderContainerRepoController {
 				cpcust: cpcust,
 				recpives: recpives,
 				recpivoyid: recpivoyid,
+				repovendor: repovendor,
 			});
 
 			baseResponse({
@@ -299,6 +301,7 @@ class OrderContainerRepoController {
 			repoid,
 			recpives,
 			recpivoyid,
+			repovendor,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -383,6 +386,7 @@ class OrderContainerRepoController {
 					repoid: repoid,
 					recpives: recpives,
 					recpivoyid: recpivoyid,
+					repovendor: repovendor,
 				},
 				{ where: { reorderno: reorderno } }
 			);
