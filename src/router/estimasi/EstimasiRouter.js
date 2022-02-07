@@ -8,6 +8,7 @@ const { estimasi: EstimasiController } = require("../../modules");
 
 routers.route("/list").get(Authentication, EstimasiController.list);
 routers.route("/listOnecpId").get(Authentication, EstimasiController.listOnecpId);
+routers.route("/listOneCrno").get(Authentication, EstimasiController.listOneCrno);
 routers
 	.route("/listHeaderContainer")
 	.get(Authentication, EstimasiController.listHeaderContainer);

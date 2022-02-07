@@ -344,7 +344,6 @@ class EstimasiController {
 		}
 	}
 
-
 	static async listOnecpId(req, res, next) {
 		let { crcpid, limit, offset } = req.query;
 		let limits = limit == undefined ? "" : ` limit ${limit}`;
@@ -409,6 +408,87 @@ class EstimasiController {
 						type: container_process.SELECT,
 					}
 				);
+
+			let resultData    = repairload[0];
+			let resultdtlData = repairdetailload[0]
+			baseResponse({ message: "List Estimasi", data: {dataOne: resultData, dataTwo: resultdtlData} })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async listOneCrno(req, res, next) {
+		let { crno, limit, offset } = req.query;
+		let limits = limit == undefined ? "" : ` limit ${limit}`;
+		let offsets = offset == undefined ? "" : ` offset ${offset}`;
+
+		try {
+			let repairload;
+			if (!crno) {
+				repairload = await container_process.sequelize.query(
+					`select con.crno,cr.rptglest,pr.prdmno,date_format(ct.coexpdate,'%d/%m/%y') as coexpdate,
+					cp.cpieir,cc.cccode, cc.ctcode, cc.cclength, cc.ccheight,con.crcpid,
+					date_format(cs.svsurdat,'%d/%m/%y') as svsurdat,ct.cono,cp.cpiorderno,cr.rpver,	cr.rpnoest,cs.svcond,cp.cpopr
+					from tblcontainer  con
+						left join container_process	 cp  on con.crno = cp.crno
+						left join container_survey	 cs  on cs.cpid = cp.cpid
+						left join tblprincipal       pr  on pr.prcode =cp.cpopr
+						left join tblcontract	     ct  on ct.prcode = pr.prcode
+						left join tblcontainer_code	 cc  on con.cccode = cc.cccode
+						left join container_repair   cr  on cr.svid = cs.svid		
+			   where cs.type='1' and  con.crno='${crno}'
+           	 	`,
+					{
+						type: container_process.SELECT,
+					}
+				);
+			}
+			let repairdetailload;
+			if (!crno) {
+				repairdetailload = await container_process.sequelize.query(
+					`select cp.rpcrno,cp.rpver,rd.rpid,rd.rdapp,rd.svid,tbllocation.lcdesc,com.cmdesc,dm.dydesc,rm.rmdesc,
+							mu.muname,rd.rdcalmtd,rd.rdteb,rd.rdsize,rd.rdqty,rd.rdmhr,cur.curr_symbol,rd.rdlab,rd.rdmat,rd.rdtotal, 
+							(case when rd.rdaccount='o' then 'owner' when rd.rdaccount='u' then 'user' else 'i' end) as rdaccount,
+							(case when length(rd.rdsize) > 0 then
+								case when length(rd.rdqty) > 0 then
+									case when trim(rd.rdqty)=1 then
+										left(trim(rd.rddesc),(length(trim(rd.rddesc))) )
+									else
+										insert(trim(rd.rddesc),(length(trim(rd.rddesc))+1),5, cast(concat(' ',rd.rdqty,'x')  as char)  )
+					
+									end 
+								else
+									rd.rddesc
+								end 
+							else
+								case when length(rd.muname) > 0 then
+									rd.rddesc
+								else
+									case when trim(rd.rdqty)=1 then
+										left(trim(rd.rddesc),(length(trim(rd.rddesc))-1) )
+									else
+										insert(trim(rd.rddesc),(length(trim(rd.rddesc))+1),4,'x' )
+									end
+								end
+							end) as rddesc,	tbllocation.lccode,	com.cmcode,dm.dycode,	rm.rmcode
+						from tbllocation 
+							left join container_repair_detail rd  on tbllocation.lccode=rd.rdloc 
+							left join tblcomponent	          com on com.cmcode=rd.rdcom 
+							left join tbldamage_type          dm  on dm.dycode=rd.rddmtype 
+							left join tblrepair_method        rm  on rm.rmcode=rd.rdrepmtd 
+							left join tblmeasurement_unit     mu  on mu.muname=rd.muname
+							left join tblcurrency             cur on cur.tucode=rd.rdcurr
+							inner join container_repair        cp  on cp.svid = rd.svid
+							inner join container_survey	      cs  on cs.svid = rd.svid		
+						where  cp.rpcrno='${crno}' 
+						`,
+					{
+						type: container_process.SELECT,
+					}
+				);
+			}
+
 
 			let resultData    = repairload[0];
 			let resultdtlData = repairdetailload[0]
