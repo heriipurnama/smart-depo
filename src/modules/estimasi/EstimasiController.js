@@ -362,7 +362,7 @@ class EstimasiController {
 						left join tblcontract	     ct  on ct.prcode = pr.prcode
 						left join tblcontainer_code	 cc  on con.cccode = cc.cccode
 						left join container_repair   cr  on cr.svid = cs.svid		
-			   where cs.type='1' and  con.cpid='${crcpid}' 
+			   where cs.type='1' and  con.crcpid='${crcpid}' 
            	 	`,
 					{
 						type: container_process.SELECT,
