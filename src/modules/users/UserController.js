@@ -244,8 +244,12 @@ class UserController {
 			let dataUsername = await tblusers.findOne({
 				where: { 
 					[Op.and]: [
-						{username: usernameEmail},
-						{group_id : group1}
+						{username: usernameEmail}
+					],
+					[Op.or]: [
+						{group_id : group1},
+						{group_id : group2},
+						{group_id : group3}
 					],
 				},
 			});
