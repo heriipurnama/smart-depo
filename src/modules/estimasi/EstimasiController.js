@@ -288,6 +288,13 @@ class EstimasiController {
 			rdmata,
 			rdlaba,
 			rdtotala,
+			rpver,
+			rptglest,
+			rpnoest,
+			rpcrno,
+			rpcrton,
+			rpcrtby,
+			syid,
 		} = req.body;
 
 		// let bearerheader = req.headers["authorization"];
@@ -299,6 +306,17 @@ class EstimasiController {
 		//let usernameByToken = datas.username;
 
 		try {
+			let payloadEstimHeader = await container_repair.create({
+				svid: svid,
+				rpver: rpver,
+				rptglest: rptglest,
+				rpnoest: rpnoest,
+				rpcrno: rpcrno,
+				rpcrton: rpcrton,
+				rpcrtby: rpcrtby,
+				syid: syid,
+			});
+
 			let payloadEstimasi = await container_repair_detail.create({
 				svid: svid,
 				rpid: rpid,
@@ -329,7 +347,7 @@ class EstimasiController {
 			});
 
 			let succesMessage = {
-				"succes created container process": "",
+				"succes created container process": "", "header": payloadEstimHeader,
 				"succes created estimasi": payloadEstimasi,
 			};
 
