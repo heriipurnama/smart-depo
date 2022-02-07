@@ -85,7 +85,7 @@ class ComponentController {
 		let {start, row} = req.body;
 
 		try {
-			let { count, rows } = await component.findAndCountAll({
+			let { count, rows: datas } = await component.findAndCountAll({
 				offset: start,
 				limit: row
 			});
