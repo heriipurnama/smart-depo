@@ -65,7 +65,7 @@ class GateOutController {
 						cp.cpodriver,cp.cponopol,cp.cporemark,repo.retfrom,usr.username syname,
 						prt.cncode,prt.poport
 				 from tblcontainer con
-						  inner join container_process cp on con.crno = cp.crno
+						  inner join container_process cp on con.crcpid = cp.cpid
 						  inner join tblcontainer_code concode on concode.cccode = con.cccode
 						  left join tblmaterial mtrl on mtrl.mtcode = con.mtcode
 						  left join tbldepo dp on dp.dpcode = cp.cpdepo
@@ -78,8 +78,7 @@ class GateOutController {
 						  left join container_survey svey on svey.cpid = cp.cpid
 						  left join tblusers usr on usr.user_id = svey.syid
 						  left join order_container_repo repo on repo.reorderno = cp.cpoorderno
-				 where con.crno='${crno}'
-				   and con.crlastact like '%CO%' `
+				 where con.crno='${crno}' `
 			);
 			const restDatas = datas[0];
 
