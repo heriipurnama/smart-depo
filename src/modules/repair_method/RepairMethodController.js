@@ -1,7 +1,7 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { repairMethod } = require("../../db/models");
+const { repairMethod, tblwarehouse} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class RepairMethodController {
@@ -70,12 +70,13 @@ class RepairMethodController {
 
 	static async listCleaningMobile(req, res, next){
 		try {
-			let clean = 1;
-			let datas = await repairMethod.findAndCountAll({
-				where : {rmclean : clean},
-			});
-			
-			baseResponse({ message: "list data repair method", data: datas })(res, 200);
+			let datas = await tblwarehouse.sequelize.query(`SELECT * FROM tblrepair_method where rmclean = '1'`,
+				{
+					type: repairMethod.SELECT
+				}
+			);
+			let totalData = datas[0];
+			baseResponse({ message: "list data repair method", data: totalData })(res, 200);
 
 		} catch (error) {
 			res.status(403);
