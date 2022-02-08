@@ -5,6 +5,7 @@ const routers = express.Router();
 
 const Authentication = require("../../utils/middleware/Auth");
 const { estimasi: EstimasiController } = require("../../modules");
+const storageFiles = require("../../utils/middleware/UploadFileEstimasi");
 
 routers.route("/list").get(Authentication, EstimasiController.list);
 routers.route("/listOnecpId").get(Authentication, EstimasiController.listOnecpId);
@@ -16,9 +17,13 @@ routers
 	.route("/listDetailContainer")
 	.get(Authentication, EstimasiController.listDetailContainer);
 
-routers
-	.route("/create")
-	.post(Authentication, EstimasiController.insertEstimasi);
+routers.route("/create").post(
+	Authentication,
+		multer({
+			storage: storageFiles,
+			limits: { fileSize: maxSize },
+		}).any("file"),
+	EstimasiController.insertEstimasi);
 routers
 	.route("/printEstimasi")
 	.get(Authentication, EstimasiController.printEstimasi);
