@@ -442,9 +442,7 @@ class EstimasiController {
 		let offsets = offset == undefined ? "" : ` offset ${offset}`;
 
 		try {
-			let repairload;
-			if (!crno) {
-				repairload = await container_process.sequelize.query(
+			let repairload  = await container_process.sequelize.query(
 					`select con.crno,cr.rptglest,pr.prdmno,date_format(ct.coexpdate,'%d/%m/%y') as coexpdate,
 					cp.cpieir,cc.cccode, cc.ctcode, cc.cclength, cc.ccheight,con.crcpid,
 					date_format(cs.svsurdat,'%d/%m/%y') as svsurdat,ct.cono,cp.cpiorderno,cr.rpver,	cr.rpnoest,cs.svcond,cp.cpopr
@@ -455,16 +453,13 @@ class EstimasiController {
 						left join tblcontract	     ct  on ct.prcode = pr.prcode
 						left join tblcontainer_code	 cc  on con.cccode = cc.cccode
 						left join container_repair   cr  on cr.svid = cs.svid		
-			   where cs.type='1' and  con.crno='${crno}'
-           	 	`,
+			   where cs.type='1' and  con.crno='${crno}' `,
 					{
 						type: container_process.SELECT,
 					}
 				);
-			}
-			let repairdetailload;
-			if (!crno) {
-				repairdetailload = await container_process.sequelize.query(
+
+			let repairdetailload  = await container_process.sequelize.query(
 					`select cp.rpcrno,cp.rpver,rd.rpid,rd.rdapp,rd.svid,tbllocation.lcdesc,com.cmdesc,dm.dydesc,rm.rmdesc,
 							mu.muname,rd.rdcalmtd,rd.rdteb,rd.rdsize,rd.rdqty,rd.rdmhr,cur.curr_symbol,rd.rdlab,rd.rdmat,rd.rdtotal, 
 							(case when rd.rdaccount='o' then 'owner' when rd.rdaccount='u' then 'user' else 'i' end) as rdaccount,
@@ -499,15 +494,12 @@ class EstimasiController {
 							left join tblcurrency             cur on cur.tucode=rd.rdcurr
 							inner join container_repair        cp  on cp.svid = rd.svid
 							inner join container_survey	      cs  on cs.svid = rd.svid		
-						where  cp.rpcrno='${crno}' 
-						`,
+						where  cp.rpcrno='${crno}' `,
 					{
 						type: container_process.SELECT,
 					}
 				);
-			}
-
-
+			
 			let resultData    = repairload[0];
 			let resultdtlData = repairdetailload[0]
 			baseResponse({ message: "List Estimasi", data: {dataOne: resultData, dataTwo: resultdtlData} })(res, 200);
