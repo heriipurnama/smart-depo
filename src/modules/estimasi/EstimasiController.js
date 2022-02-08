@@ -499,7 +499,7 @@ class EstimasiController {
 						type: container_process.SELECT,
 					}
 				);
-			
+
 			let resultData    = repairload[0];
 			let resultdtlData = repairdetailload[0]
 			baseResponse({ message: "List Estimasi", data: {dataOne: resultData, dataTwo: resultdtlData} })(res, 200);
