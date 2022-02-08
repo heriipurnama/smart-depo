@@ -74,8 +74,8 @@ class RepairMethodController {
 			let datas = await repairMethod.findAndCountAll({
 				where : {rmclean : clean},
 			});
-			let totalData = datas[0];
-			baseResponse({ message: "list data repair method", data: totalData })(res, 200);
+			
+			baseResponse({ message: "list data repair method", data: datas })(res, 200);
 
 		} catch (error) {
 			res.status(403);
