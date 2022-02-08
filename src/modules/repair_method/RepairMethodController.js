@@ -61,7 +61,30 @@ class RepairMethodController {
 				limit: limits,
 			});
 			baseResponse({ message: "list data repair method", data: { datas, count }})(res, 200);
-			
+
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async listCleaningMobile(req, res, next){
+		let { offset, limit } = req.query;
+
+		try {
+
+			let offsets = parseInt(offset) || 0;
+			let limits = parseInt(limit) || 11;
+			let clean = 1;
+
+
+			let datas = await repairMethod.findAndCountAll({
+				where : {rmclean : clean},
+				offset: offsets,
+				limit: limits,
+			});
+			baseResponse({ message: "list data repair method", data: datas })(res, 200);
+
 		} catch (error) {
 			res.status(403);
 			next(error);
