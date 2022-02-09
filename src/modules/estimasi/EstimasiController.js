@@ -6,6 +6,7 @@ const baseResponse = require("../../utils/helper/Response");
 const {
 	container_process,
 	container_repair_detail,
+	container_repair,
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
