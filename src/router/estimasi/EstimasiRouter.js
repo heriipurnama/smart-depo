@@ -16,14 +16,16 @@ routers
 routers
 	.route("/listDetailContainer")
 	.get(Authentication, EstimasiController.listDetailContainer);
-
-routers.route("/create").post(
+routers.route("/createHeader").post(
+	Authentication,
+	EstimasiController.insertEstimasiHeader);
+routers.route("/createDetail").post(
 	Authentication,
 		multer({
 			storage: storageFiles,
 			limits: { fileSize: maxSize },
 		}).any("file"),
-	EstimasiController.insertEstimasi);
+	EstimasiController.insertEstimasiDetail);
 routers
 	.route("/printEstimasi")
 	.get(Authentication, EstimasiController.printEstimasi);

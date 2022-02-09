@@ -260,7 +260,46 @@ class EstimasiController {
 		}
 	}
 
-	static async insertEstimasi(req, res, next) {
+	static async insertEstimasiHeader(req, res, next) {
+		let {
+			svid,
+			rpver,
+			rptglest,
+			rpnoest,
+			rpcrno,
+			rpcrton,
+			rpcrtby,
+			syid,
+		} = req.body;
+
+		try {
+			let payloadEstimHeader = await container_repair.create({
+				svid: svid,
+				rpver: rpver,
+				rptglest: rptglest,
+				rpnoest: rpnoest,
+				rpcrno: rpcrno,
+				rpcrton: rpcrton,
+				rpcrtby: rpcrtby,
+				syid: syid,
+			});
+
+			let succesMessage = {
+				"succes created container process": "", "header": payloadEstimHeader,
+			};
+
+			baseResponse({
+				message: "succes created estimasi",
+				data: succesMessage,
+			})(res, 200);
+			Logger(req);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async insertEstimasiDetail(req, res, next) {
 		let {
 			svid,
 			rpid,
@@ -288,34 +327,9 @@ class EstimasiController {
 			rdmata,
 			rdlaba,
 			rdtotala,
-			rpver,
-			rptglest,
-			rpnoest,
-			rpcrno,
-			rpcrton,
-			rpcrtby,
-			syid,
 		} = req.body;
 
-		// let bearerheader = req.headers["authorization"];
-		// const splitBearer = bearerheader.split(" ");
-		// const bearer = splitBearer[1];
-
-		// eslint-disable-next-line no-undef
-		//let datas = jwt.verify(bearer, process.env.SECRET_KEY);
-		//let usernameByToken = datas.username;
-
 		try {
-			let payloadEstimHeader = await container_repair.create({
-				svid: svid,
-				rpver: rpver,
-				rptglest: rptglest,
-				rpnoest: rpnoest,
-				rpcrno: rpcrno,
-				rpcrton: rpcrton,
-				rpcrtby: rpcrtby,
-				syid: syid,
-			});
 
 			let payloadEstimasi = await container_repair_detail.create({
 				svid: svid,
@@ -347,7 +361,6 @@ class EstimasiController {
 			});
 
 			let succesMessage = {
-				"succes created container process": "", "header": payloadEstimHeader,
 				"succes created estimasi": payloadEstimasi,
 			};
 
@@ -444,16 +457,16 @@ class EstimasiController {
 		try {
 			let repairload  = await container_process.sequelize.query(
 					`select con.crno,cr.rptglest,pr.prdmno,date_format(ct.coexpdate,'%d/%m/%y') as coexpdate,
-					cp.cpieir,cc.cccode, cc.ctcode, cc.cclength, cc.ccheight,con.crcpid,
-					date_format(cs.svsurdat,'%d/%m/%y') as svsurdat,ct.cono,cp.cpiorderno,cr.rpver,	cr.rpnoest,cs.svcond,cp.cpopr
-					from tblcontainer  con
-						left join container_process	 cp  on con.crno = cp.crno
-						left join container_survey	 cs  on cs.cpid = cp.cpid
-						left join tblprincipal       pr  on pr.prcode =cp.cpopr
-						left join tblcontract	     ct  on ct.prcode = pr.prcode
-						left join tblcontainer_code	 cc  on con.cccode = cc.cccode
-						left join container_repair   cr  on cr.svid = cs.svid		
-			   where cs.type='1' and  con.crno='${crno}' `,
+							cs.svid, cs.syid, cs.svcrton, cs.svcrtby, cs.svmdfon, cs.svmdfby,
+							date_format(cs.svsurdat,'%d/%m/%y') as svsurdat,ct.cono,cp.cpiorderno,cr.rpver,  cr.rpnoest,cs.svcond,cp.cpopr
+					 from tblcontainer  con
+							  left join container_process   cp  on con.crno = cp.crno
+							  left join container_survey   cs  on cs.cpid = cp.cpid
+							  left join tblprincipal       pr  on pr.prcode =cp.cpopr
+							  left join tblcontract       ct  on ct.prcode = pr.prcode
+							  left join tblcontainer_code   cc  on con.cccode = cc.cccode
+							  left join container_repair   cr  on cr.svid = cs.svid
+					 where cs.type='1' and  con.crno='${crno}' `,
 					{
 						type: container_process.SELECT,
 					}
