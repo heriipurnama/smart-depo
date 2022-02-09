@@ -2,10 +2,13 @@
 
 const express = require("express");
 const routers = express.Router();
+const multer = require("multer");
 
 const Authentication = require("../../utils/middleware/Auth");
 const { estimasi: EstimasiController } = require("../../modules");
 const storageFiles = require("../../utils/middleware/UploadFileEstimasi");
+
+const maxSize = 5 * 1024 * 1024;
 
 routers.route("/list").get(Authentication, EstimasiController.list);
 routers.route("/listOnecpId").get(Authentication, EstimasiController.listOnecpId);
@@ -16,9 +19,11 @@ routers
 routers
 	.route("/listDetailContainer")
 	.get(Authentication, EstimasiController.listDetailContainer);
+
 routers.route("/createHeader").post(
 	Authentication,
 	EstimasiController.insertEstimasiHeader);
+
 routers.route("/createDetail").post(
 	Authentication,
 		multer({
@@ -26,6 +31,7 @@ routers.route("/createDetail").post(
 			limits: { fileSize: maxSize },
 		}).any("file"),
 	EstimasiController.insertEstimasiDetail);
+
 routers
 	.route("/printEstimasi")
 	.get(Authentication, EstimasiController.printEstimasi);
