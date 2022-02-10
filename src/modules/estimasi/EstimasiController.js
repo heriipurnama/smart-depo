@@ -1,12 +1,14 @@
 "use strict";
 
 require("dotenv").config();
-
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 const baseResponse = require("../../utils/helper/Response");
 const {
 	container_process,
 	container_repair_detail,
 	container_repair,
+	repairDetailFile,
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
@@ -361,8 +363,13 @@ class EstimasiController {
 				rdtotala: rdtotala,
 			});
 
+			const payloadRepairFile = await repairDetailFile.findAll({
+				where: { rpid: rpid },
+			});
+
 			let succesMessage = {
 				"succes created estimasi": payloadEstimasi,
+				"data repair file": payloadRepairFile,
 			};
 
 			baseResponse({
