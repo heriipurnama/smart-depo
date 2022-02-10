@@ -13,7 +13,7 @@ const {
 	vessel,
 	tblusers,
 	orderPraFile,
-	orderPraRecept,
+	orderPraRecept, container_survey,
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
@@ -405,22 +405,20 @@ class OrderPraController {
 			let prefixCode = pracode;
 
 			// get data pra order
-			let resultOrderPra = await orderPra.findOne({
-				where: {
-					cpiorderno: { [Op.like]: `%${prefixCode}%`}
-				},
-				order: [["praid", "DESC"]],
-			});
-			Logger("resultOrderPra "+resultOrderPra);
+			let resultOrderPra = await orderPra.sequelize.query(`SELECT  max(cpiorderno) as CPIORDERNO  FROM order_pra WHERE 1 and cpiorderno like '%${pracode}%' `,
+				{
+					type: orderPra.SELECT,
+					plain: true
+				});
 
-			if (resultOrderPra === null) {
+			if (resultOrderPra['CPIORDERNO'] === null) {
 				const resultCode = `${prefixCode}${paktrasl}${sdcode}00000001`;
 				baseResponse({ message: "succes created unix code", data: resultCode })(
 					res,
 					200
 				);
 			} else {
-				let resultDataOrderPra = resultOrderPra.dataValues.cpiorderno;
+				let resultDataOrderPra = resultOrderPra['CPIORDERNO'];
 				let resultSubstringDataOrderPra = resultDataOrderPra.substring(7, 16);
 				let convertInt = parseInt(resultSubstringDataOrderPra) + 1;
 
@@ -428,9 +426,6 @@ class OrderPraController {
 				let pad = "00000000";
 				let number = pad.substring(0, pad.length - str.length) + str;
 				const resultCode = `${prefixCode}${paktrasl}${sdcode}${number}`;
-				Logger("resultCode "+resultCode);
-				Logger("resultDataOrderPra "+resultDataOrderPra);
-				Logger("resultSubstringDataOrderPra "+resultSubstringDataOrderPra);
 				baseResponse({ message: "succes created unix code", data: resultCode })(
 					res,
 					200
