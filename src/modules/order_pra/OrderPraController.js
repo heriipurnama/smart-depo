@@ -411,6 +411,7 @@ class OrderPraController {
 				},
 				order: [["praid", "DESC"]],
 			});
+			Logger("resultOrderPra "+resultOrderPra);
 
 			if (resultOrderPra === null) {
 				const resultCode = `${prefixCode}${paktrasl}${sdcode}00000001`;
@@ -427,7 +428,9 @@ class OrderPraController {
 				let pad = "00000000";
 				let number = pad.substring(0, pad.length - str.length) + str;
 				const resultCode = `${prefixCode}${paktrasl}${sdcode}${number}`;
-
+				Logger("resultCode "+resultCode);
+				Logger("resultDataOrderPra "+resultDataOrderPra);
+				Logger("resultSubstringDataOrderPra "+resultSubstringDataOrderPra);
 				baseResponse({ message: "succes created unix code", data: resultCode })(
 					res,
 					200
