@@ -207,8 +207,17 @@ class EstimasiController {
 					type: container_process.DELETE,
 				}
 			);
+			let datasx = await container_repair_detail.sequelize.query(
+				`	Delete FROM repair_detail_file 
+				 	WHERE SVID=${SVID} 
+					 and RPID=${RPID}
+				 `,
+				{
+					type: container_repair_detail.DELETE,
+				}
+			);
 
-			baseResponse({ message: "Deleted Header Repo", data: { datas } })(
+			baseResponse({ message: "Deleted Header Repo", data: { datas, datasx } })(
 				res,
 				200
 			);
