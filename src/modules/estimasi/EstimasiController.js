@@ -8,7 +8,7 @@ const {
 	container_process,
 	container_repair_detail,
 	container_repair,
-	repairDetailFile,
+	repairDetailFile, orderPra,
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
@@ -195,13 +195,13 @@ class EstimasiController {
 	}
 
 	static async deleteEstmasiDetail(req, res, next) {
-		let { SVID, RPID, RPVER } = req.params;
+		let { SVID, RPID, RDNO } = req.params;
 		try {
 			let datas = await container_process.sequelize.query(
 				`	Delete FROM container_repair_detail 
 				 	WHERE SVID=${SVID} 
 					 and RPID=${RPID} 
-					 and RDNO=${RPVER}
+					 and RDNO=${RDNO}
 				 `,
 				{
 					type: container_process.DELETE,
@@ -533,6 +533,146 @@ class EstimasiController {
 			let resultData    = repairload[0];
 			let resultdtlData = repairdetailload[0]
 			baseResponse({ message: "List Estimasi", data: {dataOne: resultData, dataTwo: resultdtlData} })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async updateDataHeader(req, res, next){
+		let {
+			svid,
+			rpver,
+			rptglest,
+			rpnoest,
+			rpcrno,
+			rpcrton,
+			rpcrtby,
+			syid,
+		} = req.body;
+
+		try {
+
+			let dataUsername = await container_repair.findOne({
+				where: { svid: svid },
+			});
+
+			if (!dataUsername) {
+				throw new Error(`container_repair ${svid} doesn't exists!`);
+			}
+
+			let payloadEstimHeader = await container_repair.update({
+				svid: svid,
+				rpver: rpver,
+				rptglest: rptglest,
+				rpnoest: rpnoest,
+				rpcrno: rpcrno,
+				rpcrton: rpcrton,
+				rpcrtby: rpcrtby,
+				syid: syid,
+			},
+				{ where: { svid: svid } }
+			);
+
+			let succesMessage = {
+				"succes update container repair": "", "header": payloadEstimHeader,
+			};
+
+			baseResponse({
+				message: "succes update estimasi header",
+				data: succesMessage,
+			})(res, 200);
+			Logger(req);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async updateDataDetail(req, res, next){
+		let {
+			svid,
+			rpid,
+			rdno,
+			rdloc,
+			rdcom,
+			rddmtype,
+			rdrepmtd,
+			rdcalmtd,
+			rdteb,
+			rdsize,
+			muname,
+			rdqty,
+			rdmhr,
+			rdcurr,
+			rdlab,
+			rdmat,
+			rdtotal,
+			rdaccount,
+			rddesc,
+			rdpic,
+			rdsizea,
+			rdqtya,
+			rdmhra,
+			rdmata,
+			rdlaba,
+			rdtotala,
+		} = req.body;
+
+		try {
+			let dataUsername = await container_repair_detail.findOne({
+				where: { svid: svid },
+			});
+
+			if (!dataUsername) {
+				throw new Error(`container_repair_detail ${svid} doesn't exists!`);
+			}
+
+			let payloadEstimasi = await container_repair_detail.update({
+				svid: svid,
+				rpid: rpid,
+				rdno: rdno,
+				rdloc: rdloc,
+				rdcom: rdcom,
+				rddmtype: rddmtype,
+				rdrepmtd: rdrepmtd,
+				rdcalmtd: rdcalmtd,
+				rdteb: rdteb,
+				rdsize: rdsize,
+				muname: muname,
+				rdqty: rdqty,
+				rdmhr: rdmhr,
+				rdcurr: rdcurr,
+				rdlab: rdlab,
+				rdmat: rdmat,
+				rdtotal: rdtotal,
+				rdaccount: rdaccount,
+				rddesc: rddesc,
+				rdpic: rdpic,
+				rdsizea: rdsizea,
+				rdqtya: rdqtya,
+				rdmhra: rdmhra,
+				rdmata: rdmata,
+				rdlaba: rdlaba,
+				rdtotala: rdtotala,
+			},
+			{ where: { svid: svid } }
+		);
+
+			const payloadRepairFile = await repairDetailFile.findAll({
+				where: { rpid: rpid },
+			});
+
+			let succesMessage = {
+				"succes update estimasi detail ": payloadEstimasi,
+				"data repair file ": payloadRepairFile,
+			};
+
+			baseResponse({
+				message: "succes created estimasi",
+				data: succesMessage,
+			})(res, 200);
+			Logger(req);
 		} catch (error) {
 			res.status(403);
 			next(error);

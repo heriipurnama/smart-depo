@@ -39,4 +39,16 @@ routers
 	.route("/delete")
 	.delete(Authentication, EstimasiController.deleteEstmasiDetail);
 
+routers.route("/updateDataHeader").put(
+	Authentication,
+	EstimasiController.updateDataHeader);
+
+routers.route("/updateDetail").put(
+	Authentication,
+	multer({
+		storage: storageFiles,
+		limits: { fileSize: maxSize },
+	}).any("file"),
+	EstimasiController.updateDataDetail);
+
 module.exports = routers;
