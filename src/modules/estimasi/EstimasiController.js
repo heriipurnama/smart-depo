@@ -687,7 +687,7 @@ class EstimasiController {
 					from container_repair             cr    
 					left join container_repair_detail crd   on cr.svid = crd.svid
 					left join repair_detail_file      rdf   on crd.svid=rdf.svid and crd.rpid=rdf.rpid
-					where cr.rpcrno='${crno}'`,
+					where cr.rpcrno='${crno}' and rdf.id is not null`,
 				{
 					type: container_repair.SELECT,
 				});
