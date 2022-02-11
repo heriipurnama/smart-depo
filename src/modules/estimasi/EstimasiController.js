@@ -199,9 +199,9 @@ class EstimasiController {
 		try {
 			let datas = await container_process.sequelize.query(
 				`	Delete FROM container_repair_detail 
-				 	WHERE SVID=${SVID} 
-					 and RPID=${RPID} 
-					 and RDNO=${RDNO}
+				 	WHERE SVID='${SVID}' 
+					 and RPID='${RPID}' 
+					 and RDNO='${RDNO}'
 				 `,
 				{
 					type: container_process.DELETE,
@@ -209,8 +209,8 @@ class EstimasiController {
 			);
 			let datasx = await container_repair_detail.sequelize.query(
 				`	Delete FROM repair_detail_file 
-				 	WHERE SVID=${SVID} 
-					 and RPID=${RPID}
+				 	WHERE SVID='${SVID}'
+					 and RPID='${RPID}'
 				 `,
 				{
 					type: container_repair_detail.DELETE,
