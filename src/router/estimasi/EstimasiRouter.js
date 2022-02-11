@@ -51,4 +51,8 @@ routers.route("/updateDetail").put(
 	}).any("file"),
 	EstimasiController.updateDataDetail);
 
+routers
+	.route("/getFileDetail")
+	.get(Authentication, EstimasiController.getFileDetail);
+
 module.exports = routers;
