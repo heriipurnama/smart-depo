@@ -491,7 +491,7 @@ class EstimasiController {
 
 			let repairdetailload  = await container_process.sequelize.query(
 					`select cp.rpcrno,cp.rpver,rd.rpid,rd.rdapp,rd.svid,tbllocation.lcdesc,com.cmdesc,dm.dydesc,rm.rmdesc,
-							mu.muname,rd.rdcalmtd,rd.rdteb,rd.rdsize,rd.rdqty,rd.rdmhr,cur.curr_symbol,rd.rdlab,rd.rdmat,rd.rdtotal, 
+							mu.muname,rd.rdcalmtd,rd.rdteb,rd.rdsize,rd.rdqty,rd.rdmhr,cur.curr_symbol,rd.rdlab,rd.rdmat,rd.rdtotal, rd.rdno,
 							(case when rd.rdaccount='o' then 'owner' when rd.rdaccount='u' then 'user' else 'i' end) as rdaccount,
 							(case when length(rd.rdsize) > 0 then
 								case when length(rd.rdqty) > 0 then
