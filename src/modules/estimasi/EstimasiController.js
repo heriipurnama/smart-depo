@@ -195,23 +195,18 @@ class EstimasiController {
 	}
 
 	static async deleteEstmasiDetail(req, res, next) {
-		let { SVID, RPID, RDNO } = req.params;
+		let { SVID, RPID, RDNO } = req.body;
 		try {
 			let datas = await container_process.sequelize.query(
-				`	Delete FROM container_repair_detail 
-				 	WHERE SVID='${SVID}' 
-					 and RPID='${RPID}' 
-					 and RDNO='${RDNO}'
-				 `,
+				`Delete FROM container_repair_detail 
+				 	WHERE svid='${SVID}' and rpid='${RPID}' and rdno='${RDNO}' `,
 				{
 					type: container_process.DELETE,
 				}
 			);
 			let datasx = await container_repair_detail.sequelize.query(
-				`	Delete FROM repair_detail_file 
-				 	WHERE SVID='${SVID}'
-					 and RPID='${RPID}'
-				 `,
+				`Delete FROM repair_detail_file 
+				 	WHERE svid='${SVID}' and rpid='${RPID}' `,
 				{
 					type: container_repair_detail.DELETE,
 				}
