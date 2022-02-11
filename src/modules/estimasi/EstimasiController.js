@@ -678,6 +678,27 @@ class EstimasiController {
 			next(error);
 		}
 	}
+
+	static async getFileDetail(req, res, next){
+		let { crno } = req.query;
+		try {
+			let repairload  = await container_repair.sequelize.query(
+				`SELECT rdf.id, rdf.svid, rdf.rpid, rdf.url, rdf.file_time_upload, rdf.flag
+					from container_repair             cr    
+					left join container_repair_detail crd   on cr.svid = crd.svid
+					left join repair_detail_file      rdf   on crd.svid=rdf.svid and crd.rpid=rdf.rpid
+					where cr.rpcrno='${crno}'`,
+				{
+					type: container_repair.SELECT,
+				});
+
+			let resultData    = repairload[0];
+			baseResponse({ message: "List file ", data:  resultData})(res, 200);
+		}catch (error){
+			res.status(403);
+			next(error);
+		}
+	}
 }
 
 module.exports = EstimasiController;
