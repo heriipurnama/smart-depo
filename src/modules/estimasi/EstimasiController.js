@@ -10,6 +10,7 @@ const {
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
+const {container} = require("../index");
 const Op = Sequelize.Op;
 
 class EstimasiController {
@@ -784,7 +785,7 @@ class EstimasiController {
 			};
 
 			baseResponse({
-				message: "succes created estimasi",
+				message: "succes created estimasi next",
 				data: succesMessage,
 			})(res, 200);
 			Logger(req);
@@ -792,6 +793,54 @@ class EstimasiController {
 			res.status(403);
 			next(error);
 		}
+	}
+
+	static async finalEstimasi(req, res, next){
+		let {
+			crno, svid, totalrmhr, totallab, totalcost, total, autno,
+		} = req.body;
+
+		let seter = 1;
+		try {
+			let payloadEstimRepair = await container_repair.update({
+					rpbillon: seter,
+					rptotalrmhr: totalrmhr,
+					rptotalrlab: totallab,
+					rptotalrcost: totalcost,
+					rptotalamount: total,
+					rpautno: autno,
+					rpstsappvpr: seter,
+					rptglappvpr: Date.now(),
+				},
+				{ where: { svid: svid } }
+			);
+
+			let payloadContainer = await container_repair.sequelize.query(
+				`UPDATE  tblcontainer SET crlastact = 'WW'
+				 WHERE crno ='${crno}' `,
+				{
+					type: container_repair.SELECT,
+					plain: true,
+				});
+
+			let succesMessage = {
+				"succes update container repair": payloadEstimRepair,
+				"succes update container": payloadContainer,
+			};
+
+			baseResponse({
+				message: "succes update estimasi final",
+				data: succesMessage,
+			})(res, 200);
+			Logger(req);
+
+		}catch (error){
+			res.status(403);
+			next(error);
+		}
+
+
+
 	}
 }
 
