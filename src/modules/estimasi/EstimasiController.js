@@ -469,14 +469,14 @@ class EstimasiController {
 		try {
 			let repairload  = await container_process.sequelize.query(
 					`select con.crno,cr.rptglest,pr.prdmno,date_format(ct.coexpdate,'%d/%m/%y') as coexpdate,
-							cs.svid, cs.syid, cs.svcrton, cs.svcrtby, cs.svmdfon, cs.svmdfby,
-							date_format(cs.svsurdat,'%d/%m/%y') as svsurdat,ct.cono,cp.cpiorderno,cr.rpver,  cr.rpnoest,cs.svcond,cp.cpopr
+							cp.cpieir,cc.cccode, cc.ctcode, cc.cclength, cc.ccheight,con.crcpid,
+							date_format(cs.svsurdat,'%d/%m/%y') as svsurdat,ct.cono,cp.cpiorderno,cr.rpver,	cr.rpnoest,cs.svcond,cp.cpopr
 					 from tblcontainer  con
-							  left join container_process   cp  on con.crno = cp.crno
-							  left join container_survey   cs  on cs.cpid = cp.cpid
+							  left join container_process	 cp  on con.crno = cp.crno
+							  left join container_survey	 cs  on cs.cpid = cp.cpid
 							  left join tblprincipal       pr  on pr.prcode =cp.cpopr
-							  left join tblcontract       ct  on ct.prcode = pr.prcode
-							  left join tblcontainer_code   cc  on con.cccode = cc.cccode
+							  left join tblcontract	     ct  on ct.prcode = pr.prcode
+							  left join tblcontainer_code	 cc  on con.cccode = cc.cccode
 							  left join container_repair   cr  on cr.svid = cs.svid
 					 where cs.type='1' and  con.crno='${crno}' `,
 					{
@@ -616,7 +616,12 @@ class EstimasiController {
 
 		try {
 			let dataUsername = await container_repair_detail.findOne({
-				where: { svid: svid },
+				where: {
+					[Op.and]: [
+						{svid: svid},
+						{rpid : rpid}
+					],
+				},
 			});
 
 			if (!dataUsername) {
@@ -651,8 +656,14 @@ class EstimasiController {
 				rdlaba: rdlaba,
 				rdtotala: rdtotala,
 			},
-			{ where: { svid: svid } }
-		);
+			{ where: {
+					[Op.and]: [
+						{svid: svid},
+						{rpid : rpid}
+
+					],
+				},
+			});
 
 			const payloadRepairFile = await repairDetailFile.findAll({
 				where: {
