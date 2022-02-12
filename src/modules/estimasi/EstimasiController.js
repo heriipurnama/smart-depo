@@ -1,16 +1,16 @@
 "use strict";
 
 require("dotenv").config();
-const Sequelize = require("sequelize");
-const Op = Sequelize.Op;
 const baseResponse = require("../../utils/helper/Response");
 const {
 	container_process,
 	container_repair_detail,
 	container_repair,
-	repairDetailFile, orderPra,
+	repairDetailFile,
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 class EstimasiController {
 	static async list(req, res, next) {
@@ -659,11 +659,7 @@ class EstimasiController {
 				rdtotala: rdtotala,
 			},
 			{ where: {
-					[Op.and]: [
-						{svid: svid},
-						{rpid : rpid}
-
-					],
+				[Op.and]: [{ svid: svid }, { rpid : rpid }],
 				},
 			});
 
