@@ -550,6 +550,24 @@ class EstimasiController {
 
 		try {
 
+			var genNumber = 1;
+			let MyResult = await container_repair.sequelize.query(
+				`SELECT count(rpnoest) as rpnoest FROM container_repair`,
+				{
+					type: container_repair.SELECT,
+					plain: true,
+				});
+			if (MyResult !== null) {
+				let rests = await container_repair.sequelize.query(
+					`SELECT max(rpnoest)+1 as rpnoest FROM container_repair`,
+					{
+						type: container_repair.SELECT,
+						plain: true,
+					}
+			);
+				genNumber = rests["rpnoest"];
+			}
+
 			let dataUsername = await container_repair.findOne({
 				where: { svid: svid },
 			});
@@ -562,7 +580,7 @@ class EstimasiController {
 				svid: svid,
 				rpver: rpver,
 				rptglest: rptglest,
-				rpnoest: rpnoest,
+				rpnoest: genNumber,
 				rpcrno: rpcrno,
 				rpcrton: rpcrton,
 				rpcrtby: rpcrtby,
