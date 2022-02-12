@@ -62,4 +62,8 @@ routers.route("/nextEstimasi").post(
 	Authentication,
 	EstimasiController.nextEstimasi);
 
+routers.route("/finalEstimasi").post(
+	Authentication,
+	EstimasiController.finalEstimasi);
+
 module.exports = routers;
