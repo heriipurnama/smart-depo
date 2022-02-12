@@ -4,7 +4,8 @@ const multer = require("multer");
 require("dotenv").config();
 
 const { repairDetailFile, container_repair_detail} = require("../../db/models");
-
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 /**
  * @Format file-name to save
  * @file + @unix_number_principal + @unique_suffix + @file_type .
