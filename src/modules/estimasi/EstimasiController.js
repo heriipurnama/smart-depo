@@ -655,7 +655,13 @@ class EstimasiController {
 		);
 
 			const payloadRepairFile = await repairDetailFile.findAll({
-				where: { rpid: rpid },
+				where: {
+					[Op.and]: [
+						{svid: svid},
+						{rpid : rpid}
+
+					],
+				},
 			});
 
 			let succesMessage = {
@@ -683,6 +689,24 @@ class EstimasiController {
 					left join container_repair_detail crd   on cr.svid = crd.svid
 					left join repair_detail_file      rdf   on crd.svid=rdf.svid and crd.rpid=rdf.rpid
 					where cr.rpcrno='${crno}' and rdf.id is not null`,
+				{
+					type: container_repair.SELECT,
+				});
+
+			let resultData    = repairload[0];
+			baseResponse({ message: "List file ", data:  resultData})(res, 200);
+		}catch (error){
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async getFile(req, res, next){
+		let { svid, rpid } = req.query;
+		try {
+			let repairload  = await container_repair.sequelize.query(
+				`SELECT id, svid, rpid, url, file_time_upload, flag 
+				FROM repair_detail_file WHERE svid='${svid}' AND rpid='${rpid}' `,
 				{
 					type: container_repair.SELECT,
 				});
