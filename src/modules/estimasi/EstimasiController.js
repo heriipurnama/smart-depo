@@ -6,7 +6,7 @@ const {
 	container_process,
 	container_repair_detail,
 	container_repair,
-	repairDetailFile,
+	repairDetailFile, con_repair_detail_temp,
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
@@ -741,6 +741,54 @@ class EstimasiController {
 			let resultData    = repairload[0];
 			baseResponse({ message: "List file ", data:  resultData})(res, 200);
 		}catch (error){
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async nextEstimasi(req, res, next){
+		let {
+			svid,
+		} = req.body;
+
+		try {
+
+			let MyResult = await container_repair.sequelize.query(
+				`INSERT INTO con_repair_detail_temp
+				 SELECT *  FROM container_repair_detail WHERE svid LIKE '${svid}' `,
+				{
+					type: container_repair.SELECT,
+					plain: true,
+				});
+
+			let repairDetail = await container_repair.sequelize.query(
+				`UPDATE container_repair_detail SET rdno = rdno +1
+				 WHERE svid LIKE '${svid}' `,
+				{
+					type: container_repair.SELECT,
+					plain: true,
+				});
+
+			let repair = await container_repair.sequelize.query(
+				`UPDATE  container_repair SET rpver = rpver +1
+				 WHERE svid LIKE '${svid}' `,
+				{
+					type: container_repair.SELECT,
+					plain: true,
+				});
+
+			let succesMessage = {
+				"succes created nex estimasi": MyResult,
+				"succes update repair detail": repairDetail,
+				"succes update repair": repair,
+			};
+
+			baseResponse({
+				message: "succes created estimasi",
+				data: succesMessage,
+			})(res, 200);
+			Logger(req);
+		} catch (error) {
 			res.status(403);
 			next(error);
 		}

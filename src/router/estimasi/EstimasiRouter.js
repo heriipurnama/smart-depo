@@ -58,4 +58,8 @@ routers
 	.route("/getFile")
 	.get(Authentication, EstimasiController.getFile);
 
+routers.route("/nextEstimasi").post(
+	Authentication,
+	EstimasiController.nextEstimasi);
+
 module.exports = routers;
