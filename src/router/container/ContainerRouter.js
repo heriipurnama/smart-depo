@@ -13,6 +13,7 @@ const schemaValidation = require("../../utils/middleware/SchemaValidator");
 routers.route("/create").post(Authentication, ContainerController.createNew);
 routers.route("/update").post(Authentication, ContainerController.update);
 routers.route("/list").get(Authentication, ContainerController.list);
+routers.route("/containerSearch").get(Authentication, ContainerController.containerSearch);
 routers.route("/listone").get(Authentication, ContainerController.listOne);
 routers.route("/delete").delete(Authentication, ContainerController.delete);
 routers.route("/cek").post(Authentication, ContainerController.cek);
