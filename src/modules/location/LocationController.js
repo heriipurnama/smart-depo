@@ -108,8 +108,8 @@ class LocationController {
 
 	static async listMobile(req, res, next) {
 		let {start, rows, search, orderColumn, orderType} = req.query;
-		let starts = start == undefined ? "" : ` offset ${start}`;
-		let rowss = rows == undefined ? "" : ` limit ${rows}`;
+		let starts = parseInt(start) || 0;
+		let rowss = parseInt(rows) || 11;
 		let oc = (orderColumn == "")?"lccode":orderColumn;
 		let ot = (orderType == "")?"DESC":orderType;
 		try {
