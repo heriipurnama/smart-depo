@@ -106,6 +106,29 @@ class LocationController {
 		}
 	}
 
+	static async listMobile(req, res, next) {
+		let {start, rows, search, orderColumn, orderType} = req.query;
+		let oc = (orderColumn == "")?"lccode":orderColumn;
+		let ot = (orderType == "")?"DESC":orderType;
+		try {
+			let { count, rows: datas } = await location.findAndCountAll({
+				offset: start,
+				limit: rows,
+				where: {
+					[Op.or]: [
+						{ lccode: { [Op.like]: `%${search}%`} },
+						{ lcdesc: { [Op.like]: `%${search}%`} }
+					]
+				},
+				order: [[oc, ot]]
+			});
+			baseResponse({ message: "List Location", data: { datas,  count } })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	static async delete(req, res, next) {
 		let {id} = req.body; 
 		try {

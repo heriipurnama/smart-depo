@@ -113,6 +113,34 @@ class DamageTypeController {
 		}
 	}
 
+	static async listMobile(req, res, next) {
+		let {start, rows, search, orderColumn, orderType} = req.query;
+		let oc = (orderColumn == "")?"dycode":orderColumn;
+		let ot = (orderType == "")?"DESC":orderType;
+		try {
+			let { count, rows: datas }  = await damage_type.findAndCountAll({
+				offset: start,
+				limit: rows
+				// attributes: {
+				// 	exclude: ['createdAt', 'updatedAt']
+				// }
+				,
+				where: {
+					[Op.or]: [
+						{ dycode: { [Op.like]: `%${search}%`} },
+						{ dydesc: { [Op.like]: `%${search}%`} }
+					]
+				},
+				order: [[oc, ot]]
+			});
+			baseResponse({ message: "List Damage Types", data: { datas, count } })(res, 200);
+			Logger(req);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	static async delete(req, res, next) {
 		let {dyCode} = req.body; 
 		try {

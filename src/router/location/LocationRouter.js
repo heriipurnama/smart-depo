@@ -11,6 +11,7 @@ const schemaValidation = require("../../utils/middleware/SchemaValidator");
 routers.route("/create").post(Authentication, LocationController.createNew);
 routers.route("/update").post(Authentication, LocationController.update);
 routers.route("/list").get(Authentication, LocationController.list);
+routers.route("/listMobile").get(Authentication, LocationController.listMobile);
 routers.route("/listone").get(Authentication, LocationController.listOne);
 routers.route("/delete").delete(Authentication, LocationController.delete);
 
