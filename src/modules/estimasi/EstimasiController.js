@@ -778,11 +778,8 @@ class EstimasiController {
 					plain: true,
 				});
 
-			let datas = repairDetail[0];
-
 			baseResponse({
 				message: "succes created estimasi next",
-				data: {datas},
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
@@ -819,10 +816,9 @@ class EstimasiController {
 					plain: true,
 				});
 
-			let datas = payloadEstimRepair[0];
 
 			baseResponse({
-				message: "succes update estimasi final", data: {datas},
+				message: "succes update estimasi final",
 			})(res, 200);
 			Logger(req);
 
