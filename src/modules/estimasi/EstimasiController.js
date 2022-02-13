@@ -763,8 +763,7 @@ class EstimasiController {
 				});
 
 			let rdnoRest = await container_repair.sequelize.query(
-				`SELECT (rdno)+1 as rdno FROM container_repair_detail
-				 WHERE svid LIKE '${svid}' `,
+				`SELECT (rdno)+1 as rdno FROM container_repair_detail WHERE svid LIKE '${svid}' `,
 				{
 					type: container_repair.SELECT,
 					plain: true
@@ -773,16 +772,14 @@ class EstimasiController {
 			let RDNOS = rdnoRest['rdno']
 			if ( RDNOS != null){
 				let repairDetail = await container_repair.sequelize.query(
-					`UPDATE container_repair_detail SET rdno = '${RDNOS}'
-				 WHERE svid LIKE '${svid}' `,
+					`UPDATE container_repair_detail SET rdno = '${RDNOS}'  WHERE svid LIKE '${svid}' `,
 					{
-						type: container_repair.UPDATE
+						type: container_repair.INSERT
 					});
 			}
 
 			let rpverRest = await container_repair.sequelize.query(
-				`SELECT (rpver)+1 as rpver FROM container_repair
-				 WHERE svid LIKE '${svid}' `,
+				`SELECT (rpver)+1 as rpver FROM container_repair WHERE svid LIKE '${svid}' `,
 				{
 					type: container_repair.SELECT,
 					plain: true
@@ -791,10 +788,9 @@ class EstimasiController {
 			let RPVERS = rpverRest['rpver']
 			if (RPVERS != null){
 				let repair = await container_repair.sequelize.query(
-					`UPDATE  container_repair SET rpver = '${RPVERS}'
-				 WHERE svid LIKE '${svid}' `,
+					`UPDATE  container_repair SET rpver = '${RPVERS}' WHERE svid LIKE '${svid}' `,
 					{
-						type: container_repair.UPDATE
+						type: container_repair.INSERT
 					});
 			}
 
