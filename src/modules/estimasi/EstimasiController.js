@@ -769,9 +769,9 @@ class EstimasiController {
 					plain: true
 				});
 
-			let RDNOS = rdnoRest['rdno']
+			var RDNOS = rdnoRest['rdno']
 			if ( RDNOS != null){
-				let repairDetail = await container_repair.sequelize.query(
+				var repairDetail = await container_repair.sequelize.query(
 					`UPDATE container_repair_detail SET rdno = '${RDNOS}'  WHERE svid LIKE '${svid}' `,
 					{
 						type: container_repair.INSERT
@@ -785,9 +785,9 @@ class EstimasiController {
 					plain: true
 				});
 
-			let RPVERS = rpverRest['rpver']
+			var RPVERS = rpverRest['rpver']
 			if (RPVERS != null){
-				let repair = await container_repair.sequelize.query(
+				var repair = await container_repair.sequelize.query(
 					`UPDATE  container_repair SET rpver = '${RPVERS}' WHERE svid LIKE '${svid}' `,
 					{
 						type: container_repair.INSERT
@@ -798,6 +798,7 @@ class EstimasiController {
 
 			baseResponse({
 				message: "succes created estimasi next",
+				data : repair
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
@@ -835,7 +836,7 @@ class EstimasiController {
 
 
 			baseResponse({
-				message: "succes update estimasi final",
+				message: "succes update estimasi final"
 			})(res, 200);
 			Logger(req);
 
