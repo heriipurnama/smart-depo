@@ -6,11 +6,11 @@ const {
 	container_process,
 	container_repair_detail,
 	container_repair,
-	repairDetailFile, con_repair_detail_temp,
+	repairDetailFile, con_repair_detail_temp, container,
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
-const {container} = require("../index");
+// const {container} = require("../index");
 const Op = Sequelize.Op;
 
 class EstimasiController {
@@ -758,7 +758,7 @@ class EstimasiController {
 				`INSERT INTO con_repair_detail_temp
 				 SELECT *  FROM container_repair_detail WHERE svid LIKE '${svid}' `,
 				{
-					type: container_repair.SELECT,
+					type: container_repair.INSERT,
 					plain: true,
 				});
 
@@ -766,16 +766,14 @@ class EstimasiController {
 				`UPDATE container_repair_detail SET rdno = rdno +1
 				 WHERE svid LIKE '${svid}' `,
 				{
-					type: container_repair.SELECT,
-					plain: true,
+					type: container_repair_detail.UPDATE
 				});
 
 			let repair = await container_repair.sequelize.query(
 				`UPDATE  container_repair SET rpver = rpver +1
 				 WHERE svid LIKE '${svid}' `,
 				{
-					type: container_repair.SELECT,
-					plain: true,
+					type: container_repair.UPDATE
 				});
 
 			baseResponse({
@@ -808,12 +806,11 @@ class EstimasiController {
 				{ where: { svid: svid } }
 			);
 
-			let payloadContainer = await container_repair.sequelize.query(
+			let payloadContainer = await container.sequelize.query(
 				`UPDATE  tblcontainer SET crlastact = 'WW'
 				 WHERE crno ='${crno}' `,
 				{
-					type: container_repair.SELECT,
-					plain: true,
+					type: container.UPDATE
 				});
 
 
