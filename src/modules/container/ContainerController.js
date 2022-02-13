@@ -4,7 +4,7 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
 const baseResponse = require("../../utils/helper/Response");
-const { container,container_code } = require("../../db/models");
+const { container,container_code, container_process} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class ContainerController {
@@ -106,6 +106,117 @@ class ContainerController {
 				order: [[{ model: mdl }, oc, ot]]
 			});
 			baseResponse({ message: "list containers", data: { datas,  count } })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async containerSearch(req, res, next){
+		let { crno, limit, offset } = req.query;
+		let limits = limit == undefined ? "" : ` limit ${limit}`;
+		let offsets = offset == undefined ? "" : ` offset ${offset}`;
+
+		try {
+			let repairload  = await container_process.sequelize.query(
+				`select c.crno,
+						m.mtdesc,
+						c.crlastcond,
+						c.crmandat,
+						c.crlastact,
+						c.crweightk,
+						dp.dpname,
+						sdp.sdname,
+						ccp.sdcode,
+						ccp.dpcode,
+						ct.ctdesc,
+						cc.cclength,
+						cc.ccheight,
+						ccp.cpiorderno,
+						ccp.cpoorderno,
+						cr.rptglappvpr,
+						ccp.cpopr,
+						ccp.cpcust,
+						ccp.cpieir,
+						(case when ccp.cpife = '1' then 'FULL' when ccp.cpife = '0' or ccp.cpife is null then 'EMPTY'
+							 else '' end)                                                as cpife,
+						(case when ccp.cpofe = '1' then 'FULL'  when (ccp.cpofe = '0' or ccp.cpofe is null) and (ccp.cpotgl is not null) then 'EMPTY'
+						else '' end)  as cpofe,
+						ccp.cpiterm,
+						ccp.cpirefin,
+						ccp.cpitgl,
+						(case when ccp.cpitgl is not null then ccp.cpijam else '' end)   as cpijam,
+						ccp.cpotgl,
+						(case when ccp.cpotgl is not null then ccp.cpojam else '' end)   as cpojam,
+						ccp.cpidish,
+						ccp.cpireceptno,
+						ccp.cporeceptno,
+						ccp.cpoload,
+						ccp.cpoloaddat,
+						ccp.cpoloadjam,
+						ccp.cpiseal,
+						ccp.cpicargo,
+						ccp.cpidisdat,
+						ccp.cpinopol,
+						ccp.cpidriver,
+						cpitruck,
+						cpotruck,
+						ccp.cpideliver,
+						ccp.cpiremark,
+						ccp.cporemark,
+						ccp.cporeceiv,
+						ccp.cpodriver,
+						ccp.cponopol,
+						ccp.cpopr1,
+						ccp.cpcust1,
+						ccp.cporefout,
+						ccp.cpocargo,
+						ccp.cposeal,
+						ccp.cpoterm,
+						ccp.cpodesti,
+						ccp.cpoeir,
+						cr.rptglest,
+						ccwo.wodate as rpworkdat,
+						cr.rpmridat,
+						cr.rpmrodat,
+						cr.rpdrepair,
+						cr.rptglwroke,
+						cr.rpinspoke,
+						ccp.cpivoy as voyin,
+						ccp.cpovoy as voyout,
+						ccp.cpives  as vesin,
+						ccp.cpoves as vesout,
+						ccp.cpid,
+						cs.svsurdat,
+						cs.svcond,
+						si.syname,
+						rp.retfrom,
+						ccp.svsurdat as svsurdat_out,
+						so.syname as syname_out,
+						(case when cs.svsurdat is not null then 'IN' else '' end)        as svtype,
+						(case when ccp.svsurdat is not null then 'OUT' else '' end)      as svtype_out,
+						(case when ccp.cpotgl is not null then c.crlastcond else '' end) as svcond_out
+				 from tblcontainer c
+						  left join tblcontainer_code cc on c.cccode = cc.cccode
+						  left join container_process ccp on c.crcpid = ccp.cpid
+						  left join container_survey cs on ccp.cpid = cs.cpid
+						  left join container_repair cr on cs.svid = cr.svid
+						  left join container_work_order ccwo on cr.wono = ccwo.wono
+						  left join tblcontainer_type ct on cc.ctcode = ct.ctcode
+						  left join tblmaterial m on c.mtcode = m.mtcode
+						  left join tbldepo dp on ccp.cpdepo = dp.dpcode
+						  left join tblsubdepo sdp on ccp.spdepo = sdp.sdcode
+						  left join tblsurveyor si on cs.syid = si.syid
+						  left join tblsurveyor so on ccp.syid = so.syid
+						  left join order_container_repo rp on rp.reorderno = ccp.cpiorderno
+				 where c.crno !='${crno}' `,
+				{
+					type: container_process.SELECT,
+				}
+			);
+
+			let resultData    = repairload[0];
+			baseResponse({ message: "List Estimasi", data: resultData })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
