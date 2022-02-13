@@ -778,15 +778,9 @@ class EstimasiController {
 					plain: true,
 				});
 
-			let succesMessage = {
-				"succes created nex estimasi": MyResult,
-				"succes update repair detail": repairDetail,
-				"succes update repair": repair,
-			};
-
 			baseResponse({
 				message: "succes created estimasi next",
-				data: succesMessage,
+				data: MyResult,
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
@@ -823,14 +817,8 @@ class EstimasiController {
 					plain: true,
 				});
 
-			let succesMessage = {
-				"succes update container repair": payloadEstimRepair,
-				"succes update container": payloadContainer,
-			};
-
 			baseResponse({
-				message: "succes update estimasi final",
-				data: succesMessage,
+				message: "succes update estimasi final", data: payloadEstimRepair,
 			})(res, 200);
 			Logger(req);
 

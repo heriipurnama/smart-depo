@@ -108,12 +108,14 @@ class LocationController {
 
 	static async listMobile(req, res, next) {
 		let {start, rows, search, orderColumn, orderType} = req.query;
+		let starts = limit == undefined ? "" : ` start ${start}`;
+		let rowss = offset == undefined ? "" : ` rows ${rows}`;
 		let oc = (orderColumn == "")?"lccode":orderColumn;
 		let ot = (orderType == "")?"DESC":orderType;
 		try {
 			let { count, rows: datas } = await location.findAndCountAll({
-				offset: start,
-				limit: rows,
+				offset: starts,
+				limit: rowss,
 				where: {
 					[Op.or]: [
 						{ lccode: { [Op.like]: `%${search}%`} },
