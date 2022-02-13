@@ -11,6 +11,6 @@ const token = (user) =>
 		},
 		// eslint-disable-next-line no-undef
 		process.env.SECRET_KEY,
-		{ expiresIn: "1h" }
+		{ expiresIn: "2h" }
 	);
 module.exports = token;
