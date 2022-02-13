@@ -754,12 +754,11 @@ class EstimasiController {
 
 		try {
 
-			let MyResult = await container_repair.sequelize.query(
+			var MyResult = await container_repair.sequelize.query(
 				`INSERT INTO con_repair_detail_temp
 				 SELECT *  FROM container_repair_detail WHERE svid LIKE '${svid}' `,
 				{
-					type: container_repair.INSERT,
-					plain: true,
+					type: container_repair.INSERT
 				});
 
 			let rdnoRest = await container_repair.sequelize.query(
