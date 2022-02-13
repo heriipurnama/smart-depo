@@ -847,6 +847,27 @@ class EstimasiController {
 
 
 	}
+
+	static async listcalculated(req, res, next){
+		let { rdloc,  rdcom,  rddmtype,  rdrepmtd, rdsize,  rdcalmtd, rdqty,  muname, prcode } = req.query;
+		try {
+			let repairload  = await container_repair.sequelize.query(
+				`SELECT 1 xlimit,
+						1 xstart, 1 xhours, 1 xmtrl_cost,1 xinc, 1 xinc_hours,
+						0 xinc_mtrl_cost, 0 xtariff_hours,
+						0 xtariff_labor_cost, 0 xtariff_mtrl_cost
+				 FROM tbl_mnr_tariff limit 1 `,
+				{
+					type: container_repair.SELECT,
+				});
+
+			let resultData    = repairload[0];
+			baseResponse({ message: "List calculated ", data:  resultData})(res, 200);
+		}catch (error){
+			res.status(403);
+			next(error);
+		}
+	}
 }
 
 module.exports = EstimasiController;
