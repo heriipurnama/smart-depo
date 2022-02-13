@@ -762,19 +762,43 @@ class EstimasiController {
 					plain: true,
 				});
 
-			let repairDetail = await container_repair.sequelize.query(
-				`UPDATE container_repair_detail SET rdno = rdno +1
+			let rdnoRest = await container_repair.sequelize.query(
+				`SELECT (rdno)+1 as rdno FROM container_repair_detail
 				 WHERE svid LIKE '${svid}' `,
 				{
-					type: container_repair.UPDATE
+					type: container_repair.SELECT,
+					plain: true
 				});
 
-			let repair = await container_repair.sequelize.query(
-				`UPDATE  container_repair SET rpver = rpver +1
+			let RDNOS = rdnoRest['rdno']
+			if ( RDNOS != null){
+				let repairDetail = await container_repair.sequelize.query(
+					`UPDATE container_repair_detail SET rdno = '${RDNOS}'
+				 WHERE svid LIKE '${svid}' `,
+					{
+						type: container_repair.UPDATE
+					});
+			}
+
+			let rpverRest = await container_repair.sequelize.query(
+				`SELECT (rpver)+1 as rpver FROM container_repair
 				 WHERE svid LIKE '${svid}' `,
 				{
-					type: container_repair.UPDATE
+					type: container_repair.SELECT,
+					plain: true
 				});
+
+			let RPVERS = rpverRest['rpver']
+			if (RPVERS != null){
+				let repair = await container_repair.sequelize.query(
+					`UPDATE  container_repair SET rpver = '${RPVERS}'
+				 WHERE svid LIKE '${svid}' `,
+					{
+						type: container_repair.UPDATE
+					});
+			}
+
+
 
 			baseResponse({
 				message: "succes created estimasi next",
