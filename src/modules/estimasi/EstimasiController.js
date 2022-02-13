@@ -762,11 +762,11 @@ class EstimasiController {
 					plain: true,
 				});
 
-			let repairDetail = await container_repair_detail.sequelize.query(
+			let repairDetail = await container_repair.sequelize.query(
 				`UPDATE container_repair_detail SET rdno = rdno +1
 				 WHERE svid LIKE '${svid}' `,
 				{
-					type: container_repair_detail.UPDATE
+					type: container_repair.UPDATE
 				});
 
 			let repair = await container_repair.sequelize.query(
