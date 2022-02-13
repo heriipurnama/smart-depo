@@ -209,7 +209,7 @@ class ContainerController {
 						  left join tblsurveyor si on cs.syid = si.syid
 						  left join tblsurveyor so on ccp.syid = so.syid
 						  left join order_container_repo rp on rp.reorderno = ccp.cpiorderno
-				 where c.crno !='${crno}' `,
+				 where c.crno ='${crno}' `,
 				{
 					type: container_process.SELECT,
 				}
