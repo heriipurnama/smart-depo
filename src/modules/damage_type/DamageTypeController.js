@@ -115,12 +115,14 @@ class DamageTypeController {
 
 	static async listMobile(req, res, next) {
 		let {start, rows, search, orderColumn, orderType} = req.query;
+		let starts = limit == undefined ? "" : ` start ${start}`;
+		let rowss = offset == undefined ? "" : ` rows ${rows}`;
 		let oc = (orderColumn == "")?"dycode":orderColumn;
 		let ot = (orderType == "")?"DESC":orderType;
 		try {
 			let { count, rows: datas }  = await damage_type.findAndCountAll({
-				offset: start,
-				limit: rows
+				offset: starts,
+				limit: rowss
 				// attributes: {
 				// 	exclude: ['createdAt', 'updatedAt']
 				// }
