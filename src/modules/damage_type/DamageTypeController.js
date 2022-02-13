@@ -115,8 +115,8 @@ class DamageTypeController {
 
 	static async listMobile(req, res, next) {
 		let {start, rows, search, orderColumn, orderType} = req.query;
-		let starts = start == undefined ? "" : ` start ${start}`;
-		let rowss = rows == undefined ? "" : ` rows ${rows}`;
+		let starts = start == undefined ? "" : ` offset ${start}`;
+		let rowss = rows == undefined ? "" : ` limit ${rows}`;
 		let oc = (orderColumn == "")?"dycode":orderColumn;
 		let ot = (orderType == "")?"DESC":orderType;
 		try {
