@@ -10,5 +10,6 @@ routers.route("/getAll").get(Authentication, GateOutController.list);
 routers.route("/getAllSurveyor").get(Authentication, GateOutController.listAllSurveyor);
 routers.route("/getByCrno").get(Authentication, GateOutController.getByCrno);
 routers.route("/updateGateOut").put(Authentication, GateOutController.gateOutUpdate);
+routers.route("/repoOutUpdateCP").put(Authentication, GateOutController.repoOutUpdateCP);
 
 module.exports = routers;
