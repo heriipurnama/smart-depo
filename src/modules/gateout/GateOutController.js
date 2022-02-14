@@ -267,6 +267,62 @@ class GateOutController {
 			next(error);
 		}
 	}
+
+	//untuk save di repoout di web
+	static async repoOutUpdateCP(req, res, next) {
+		let {
+			cpopr1,
+			cpcust1,
+			cpoorderno,
+			cporefout,
+			cpopratgl,
+			cpofe,
+			cpoterm,
+			cpocargo,
+			cposeal,
+			cpovoy,
+			cpoves,
+			cporeceiv,
+			cporemark,
+			cpid,
+		} = req.body;
+
+		try {
+			let payload = await container_process.update(
+				{
+					cpopr1: cpopr1,
+					cpcust1: cpcust1,
+					cpoorderno: cpoorderno,
+					cporefout: cporefout,
+					cpopratgl: cpopratgl,
+					cpofe: cpofe,
+					cpoterm: cpoterm,
+					cpocargo: cpocargo,
+					cposeal: cposeal,
+					cpovoy: cpovoy,
+					cpoves: cpoves,
+					cporeceiv: cporeceiv,
+					cporemark: cporemark,
+				},
+				{ where: {cpid: cpid
+					}}
+			);
+
+			const payloades = await container.update(
+				{ crlastact: "BI" },
+				{ where: { crno: crno } }
+			);
+
+			baseResponse({
+				message: "container process updated!",
+				data: `container_process succes update for payload : ${payload}`,
+			})(res, 200);
+			Logger(req);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
 }
 
 module.exports = GateOutController;
