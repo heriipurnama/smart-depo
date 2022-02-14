@@ -310,7 +310,7 @@ class GateOutController {
 			);
 
 			const payloades = await container.update(
-				{ crlastact: "BI" },
+				{ crlastact: "BO" },
 				{ where: { crno: crno } }
 			);
 
