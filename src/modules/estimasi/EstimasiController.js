@@ -820,7 +820,7 @@ class EstimasiController {
 					rptotalrcost: totalcost,
 					rptotalamount: total,
 					rpautno: autno,
-					rpstsappvpr: "1",
+					rpstsappvpr: 1,
 					rptglappvpr: Date.now(),
 				},
 				{ where: { svid: svid } }
