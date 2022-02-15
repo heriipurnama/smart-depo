@@ -811,17 +811,16 @@ class EstimasiController {
 			crno, svid, totalrmhr, totallab, totalcost, total, autno,
 		} = req.body;
 
-		let seter = 1;
 		try {
 
 			let payloadEstimRepair = await container_repair.update({
-					rpbillon: seter,
+					rpbillon: 1,
 					rptotalrmhr: totalrmhr,
 					rptotalrlab: totallab,
 					rptotalrcost: totalcost,
 					rptotalamount: total,
 					rpautno: autno,
-					rpstsappvpr: seter,
+					rpstsappvpr: "1",
 					rptglappvpr: Date.now(),
 				},
 				{ where: { svid: svid } }
