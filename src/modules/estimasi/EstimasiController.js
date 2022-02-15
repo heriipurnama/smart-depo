@@ -826,13 +826,13 @@ class EstimasiController {
 				{ where: { svid: svid } }
 			);
 
-			let payloadContainer = await container.sequelize.query(
-				`UPDATE  tblcontainer SET crlastact = 'WW'
-				 WHERE crno ='${crno}' `,
-				{
-					type: container.UPDATE
-				});
+            let crlastact = 'WW';
 
+            let payloadContainer = await container.update({
+                crlastact: crlastact,
+            },
+                { where: { crno: crno } }
+                );
 
 			baseResponse({
 				message: "succes update estimasi final"
