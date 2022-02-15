@@ -62,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
 			rpceir: DataTypes.STRING,
 			rpappvtype: DataTypes.INTEGER,
 			rpstsappvpr: DataTypes.INTEGER,
-			rptglappvpr: DataTypes.STRING,
+			rptglappvpr: DataTypes.DATE,
 			rpcrton: DataTypes.STRING,
 			rpcrtby: DataTypes.STRING,
 			rpmdfon: DataTypes.STRING,
