@@ -702,7 +702,7 @@ class ContainerProcessController {
 						  left join tblvoyage n on n.voyid = a.cpivoy
 						  left join order_pra op on  op.cpiorderno = a.cpiorderno
 						  left join order_pra_recept opr on op.praid = opr.praid
-				 where  a.cpoorderno  like '%${cpoorderno}%' and opr.cpireceptno not like '-'
+				 where  a.cpoorderno  like '%${cpoorderno}%' 
 				   and  b.crno = '${crno}'`
 			);
 			const restDatas = datas[0];
