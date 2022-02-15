@@ -65,7 +65,7 @@ const disk = multer.diskStorage({
 
                     let resultRenameFileAttachment = `${fieldName}-${unixOrderNumber}-${uniqueSuffix}.${fileExtension}`;
                     // eslint-disable-next-line no-undef
-                    let restUrl = `${process.env.BASE_URL}/public/${resultRenameFileAttachment}`;
+                    let restUrl = `${process.env.BASE_URL}/public/uploads/docs/${resultRenameFileAttachment}`;
 
                     const payload =  await repairDetailFile.update({
                         svid: svid,
