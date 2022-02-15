@@ -813,6 +813,7 @@ class EstimasiController {
 
 		let seter = 1;
 		try {
+
 			let payloadEstimRepair = await container_repair.update({
 					rpbillon: seter,
 					rptotalrmhr: totalrmhr,
@@ -826,16 +827,17 @@ class EstimasiController {
 				{ where: { svid: svid } }
 			);
 
-            let crlastact = 'WW';
-
-            let payloadContainer = await container.update({
-                crlastact: crlastact,
-            },
+            const payload = await container.update(
+                { crlastact: "WW" },
                 { where: { crno: crno } }
-                );
+            );
+
+			let succesMessage = {
+				"succes update container repair": "", "repair": payloadEstimRepair,
+			};
 
 			baseResponse({
-				message: "succes update estimasi final"
+				message: "succes update estimasi final", data : succesMessage
 			})(res, 200);
 			Logger(req);
 
