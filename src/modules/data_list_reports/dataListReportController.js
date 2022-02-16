@@ -49,7 +49,7 @@ class dataListReportController {
 
 		let limits = limit == undefined ? "" : ` limit ${limit}`;
 		let offsets = offset == undefined ? "" : ` offset ${offset}`;
-		let searchs = search !== undefined ? 'and CON.CRNO LIKE `%${search}%`' : '';
+		let searchs = search !== undefined ? `and CON.CRNO LIKE '%${search}%'` : '';
 
 		try {
 			let datas = await container_process.sequelize.query(
