@@ -109,7 +109,7 @@ class SurveyController {
 				container_process.cpodesti,container_process.cpijam,container_process.cpichrgbb,container_process.cpipaidbb,container_process.cpife,container_process.cpiterm,container_process.cpidish,container_process.cpidisdat,
 				container_process.cpives,container_process.cpicargo,container_process.cpiseal,container_process.cpivoyid,container_process.cpives,container_process.cpideliver,container_process.cpidpp,
 				container_process.cpidriver,container_process.cpinopol,container_process.cpiremark,container_process.cpinotes,tblvoyage.voyno,tblvoyage.vesid,tblvessel.vesopr,tblprincipal.prcode,tbldebitur.cucode,
-				tblcontainer.crmandat
+				tblcontainer.crmandat, container_survey.svid
 						from tblcontainer
 						left join container_process on tblcontainer.crcpid = container_process.cpid
 						left join container_survey on container_process.cpid = container_survey.cpid
