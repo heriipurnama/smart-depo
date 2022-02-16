@@ -47,9 +47,9 @@ class dataListReportController {
 	static async listSurvey(req, res, next) {
 		let { limit, offset, search } = req.query;
 
-		let limits = limit == undefined ? "" : ` limit ${limit}`;
-		let offsets = offset == undefined ? "" : ` offset ${offset}`;
-		// let searchs = search == undefined ? "" : ` and CON.CRNO LIKE '%${search}%' `;
+		let limits = limit !== undefined ? limit : 10;
+		let offsets = offset !== undefined ? offset : 0;
+		let searchs = search !== undefined ?  ` and CON.CRNO LIKE '%${search}%' ` : "";
 
 		try {
 			let datas = await container_process.sequelize.query(
