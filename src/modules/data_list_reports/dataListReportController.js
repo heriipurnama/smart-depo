@@ -47,8 +47,8 @@ class dataListReportController {
 	static async listSurvey(req, res, next) {
 		let { limit, offset, search } = req.query;
 
-		let limits = limit !== undefined ? limit : 10;
-		let offsets = offset !== undefined ? offset : 0;
+		let limits = limit == undefined ? "" : ` limit ${limit}`;
+		let offsets = offset == undefined ? "" : ` offset ${offset}`;
 		let searchs = search !== undefined ? 'and CON.CRNO LIKE `%${search}%`' : '';
 
 		try {
@@ -75,8 +75,8 @@ class dataListReportController {
                 LEFT JOIN tbldepo DP ON CP.DPCODE=DP.DPCODE
                 LEFT JOIN tblsubdepo SD ON CP.SDCODE = SD.SDCODE 
                 LEFT JOIN container_repair CR ON SVY.SVID = CR.SVID 
-				WHERE CON.CRLASTACT = 'WE' ${searchs} ORDER BY SVY.SVID DESC 
-				LIMIT ${limits} OFFSET ${offsets}`,
+				WHERE CON.CRLASTACT = 'WE' ${searchs} ORDER BY SVY.SVID DESC
+				${limits} ${offsets}`,
 				{
 					type: container_process.SELECT,
 					plain: true
@@ -101,7 +101,7 @@ class dataListReportController {
             
                 LEFT JOIN tbldepo DP ON CP.DPCODE=DP.DPCODE
                 LEFT JOIN tblsubdepo SD ON CP.SDCODE = SD.SDCODE 
-				WHERE CON.CRLASTACT = 'WE' ${searchs} ORDER BY SVY.SVID DESC `,
+				WHERE CON.CRLASTACT = 'WE' ORDER BY SVY.SVID DESC `,
 				{
 					type: container_process.SELECT,
 					plain: true
