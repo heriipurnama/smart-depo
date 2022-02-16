@@ -108,7 +108,8 @@ class SurveyController {
 				tblcontainer.crlastact,container_process.cpishold,container_process.cpiprano,container_process.cpiorderno,container_process.cpieir,container_process.cpirefin,container_survey.svcond,
 				container_process.cpodesti,container_process.cpijam,container_process.cpichrgbb,container_process.cpipaidbb,container_process.cpife,container_process.cpiterm,container_process.cpidish,container_process.cpidisdat,
 				container_process.cpives,container_process.cpicargo,container_process.cpiseal,container_process.cpivoyid,container_process.cpives,container_process.cpideliver,container_process.cpidpp,
-				container_process.cpidriver,container_process.cpinopol,container_process.cpiremark,container_process.cpinotes,tblvoyage.voyno,tblvoyage.vesid,tblvessel.vesopr,tblprincipal.prcode,tbldebitur.cucode
+				container_process.cpidriver,container_process.cpinopol,container_process.cpiremark,container_process.cpinotes,tblvoyage.voyno,tblvoyage.vesid,tblvessel.vesopr,tblprincipal.prcode,tbldebitur.cucode,
+				tblcontainer.crmandat
 						from tblcontainer
 						left join container_process on tblcontainer.crcpid = container_process.cpid
 						left join container_survey on container_process.cpid = container_survey.cpid
@@ -152,8 +153,6 @@ class SurveyController {
 		let	$CRMANDAT = CRCMANDAT;
 		var $TYPE_SURVEY="", $CPID="";
 		var now = (new Date()).toISOString().split('T')[0];
-		var $updateTBLcontainer;
-		let $TableName1 = 'tblcontainer';
 		
 		let checkContainer = await container_survey.sequelize.query(`SELECT CRNO,CRLASTACT from tblcontainer where CRNO='${CRNO}'`,
 							{
