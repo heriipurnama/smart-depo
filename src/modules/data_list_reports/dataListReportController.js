@@ -49,6 +49,7 @@ class dataListReportController {
 
 		let limits = limit == undefined ? "" : ` limit ${limit}`;
 		let offsets = offset == undefined ? "" : ` offset ${offset}`;
+		let searchs = search == undefined ? "" : ` and CON.CRNO LIKE '%${search}%' `;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -74,7 +75,7 @@ class dataListReportController {
                 LEFT JOIN tbldepo DP ON CP.DPCODE=DP.DPCODE
                 LEFT JOIN tblsubdepo SD ON CP.SDCODE = SD.SDCODE 
                 LEFT JOIN container_repair CR ON SVY.SVID = CR.SVID 
-				WHERE CON.CRLASTACT = 'WE' and CON.CRNO LIKE '%${search}%' ORDER BY SVY.SVID DESC
+				WHERE CON.CRLASTACT = 'WE' ${searchs} ORDER BY SVY.SVID DESC
 				${limits} ${offsets}`,
 				{
 					type: container_process.SELECT,
