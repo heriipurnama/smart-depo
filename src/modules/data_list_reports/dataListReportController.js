@@ -49,7 +49,7 @@ class dataListReportController {
 
 		let limits = limit !== undefined ? limit : 10;
 		let offsets = offset !== undefined ? offset : 0;
-		// let searchs = search !== undefined ?  ` and CON.CRNO LIKE '%${search}%' ` : "";
+		let searchs = search !== undefined ?  ` and CON.CRNO LIKE '%${search}%' ` : "";
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -79,7 +79,6 @@ class dataListReportController {
 				LIMIT ${limits} OFFSET ${offsets}`,
 				{
 					type: container_process.SELECT,
-					plain: true
 				}
 			);
 			let TotalDatas = await container_process.sequelize.query(
@@ -104,7 +103,6 @@ class dataListReportController {
 				WHERE CON.CRLASTACT = 'WE' `,
 				{
 					type: container_process.SELECT,
-					plain: true
 				}
 			);
 			let allData = datas[0];
