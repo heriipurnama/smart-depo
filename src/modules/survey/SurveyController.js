@@ -192,11 +192,26 @@ class SurveyController {
 				res.status(403);
 				next(error);
 			}
+		}else{
+			try{
+
+				let updateContainerSurvey = await container_survey.sequelize.query(`UPDATE container_survey SET CPID='${$CPID}', SYID='${SYID}', SVTYPE='${$TYPE_SURVEY}', SVSURDAT='${SVSURDAT}', SVCOND='${SVCOND}', 
+											SVCRTON='${SVCRTON}', SVCRTBY='${SVCRTBY}', TYPE=1, SVNOTES='${SVNOTES}', RMCODE='${RMCODE}' WHERE SVID='${SVID}' `,
+					{
+						type: container_survey.INSERT
+					});
+
+			} catch(error){
+				res.status(403);
+				next(error);
+			}
 		}
 			
 
 		try{
-			var $updateTBLContainer = await container_survey.sequelize.query( `UPDATE tblcontainer SET CRLASTCOND='${CRLASTCOND}',MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${$CRACEP},CRCSC= ${$CRCSC},CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
+			var $updateTBLContainer = await container_survey.sequelize.query( `UPDATE tblcontainer SET CRLASTCOND='${CRLASTCOND}',MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${$CRACEP},CRCSC= ${$CRCSC},
+                        				CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',
+                        				CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
 			{
 				type: container_survey.INSERT
 			});
