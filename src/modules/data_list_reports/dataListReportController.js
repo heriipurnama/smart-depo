@@ -75,7 +75,7 @@ class dataListReportController {
                 LEFT JOIN tbldepo DP ON CP.DPCODE=DP.DPCODE
                 LEFT JOIN tblsubdepo SD ON CP.SDCODE = SD.SDCODE 
                 LEFT JOIN container_repair CR ON SVY.SVID = CR.SVID 
-				WHERE CON.CRLASTACT = 'WE' ${searchs} ORDER BY SVY.SVID DESC 
+				WHERE CON.CRLASTACT = 'WE'  ORDER BY SVY.SVID DESC 
 				LIMIT ${limits} OFFSET ${offsets}`,
 				{
 					type: container_process.SELECT,
@@ -100,7 +100,7 @@ class dataListReportController {
             
                 LEFT JOIN tbldepo DP ON CP.DPCODE=DP.DPCODE
                 LEFT JOIN tblsubdepo SD ON CP.SDCODE = SD.SDCODE 
-				WHERE CON.CRLASTACT = 'WE' ${searchs} ORDER BY SVY.SVID DESC `,
+				WHERE CON.CRLASTACT = 'WE' ORDER BY SVY.SVID DESC `,
 				{
 					type: container_process.SELECT,
 				}
