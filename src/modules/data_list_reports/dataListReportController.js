@@ -138,7 +138,7 @@ class dataListReportController {
                   rp.SVID = surv.SVID
                   LEFT JOIN tblprincipal pr ON
                   pr.PRCODE = cp.CPOPR Where surv.TYPE='1' ${searchs}
-				  ORDER BY con.CRNO desc LIMIT ${limits} OFFSET ${offsets}`,
+				  ORDER BY rp.SVID desc LIMIT ${limits} OFFSET ${offsets}`,
 				{
 					type: container_process.SELECT,
 				}
@@ -175,6 +175,7 @@ class dataListReportController {
 
 		let limits = limit !== undefined ? limit : 10;
 		let offsets = offset !== undefined ? offset : 0;
+		let searchs = search !== undefined ?  ` and con.CRNO LIKE '%${search}%' ` : ` and con.CRNO LIKE '%%' `;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -190,8 +191,8 @@ class dataListReportController {
                  rp.SVID = surv.SVID
                LEFT JOIN tblprincipal pr ON
                  pr.PRCODE = cp.CPOPR
-               Where surv.TYPE='1' AND con.CRLASTACT in('WA','WW','IW','RP','CR','OW','CP','WR') and rp.RPFINALEST='1' and rp.RPTGLAPPVPR is null
-               ORDER BY surv.SVSURDAT desc LIMIT ${limits} OFFSET ${offsets}`,
+               Where surv.TYPE='1' AND con.CRLASTACT in('WA','WW','IW','RP','CR','OW','CP','WR') and rp.RPFINALEST='1' and rp.RPTGLAPPVPR is null 
+                ${searchs} ORDER BY rp.SVID desc LIMIT ${limits} OFFSET ${offsets}`,
 				{
 					type: container_process.SELECT,
 				}
@@ -207,7 +208,7 @@ class dataListReportController {
 				LEFT JOIN tblprincipal pr ON
 				  pr.PRCODE = cp.CPOPR
 				Where surv.TYPE='1' AND con.CRLASTACT in('WA','WW','IW','RP','CR','OW','CP','WR') and rp.RPFINALEST='1' and rp.RPTGLAPPVPR is null
-				ORDER BY surv.SVSURDAT desc`,
+				ORDER BY rp.SVID desc`,
 				{
 					type: container_process.SELECT,
 				}
