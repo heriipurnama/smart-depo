@@ -171,7 +171,7 @@ class dataListReportController {
 		}
 	}
 	static async listApproval(req, res, next) {
-		let { limit, offset } = req.query;
+		let { limit, offset, search } = req.query;
 
 		let limits = limit !== undefined ? limit : 10;
 		let offsets = offset !== undefined ? offset : 0;
