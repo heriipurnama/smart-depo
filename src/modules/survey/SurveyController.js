@@ -210,7 +210,7 @@ class SurveyController {
 		try{
 			var $updateTBLContainer = await container_survey.sequelize.query( `UPDATE tblcontainer SET CRLASTCOND='${CRLASTCOND}',MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${$CRACEP},CRCSC= ${$CRCSC},
                         				CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',
-                        				CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${CRCMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}', CRLASTACT='WE' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
+                        				CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${CRCMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}', CRLASTACT='BI' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
 			{
 				type: container_survey.INSERT
 			});
