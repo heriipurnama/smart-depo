@@ -869,6 +869,55 @@ class EstimasiController {
 			next(error);
 		}
 	}
+
+	static async updateRepairProgress(req, res, next){
+		let {
+			svid,
+			rpid,
+			rdcomp,
+			rdcompdate,
+		} = req.body;
+
+		try {
+			let dataUsername = await container_repair_detail.findOne({
+				where: {
+					[Op.and]: [
+						{svid: svid},
+						{rpid : rpid}
+					],
+				},
+			});
+
+			if (!dataUsername) {
+				throw new Error(`container_repair_detail ${svid} doesn't exists!`);
+			}
+
+			let payloadEstimasi = await container_repair_detail.update({
+					svid: svid,
+					rpid: rpid,
+					rdcomp: rdcomp,
+					rdcompdate: rdcompdate,
+				},
+				{ where: {
+						[Op.and]: [{ svid: svid }, { rpid : rpid }],
+					},
+				});
+
+
+			let succesMessage = {
+				"succes update estimasi detail ": payloadEstimasi,
+			};
+
+			baseResponse({
+				message: "succes created estimasi",
+				data: succesMessage,
+			})(res, 200);
+			Logger(req);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
 }
 
 module.exports = EstimasiController;

@@ -44,6 +44,10 @@ routers.route("/updateDataHeader").put(
 	Authentication,
 	EstimasiController.updateDataHeader);
 
+routers.route("/updateRepairProgress").put(
+	Authentication,
+	EstimasiController.updateRepairProgress);
+
 routers.route("/updateDetail").put(
 	Authentication,
 	multer({
