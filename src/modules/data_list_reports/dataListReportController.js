@@ -122,7 +122,7 @@ class dataListReportController {
 
 		let limits = limit !== undefined ? limit : 10;
 		let offsets = offset !== undefined ? offset : 0;
-		let searchs = search !== undefined ?  ` and rp.SVID LIKE '%${search}%' ` : ` and rp.SVID LIKE '%%' `;
+		let searchs = search !== undefined ?  ` and con.CRNO LIKE '%${search}%' ` : ` and con.CRNO LIKE '%%' `;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -138,7 +138,7 @@ class dataListReportController {
                   rp.SVID = surv.SVID
                   LEFT JOIN tblprincipal pr ON
                   pr.PRCODE = cp.CPOPR Where surv.TYPE='1' ${searchs}
-				  ORDER BY rp.SVID desc LIMIT ${limits} OFFSET ${offsets}`,
+				  ORDER BY con.CRNO desc LIMIT ${limits} OFFSET ${offsets}`,
 				{
 					type: container_process.SELECT,
 				}
