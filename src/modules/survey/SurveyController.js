@@ -150,7 +150,6 @@ class SurveyController {
 		let $CRCDP = (CRCDP != undefined)? 0 : 1;
 		let	$CRCSC = (CRCSC != undefined)? 0 : 1;
 		let	$CRACEP = (CRACEP != undefined)? 0 : 1;
-		let	$CRMANDAT = CRCMANDAT;
 		var $TYPE_SURVEY="", $CPID="";
 		var now = (new Date()).toISOString().split('T')[0];
 		
@@ -211,7 +210,7 @@ class SurveyController {
 		try{
 			var $updateTBLContainer = await container_survey.sequelize.query( `UPDATE tblcontainer SET CRLASTCOND='${CRLASTCOND}',MTCODE='${MTCODE1}',CRCDP=${$CRCDP},CRACEP=${$CRACEP},CRCSC= ${$CRCSC},
                         				CRWEIGHTK='${CRWEIGHTK}',CRWEIGHTL='${CRWEIGHTL}',CRTARAK='${CRTARAK}',CRTARAL='${CRTARAL}',CRNETK='${CRNETK}',CRNETL='${CRNETL}',CRVOL='${CRVOL}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',
-                        				CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${$CRMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}', CRLASTACT='WE' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
+                        				CRROW='${CRROW}',CRTIER='${CRTIER}',CRMANUF='${CRMANUF}',CRMANDAT='${CRCMANDAT}',CRPOS='${CRPOS}',CRBAY='${CRBAY}',CRROW='${CRROW}',CRTIER='${CRTIER}', CRLASTACT='WE' WHERE CRNO ='${CRNO}' and CRCPID = '${$CPID}'`,
 			{
 				type: container_survey.INSERT
 			});
