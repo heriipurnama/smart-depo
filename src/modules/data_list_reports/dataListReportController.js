@@ -118,10 +118,11 @@ class dataListReportController {
 		}
 	}
 	static async listEstimation(req, res, next) {
-		let { limit, offset } = req.query;
+		let { limit, offset, search } = req.query;
 
 		let limits = limit !== undefined ? limit : 10;
 		let offsets = offset !== undefined ? offset : 0;
+		let searchs = search !== undefined ?  ` and rp.SVID LIKE '%${search}%' ` : ` and rp.SVID LIKE '%%' `;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -136,8 +137,8 @@ class dataListReportController {
                   INNER JOIN container_repair rp ON
                   rp.SVID = surv.SVID
                   LEFT JOIN tblprincipal pr ON
-                  pr.PRCODE = cp.CPOPR Where surv.TYPE='1' 
-				  ORDER BY rp.RPNOEST desc LIMIT ${limits} OFFSET ${offsets}`,
+                  pr.PRCODE = cp.CPOPR Where surv.TYPE='1' ${searchs}
+				  ORDER BY rp.SVID desc LIMIT ${limits} OFFSET ${offsets}`,
 				{
 					type: container_process.SELECT,
 				}
