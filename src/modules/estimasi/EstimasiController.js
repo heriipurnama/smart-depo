@@ -870,12 +870,12 @@ class EstimasiController {
 		}
 	}
 
-	static async updateRepairProgress(req, res, next){
+	static async completeRepairItem(req, res, next){
 		let {
 			svid,
 			rpid,
 			rdcomp,
-			rdcompdate,
+			rdcompdate
 		} = req.body;
 
 		try {
