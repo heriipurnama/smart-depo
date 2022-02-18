@@ -428,7 +428,7 @@ class ContainerProcessController {
 		  a.cpiterm,a.cpidish,a.cpidisdat,a.cpijam,a.cpicargo,a.cpiseal,
 		  a.cpivoy,a.cpideliver,a.cpidpp,a.cpidriver,a.cpinopol,a.cpiremark,a.cpiremark1,
 		  m.vesid,m.vesopr,n.voyno,r.retfrom,
-		  r.readdr,h.cncode,h.poport,
+		  r.readdr,h.cncode,h.poport, sv.rmcode,
 		  (case when a.cpife='${cpife1}' then 'full' when a.cpife='${cpife2}' or a.cpife is null then 'empty' else '' end) cpife, 
 		  (case when r.retype='${retype1}' then 'depot to depot' when r.retype='${retype2}' then 'port to depot' 
 		  	when r.retype='${retype3}' then 'intercity to depot' else '' end )  retype
@@ -445,6 +445,7 @@ class ContainerProcessController {
 		  left join tblport h on h.poid = a.cpidish
 		  left join tblvoyage n on n.voyid = a.cpivoy
 		  left join order_container_repo r on r.reorderno = a.cpiorderno
+		  left join container_survey sv on sv.cpid = b.crcpid
 	 where  b.crlastact in('${crlastact1}','${crlastact2}')   
 	 and  b.crno = '${crno}'`
 			);
@@ -938,7 +939,7 @@ class ContainerProcessController {
 						a.cpiterm,a.cpidish,a.cpidisdat,a.cpijam,a.cpicargo,a.cpiseal,
 						a.cpivoy,a.cpideliver,a.cpidpp,a.cpidriver,a.cpinopol,a.cpiremark,a.cpiremark1,
 						m.vesid,m.vesopr,n.voyno,r.retfrom,
-						r.readdr,h.cncode,h.poport,
+						r.readdr,h.cncode,h.poport, sv.rmcode,
 						(case when a.cpife='1' then 'full' when a.cpife='0' or a.cpife is null then 'empty' else '' end) cpife,
 						(case when r.retype='21' then 'depot to depot' when r.retype='22' then 'port to depot'
 							  when r.retype='23' then 'intercity to depot' else '' end )  retype
@@ -955,6 +956,7 @@ class ContainerProcessController {
 						  left join tblport h on h.poid = a.cpidish
 						  left join tblvoyage n on n.voyid = a.cpivoy
 						  left join order_container_repo r on r.reorderno = a.cpiorderno
+						  left join container_survey sv on sv.cpid = b.crcpid
 				 where  b.crcpid  = '${crcpid}' and b.crlastact = 'BI' and a.securityinid <> 0`
 			);
 			const restDatas = datas[0];
