@@ -5,10 +5,11 @@ const { container_process } = require("../../db/models");
 
 class dataListReportController {
 	static async listGateOut(req, res, next) {
-		let { limit, offset } = req.query;
+		let { limit, offset, search } = req.query;
 
 		let limits = limit !== undefined ? limit : 10;
 		let offsets = offset !== undefined ? offset : 0;
+		let searchs = search !== undefined ?  ` and tblcontainer.CRNO LIKE '%${search}%' ` : ` and tblcontainer.CRNO LIKE '%%' `;
 
 		try {
 			let datas = await container_process.sequelize.query(
@@ -17,7 +18,7 @@ class dataListReportController {
                  FROM tblcontainer
                  INNER JOIN container_process ON tblcontainer.CRCPID = container_process.CPID
                  INNER JOIN container_survey ON container_survey.CPID = container_process.CPID
-                 WHERE tblcontainer.CRLASTACT='OD' LIMIT ${limits} OFFSET ${offsets}`,
+                 WHERE tblcontainer.CRLASTACT='OD' ${searchs} ORDER BY container_process.cpoeir desc LIMIT ${limits} OFFSET ${offsets}`,
 				{
 					type: container_process.SELECT,
 				}
