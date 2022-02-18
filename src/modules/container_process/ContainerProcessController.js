@@ -459,10 +459,11 @@ class ContainerProcessController {
 	}
 
 	static async getAllDataGateIN(req, res, next) {
-		let { limit, offset } = req.query;
+		let { limit, offset, search } = req.query;
 
 		let limits = limit !== undefined ? limit : 10;
 		let offsets = offset !== undefined ? offset : 0;
+		let searchs = search !== undefined ?  ` and b.crno LIKE '%${search}%' ` : ` and b.crno LIKE '%%' `;
 
 		const {
 			cpife1,
@@ -503,7 +504,7 @@ class ContainerProcessController {
 		  left join tblport h on h.poid = a.cpidish
 		  left join tblvoyage n on n.voyid = a.cpivoy
 		  left join order_container_repo r on r.reorderno = a.cpiorderno
-	 where  b.crlastact in('${crlastact1}','${crlastact2}')
+	 where  b.crlastact in('${crlastact1}','${crlastact2}') ${searchs} ORDER BY a.cpieir desc
 	 LIMIT ${limits} OFFSET ${offsets}`
 			);
 
