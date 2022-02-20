@@ -364,6 +364,29 @@ class EstimasiController {
 
 		try {
 
+			let cmdescRest = await container_repair.sequelize.query(
+				`SELECT cmdesc FROM tblcomponent WHERE cmcode LIKE '${rdcom}' `,
+				{
+					type: container_repair.SELECT,
+					plain: true
+				});
+
+			let dydescRest = await container_repair.sequelize.query(
+				`SELECT dydesc FROM tbldamage_type   WHERE dycode LIKE '${rddmtype}' `,
+				{
+					type: container_repair.SELECT,
+					plain: true
+				});
+
+			let rmdescRest = await container_repair.sequelize.query(
+				`SELECT rmdesc FROM tblrepair_method WHERE rmcode LIKE '${rdrepmtd}' `,
+				{
+					type: container_repair.SELECT,
+					plain: true
+				});
+
+			let rdDescrip = cmdescRest['cmdesc']+" "+dydescRest['dydesc']+" "+rmdescRest['rmdesc']+" "+rdsize+" "+muname;
+
 			let payloadEstimasi = await container_repair_detail.create({
 				svid: svid,
 				rpid: rpid,
@@ -383,7 +406,7 @@ class EstimasiController {
 				rdmat: rdmat,
 				rdtotal: rdtotal,
 				rdaccount: rdaccount,
-				rddesc: rddesc,
+				rddesc: rdDescrip,
 				rdpic: rdpic,
 				rdsizea: rdsizea,
 				rdqtya: rdqtya,
@@ -674,6 +697,29 @@ class EstimasiController {
 				throw new Error(`container_repair_detail ${svid} doesn't exists!`);
 			}
 
+			let cmdescRest = await container_repair.sequelize.query(
+				`SELECT cmdesc FROM tblcomponent WHERE cmcode LIKE '${rdcom}' `,
+				{
+					type: container_repair.SELECT,
+					plain: true
+				});
+
+			let dydescRest = await container_repair.sequelize.query(
+				`SELECT dydesc FROM tbldamage_type   WHERE dycode LIKE '${rddmtype}' `,
+				{
+					type: container_repair.SELECT,
+					plain: true
+				});
+
+			let rmdescRest = await container_repair.sequelize.query(
+				`SELECT rmdesc FROM tblrepair_method WHERE rmcode LIKE '${rdrepmtd}' `,
+				{
+					type: container_repair.SELECT,
+					plain: true
+				});
+
+			let rdDescrip = cmdescRest['cmdesc']+" "+dydescRest['dydesc']+" "+rmdescRest['rmdesc']+" "+rdsize+" "+muname;
+
 			let payloadEstimasi = await container_repair_detail.update({
 				svid: svid,
 				rpid: rpid,
@@ -693,7 +739,7 @@ class EstimasiController {
 				rdmat: rdmat,
 				rdtotal: rdtotal,
 				rdaccount: rdaccount,
-				rddesc: rddesc,
+				rddesc: rdDescrip,
 				rdpic: rdpic,
 				rdsizea: rdsizea,
 				rdqtya: rdqtya,
