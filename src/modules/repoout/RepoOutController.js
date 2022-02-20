@@ -855,7 +855,7 @@ class RepoOutController {
 		let { CRNO}= req.query;
 		try{
 			let validCrno = await container_survey.sequelize.query(
-				`SELECT CRLASTACT FROM tblcontainer WHERE CRNO='${CRNO.trim()}' AND CRLASTACT = 'CO' `,
+				`SELECT CRLASTACT FROM tblcontainer WHERE TRIM(CRNO)='${CRNO}' AND CRLASTACT = 'CO' `,
 				{
 					type: container_survey.SELECT,
 					plain: true

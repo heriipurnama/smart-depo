@@ -71,7 +71,7 @@ class SurveyController {
 		let { CRNO, CRLASTACT}= req.query;
 		try{
 			let validCrno = await container_survey.sequelize.query(
-				`SELECT CRLASTACT FROM tblcontainer WHERE CRNO='${CRNO.trim()}' AND (CRLASTACT = 'BI' OR CRLASTACT = 'WS') `,
+				`SELECT CRLASTACT FROM tblcontainer WHERE TRIM(CRNO)='${CRNO}' AND (CRLASTACT = 'BI' OR CRLASTACT = 'WS') `,
 				{
 					type: container_survey.SELECT,
 					plain: true
