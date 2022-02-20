@@ -833,18 +833,19 @@ class EstimasiController {
 
 	static async finalEstimasi(req, res, next){
 		let {
-			crno, svid, totalrmhr, totallab, totalcost, total, autno,
+			crno, svid, totalrmhr, totallab, totalcost, total, autno, rpnotesa, rpbillon,
 		} = req.body;
 
 		try {
 
 			let payloadEstimRepair = await container_repair.update({
-					rpbillon: 1,
+					rpbillon: rpbillon,
 					rptotalrmhr: totalrmhr,
 					rptotalrlab: totallab,
 					rptotalrcost: totalcost,
 					rptotalamount: total,
 					rpautno: autno,
+					rpnotesa: rpnotesa,
 					rpstsappvpr: 1,
 					rptglappvpr: Date.now(),
 				},
