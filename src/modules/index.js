@@ -91,4 +91,5 @@ module.exports = {
 	mskGudang: require("./msk_gudang/MskGudangController"),
 	estimasi: require("./estimasi/EstimasiController"),
 	krlGudang: require("./krl_gudang/KrlGudangController"),
+	reports: require("./reports/ReportsController"),
 };
