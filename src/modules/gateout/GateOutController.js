@@ -125,7 +125,8 @@ class GateOutController {
 								 repo.retfrom,
 								 usr.username syname,
 								 prt.cncode,
-								 prt.poport
+								 prt.poport,
+								 cp.cpovoyid
 				 from tblcontainer con
 						  inner join container_process cp on con.crcpid = cp.cpid
 						  inner join tblcontainer_code concode on concode.cccode = con.cccode
@@ -184,6 +185,7 @@ class GateOutController {
 			cponopol,
 			cporemark,
 			cpid,
+			cpovoyid,
 		} = req.body;
 
 		try {
@@ -236,6 +238,7 @@ class GateOutController {
 					cpodriver: cpodriver,
 					cponopol: cponopol,
 					cporemark: cporemark,
+					cpovoyid: cpovoyid,
 				},
 				{ where: {cpid: cpid
 					}}
