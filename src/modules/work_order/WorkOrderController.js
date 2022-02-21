@@ -1,7 +1,7 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { container_process, container_repair, container_work_order} = require("../../db/models");
+const { container_process, container_repair, container_work_order, company, container_survey} = require("../../db/models");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const Logger = require("../../utils/helper/logger");
@@ -175,7 +175,7 @@ class WorkOrderController {
 	}
 
 	static async deleteWO(req, res, next){
-		let {rpcrno, svid} = req.body;
+			let {rpcrno, svid} = req.body;
 		try{
 
 			let deleteWO = await container_repair.sequelize.query(`update container_repair set wono ='', rpworkdat  = null
@@ -191,6 +191,52 @@ class WorkOrderController {
 
 		} catch(error){
 			res.status(403);
+			next(error);
+		}
+	}
+
+	static async getWOnumber(req, res, next){
+		try {
+
+			/**
+			 * Format
+			 * prefix[SV] + 'paktrasl' + 'sdcode' + 8digit_number
+			 */
+
+				// get data company.
+			let resultCompany = await company.findAll({});
+			let paktrasl = resultCompany[0].dataValues.paktrasl;
+			let sdcode = resultCompany[0].dataValues.sdcode;
+			let prefixCode = "WO";
+
+			// get data repo order
+			let resultSurvey = await container_work_order.findOne({
+				where: {
+					wono: { [Op.like]: `%WO%`}
+				},
+				order:[[ "wono", "DESC"]]
+			});
+
+			if (resultSurvey === null) {
+
+				const resultCode = `${prefixCode}${paktrasl}${sdcode}00000001`;
+				baseResponse({ message: "Success Created Unix Code", data: resultCode })(res, 200);
+			} else {
+
+				let resultDataSurvey = resultSurvey.dataValues.svid;
+				let resultSubstringDataSurvey = resultDataSurvey.substring(7,16);
+				let convertInt = parseInt(resultSubstringDataSurvey) + 1;
+
+				let str = "" + convertInt;
+				let pad = "00000000";
+				let number = pad.substring(0, pad.length - str.length) + str;
+				const resultCode = `${prefixCode}${paktrasl}${sdcode}${number}`;
+
+				baseResponse({ message: "Success Created Unix Code", data: resultCode })(res, 200);
+
+			}
+		} catch (error) {
+			res.status(500);
 			next(error);
 		}
 	}
