@@ -289,6 +289,7 @@ class GateOutController {
 			cporemark,
 			cpid,
 			crno,
+			cporeceptno,
 		} = req.body;
 
 		try {
@@ -307,6 +308,7 @@ class GateOutController {
 					cpoves: cpoves,
 					cporeceiv: cporeceiv,
 					cporemark: cporemark,
+					cporeceptno: cporeceptno,
 				},
 				{ where: {cpid: cpid
 					}}
