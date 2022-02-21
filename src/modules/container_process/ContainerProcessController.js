@@ -554,7 +554,7 @@ class ContainerProcessController {
 		  b.crrow,b.crtier,b.crlastcond,b.crlastconde,b.crlastact,e.mtdesc,
 		  a.cpiorderno,a.cpieir,a.cpirefin,a.cpipratgl,a.cpichrgbb,a.cpipaidbb,
 		  a.cpiterm,a.cpidish,a.cpidisdat,a.cpijam,a.cpicargo,a.cpiseal,
-		  a.cpivoy,a.cpideliver,a.cpidpp,a.cpidriver,a.cpinopol,a.cpiremark,a.cpiremark1,
+		  a.cpivoy,a.cpivoyid, a.cpideliver,a.cpidpp,a.cpidriver,a.cpinopol,a.cpiremark,a.cpiremark1,
 		  m.vesid,m.vesopr,n.voyno,r.retfrom,
 		  r.readdr,h.cncode,h.poport,
 		  (case when a.cpife='1' then 'full' when a.cpife='0' or a.cpife is null then 'empty' else '' end) cpife,
