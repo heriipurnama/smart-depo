@@ -130,14 +130,13 @@ class WorkOrderController {
 				   and cp.cpopr = '${cpopr}'
             `,
 				{
-					type: container_process.SELECT,
-					plain: true
+					type: container_process.SELECT
 				}
 			);
-
+			let allData = datas[0];
 			baseResponse({
 				message: "list combo box Data",
-				data: {datas}
+				data: {allData}
 			})(res, 200);
 		} catch (error) {
 			res.status(403);
