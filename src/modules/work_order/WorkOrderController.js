@@ -94,11 +94,10 @@ class WorkOrderController {
 
 	static async updateWO(req, res, next){
 		let {wono, rpcrno, svid} = req.body;
-		let rpworkdat =Date.now();
 		try{
 
 			let updateWO = await container_repair.sequelize.query(`update container_repair set wono ='${wono}', 
-                            rpworkdat='${rpworkdat}' where rpcrno =  '${rpcrno}'  and svid = '${svid}' `,
+                            rpworkdat= now() where rpcrno =  '${rpcrno}'  and svid = '${svid}' `,
 				{
 					type: container_repair.INSERT
 				});
