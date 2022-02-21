@@ -120,7 +120,7 @@ class WorkOrderController {
 				`select con.crno, cc.cclength, cc.ccheight, ct.ctdesc, ct.ctcode,
 						sur.svcond,con.crlastcond,con.crlastact,cp.cpopr
 				 from tblcontainer con
-						  inner join container_process cp on con.crno = cp.crno
+						  inner join container_process cp on con.crcpid = cp.cpid
 						  inner join container_survey sur on sur.cpid = cp.cpid
 						  left join tblprincipal pr on pr.prcode = cp.cpopr
 						  left join container_repair rp on rp.svid = sur.svid
