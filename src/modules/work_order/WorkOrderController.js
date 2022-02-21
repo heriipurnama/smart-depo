@@ -16,8 +16,8 @@ class WorkOrderController {
 
 		try {
 			let datas = await container_process.sequelize.query(
-				`SELECT wono, wodate, woopr, woto, wocc, wofrom, wotype FROM container_work_order
-				${searchs} ORDER BY wono  DESC  LIMIT ${limits} OFFSET ${offsets}
+				`SELECT wono, wodate, woopr, woto, wocc, wofrom, wotype FROM container_work_order 
+				where ${searchs} ORDER BY wono  DESC  LIMIT ${limits} OFFSET ${offsets}
             `, 
             {
                 type: container_process.SELECT
