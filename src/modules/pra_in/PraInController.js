@@ -33,6 +33,7 @@ class PraInController {
 			CPISTATUS,
 			MTCODE,
 			CCCODE,
+			CPIRECEPTNO,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -81,11 +82,11 @@ class PraInController {
 			const payload = await container_process.sequelize.query(
 				`
 				INSERT INTO container_process (CPID,CRNO,CPOPR,CPCUST,CPDEPO,SPDEPO,CPIFE,CPITERM,CPICARGO,CPIPRATGL,CPIREFIN,CPIVES,CPIDISH,
-					CPIDISDAT,CPIJAM,CPICHRGBB,CPIDELIVER,CPIORDERNO,CPISHOLD,CPIREMARK,CPIVOYID,CPIVOY,CPISTATUS,CPICRTON,CPICRTBY)
+					CPIDISDAT,CPIJAM,CPICHRGBB,CPIDELIVER,CPIORDERNO,CPISHOLD,CPIREMARK,CPIVOYID,CPIVOY,CPISTATUS,CPICRTON,CPICRTBY,CPIRECEPTNO)
 				VALUES ('${resultCode}','${CRNO}','${CPOPR}','${CPCUST}','${CPDEPO}','${SPDEPO}','${CPIFE}','${CPITERM}',
 				'${CPICARGO}','${CPIPRATGL}','${CPIREFIN}','${CPIVES}','${CPIDISH}','${CPIDISDAT}','${CPIJAM}','${CPICHRGBB}',
 				'${CPIDELIVER}','${CPIORDERNO}','${CPISHOLD}','${CPIREMARK}','${CPIVOYID}','${CPIVOY}','${CPISTATUS}',
-				'${dateFormated}','${usernameByToken}')
+				'${dateFormated}','${usernameByToken}','${CPIRECEPTNO}')
 				`
 			);
 
