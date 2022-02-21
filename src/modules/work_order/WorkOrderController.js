@@ -134,10 +134,10 @@ class WorkOrderController {
 					plain: true
 				}
 			);
-
+			let dataWo = datas[0];
 			baseResponse({
 				message: "list combo box Data",
-				data: datas
+				data: {dataWo}
 			})(res, 200);
 		} catch (error) {
 			res.status(403);
