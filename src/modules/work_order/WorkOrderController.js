@@ -71,12 +71,18 @@ class WorkOrderController {
 	}
 
 	static async updateAllWO(req, res, next){
-		let {wonumber, workdat, crno} = req.body;
+		let {wonumber, crno} = req.body;
 
 		try{
 
 			let updateWO = await container_repair.sequelize.query(`UPDATE container_repair SET wono= '${wonumber}', 
                             rpworkdat= now() where rpcrno IN '(${crno})' and wono is null `,
+				{
+					type: container_repair.INSERT
+				});
+
+			let updateTblcontainer = await container_repair.sequelize.query(`update tblcontainer set crlastact='WR'
+							where crno in '(${crno})' `,
 				{
 					type: container_repair.INSERT
 				});
@@ -98,6 +104,12 @@ class WorkOrderController {
 
 			let updateWO = await container_repair.sequelize.query(`update container_repair set wono ='${wono}', 
                             rpworkdat= now() where rpcrno =  '${rpcrno}'  and svid = '${svid}' `,
+				{
+					type: container_repair.INSERT
+				});
+
+			let updateTblcontainer = await container_repair.sequelize.query(`update tblcontainer set crlastact='WR'
+							where crno =  '${rpcrno}' `,
 				{
 					type: container_repair.INSERT
 				});
@@ -179,6 +191,12 @@ class WorkOrderController {
 
 			let deleteWO = await container_repair.sequelize.query(`update container_repair set wono ='', rpworkdat  = null
 								where rpcrno = '${rpcrno}'  and svid = '${svid}' `,
+				{
+					type: container_repair.INSERT
+				});
+
+			let deletetblcontainer = await container_repair.sequelize.query(`update tblcontainer set crlastact='WW'
+								where rpcrno = '${rpcrno}' `,
 				{
 					type: container_repair.INSERT
 				});
