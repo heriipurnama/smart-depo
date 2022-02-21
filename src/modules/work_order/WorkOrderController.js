@@ -12,12 +12,12 @@ class WorkOrderController {
 
 		let limits = limit !== undefined ? limit : 10;
 		let offsets = offset !== undefined ? offset : 0;
-		let searchs = search !== undefined ?  ` and wono LIKE '%${search}%' ` : ` and wono LIKE '%%' `;
+		let searchs = search !== undefined ?  ` wono LIKE '%${search}%' ` : ` wono LIKE '%%' `;
 
 		try {
 			let datas = await container_process.sequelize.query(
 				`SELECT wono, wodate, woopr, woto, wocc, wofrom, wotype FROM container_work_order
-				 ORDER BY wono  DESC ${searchs} LIMIT ${limits} OFFSET ${offsets}
+				${searchs} ORDER BY wono  DESC  LIMIT ${limits} OFFSET ${offsets}
             `, 
             {
                 type: container_process.SELECT
