@@ -223,7 +223,7 @@ class WorkOrderController {
 				baseResponse({ message: "Success Created Unix Code", data: resultCode })(res, 200);
 			} else {
 
-				let resultDataSurvey = resultSurvey.dataValues.svid;
+				let resultDataSurvey = resultSurvey.dataValues.wono;
 				let resultSubstringDataSurvey = resultDataSurvey.substring(7,16);
 				let convertInt = parseInt(resultSubstringDataSurvey) + 1;
 
