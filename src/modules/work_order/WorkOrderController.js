@@ -75,8 +75,8 @@ class WorkOrderController {
 
 		try{
 
-			let updateWO = await container_repair.sequelize.query(`UPDATE container_repair SET wono= '${wonumber}', rpworkdat= '${workdat}' 
-										where rpcrno IN '(${crno})' and wono is null `,
+			let updateWO = await container_repair.sequelize.query(`UPDATE container_repair SET wono= '${wonumber}', 
+                            rpworkdat= now() where rpcrno IN '(${crno})' and wono is null `,
 				{
 					type: container_repair.INSERT
 				});
