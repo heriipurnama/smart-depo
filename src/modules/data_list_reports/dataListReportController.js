@@ -55,53 +55,34 @@ class dataListReportController {
 		try {
 			let datas = await container_process.sequelize.query(
 				`SELECT SVY.SVID,CON.CRNO,PR.PRCODE,CP.CPIORDERNO, CP.CPID, SVY.bid, CR.rpid,
-				CASE WHEN DATE_FORMAT(CP.CPITGL,'%d/%m/%Y')='00/00/0000' 
-				THEN '' ELSE DATE_FORMAT(CP.CPITGL,'%d/%m/%Y') END AS CPITGL,DATE_FORMAT(SVY.SVSURDAT,'%d/%m/%Y') as SVSURDAT,
-				SVY.SVCOND 
-				FROM
-                tblcontainer CON INNER JOIN container_process CP ON CON.CRCPID = CP.CPID
-            
-                INNER JOIN container_survey SVY ON CP.CPID=SVY.CPID
-            
-                LEFT JOIN tblprincipal PR ON PR.PRCODE = CP.CPOPR
-            
-                LEFT JOIN tbldebitur DEB ON PR.CUCODE = DEB.CUCODE
-            
-                LEFT JOIN tblcontainer_code CC ON CON.CCCODE = CC.CCCODE
-            
-                LEFT JOIN tblcontainer_leasing CL ON CL.LEORDERNO=CP.CPIPRANO
-            
-                LEFT JOIN tblmaterial MAT ON CON.MTCODE=MAT.MTCODE
-            
-                LEFT JOIN tbldepo DP ON CP.DPCODE=DP.DPCODE
-                LEFT JOIN tblsubdepo SD ON CP.SDCODE = SD.SDCODE 
-                LEFT JOIN container_repair CR ON SVY.SVID = CR.SVID 
-				WHERE CON.CRLASTACT = 'WE' ${searchs} ORDER BY SVY.SVID DESC
-				LIMIT ${limits} OFFSET ${offsets}`,
+						CASE WHEN DATE_FORMAT(CP.CPITGL,'%d/%m/%Y')='00/00/0000'
+						THEN '' ELSE DATE_FORMAT(CP.CPITGL,'%d/%m/%Y') END AS CPITGL,DATE_FORMAT(SVY.SVSURDAT,'%d/%m/%Y') as SVSURDAT,
+						SVY.SVCOND FROM tblcontainer CON INNER JOIN container_process CP ON CON.CRCPID = CP.CPID
+									  INNER JOIN container_survey SVY ON CP.CPID=SVY.CPID
+									  LEFT JOIN tblprincipal PR ON PR.PRCODE = CP.CPOPR
+									  LEFT JOIN tbldebitur DEB ON PR.CUCODE = DEB.CUCODE
+									  LEFT JOIN tblcontainer_code CC ON CON.CCCODE = CC.CCCODE
+									  LEFT JOIN tblmaterial MAT ON CON.MTCODE=MAT.MTCODE
+									  LEFT JOIN tbldepo DP ON CP.DPCODE=DP.DPCODE
+									  LEFT JOIN tblsubdepo SD ON CP.SDCODE = SD.SDCODE
+									  LEFT JOIN container_repair CR ON SVY.SVID = CR.SVID
+				 	WHERE (CON.CRLASTACT = 'WE' OR  CON.CRLASTACT = 'BI') ${searchs} ORDER BY SVY.SVID DESC
+					 LIMIT ${limits} OFFSET ${offsets}`,
 				{
 					type: container_process.SELECT,
 				}
 			);
 			let TotalDatas = await container_process.sequelize.query(
-				`SELECT count(*) As Total
-				FROM
-                tblcontainer CON INNER JOIN container_process CP ON CON.CRCPID = CP.CPID
-            
-                INNER JOIN container_survey SVY ON CP.CPID=SVY.CPID
-            
-                LEFT JOIN tblprincipal PR ON PR.PRCODE = CP.CPOPR
-            
-                LEFT JOIN tbldebitur DEB ON PR.CUCODE = DEB.CUCODE
-            
-                LEFT JOIN tblcontainer_code CC ON CON.CCCODE = CC.CCCODE
-            
-                LEFT JOIN tblcontainer_leasing CL ON CL.LEORDERNO=CP.CPIPRANO
-            
-                LEFT JOIN tblmaterial MAT ON CON.MTCODE=MAT.MTCODE
-            
-                LEFT JOIN tbldepo DP ON CP.DPCODE=DP.DPCODE
-                LEFT JOIN tblsubdepo SD ON CP.SDCODE = SD.SDCODE 
-				WHERE CON.CRLASTACT = 'WE' `,
+				`SELECT count(*) As Total FROM
+					 tblcontainer CON INNER JOIN container_process CP ON CON.CRCPID = CP.CPID
+									  INNER JOIN container_survey SVY ON CP.CPID=SVY.CPID
+									  LEFT JOIN tblprincipal PR ON PR.PRCODE = CP.CPOPR
+									  LEFT JOIN tbldebitur DEB ON PR.CUCODE = DEB.CUCODE
+									  LEFT JOIN tblcontainer_code CC ON CON.CCCODE = CC.CCCODE
+									  LEFT JOIN tblmaterial MAT ON CON.MTCODE=MAT.MTCODE
+									  LEFT JOIN tbldepo DP ON CP.DPCODE=DP.DPCODE
+									  LEFT JOIN tblsubdepo SD ON CP.SDCODE = SD.SDCODE
+				 	 WHERE CON.CRLASTACT = 'WE' OR  CON.CRLASTACT = 'BI' `,
 				{
 					type: container_process.SELECT,
 				}
