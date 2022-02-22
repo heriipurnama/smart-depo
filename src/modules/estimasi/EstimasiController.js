@@ -309,7 +309,7 @@ class EstimasiController {
 			let payloadEstimHeader = await container_repair.create({
 				svid: svid,
 				rpver: rpver,
-				rptglest: rptglest,
+				rptglest: Date.now(),
 				rpnoest: genNumber,
 				rpcrno: rpcrno,
 				rpcrton: rpcrton,
