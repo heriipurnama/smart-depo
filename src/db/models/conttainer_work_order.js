@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
             wofrom: DataTypes.STRING,
             woopr: DataTypes.STRING,
             wonotes: DataTypes.STRING,
-            wotype: DataTypes.INTEGER,
+            wotype: DataTypes.STRING,
             wocrton: DataTypes.DATE,
             wocrtby: DataTypes.STRING,
             womdfon: DataTypes.DATE,

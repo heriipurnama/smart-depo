@@ -49,20 +49,41 @@ class WorkOrderController {
 	static async detailWoHeader(req, res, next){
 		let {wono} = req.query;
 		try {
-			let datas = await container_process.sequelize.query(
+			let dataOne = await container_process.sequelize.query(
 				`SELECT wono, wodate, woopr, woto, wocc, wofrom, wotype FROM container_work_order
 				 where wono = '${wono}'
 				 ORDER BY container_work_order.wono  DESC
             `,
 				{
-					type: container_process.SELECT,
-					plain: true
+					type: container_process.SELECT
 				}
 			);
 
+			let wotype = dataOne['wotype'];
+			let cpopr = dataOne['woopr'];
+
+			let dataTwo = await container_process.sequelize.query(
+				`select con.crno, cc.cclength, cc.ccheight, ct.ctdesc, ct.ctcode,
+						sur.svcond,con.crlastcond,con.crlastact,cp.cpopr, sur.svid
+				 from tblcontainer con
+						  inner join container_process cp on con.crcpid = cp.cpid
+						  inner join container_survey sur on sur.cpid = cp.cpid
+						  left join tblprincipal pr on pr.prcode = cp.cpopr
+						  left join container_repair rp on rp.svid = sur.svid
+						  left join tblcontainer_code cc on cc.cccode = con.cccode
+						  left join tblcontainer_type ct on ct.ctcode = cc.ctcode
+				 where con.crlastact='WW' and con.crlastcond = '${wotype}'
+				   and cp.cpopr = '${cpopr}'
+            `,
+				{
+					type: container_process.SELECT
+				}
+			);
+			let resultdtlData = dataTwo[0]
+
 			baseResponse({
 				message: "detail header data",
-				data: datas
+				data: {dataOne: dataOne, dataTwo: resultdtlData}
 			})(res, 200);
 		} catch (error) {
 			res.status(403);
@@ -130,7 +151,7 @@ class WorkOrderController {
 		try {
 			let datas = await container_process.sequelize.query(
 				`select con.crno, cc.cclength, cc.ccheight, ct.ctdesc, ct.ctcode,
-						sur.svcond,con.crlastcond,con.crlastact,cp.cpopr
+						sur.svcond,con.crlastcond,con.crlastact,cp.cpopr, sur.svid
 				 from tblcontainer con
 						  inner join container_process cp on con.crcpid = cp.cpid
 						  inner join container_survey sur on sur.cpid = cp.cpid
