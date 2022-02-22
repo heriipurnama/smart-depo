@@ -299,13 +299,13 @@ class EstimasiController {
 				genNumber = rests["rpnoest"];
 			}
 
-			let dataUsername = await container_repair.findOne({
-				where: { svid: svid },
-			});
-
-			if (!dataUsername) {
-				throw new Error(`container_repair ${svid} doesn't exists!`);
-			}
+			// let dataUsername = await container_repair.findOne({
+			// 	where: { svid: svid },
+			// });
+			//
+			// if (!dataUsername) {
+			// 	throw new Error(`container_repair ${svid} doesn't exists!`);
+			// }
 			let payloadEstimHeader = await container_repair.create({
 				svid: svid,
 				rpver: rpver,
