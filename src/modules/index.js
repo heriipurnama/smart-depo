@@ -92,4 +92,5 @@ module.exports = {
 	estimasi: require("./estimasi/EstimasiController"),
 	krlGudang: require("./krl_gudang/KrlGudangController"),
 	reports: require("./reports/ReportsController"),
+	containerHold: require("./container_hold/ContainerHoldController"),
 };

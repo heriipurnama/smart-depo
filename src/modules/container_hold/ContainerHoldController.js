@@ -4,7 +4,7 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
 const baseResponse = require("../../utils/helper/Response");
-const {container_hold} = require("../../db/models");
+const {container_hold, container_repair} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class ContainerHoldController {
@@ -89,6 +89,27 @@ class ContainerHoldController {
                 data: datas
             })(res, 200);
         } catch (error) {
+            res.status(403);
+            next(error);
+        }
+    }
+
+    static async deleteConHold(req, res, next){
+        let {lastact, crno} = req.body;
+        try{
+
+            let deleteConHold = await container_repair.sequelize.query(`
+                    UPDATE tblcontainer set LASACT = '${lastact}' WHERE crno ='${crno}' `,
+                {
+                    type: container_repair.INSERT
+                });
+
+            baseResponse({
+                message: "Success delete Data",
+                data: deleteConHold
+            })(res, 200);
+
+        } catch(error){
             res.status(403);
             next(error);
         }
