@@ -922,14 +922,16 @@ class EstimasiController {
 	}
 
 	static async listcalculated(req, res, next){
-		let { rdloc,  rdcom,  rddmtype,  rdrepmtd, rdsize,  rdcalmtd, rdqty,  muname, prcode } = req.query;
+		let { rdloc,  rdcom,  rddmtype,  rdrepmtd, rdsize,  rdcalmtd, rdqty,  muname, prcode ,cccodes} = req.query;
 		try {
 			let repairload  = await container_repair.sequelize.query(
-				`SELECT 1 xlimit,
-						1 xstart, 1 xhours, 1 xmtrl_cost,1 xinc, 1 xinc_hours,
-						0 xinc_mtrl_cost, 0 xtariff_hours,
-						0 xtariff_labor_cost, 0 xtariff_mtrl_cost
-				 FROM tbl_mnr_tariff limit 1 `,
+				`select _limit, _start, _hours, _mtrlcost, _inc, _inchours, _incmtrlcost, _hoursidr, _laborcostidr, _mtrlcostidr
+				from isorepair 
+				where comp_code LIKE '${rdcom}' 
+					and locations LIKE left('${rdloc}',2)%
+					and repair_code LIKE  '${rdrepmtd}'  
+					and cccodes LIKE  '%${cccodes}%' 
+				 `,
 				{
 					type: container_repair.SELECT,
 				});
