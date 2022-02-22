@@ -75,7 +75,7 @@ class WorkOrderController {
 
 			let dataTwo = await container_process.sequelize.query(
 				`select con.crno, cc.cclength, cc.ccheight, ct.ctdesc, ct.ctcode,
-						sur.svcond,con.crlastcond,con.crlastact,cp.cpopr, sur.svid
+						sur.svcond,con.crlastcond,con.crlastact,cp.cpopr, sur.svid, rp.wono
 				 from tblcontainer con
 						  inner join container_process cp on con.crcpid = cp.cpid
 						  inner join container_survey sur on sur.cpid = cp.cpid
