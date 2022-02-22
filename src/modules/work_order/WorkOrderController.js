@@ -55,7 +55,8 @@ class WorkOrderController {
 				 ORDER BY container_work_order.wono  DESC
             `,
 				{
-					type: container_process.SELECT
+					type: container_process.SELECT,
+					plain: true
 				}
 			);
 
