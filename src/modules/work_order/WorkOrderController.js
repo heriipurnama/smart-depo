@@ -79,11 +79,13 @@ class WorkOrderController {
 					type: container_process.SELECT
 				}
 			);
+
+			let resultData    = dataOne[0];
 			let resultdtlData = dataTwo[0]
 
 			baseResponse({
 				message: "detail header data",
-				data: {dataOne: dataOne, dataTwo: resultdtlData}
+				data: {dataOne: resultData, dataTwo: resultdtlData}
 			})(res, 200);
 		} catch (error) {
 			res.status(403);
