@@ -49,7 +49,7 @@ class WorkOrderController {
 	static async detailWoHeader(req, res, next){
 		let {wono} = req.query;
 		try {
-			let dataOne = await container_process.sequelize.query(
+			let dataku = await container_process.sequelize.query(
 				`SELECT wono, wodate, woopr, woto, wocc, wofrom, wotype FROM container_work_order
 				 where wono = '${wono}'
 				 ORDER BY container_work_order.wono  DESC
@@ -60,8 +60,18 @@ class WorkOrderController {
 				}
 			);
 
-			let wotype = dataOne['wotype'];
-			let cpopr = dataOne['woopr'];
+			let wotype = dataku['wotype'];
+			let cpopr = dataku['woopr'];
+
+			let dataOne = await container_process.sequelize.query(
+				`SELECT wono, wodate, woopr, woto, wocc, wofrom, wotype FROM container_work_order
+				 where wono = '${wono}'
+				 ORDER BY container_work_order.wono  DESC
+				`,
+				{
+					type: container_process.SELECT
+				}
+			);
 
 			let dataTwo = await container_process.sequelize.query(
 				`select con.crno, cc.cclength, cc.ccheight, ct.ctdesc, ct.ctcode,
