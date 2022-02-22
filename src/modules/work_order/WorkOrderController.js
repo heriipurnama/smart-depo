@@ -230,7 +230,7 @@ class WorkOrderController {
 				});
 
 			let deletetblcontainer = await container_repair.sequelize.query(`update tblcontainer set crlastact='WW'
-								where rpcrno = '${rpcrno}' `,
+								where crno = '${rpcrno}' `,
 				{
 					type: container_repair.INSERT
 				});
