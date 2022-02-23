@@ -928,7 +928,7 @@ class EstimasiController {
 				`select _limit, _start, _hours, _mtrlcost, _inc, _inchours, _incmtrlcost, _hoursidr, _laborcostidr, _mtrlcostidr
 				from isorepair 
 				where comp_code LIKE '${rdcom}' 
-					and locations LIKE left('${rdloc}',2)%
+					and locations LIKE left('${rdloc}',2)
 					and repair_code LIKE  '${rdrepmtd}'  
 					and cccodes LIKE  '%${cccodes}%' 
 				 `,
