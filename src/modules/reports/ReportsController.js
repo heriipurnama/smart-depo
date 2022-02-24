@@ -741,6 +741,38 @@ class ReportsController {
 		}
     }
 
+	static async laporanBongkar(req, res, next) {
+		let { cpives, cpitgl1, cpitgl2, cpideliver } = req.query;
+		try {
+			let datas = await container_process.sequelize.query(
+				`
+					SELECT  cp.cpives ,cp.cpivoyid,cp.cpirefin,
+							cp.crno, cn.cccode,cc.ctcode, cc.cclength, cc.ccheight,
+							cp.cpitgl, cp.cpijam, cp.cpopr,cp.cpideliver
+					FROM container_process cp
+							 left join tblcontainer       cn on cp.crno=cn.crno
+							 left join tblcontainer_code  cc on cn.cccode= cc.cccode
+					WHERE 1
+					  and cpives='${cpives}'
+					  and cpitgl BETWEEN  '${cpitgl1}' and '${cpitgl2}'
+					  and cp.cpideliver = '${cpideliver}'
+					order by cp.cpives ,cp.cpivoyid,cp.cpirefin, cp.cpitgl, cp.cpijam
+				`,
+				{
+					type: container_process.SELECT,
+				}
+			);
+
+			baseResponse({
+				message: "Laporan Bongkar",
+				data: { datas },
+			})(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 }
 
 module.exports = ReportsController;
