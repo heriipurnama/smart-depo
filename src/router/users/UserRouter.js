@@ -24,7 +24,7 @@ routers.route("/auth/registers").post( Authentication, AuthorizeAdmin, schemaVal
 
 routers.route("/auth/updatePassword").put(Authentication, UserController.updatePassword);
 routers.route("/auth/sendEmailActivated").post(Authentication, UserController.emailActivated);
-routers.route("/auth/emailChangePassword").post(Authentication, UserController.emailChangePassword);
+routers.route("/auth/emailChangePassword").post(UserController.emailChangePassword);
 routers.route("/auth/changePassword").put(UserController.changePassword);
 routers.route("/auth/detailDataUser").get(Authentication, UserController.detailDataUser);
 routers.route("/auth/detailDataUserMobile").get(Authentication, UserController.detailDataUserMobile);
