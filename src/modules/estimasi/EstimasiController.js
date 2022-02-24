@@ -520,7 +520,7 @@ class EstimasiController {
 			let repairload  = await container_process.sequelize.query(
 					`select con.crno,cr.rptglest,pr.prdmno,date_format(ct.coexpdate,'%d/%m/%y') as coexpdate,
 							cp.cpieir,cc.cccode, cc.ctcode, cc.cclength, cc.ccheight,con.crcpid,
-							cs.svid, cs.syid, cs.svcrton, cs.svcrtby, cs.svmdfon, cs.svmdfby,
+							cs.svid, cs.syid, cs.svcrton, cs.svcrtby, cs.svmdfon, cs.svmdfby, con.crmandat, con.crtarak, cp.cpives,cp.cpivoyid,
 							date_format(cs.svsurdat,'%d/%m/%y') as svsurdat,ct.cono,cp.cpiorderno,cr.rpver,	cr.rpnoest,cs.svcond,cp.cpopr
 					 from tblcontainer  con
 							  left join container_process	 cp  on con.crno = cp.crno
