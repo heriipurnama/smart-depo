@@ -922,7 +922,7 @@ class EstimasiController {
 	}
 
 	static async listcalculated(req, res, next){
-		let { rdloc,  rdcom,  rddmtype,  rdrepmtd, rdsize,  rdcalmtd, rdqty,  muname, prcode ,cccodes} = req.query;
+		let { rdloc,  rdcom,  rddmtype,  rdrepmtd, rdsize,  rdcalmtd, rdqty,  muname, prcode ,cccodes, crno} = req.query;
 		try {
 			let repairload  = await container_repair.sequelize.query(
 				`select _limit, _start, _hours, _mtrlcost, _inc, _inchours, _incmtrlcost, _hoursidr, _laborcostidr, _mtrlcostidr

@@ -382,6 +382,26 @@ class UserController {
 		}
 	}
 
+	static async emailChangePassword(req, res, next) {
+		let { email } = req.body;
+
+		try {
+			let payload = await tblusers.findOne({
+				where: { email: email },
+			});
+
+			if (!payload) {
+				throw new Error(`user id: ${email} doesn't exists!`);
+			}
+			serviceEmailRegister(payload);
+			baseResponse({ message: "succes send email", data: payload })(res, 200);
+			Logger(req);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	static async changePassword(req, res, next) {
 		let { username, newPassword, userEmail } = req.body;
 
