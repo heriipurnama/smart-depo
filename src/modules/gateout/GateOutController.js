@@ -186,6 +186,7 @@ class GateOutController {
 			cporemark,
 			cpid,
 			cpovoyid,
+			crno,
 		} = req.body;
 
 		try {
