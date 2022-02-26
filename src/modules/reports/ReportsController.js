@@ -775,6 +775,40 @@ class ReportsController {
 		}
 	}
 
+	static async laporanMuat(req, res, next) {
+		let { cpives, cpitgl1, cpitgl2, cporeceiv } = req.query;
+		try {
+			let datas = await container_process.sequelize.query(
+				`
+					SELECT  cp.cpoves ,cp.cpovoyid,cp.cporefout,
+							cp.crno, cn.cccode,cc.ctcode, cc.cclength, cc.ccheight,
+							cp.cpotgl, cp.cpojam, cp.cpopr,cp.cporeceiv
+					FROM container_process cp
+							 left join tblcontainer       cn on cp.crno=cn.crno
+							 left join tblcontainer_code  cc on cn.cccode= cc.cccode
+					WHERE 1
+					  and cpives='${cpives}'
+					  and cpitgl BETWEEN  '${cpitgl1}' and '${cpitgl2}'
+					  and cp.cporeceiv = '${cporeceiv}'
+					order by cp.cpoves ,cp.cpovoyid,cp.cporefout, cp.cpotgl, cp.cpojam
+				`,
+				{
+					type: container_process.SELECT,
+				}
+			);
+
+			let resultData    = datas[0];
+
+			baseResponse({
+				message: "Laporan Muat",
+				data: { resultData },
+			})(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 }
 
 module.exports = ReportsController;
