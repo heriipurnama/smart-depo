@@ -763,9 +763,11 @@ class ReportsController {
 				}
 			);
 
+			let resultData    = datas[0];
+
 			baseResponse({
 				message: "Laporan Bongkar",
-				data: { datas },
+				data: { resultData },
 			})(res, 200);
 		} catch (error) {
 			res.status(403);
