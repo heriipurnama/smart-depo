@@ -24,5 +24,6 @@ routers.route("/billingRepair").get(Authentication, ReportsController.billingRep
 routers.route("/billingReposition").get(Authentication, ReportsController.billingReposition);
 routers.route("/laporanBongkar").get(Authentication, ReportsController.laporanBongkar);
 routers.route("/laporanMuat").get(Authentication, ReportsController.laporanMuat);
+routers.route("/reportSecurity").get(Authentication, ReportsController.reportSecurity);
 
 module.exports = routers;
