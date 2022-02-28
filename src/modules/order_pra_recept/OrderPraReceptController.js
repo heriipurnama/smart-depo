@@ -36,6 +36,7 @@ class OrderPraReceptController {
 				total_tagihan: total_tagihan,
 				totbiaya_lain: totbiaya_lain,
 				totpph23: totpph23,
+				receptdate: Date.now(),
 			});
 
 			baseResponse({
