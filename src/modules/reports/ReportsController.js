@@ -743,6 +743,9 @@ class ReportsController {
 
 	static async laporanBongkar(req, res, next) {
 		let { cpives, cpitgl1, cpitgl2, cpideliver } = req.query;
+		let cpives1     = cpives     == "" ? "" : "  and cp.cpives= '"+cpives+"' " ;
+
+
 		try {
 			let datas = await container_process.sequelize.query(
 				`
@@ -753,11 +756,12 @@ class ReportsController {
 							 left join tblcontainer       cn on cp.crno=cn.crno
 							 left join tblcontainer_code  cc on cn.cccode= cc.cccode
 					WHERE 1
-					  and cpives='${cpives}'
+					  ${cpives1}
 					  and cpitgl BETWEEN  '${cpitgl1}' and '${cpitgl2}'
 					  and cp.cpideliver = '${cpideliver}'
-					order by cp.cpives ,cp.cpivoyid,cp.cpirefin, cp.cpitgl, cp.cpijam
-				`,
+					 order by cp.cpives ,cp.cpivoyid,cp.cpirefin, cp.cpitgl, cp.cpijam	
+					`
+				,
 				{
 					type: container_process.SELECT,
 				}
@@ -777,18 +781,19 @@ class ReportsController {
 
 	static async laporanMuat(req, res, next) {
 		let { cpives, cpitgl1, cpitgl2, cporeceiv } = req.query;
+		let cpives1     = cpives     == "" ? "" : "  and cp.cpoves= '"+cpives+"' " ;
 		try {
 			let datas = await container_process.sequelize.query(
 				`
 					SELECT  cp.cpoves ,cp.cpovoyid,cp.cporefout,
 							cp.crno, cn.cccode,cc.ctcode, cc.cclength, cc.ccheight,
-							cp.cpotgl, cp.cpojam, cp.cpopr,cp.cporeceiv
+							cp.cpotgl, cp.cpojam, cp.cpopr1 cpopr,cp.cporeceiv
 					FROM container_process cp
 							 left join tblcontainer       cn on cp.crno=cn.crno
 							 left join tblcontainer_code  cc on cn.cccode= cc.cccode
 					WHERE 1
-					  and cpives='${cpives}'
-					  and cpitgl BETWEEN  '${cpitgl1}' and '${cpitgl2}'
+					  ${cpives1}
+					  and cpotgl BETWEEN  '${cpitgl1}' and '${cpitgl2}'
 					  and cp.cporeceiv = '${cporeceiv}'
 					order by cp.cpoves ,cp.cpovoyid,cp.cporefout, cp.cpotgl, cp.cpojam
 				`,

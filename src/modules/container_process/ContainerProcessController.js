@@ -8,6 +8,7 @@ const {
 	container,
 	orderPraContainer,
 	orderRepoContainer,
+	security_process,
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
@@ -137,6 +138,14 @@ class ContainerProcessController {
 				},
 				{ where: { cpid: cpid } }
 			);
+
+			await security_process.sequelize.query(
+				`
+				INSERT INTO security_process(cpid, securitytype, securityinid, securityname, securitydatetime) VALUES ('${cpid}','1', '${userId}','${usernameByToken}',now());
+				`,
+				{
+					type: security_process.INSERT
+				});
 
 			baseResponse({
 				message: "security updated!",
