@@ -821,21 +821,21 @@ class ReportsController {
 				`
 					SELECT sp.cpid,  cp.crno,sp.securityinid, sp.securityname, sp.securitydatetime ,
 						   (case
-								when sp.securitytype =  1 then 'IN'
-								when sp.securitytype = 20 then 'OUT'
+								when sp.securitytype = 1 then 'IN'
+								when sp.securitytype = 2 then 'OUT'
 							   end) as gate,
 						   (case
-								when sp.securitytype =  1 then cp.cpinopol
-								when sp.securitytype = 20 then cp.cponopol
+								when sp.securitytype = 1 then cp.cpinopol
+								when sp.securitytype = 2 then cp.cponopol
 							   end) as nopol,
 						   (case
-								when sp.securitytype =  1 then ''
-								when sp.securitytype = 20 then cposeal
+								when sp.securitytype = 1 then ''
+								when sp.securitytype = 2 then cposeal
 							   end) as seal
 					FROM security_process sp
 							 left join container_process cp on cp.cpid = sp.cpid
 					where securitydatetime  between '${tgl1}' and '${tgl2}'
-					order by sp.securitydatetime  desc
+					order by sp.cpid, sp.securitydatetime  desc
 				`,
 				{
 					type: container_process.SELECT,
