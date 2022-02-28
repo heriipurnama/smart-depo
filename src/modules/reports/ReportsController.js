@@ -826,7 +826,11 @@ class ReportsController {
 							   end) as gate,
 						   (case
 								when sp.securitytype = 1 then cp.cpinopol
-								when sp.securitytype = 2 then cp.cponopol
+								when sp.securitytype = 2 then (
+									case
+										when (cp.cponopol is null or cp.cponopol  ="") then cp.cpinopol
+										else cp.cponopol
+										end	)
 							   end) as nopol,
 						   (case
 								when sp.securitytype = 1 then ''
@@ -835,7 +839,7 @@ class ReportsController {
 					FROM security_process sp
 							 left join container_process cp on cp.cpid = sp.cpid
 					where securitydatetime  between '${tgl1}' and '${tgl2}'
-					order by sp.cpid, sp.securitydatetime  desc
+					order by sp.cpid,sp.securitydatetime  desc
 				`,
 				{
 					type: container_process.SELECT,

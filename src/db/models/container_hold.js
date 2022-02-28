@@ -30,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
             chcrtby: DataTypes.STRING,
             chcrton: DataTypes.DATE,
             chmdfby: DataTypes.STRING,
-            chmdfon: DataTypes.DATE
+            chmdfon: DataTypes.DATE,
+            crno: DataTypes.STRING
 
         },
         {
