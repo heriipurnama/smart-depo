@@ -27,7 +27,7 @@ class ContainerHoldController {
 
 			let TotalDatas = await container_hold.sequelize.query(
 				`SELECT count(*) As Total
-                 FROM container_hold WHERE ORDER BY chcrton DESC `,
+                 FROM container_hold `,
 				{
 					type: container_hold.SELECT,
 				}
