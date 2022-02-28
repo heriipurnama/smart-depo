@@ -62,6 +62,12 @@ class ContainerHoldController {
                 chmdfon: chmdfon,
             });
 
+            let uptcont = await container_repair.sequelize.query(`
+                        UPDATE tblcontainer set LASACT = '${chtype}' WHERE crno ='${crno}' `,
+                {
+                    type: container_repair.INSERT
+                });
+
             baseResponse({
                 message: "Success Insert Data",
                 data: payloadHold
