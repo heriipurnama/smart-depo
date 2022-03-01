@@ -144,8 +144,8 @@ module.exports = (sequelize, DataTypes) => {
 
 			cpidriver: DataTypes.STRING,
 			cpodriver: DataTypes.STRING,
-			cpivoyid: DataTypes.INTEGER,
-			cpovoyid: DataTypes.INTEGER,
+			cpivoyid: DataTypes.STRING,
+			cpovoyid: DataTypes.STRING,
 
 			cpodesti: DataTypes.STRING,
 			cpinotes: DataTypes.STRING,

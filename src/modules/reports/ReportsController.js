@@ -81,26 +81,39 @@ class ReportsController {
         try {
 			let datas = await container_process.sequelize.query(
 				`
-				select cp.cpopr1, dep.dpname, cp.cpideliver as consignee,cp.cpopr,cp.cpidisdat as cek_disdat,
-					cp.crno as c, cc.cccode as id_code, cc.ctcode as ctype,
-					datediff(cp.cpidisdat,str_to_date( '1899-12-30', '%y-%m-%d' ) ) as disch_date,
-					cc.cclength as clength, cc.ccheight as cheight, cpoves as loading_ves, cpovoy as loading_voy,
-					cp.cpoload as dest, cp.cporeceptno,
-					datediff(cp.cpitgl,str_to_date( '1899-12-30', '%y-%m-%d' ) ) as date_in, 
-					datediff(cp.cpotgl,str_to_date( '1899-12-30', '%y-%m-%d' ) ) as date_out,
-					con.crlastcond as cond,
-					cp.cporefout as do_no, cp.cposeal as seal, cp.cpojam as time, cp.cpives as ex_vessel, cp.cpivoy as ex_voy,
-					cp.cporemark as remarks, cp.cpotruck as trucker, cp.cpodriver as driver, cp.cponopol as vehicle_id, 
-					cr.retype, cr.retto,cp.cporeceiv as receiver,po.poport,po.cncode, cp.cporemark, sur.svcond as kondisi
-				from  container_process cp 
-					inner join  tblcontainer con on con.crno = cp.crno
-					left join  order_container_repo cr on cr.reorderno=cp.cpoorderno
-					left join  tblcontainer_code cc on cc.cccode = con.cccode 
-					left join  tblvoyage voy on voy.voyid = cp.cpovoyid
-					left join  tbldepo dep on dep.dpcode = cp.cpdepo
-					left join  tblport po on po.poid = cp.cpoload
-					left join  tblprincipal pr on cp.cpopr = pr.prcode
-					left join  container_survey sur on sur.cpid = cp.cpid
+					select cp.cpopr1,
+						   dep.dpname,
+						   cp.cpideliver  as consignee,
+						   cp.cpopr,
+						   cp.cpidisdat   as cek_disdat,
+						   cp.crno        as crno,
+						   cc.cccode      as id_code,
+						   cc.ctcode      as ctype,
+						   cp.cpidisdat   as disch_date,
+						   cc.cclength    as clength,
+						   cc.ccheight    as cheight,
+						   cpoves         as loading_ves,
+						   cpovoy         as loading_voy,
+						   cp.cpoload     as dest,
+						   cp.cporeceptno,
+						   cp.cpitgl      as date_in,
+						   cp.cpotgl      as date_out,
+						   con.crlastcond as cond,
+						   cp.cporefout   as do_no,
+						   cp.cposeal     as seal,
+						   cp.cpojam as time, cp.cpives as ex_vessel, cp.cpivoy as ex_voy,
+				cp.cporemark as remarks, cp.cpotruck as trucker, cp.cpodriver as driver, cp.cponopol as vehicle_id, 
+				cr.retype, cr.retto,cp.cporeceiv as receiver,po.poport,po.cncode, cp.cporemark, sur.svcond as kondisi
+					from container_process cp
+						inner join tblcontainer con
+					on con.crno = cp.crno
+						left join order_container_repo cr on cr.reorderno=cp.cpoorderno
+						left join tblcontainer_code cc on cc.cccode = con.cccode
+						left join tblvoyage voy on voy.voyid = cp.cpovoyid
+						left join tbldepo dep on dep.dpcode = cp.cpdepo
+						left join tblport po on po.poid = cp.cpoload
+						left join tblprincipal pr on cp.cpopr = pr.prcode
+						left join container_survey sur on sur.cpid = cp.cpid
 				where
 				${prcode1}
 				${datefrom}
