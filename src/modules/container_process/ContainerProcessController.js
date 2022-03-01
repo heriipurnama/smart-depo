@@ -189,6 +189,14 @@ class ContainerProcessController {
 				{ where: { cpid: cpid } }
 			);
 
+			await security_process.sequelize.query(
+				`
+				INSERT INTO security_process(cpid, securitytype, securityinid, securityname, securitydatetime) VALUES ('${cpid}','2', '${userId}','${usernameByToken}',now());
+				`,
+				{
+					type: security_process.INSERT
+				});
+
 			baseResponse({
 				message: "security updated!",
 				data: `container_process succes update for cpid : ${cpid}`,
