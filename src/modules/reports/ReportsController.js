@@ -181,11 +181,11 @@ class ReportsController {
 				left join tbldepo t on t.dpcode=cp.cpdepo
 			  where (rep.rpfictive is null or rep.rpfictive='')
 			  ${prcode1}
-				(  (date_format(rep.rpmrodat, '%y-%m-%d')='".$date_from."' and
+				(  (date_format(rep.rpmrodat, '%y-%m-%d')='${date_from}' and
 				   date_format(rep.rpclodat, '%y-%m-%d')='0000-00-00'
 					)      
 				  or 
-				  (date_format(rep.rpclodat, '%y-%m-%d')='".$date_from."' and
+				  (date_format(rep.rpclodat, '%y-%m-%d')='${date_from}' and
 				   date_format(rep.rpmrodat, '%y-%m-%d')<>'0000-00-00'
 					)
 				  )
@@ -380,7 +380,7 @@ class ReportsController {
 					${condition1}
 					${los1}
 					and (cp.cpotgl is null or cp.cpotgl='0000-00-00')
-					and con.crlastact<>'od' and con.crlastact<>'BI' 
+					and con.crlastact<>'OD' and con.crlastact<>'BI' 
 					and cp.crno is not null
 				order by cpopr, sdname, id_code, cp.cpitgl, con.crlastcond
 				`,
@@ -430,7 +430,7 @@ class ReportsController {
 				${dateto}
 				${jamFrom}
 				${jamTo}
-				and cp.cpopr<>'' and (cp.cpistatus<>'of' and cp.cpistatus<>'fs' and cp.cpistatus<>'fc') 
+				and cp.cpopr<>'' and (cp.cpistatus<>'OF' and cp.cpistatus<>'FS' and cp.cpistatus<>'FC') 
 				and (cp.crno<>'' or cp.crno is not null ) 
 				order by cp.cpitgl 
 				`,
@@ -479,7 +479,7 @@ class ReportsController {
 						${ctcode1}
 						${condition1}
 						and (cp.cpotgl is null or cp.cpotgl='0000-00-00')
-						and con.crlastact<>'od' and con.crlastact<>'BI' 
+						and con.crlastact<>'OD' and con.crlastact<>'BI' 
 						and cp.crno is not null
 					order by cpopr, sdname, id_code, cp.cpitgl, con.crlastcond
 					`,
@@ -528,7 +528,7 @@ class ReportsController {
 						${ctcode1}
 						${condition1}
 						and (cp.cpotgl is null)
-						and con.crlastact<>'od' and con.crlastact<>'BI' 
+						and con.crlastact<>'OD' and con.crlastact<>'BI' 
 						and cp.crno is not null
 					order by cpopr, sdname, id_code, cp.cpitgl, con.crlastcond
 					`,
@@ -579,7 +579,7 @@ class ReportsController {
 				${dateto}
 				${jamFrom}
 				${jamTo}
-				and cp.cpopr<>'' and (cp.cpistatus<>'of' and cp.cpistatus<>'fs' and cp.cpistatus<>'fc') 
+				and cp.cpopr<>'' and (cp.cpistatus<>'OF' and cp.cpistatus<>'FS' and cp.cpistatus<>'FC') 
 				and (cp.crno<>'' or cp.crno is not null ) 
 				order by cp.cpitgl 
 				`,
