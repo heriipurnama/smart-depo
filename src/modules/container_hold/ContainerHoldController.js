@@ -63,7 +63,7 @@ class ContainerHoldController {
             });
 
             let uptcont = await container_repair.sequelize.query(`
-                        UPDATE tblcontainer set LASACT = '${chtype}' WHERE crno ='${crno}' `,
+                        UPDATE tblcontainer set lastact = '${chtype}' WHERE crno ='${crno}' `,
                 {
                     type: container_repair.INSERT
                 });
@@ -105,7 +105,7 @@ class ContainerHoldController {
         try{
 
             let deleteConHold = await container_repair.sequelize.query(`
-                    UPDATE tblcontainer set LASACT = '${lastact}' WHERE crno ='${crno}' `,
+                    UPDATE tblcontainer set lastact = '${lastact}' WHERE crno ='${crno}' `,
                 {
                     type: container_repair.INSERT
                 });
