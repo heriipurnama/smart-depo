@@ -141,7 +141,7 @@ class ReportsController {
 
     static async rptDailyRepairActivity(req, res, next) {
         let { prcode, date_from} = req.query;
-		let prcode1    = prcode !== undefined ? ` cp.cpopr ='${prcode}' `:``;
+		let prcode1    = prcode !== undefined ? ` and cp.cpopr ='${prcode}' `:``;
 		
 
 
