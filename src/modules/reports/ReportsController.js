@@ -141,7 +141,7 @@ class ReportsController {
 
     static async rptDailyRepairActivity(req, res, next) {
         let { prcode, date_from} = req.query;
-		let prcode1    = prcode == "" ? " 1 " : " cp.cpopr ='" + prcode + "' ";
+		let prcode1    = prcode !== undefined ? ` cp.cpopr ='${prcode}' `:``;
 		
 
 
@@ -181,14 +181,6 @@ class ReportsController {
 				left join tbldepo t on t.dpcode=cp.cpdepo
 			  where (rep.rpfictive is null or rep.rpfictive='')
 			  ${prcode1}
-				(  (date_format(rep.rpmrodat, '%y-%m-%d')='${date_from}' and
-				   date_format(rep.rpclodat, '%y-%m-%d')='0000-00-00'
-					)      
-				  or 
-				  (date_format(rep.rpclodat, '%y-%m-%d')='${date_from}' and
-				   date_format(rep.rpmrodat, '%y-%m-%d')<>'0000-00-00'
-					)
-				  )
 				`,
 				{
 					type: container_process.SELECT,
@@ -265,7 +257,7 @@ class ReportsController {
 				  from rpt_damage_progress dp 
 				  where 1
 				  group by opr
-				  ";
+				  
 				`,
 				{
 					type: container_process.SELECT,
