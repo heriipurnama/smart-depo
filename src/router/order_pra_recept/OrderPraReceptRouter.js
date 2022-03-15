@@ -28,7 +28,12 @@ routers
 	.get(Authentication, OrderPraReceptController.detailData);
 routers
 	.route("/updateData")
-	.put(Authentication, OrderPraReceptController.updateData);
+	.post(Authentication,
+		multer({
+			storage: storageFiles,
+			limits: { fileSize: maxSize },
+		}).any("file"),
+		OrderPraReceptController.updateData);
 
 routers
 	.route("/deleteData")
