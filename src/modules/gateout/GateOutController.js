@@ -229,7 +229,7 @@ class GateOutController {
 					cpoterm: cpoterm,
 					cpoload: cpoload,
 					cpoloaddat: cpoloaddat,
-					cpojam: new Date().getHours().toString(),
+					cpojam: new Date().getHours()+":"+new Date().getMinutes()+":"+new Date().getSeconds(),
 					cpocargo: cpocargo,
 					cposeal: cposeal,
 					cpovoy: cpovoy,
