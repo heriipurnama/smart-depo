@@ -229,7 +229,7 @@ class GateOutController {
 					cpoterm: cpoterm,
 					cpoload: cpoload,
 					cpoloaddat: cpoloaddat,
-					cpojam: new Date(),
+					cpojam: new Date().toLocaleTimeString(),
 					cpocargo: cpocargo,
 					cposeal: cposeal,
 					cpovoy: cpovoy,
