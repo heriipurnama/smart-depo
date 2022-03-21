@@ -210,7 +210,7 @@ class GateOutController {
 			}
 			let payload = await container_process.update(
 				{
-					cpotgl: cpotgl,
+					cpotgl: new Date(),
 					cpopr: cpopr,
 					cpopr1: cpopr1,
 					cpcust: cpcust,
@@ -229,7 +229,7 @@ class GateOutController {
 					cpoterm: cpoterm,
 					cpoload: cpoload,
 					cpoloaddat: cpoloaddat,
-					cpojam: cpojam,
+					cpojam: new Date().toLocaleTimeString(),
 					cpocargo: cpocargo,
 					cposeal: cposeal,
 					cpovoy: cpovoy,
