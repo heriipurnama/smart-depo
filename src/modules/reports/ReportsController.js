@@ -863,6 +863,37 @@ class ReportsController {
 		}
 	}
 
+	static async rptKwitansi(req, res, next){
+		let { tgl1, tgl2} = req.query;
+		try {
+			let datas = await container_process.sequelize.query(
+				`
+					SELECT DISTINCT a.cpiorderno, a.cpopr, a.cpcust, a.cpidish, a.cpidisdat, a.liftoffcharge,
+					a.cpdepo, a.cpipratgl, a.cpirefin, a.cpijam, a.cpivoyid, a.cpives, a.cpicargo,
+					a.cpideliver, a.cpilunas, a.totalcharge, b.cpireceptno,
+					b.tot_lolo, b.biaya_cleaning, b.biaya_adm,
+					b.total_pajak, b.materai, b.total_tagihan, b.totbiaya_lain, b.totpph23, b.receptdate
+					FROM order_pra a , order_pra_recept b
+					WHERE 1 and a.praid = b.praid
+					and b.cpireceptno != '-' and b.receptdate BETWEEN '${tgl1}' AND '${tgl2}'
+					order by cpiorderno
+					`,
+				{
+					type: container_process.SELECT,
+				}
+			);
+
+			let resultData    = datas[0];
+			baseResponse({
+				message: "Report Kwitansi",
+				data: { resultData },
+			})(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 }
 
 module.exports = ReportsController;
