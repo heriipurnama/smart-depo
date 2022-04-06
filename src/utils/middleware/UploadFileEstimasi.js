@@ -33,7 +33,8 @@ const disk = multer.diskStorage({
 
                 if (!dataUsername) {
                     if (!file.length) {
-                        let fileExtension = file.originalname.split(".")[1]; // get file extension from original file name
+                        let fileExtension = "."+getExtension(file.originalname);
+                            // file.originalname.split(".")[1]; // get file extension from original file name
                         let fieldName = file.fieldname;
                         let unixOrderNumber = svid + rpid;
                         let uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -58,7 +59,8 @@ const disk = multer.diskStorage({
                         cb(null, resp);
                     }
                 }else {
-                    let fileExtension = file.originalname.split(".")[1]; // get file extension from original file name
+                    let fileExtension = "."+getExtension(file.originalname);
+                        // file.originalname.split(".")[1]; // get file extension from original file name
                     let fieldName = file.fieldname;
                     let unixOrderNumber = svid + rpid;
                     let uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -88,6 +90,9 @@ const disk = multer.diskStorage({
             } catch (err) {
                 cb(err, null);
             }
+        }
+        function getExtension(filename) {
+            return filename.substring(filename.lastIndexOf(".") + 1);
         }
     },
 });

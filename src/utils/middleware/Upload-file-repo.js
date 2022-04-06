@@ -25,7 +25,8 @@ const disk = multer.diskStorage({
 				let getNumberPraNIn =  await orderRepo.findOne({ where: { repoorderno: repoorderno }});
 
 				if (!file.length && getNumberPraNIn === null) {
-					let fileExtension = file.originalname.split(".")[1]; // get file extension from original file name
+					let fileExtension = "."+getExtension(file.originalname);
+						// file.originalname.split(".")[1]; // get file extension from original file name
 					let fieldName = file.fieldname;
 					let unixOrderNumber = repoorderno ;
 					let uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
@@ -50,6 +51,9 @@ const disk = multer.diskStorage({
 			} catch (err) {
 				cb(err, null);
 			}
+		}
+		function getExtension(filename) {
+			return filename.substring(filename.lastIndexOf(".") + 1);
 		}
 	}
 });
