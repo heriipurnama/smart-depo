@@ -23,13 +23,13 @@ const disk = multer.diskStorage({
 		async function runInsertFile() {
 			try {
 				if (!file.length) {
-					var ext = path.extname(file.originalname);
-					let fileExtension = file.originalname.split(".")[1]; // get file extension from original file name
+					let fileExtension = "."+getExtension(file.originalname);
+						// file.originalname.split(".")[1]; // get file extension from original file name
 					let fieldName = file.fieldname;
 					let unixOrderNumber = praid;
 					let uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
 
-					let resultRenameFileAttachment = `${fieldName}-${unixOrderNumber}-${uniqueSuffix}${ext}`;
+					let resultRenameFileAttachment = `${fieldName}-${unixOrderNumber}-${uniqueSuffix}${fileExtension}`;
 					// eslint-disable-next-line no-undef
 					let restUrl = `${process.env.BASE_URL}/public/${resultRenameFileAttachment}`;
 
@@ -50,6 +50,10 @@ const disk = multer.diskStorage({
 			} catch (err) {
 				cb(err, null);
 			}
+		}
+
+		function getExtension(filename) {
+			return filename.substring(filename.lastIndexOf(".") + 1);
 		}
 	},
 });
