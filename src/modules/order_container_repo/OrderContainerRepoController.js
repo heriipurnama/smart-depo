@@ -304,6 +304,7 @@ class OrderContainerRepoController {
 			recpives,
 			recpivoyid,
 			repovendor,
+			repofe,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -389,6 +390,7 @@ class OrderContainerRepoController {
 					recpives: recpives,
 					recpivoyid: recpivoyid,
 					repovendor: repovendor,
+					repofe:repofe,
 				},
 				{ where: { reorderno: reorderno } }
 			);
