@@ -1,7 +1,7 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { damageTariff } = require("../../db/models");
+const {isorepair, damageTariff} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class DamageTariffController {
@@ -113,6 +113,165 @@ class DamageTariffController {
 			Logger(req);
 		} catch (error) {
 			res.status(400);
+			next(error);
+		}
+	}
+
+	static async listIsoRepair(req, res, next) {
+		let {limit, offset, search} = req.query;
+
+		let limits = limit !== undefined ? limit : 10;
+		let offsets = offset !== undefined ? offset : 0;
+		let searchs = search !== undefined ?  ` repair_code LIKE '%${search}%' ` : ` repair_code LIKE '%%' `;
+
+		try {
+			let datas = await damageTariff.sequelize.query(
+				`SELECT isoid, mtcode, comp_code, comp_description, repair_code, repair_description, material,
+						formula, also_applies_to, locations, cccodes, _limit, _start, _hours, _mtrlcost,
+					 _inc, _inchours, _incmtrlcost
+				 FROM isorepair WHERE ${searchs} ORDER BY isoid DESC LIMIT ${limits} OFFSET ${offsets}
+            `,
+				{
+					type: damageTariff.SELECT
+				}
+			);
+
+			let TotalDatas = await damageTariff.sequelize.query(
+				`SELECT count(*) As Total
+                 FROM isorepair `,
+				{
+					type: damageTariff.SELECT,
+				}
+			);
+
+			let allData = datas[0];
+			let totalDatas = Object.values(TotalDatas[0][0])[0];
+
+			baseResponse({
+				message: "List iso repair",
+				data: { datas: allData, Total: totalDatas },
+			})(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async createIsoRepair(req, res, next) {
+		let { mtcode, comp_code, comp_description, repair_code, repair_description, material, formula,
+			also_applies_to, locations, cccodes, limit, start, hours,
+			mtrlcost, inc, inchours, incmtrlcost } = req.body;
+
+		try {
+
+			const payload = await isorepair.create({
+				mtcode: mtcode,
+				comp_code: comp_code,
+				comp_description: comp_description,
+				repair_code: repair_code,
+				repair_description: repair_description,
+				material: material,
+				formula: formula,
+				also_applies_to: also_applies_to,
+				locations: locations,
+				cccodes: cccodes,
+				_limit: limit,
+				_start: start,
+				_hours: hours,
+				_mtrlcost: mtrlcost,
+				_inc: inc,
+				_inchours: inchours,
+				_incmtrlcost: incmtrlcost,
+			});
+
+			baseResponse({ message: "Iso Repair created", data: payload })(res, 200);
+			Logger(req);
+		} catch (error) {
+			res.status(400);
+			next(error);
+		}
+	}
+
+	static async updateIsoRepair(req, res, next) {
+		let { isoid, mtcode, comp_code, comp_description, repair_code, repair_description, material, formula,
+			also_applies_to, locations, cccodes, limit, start, hours,
+			mtrlcost, inc, inchours, incmtrlcost } = req.body;
+
+		try {
+
+			let dataUsername = await isorepair.findOne({
+				where: { isoid: isoid }
+			});
+
+			if (!dataUsername) {
+				throw new Error(`iso repair ${isoid} doesn't exists!`);
+			}
+
+			await isorepair.update(
+				{
+					mtcode: mtcode,
+					comp_code: comp_code,
+					comp_description: comp_description,
+					repair_code: repair_code,
+					repair_description: repair_description,
+					material: material,
+					formula: formula,
+					also_applies_to: also_applies_to,
+					locations: locations,
+					cccodes: cccodes,
+					_limit: limit,
+					_start: start,
+					_hours: hours,
+					_mtrlcost: mtrlcost,
+					_inc: inc,
+					_inchours: inchours,
+					_incmtrlcost: incmtrlcost,
+				},
+				{ where: { isoid: isoid } }
+			);
+
+			baseResponse({ message: "isoid updated!", data:`iso repair succes update for isoid : ${isoid}` })(res, 200);
+			Logger(req);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async deleteIsoRepair(req, res, next){
+		let { isoid } = req.body;
+
+		try {
+			let payload = await isorepair.destroy({
+				where: { isoid : isoid }
+			});
+
+			if (!payload) {
+				throw new Error(`isoid: ${isoid} doesn't exists!`);
+			}
+
+			baseResponse({ message: `isoid: ${isoid} deleted succes`, data: payload })(res, 200);
+			Logger(req);
+		} catch (error) {
+			res.status(400);
+			next(error);
+		}
+	}
+
+	static async detailIsoRepair(req, res, next) {
+		let { isoid } = req.body;
+
+		try {
+			let payload = await isorepair.findOne(
+				{ where: { isoid : isoid }}
+			);
+
+			if (!payload) {
+				throw new Error(`isoid Iso Repair: ${isoid} doesn't exists!`);
+			}
+			baseResponse({ message: "detail data iso repair isoid", data: payload })(res, 200);
+		} catch (error) {
+			res.status(403);
 			next(error);
 		}
 	}
