@@ -96,6 +96,17 @@ class ComponentController {
 		}
 	}
 
+	static async listComponen(req, res, next) {
+		try {
+			let { count, rows: datas } = await component.findAndCountAll({
+			});
+			baseResponse({ message: "List Components", data: { datas,  count } })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	static async delete(req, res, next) {
 		let {idComponent} = req.body; 
 		try {

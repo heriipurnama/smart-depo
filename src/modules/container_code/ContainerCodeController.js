@@ -138,6 +138,20 @@ class ContainerCodeController {
 		}
 	}
 
+	static async listContainerCode(req, res, next) {
+		try {
+			let { count, rows: datas } = await container_code.findAndCountAll({
+			});
+			baseResponse({ message: "list container codes", data: { datas, count } })(
+				res,
+				200
+			);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	static async delete(req, res, next) {
 		let { ccCode } = req.body;
 		try {
