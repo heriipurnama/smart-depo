@@ -44,6 +44,19 @@ class RepairMethodController {
 			next(error);
 		}
 	}
+
+	static async listAllRepair(req, res, next){
+		try {
+
+			let { count, rows: datas } = await repairMethod.findAndCountAll({
+			});
+			baseResponse({ message: "list data repair method", data: { datas, count }})(res, 200);
+
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
  
 	static async listCleaning(req, res, next){
 		let { offset, limit } = req.query;

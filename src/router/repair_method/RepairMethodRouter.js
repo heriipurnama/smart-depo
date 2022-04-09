@@ -10,6 +10,7 @@ const Authentication = require("../../utils/middleware/Auth");
 
 routers.route("/createNewData").post(Authentication, RepairMethodController.createData);
 routers.route("/getAllData").get(Authentication, RepairMethodController.listAllData);
+routers.route("/listAllRepair").get(Authentication, RepairMethodController.listAllRepair);
 routers.route("/getCleanMethod").get(Authentication, RepairMethodController.listCleaning);
 routers.route("/listCleaningMobile").get(Authentication, RepairMethodController.listCleaningMobile);
 
