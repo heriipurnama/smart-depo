@@ -15,4 +15,12 @@ routers.route("/updateData").put(Authentication, DamageTariffController.updateDa
 
 routers.route("/deleteData").delete(Authentication, DamageTariffController.deleteData);
 
+//perubahan damage tarif
+routers.route("/listIsoRepair").get(Authentication, DamageTariffController.listIsoRepair);
+routers.route("/createIsoRepair").post(Authentication, DamageTariffController.createIsoRepair);
+routers.route("/detailIsoRepair").get(Authentication, DamageTariffController.detailIsoRepair);
+routers.route("/updateIsoRepair").put(Authentication, DamageTariffController.updateIsoRepair);
+
+routers.route("/deleteIsoRepair").delete(Authentication, DamageTariffController.deleteIsoRepair);
+
 module.exports = routers;
