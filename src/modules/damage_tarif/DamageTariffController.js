@@ -239,7 +239,7 @@ class DamageTariffController {
 	}
 
 	static async detailIsoRepair(req, res, next) {
-		let { isoid } = req.body;
+		let { isoid } = req.query;
 
 		try {
 			let payload = await isorepair.sequelize.query(
