@@ -164,7 +164,7 @@ class DamageTariffController {
 
 		try {
 
-			await isorepair.sequelize.query(
+			const payload = await isorepair.sequelize.query(
 				`
 				INSERT INTO isorepair(mtcode, comp_code, comp_description, repair_code, repair_description, material,
 									  formula, also_applies_to, locations, cccodes, _limit, _start, _hours, _mtrlcost,
@@ -199,28 +199,16 @@ class DamageTariffController {
 				throw new Error(`iso repair ${isoid} doesn't exists!`);
 			}
 
-			await isorepair.update(
+			await isorepair.sequelize.query(
+				`UPDATE isorepair
+					SET mtcode='${mtcode}', comp_code='${comp_code}', comp_description='${comp_description}', repair_code='${repair_code}', 
+					repair_description='${repair_description}', material='${material}', formula='${formula}', 
+					talso_applies_to='${also_applies_to}', locations='${locations}', cccodes='${cccodes}', 
+					_limit='${_limit}', _start='${_start}', _hours='${_hours}', _mtrlcost='${_mtrlcost}', 
+					_inc='${_inc}', _inchours='${_inchours}', _incmtrlcost='${_incmtrlcost}'  WHERE isoid='${isoid}'`,
 				{
-					mtcode: mtcode,
-					comp_code: comp_code,
-					comp_description: comp_description,
-					repair_code: repair_code,
-					repair_description: repair_description,
-					material: material,
-					formula: formula,
-					also_applies_to: also_applies_to,
-					locations: locations,
-					cccodes: cccodes,
-					_limit: _limit,
-					_start: _start,
-					_hours: _hours,
-					_mtrlcost: _mtrlcost,
-					_inc: _inc,
-					_inchours: _inchours,
-					_incmtrlcost: _incmtrlcost,
-				},
-				{ where: { isoid: isoid } }
-			);
+					type: isorepair.INSERT
+				});
 
 			baseResponse({ message: "isoid updated!", data:`iso repair succes update for isoid : ${isoid}` })(res, 200);
 			Logger(req);
