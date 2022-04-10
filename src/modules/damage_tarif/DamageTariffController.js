@@ -242,8 +242,15 @@ class DamageTariffController {
 		let { isoid } = req.body;
 
 		try {
-			let payload = await isorepair.findOne(
-				{ where: { isoid : isoid }}
+			let payload = await isorepair.sequelize.query(
+				`SELECT isoid, mtcode, comp_code, comp_description, repair_code, repair_description, material,
+						formula, also_applies_to, locations, cccodes, _limit, _start, _hours, _mtrlcost,
+					 _inc, _inchours, _incmtrlcost
+				 FROM isorepair WHERE isoid = '${isoid}'
+            `,
+				{
+					type: isorepair.SELECT
+				}
 			);
 
 			if (!payload) {
