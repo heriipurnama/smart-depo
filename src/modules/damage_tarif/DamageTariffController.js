@@ -1,7 +1,7 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const {isorepair, damageTariff} = require("../../db/models");
+const {isorepair, damageTariff, security_process} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class DamageTariffController {
@@ -164,25 +164,17 @@ class DamageTariffController {
 
 		try {
 
-			const payload = await isorepair.create({
-				mtcode: mtcode,
-				comp_code: comp_code,
-				comp_description: comp_description,
-				repair_code: repair_code,
-				repair_description: repair_description,
-				material: material,
-				formula: formula,
-				also_applies_to: also_applies_to,
-				locations: locations,
-				cccodes: cccodes,
-				_limit: _limit,
-				_start: _start,
-				_hours: _hours,
-				_mtrlcost: _mtrlcost,
-				_inc: _inc,
-				_inchours: _inchours,
-				_incmtrlcost: _incmtrlcost,
-			});
+			await isorepair.sequelize.query(
+				`
+				INSERT INTO isorepair(mtcode, comp_code, comp_description, repair_code, repair_description, material,
+									  formula, also_applies_to, locations, cccodes, _limit, _start, _hours, _mtrlcost,
+					_inc, _inchours, _incmtrlcost) VALUES ('${mtcode}', '${comp_code}', '${comp_description}', '${repair_code}', 
+					'${repair_description}', '${material}', '${formula}', '${also_applies_to}', '${locations}', '${cccodes}', 
+					'${_limit}', '${_start}', '${_hours}', '${_mtrlcost}', '${_inc}', '${_inchours}', '${_incmtrlcost}');
+				`,
+				{
+					type: isorepair.INSERT
+				});
 
 			baseResponse({ message: "Iso Repair created", data: payload })(res, 200);
 			Logger(req);
