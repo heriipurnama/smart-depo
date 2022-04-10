@@ -159,8 +159,8 @@ class DamageTariffController {
 
 	static async createIsoRepair(req, res, next) {
 		let { mtcode, comp_code, comp_description, repair_code, repair_description, material, formula,
-			also_applies_to, locations, cccodes, limit, start, hours,
-			mtrlcost, inc, inchours, incmtrlcost } = req.body;
+			also_applies_to, locations, cccodes, _limit, _start, _hours,
+			_mtrlcost, _inc, _inchours, _incmtrlcost } = req.body;
 
 		try {
 
@@ -175,13 +175,13 @@ class DamageTariffController {
 				also_applies_to: also_applies_to,
 				locations: locations,
 				cccodes: cccodes,
-				_limit: limit,
-				_start: start,
-				_hours: hours,
-				_mtrlcost: mtrlcost,
-				_inc: inc,
-				_inchours: inchours,
-				_incmtrlcost: incmtrlcost,
+				_limit: _limit,
+				_start: _start,
+				_hours: _hours,
+				_mtrlcost: _mtrlcost,
+				_inc: _inc,
+				_inchours: _inchours,
+				_incmtrlcost: _incmtrlcost,
 			});
 
 			baseResponse({ message: "Iso Repair created", data: payload })(res, 200);
@@ -194,8 +194,8 @@ class DamageTariffController {
 
 	static async updateIsoRepair(req, res, next) {
 		let { isoid, mtcode, comp_code, comp_description, repair_code, repair_description, material, formula,
-			also_applies_to, locations, cccodes, limit, start, hours,
-			mtrlcost, inc, inchours, incmtrlcost } = req.body;
+			also_applies_to, locations, cccodes, _limit, _start, _hours,
+			_mtrlcost, _inc, _inchours, _incmtrlcost } = req.body;
 
 		try {
 
@@ -219,13 +219,13 @@ class DamageTariffController {
 					also_applies_to: also_applies_to,
 					locations: locations,
 					cccodes: cccodes,
-					_limit: limit,
-					_start: start,
-					_hours: hours,
-					_mtrlcost: mtrlcost,
-					_inc: inc,
-					_inchours: inchours,
-					_incmtrlcost: incmtrlcost,
+					_limit: _limit,
+					_start: _start,
+					_hours: _hours,
+					_mtrlcost: _mtrlcost,
+					_inc: _inc,
+					_inchours: _inchours,
+					_incmtrlcost: _incmtrlcost,
 				},
 				{ where: { isoid: isoid } }
 			);
