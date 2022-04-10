@@ -253,10 +253,10 @@ class DamageTariffController {
 				}
 			);
 
-			if (payload === null | payload === "") {
+			if (payload[0].length === 0 ) {
 				throw new Error(`isoid Iso Repair: ${isoid} doesn't exists!`);
 			}
-			baseResponse({ message: "detail data iso repair isoid", payload })(res, 200);
+			baseResponse({ message: "detail data iso repair isoid", data: payload[0] })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
