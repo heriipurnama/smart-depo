@@ -207,7 +207,7 @@ class DamageTariffController {
 					'_limit'='${_limit}', '_start'='${_start}', '_hours'='${_hours}', '_mtrlcost'='${_mtrlcost}', 
 					'_inc'='${_inc}', '_inchours'='${_inchours}', '_incmtrlcost'='${_incmtrlcost}'  WHERE isoid='${isoid}'`,
 				{
-					type: isorepair.INSERT
+					type: isorepair.UPDATE
 				});
 
 			baseResponse({ message: "isoid updated!", data:`iso repair succes update for isoid : ${isoid}` })(res, 200);
