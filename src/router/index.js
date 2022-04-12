@@ -95,6 +95,7 @@ const estimasi = require("./estimasi/EstimasiRouter");
 const keluarGudang = require("./krl_gudang/KrlGudangRouter");
 const reports = require("./reports/ReportsRouter");
 const containerHold = require("./container_hold/ContainerHoldRouter");
+const repoTarif = require("./repo_tarif/RepoTarifRouter");
 
 // base router
 routers.use("/users", user);
@@ -192,5 +193,6 @@ routers.use("/rpt_daily_movement_in_msc", dailyMovementInMsc);
 routers.use("/estimasi", estimasi);
 routers.use("/reports", reports);
 routers.use("/containerHold", containerHold);
+routers.use("/repotarif", repoTarif);
 
 module.exports = routers;
