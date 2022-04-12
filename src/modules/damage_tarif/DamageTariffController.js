@@ -204,8 +204,8 @@ class DamageTariffController {
 					SET mtcode='${mtcode}', comp_code='${comp_code}', comp_description='${comp_description}', repair_code='${repair_code}', 
 					repair_description='${repair_description}', material='${material}', formula='${formula}', 
 					talso_applies_to='${also_applies_to}', locations='${locations}', cccodes='${cccodes}', 
-					_limit='${_limit}', _start='${_start}', _hours='${_hours}', _mtrlcost='${_mtrlcost}', 
-					_inc='${_inc}', _inchours='${_inchours}', _incmtrlcost='${_incmtrlcost}'  WHERE isoid='${isoid}'`,
+					'_limit'='${_limit}', '_start'='${_start}', '_hours'='${_hours}', '_mtrlcost'='${_mtrlcost}', 
+					'_inc'='${_inc}', '_inchours'='${_inchours}', '_incmtrlcost'='${_incmtrlcost}'  WHERE isoid='${isoid}'`,
 				{
 					type: isorepair.INSERT
 				});
