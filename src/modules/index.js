@@ -93,4 +93,5 @@ module.exports = {
 	krlGudang: require("./krl_gudang/KrlGudangController"),
 	reports: require("./reports/ReportsController"),
 	containerHold: require("./container_hold/ContainerHoldController"),
+	repoTarif: require("./repo_tarif/RepoTarifController"),
 };
