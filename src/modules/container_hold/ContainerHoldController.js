@@ -4,7 +4,7 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
 const baseResponse = require("../../utils/helper/Response");
-const {container_hold, container_repair} = require("../../db/models");
+const {container_hold, container_repair, company, container_work_order} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class ContainerHoldController {
@@ -49,8 +49,44 @@ class ContainerHoldController {
     static async insertData(req, res, next){
         let {chorderno, crno, chtype, chfrom, chto, chnote, chcrtby, chcrton, chmdfby, chmdfon} = req.body;
         try {
+
+            /**
+             * Format
+             * prefix[SV] + 'paktrasl' + 'sdcode' + 8digit_number
+             */
+
+                // get data company.
+            let resultCompany = await company.findAll({});
+            let paktrasl = resultCompany[0].dataValues.paktrasl;
+            let sdcode = resultCompany[0].dataValues.sdcode;
+            let prefixCode = "CH";
+
+            // get data repo order
+            let resultSurvey = await container_hold.findOne({
+                where: {
+                    chorderno: { [Op.like]: `%CH%`}
+                },
+                order:[[ "chorderno", "DESC"]]
+            });
+            var resultCode;
+            if (resultSurvey === null) {
+
+                resultCode = `${prefixCode}${paktrasl}${sdcode}00000001`;
+            } else {
+
+                let resultDataSurvey = resultSurvey.dataValues.wono;
+                let resultSubstringDataSurvey = resultDataSurvey.substring(7,16);
+                let convertInt = parseInt(resultSubstringDataSurvey) + 1;
+
+                let str = "" + convertInt;
+                let pad = "00000000";
+                let number = pad.substring(0, pad.length - str.length) + str;
+                resultCode = `${prefixCode}${paktrasl}${sdcode}${number}`;
+
+            }
+
             let payloadHold = await container_hold.create({
-                chorderno: chorderno,
+                chorderno: resultCode,
                 crno: crno,
                 chtype: chtype,
                 chfrom: chfrom,

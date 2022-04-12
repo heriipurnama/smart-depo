@@ -14,7 +14,7 @@ class RepoTariffDetail {
 			rtlof45, rtdoccurr, rtdocm, rtdocv,
 			rthaulcurr, rthaulv20, rthaulv40, rthaulv45,
 			rtpackcurr, rtpackv20, rtpackv40,
-			rtpackv45 } = req.body;
+			rtpackv45, rtef } = req.body;
         
 		try {
 
@@ -47,7 +47,8 @@ class RepoTariffDetail {
 				rtpackcurr: rtpackcurr,
 				rtpackv20: rtpackv20,
 				rtpackv40: rtpackv40,
-				rtpackv45: rtpackv45
+				rtpackv45: rtpackv45,
+				rtef: rtef
 			});
             
 			baseResponse({ message: "succes created Repo Tariff Detail", data: payload })(res, 200);
@@ -104,7 +105,7 @@ class RepoTariffDetail {
 			rtlof45, rtdoccurr, rtdocm, rtdocv,
 			rthaulcurr, rthaulv20, rthaulv40, rthaulv45,
 			rtpackcurr, rtpackv20, rtpackv40,
-			rtpackv45 } = req.body;
+			rtpackv45, rtef } = req.body;
         
 		try {
  
@@ -146,7 +147,8 @@ class RepoTariffDetail {
 					rtpackcurr: rtpackcurr,
 					rtpackv20: rtpackv20,
 					rtpackv40: rtpackv40,
-					rtpackv45: rtpackv45
+					rtpackv45: rtpackv45,
+					rtef: rtef
 				},
 				{ where: { prcode: prcode } }
 			);
