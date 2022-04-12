@@ -47,7 +47,8 @@ module.exports = (sequelize, DataTypes) => {
 			rtpackcurr: DataTypes.STRING,
 			rtpackv20: DataTypes.INTEGER,
 			rtpackv40: DataTypes.INTEGER,
-			rtpackv45: DataTypes.INTEGER
+			rtpackv45: DataTypes.INTEGER,
+			rtef: DataTypes.STRING
 		},
 		{
 			sequelize,
