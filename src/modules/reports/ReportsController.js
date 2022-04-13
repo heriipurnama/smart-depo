@@ -461,7 +461,7 @@ class ReportsController {
 						inner join tblcontainer con on con.crcpid = cp.cpid
 						left join coins_container_repo cr on cr.reorderno=cp.cpiorderno
 						left join tblcontainer_code cc on cc.cccode = con.cccode 
-						left joincontainer_survey sur on sur.cpid = cp.cpid
+						left join container_survey sur on sur.cpid = cp.cpid
 						left join tblvoyage voy on voy.voyid = cp.cpivoyid
 						left join tblsubdepo s on s.sdcode= cp.spdepo
 						left join tbldepo d on d.dpcode= cp.cpdepo
@@ -868,14 +868,14 @@ class ReportsController {
 		try {
 			let datas = await container_process.sequelize.query(
 				`
-					SELECT DISTINCT a.cpiorderno, a.cpopr, a.cpcust, a.cpidish, a.cpidisdat, a.liftoffcharge,
-					a.cpdepo, a.cpipratgl, a.cpirefin, a.cpijam, a.cpivoyid, a.cpives, a.cpicargo,
-					a.cpideliver, a.cpilunas, a.totalcharge, b.cpireceptno,
-					b.tot_lolo, b.biaya_cleaning, b.biaya_adm,
-					b.total_pajak, b.materai, b.total_tagihan, b.totbiaya_lain, b.totpph23, b.receptdate
-					FROM order_pra a , order_pra_recept b
-					WHERE 1 and a.praid = b.praid
-					and b.cpireceptno != '-' and b.receptdate BETWEEN '${tgl1}' AND '${tgl2}'
+					SELECT DISTINCT a.cpiorderno, c.cpopr, c.cpcust, a.cpidish, a.cpidisdat, a.liftoffcharge,
+									a.cpdepo, a.cpipratgl,a.praid, a.cpirefin, a.cpijam, a.cpivoyid, a.cpives, a.cpicargo,
+									a.cpideliver, a.cpilunas, a.totalcharge, b.cpireceptno,
+									b.tot_lolo, b.biaya_cleaning, b.biaya_adm,
+									b.total_pajak, b.materai, b.total_tagihan, b.totbiaya_lain, b.totpph23, b.receptdate
+					FROM order_pra a , order_pra_recept b, order_pra_container c
+					WHERE 1 and a.praid = b.praid and  a.praid = c.praid
+					  and b.cpireceptno != '-' and b.receptdate BETWEEN '${tgl1}' AND '${tgl2}'
 					order by cpiorderno
 					`,
 				{
