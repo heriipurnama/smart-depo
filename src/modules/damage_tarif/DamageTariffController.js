@@ -191,21 +191,28 @@ class DamageTariffController {
 
 		try {
 
-			let dataUsername = await isorepair.findOne({
-				where: { isoid: isoid }
-			});
+			let payload = await isorepair.sequelize.query(
+				`SELECT isoid, mtcode, comp_code, comp_description, repair_code, repair_description, material,
+						formula, also_applies_to, locations, cccodes, _limit, _start, _hours, _mtrlcost,
+					 _inc, _inchours, _incmtrlcost
+				 FROM isorepair WHERE isoid = '${isoid}'
+            `,
+				{
+					type: isorepair.SELECT
+				}
+			);
 
-			if (!dataUsername) {
-				throw new Error(`iso repair ${isoid} doesn't exists!`);
+			if (payload[0].length === 0 ) {
+				throw new Error(`isoid Iso Repair: ${isoid} doesn't exists!`);
 			}
 
 			await isorepair.sequelize.query(
 				`UPDATE isorepair
 					SET mtcode='${mtcode}', comp_code='${comp_code}', comp_description='${comp_description}', repair_code='${repair_code}', 
 					repair_description='${repair_description}', material='${material}', formula='${formula}', 
-					talso_applies_to='${also_applies_to}', locations='${locations}', cccodes='${cccodes}', 
-					'_limit'='${_limit}', '_start'='${_start}', '_hours'='${_hours}', '_mtrlcost'='${_mtrlcost}', 
-					'_inc'='${_inc}', '_inchours'='${_inchours}', '_incmtrlcost'='${_incmtrlcost}'  WHERE isoid='${isoid}'`,
+					also_applies_to='${also_applies_to}', locations='${locations}', cccodes='${cccodes}', 
+					_limit='${_limit}', _start='${_start}', _hours='${_hours}', _mtrlcost='${_mtrlcost}', 
+					_inc='${_inc}', _inchours='${_inchours}', _incmtrlcost='${_incmtrlcost}'  WHERE isoid='${isoid}'`,
 				{
 					type: isorepair.UPDATE
 				});
