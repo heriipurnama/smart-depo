@@ -122,7 +122,7 @@ class DamageTariffController {
 
 		let limits = limit !== undefined ? limit : 10;
 		let offsets = offset !== undefined ? offset : 0;
-		let searchs = search !== undefined ?  ` repair_code LIKE '%${search}%' ` : ` repair_code LIKE '%%' `;
+		let searchs = search !== undefined ?  ` comp_description LIKE '%${search}%' OR repair_description LIKE '%${search}%' ` : ` comp_description LIKE '%%' OR repair_description LIKE '%%' `;
 
 		try {
 			let datas = await damageTariff.sequelize.query(
