@@ -101,14 +101,11 @@ class RepoTariffDetail {
 		let { prcode } = req.query;
 
 		try {
-			let payload = await repoTariffDetail.findOne(
+			let { count, rows: datas } = await repoTariffDetail.findAndCountAll(
 				{ where: { prcode : prcode}}
 			);
 
-			if (!payload) {
-				throw new Error(`prcode Repo Tariff Detail: ${prcode} doesn't exists!`);
-			}
-			baseResponse({ message: "Detail data Repo Tariff Detail prcode", data: payload })(res, 200);
+			baseResponse({ message: "Detail data Repo Tariff Detail prcode", data: { datas, count } })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
