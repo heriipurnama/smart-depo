@@ -74,7 +74,7 @@ class ContainerHoldController {
                 resultCode = `${prefixCode}${paktrasl}${sdcode}00000001`;
             } else {
 
-                let resultDataSurvey = resultSurvey.dataValues.wono;
+                let resultDataSurvey = resultSurvey.dataValues.chorderno;
                 let resultSubstringDataSurvey = resultDataSurvey.substring(7,16);
                 let convertInt = parseInt(resultSubstringDataSurvey) + 1;
 
