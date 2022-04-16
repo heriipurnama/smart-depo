@@ -11,6 +11,7 @@ const Authentication = require("../../utils/middleware/Auth");
 routers.route("/createNewData").post(Authentication, RepoTariffDetail.createData);
 routers.route("/getAllData").get(Authentication, RepoTariffDetail.listAllData);
 routers.route("/getDetailData").get(Authentication, RepoTariffDetail.detailData);
+routers.route("/getDetailPrcode").get(Authentication, RepoTariffDetail.detailDataPrcode);
 routers.route("/updateData").put(Authentication, RepoTariffDetail.updateData);
 
 routers.route("/deleteData").delete(Authentication, RepoTariffDetail.deleteData);
