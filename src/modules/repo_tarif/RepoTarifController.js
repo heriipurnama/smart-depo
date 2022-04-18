@@ -1,7 +1,7 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { tblrepo_tarif, damageTariff} = require("../../db/models");
+const { tblrepo_tarif, damageTariff, container_process} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class RepoTarifController {
@@ -20,6 +20,16 @@ class RepoTarifController {
 
                 rtremarks: rtremarks
             });
+
+            let data = await tblrepo_tarif.sequelize.query(
+                ` UPDATE tblprincipal
+                  SET prcontractno = '${rtno}'
+                  WHERE prcode = '${prcode}'
+            `,
+                {
+                    type: tblrepo_tarif.UPDATE,
+                }
+            );
 
             baseResponse({ message: "succes created Repo Tariff", data: payload })(res, 200);
         } catch (error) {
@@ -109,6 +119,16 @@ class RepoTarifController {
                     rtremarks: rtremarks
                 },
                 { where: { prcode: prcode } }
+            );
+
+            let data = await tblrepo_tarif.sequelize.query(
+                ` UPDATE tblprincipal
+                  SET prcontractno = '${rtno}'
+                  WHERE prcode = '${prcode}'
+            `,
+                {
+                    type: tblrepo_tarif.UPDATE,
+                }
             );
 
             baseResponse({ message: "prcode updated!", data:`repo tariff  succes update for prcode : ${prcode}` })(res, 200);
