@@ -79,14 +79,33 @@ class RepoTariffDetail {
 	}
     
 	static async detailData(req, res, next) {
-		let { prcode, rttype, rtef, rtno } = req.body;
+		let { prcode, rttype } = req.body;
         
 		try {
 			let payload = await repoTariffDetail.findOne(
-				{ where: { prcode : prcode, rtef: rtef, rtno: rtno,
+				{ where: { prcode : prcode,
 					rttype : rttype}}
 			);
 			
+			if (!payload) {
+				throw new Error(`prcode Repo Tariff Detail: ${prcode} doesn't exists!`);
+			}
+			baseResponse({ message: "Detail data Repo Tariff Detail prcode", data: payload })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async detailRepoTarif(req, res, next) {
+		let { prcode, rttype, rtef, rtno } = req.body;
+
+		try {
+			let payload = await repoTariffDetail.findOne(
+				{ where: { prcode : prcode, rtef: rtef, rtno: rtno,
+						rttype : rttype}}
+			);
+
 			if (!payload) {
 				throw new Error(`prcode Repo Tariff Detail: ${prcode} doesn't exists!`);
 			}
