@@ -96,6 +96,8 @@ const keluarGudang = require("./krl_gudang/KrlGudangRouter");
 const reports = require("./reports/ReportsRouter");
 const containerHold = require("./container_hold/ContainerHoldRouter");
 const repoTarif = require("./repo_tarif/RepoTarifRouter");
+const otherWorkOrder =require("./other_work_order/OtherWorkOrderRouter");
+const woRecept=require("./wo_recept/WoReceptRouter");
 
 // base router
 routers.use("/users", user);
@@ -194,5 +196,6 @@ routers.use("/estimasi", estimasi);
 routers.use("/reports", reports);
 routers.use("/containerHold", containerHold);
 routers.use("/repotarif", repoTarif);
-
+routers.use("/otherwo", otherWorkOrder);
+routers.use("/worecept", woRecept);
 module.exports = routers;

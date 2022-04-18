@@ -94,4 +94,6 @@ module.exports = {
 	reports: require("./reports/ReportsController"),
 	containerHold: require("./container_hold/ContainerHoldController"),
 	repoTarif: require("./repo_tarif/RepoTarifController"),
+	otherWorkOrder: require("./other_work_order/OtherWorkOrderController"),
+	woRecept: require("./wo_recept/WoReceptController"),
 };
