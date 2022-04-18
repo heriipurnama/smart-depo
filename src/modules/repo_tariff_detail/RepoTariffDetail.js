@@ -79,11 +79,11 @@ class RepoTariffDetail {
 	}
     
 	static async detailData(req, res, next) {
-		let { prcode, rttype, rtef } = req.body;
+		let { prcode, rttype, rtef, rtno } = req.body;
         
 		try {
 			let payload = await repoTariffDetail.findOne(
-				{ where: { prcode : prcode, rtef: rtef,
+				{ where: { prcode : prcode, rtef: rtef, rtno: rtno,
 					rttype : rttype}}
 			);
 			
@@ -98,11 +98,11 @@ class RepoTariffDetail {
 	}
 
 	static async detailDataPrcode(req, res, next) {
-		let { prcode } = req.query;
+		let { prcode, rtno } = req.query;
 
 		try {
 			let { count, rows: datas } = await repoTariffDetail.findAndCountAll(
-				{ where: { prcode : prcode}}
+				{ where: { prcode : prcode, rtno : rtno}}
 			);
 
 			baseResponse({ message: "Detail data Repo Tariff Detail prcode", data: { datas, count } })(res, 200);
@@ -165,7 +165,8 @@ class RepoTariffDetail {
 					rtpackv45: rtpackv45,
 					rtef: rtef
 				},
-				{ where: { prcode: prcode } }
+				{ where: { prcode : prcode, rtef: rtef, rtno: rtno,
+						rttype : rttype } }
 			);
 
 			baseResponse({ message: "prcode updated!", data:`repo tariff detail succes update for prcode : ${prcode}` })(res, 200);
@@ -177,11 +178,12 @@ class RepoTariffDetail {
 	}
     
 	static async deleteData(req, res, next){
-		let { prcode } = req.body;
+		let { prcode, rtef, rtno, rttype } = req.body;
 
 		try {
 			let payload = await repoTariffDetail.destroy({
-				where: { prcode : prcode }
+				where: { prcode : prcode, rtef: rtef, rtno: rtno,
+					rttype : rttype }
 			});
 
 			if (!payload) {
