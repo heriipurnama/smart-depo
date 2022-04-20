@@ -100,7 +100,7 @@ class OrderPraController {
 	}
 
 	static async listAllData(req, res, next) {
-		let { crno, pracode, offset, limit } = req.query;
+		let { pracode, offset, limit } = req.query;
 
 		try {
 			let offsets = parseInt(offset) || 0;
@@ -109,7 +109,13 @@ class OrderPraController {
 			let { count, rows: datas } = await orderPra.findAndCountAll({
 				offset: offsets,
 				limit: limits,
-				where: { cpiorderno: { [Op.like]: `${pracode}%` } },
+				// where: { cpiorderno: { [Op.like]: `${pracode}%` } },
+				where: {
+					[Op.or]: [
+						{ cpiorderno: { [Op.like]: `%${pracode}%` } },
+						{ praid: { [Op.like]: `%${pracode}%` } },
+					],
+				},
 				include: [
 					{
 						model: voyage,
@@ -133,7 +139,6 @@ class OrderPraController {
 							"cpigatedate",
 							"cpiflag",
 						],
-						where: { crno: { [Op.like]: `${crno}%` } },
 						order: [
 							[
 								{ model: orderPraContainer, as: "orderPraContainers" },
