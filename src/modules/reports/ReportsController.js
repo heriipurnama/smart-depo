@@ -844,7 +844,7 @@ class ReportsController {
 					FROM security_process sp
 							 left join container_process cp on cp.cpid = sp.cpid
 					where DATE_FORMAT(sp.securitydatetime, '%Y-%m-%d')  between '${tgl1}' and '${tgl2}'
-					order by sp.cpid,sp.securitydatetime  desc
+					order by sp.cpid,sp.securitydatetime  asc
 				`,
 				{
 					type: container_process.SELECT,
