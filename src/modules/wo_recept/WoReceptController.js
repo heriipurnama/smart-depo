@@ -12,7 +12,8 @@ class WoReceptController {
         try {
             let datas = await wo_recept.sequelize.query(
                 `SELECT woreceptid, wonoid, woreceptdate, woreceptno, wocurr, worate, wodescbiaya1, wobiaya1, 
-                wodescbiaya2, wobiaya2, wodescbiaya3, wobiaya3, wodescbiaya4, wobiaya4, wodescbiaya5, wobiaya5, wobiaya_adm, 
+                wodescbiaya2, wobiaya2, wodescbiaya3, wobiaya3, wodescbiaya4, wobiaya4, wodescbiaya5, wobiaya5,
+                        wodescbiaya6, wobiaya6, wodescbiaya7, wobiaya7, wobiaya_adm, 
                 wototal_pajak, womaterai, wototal_tagihan, wototbiaya_lain, wototpph23 FROM wo_recept 
             `,
                 {
@@ -31,13 +32,14 @@ class WoReceptController {
     }
 
     static async detailWoRecept(req, res, next){
-        let {woreceptid} = req.query;
+        let { wonoid} = req.query;
         try {
             let dataku = await wo_recept.sequelize.query(
-                `SELECT wonoid, woreceptdate, woreceptno, wocurr, worate, wodescbiaya1, wobiaya1,
-                        wodescbiaya2, wobiaya2, wodescbiaya3, wobiaya3, wodescbiaya4, wobiaya4, wodescbiaya5, wobiaya5, wobiaya_adm,
+                `SELECT woreceptid, wonoid, woreceptdate, woreceptno, wocurr, worate, wodescbiaya1, wobiaya1,
+                        wodescbiaya2, wobiaya2, wodescbiaya3, wobiaya3, wodescbiaya4, wobiaya4, wodescbiaya5, wobiaya5,
+                        wodescbiaya6, wobiaya6, wodescbiaya7, wobiaya7, wobiaya_adm,
                         wototal_pajak, womaterai, wototal_tagihan, wototbiaya_lain, wototpph23 FROM wo_recept
-				 where woreceptid = '${woreceptid}'
+				 where wonoid = '${wonoid}'
 				 ORDER BY wo_recept.woreceptid  DESC
             `,
                 {
@@ -59,7 +61,8 @@ class WoReceptController {
 
     static async updateWO(req, res, next){
         let {woreceptid, wonoid, woreceptdate, woreceptno, wocurr, worate, wodescbiaya1, wobiaya1,
-            wodescbiaya2, wobiaya2, wodescbiaya3, wobiaya3, wodescbiaya4, wobiaya4, wodescbiaya5, wobiaya5, wobiaya_adm,
+            wodescbiaya2, wobiaya2, wodescbiaya3, wobiaya3, wodescbiaya4, wobiaya4, wodescbiaya5, wobiaya5,
+            wodescbiaya6, wobiaya6, wodescbiaya7, wobiaya7, wobiaya_adm,
             wototal_pajak, womaterai, wototal_tagihan, wototbiaya_lain, wototpph23} = req.body;
         try{
 
@@ -79,6 +82,10 @@ class WoReceptController {
                     wobiaya4: wobiaya4,
                     wodescbiaya5: wodescbiaya5,
                     wobiaya5: wobiaya5,
+                    wodescbiaya6: wodescbiaya6,
+                    wobiaya6: wobiaya6,
+                    wodescbiaya7: wodescbiaya7,
+                    wobiaya7: wobiaya7,
                     wobiaya_adm: wobiaya_adm,
                     wototal_pajak: wototal_pajak,
                     womaterai: womaterai,
@@ -102,47 +109,13 @@ class WoReceptController {
 
     static async insertData(req, res, next){
         let {wonoid, woreceptdate, woreceptno, wocurr, worate, wodescbiaya1, wobiaya1,
-            wodescbiaya2, wobiaya2, wodescbiaya3, wobiaya3, wodescbiaya4, wobiaya4, wodescbiaya5, wobiaya5, wobiaya_adm,
+            wodescbiaya2, wobiaya2, wodescbiaya3, wobiaya3, wodescbiaya4, wobiaya4, wodescbiaya5, wobiaya5,
+            wodescbiaya6, wobiaya6, wodescbiaya7, wobiaya7, wobiaya_adm,
             wototal_pajak, womaterai, wototal_tagihan, wototbiaya_lain, wototpph23} = req.body;
         try {
 
-            /**
-             * Format
-             * prefix[SV] + 'paktrasl' + 'sdcode' + 8digit_number
-             */
-
-                // get data company.
-            let resultCompany = await company.findAll({});
-            let paktrasl = resultCompany[0].dataValues.paktrasl;
-            let sdcode = resultCompany[0].dataValues.sdcode;
-            let prefixCode = "WOR";
-
-            // get data repo order
-            let resultSurvey = await wo_recept.findOne({
-                where: {
-                    wonoid: { [Op.like]: `%WOR%`}
-                },
-                order:[[ "wonoid", "DESC"]]
-            });
-            var resultCode;
-            if (resultSurvey === null) {
-
-                resultCode = `${prefixCode}${paktrasl}${sdcode}00000001`;
-            } else {
-
-                let resultDataSurvey = resultSurvey.dataValues.wonoid;
-                let resultSubstringDataSurvey = resultDataSurvey.substring(7,16);
-                let convertInt = parseInt(resultSubstringDataSurvey) + 1;
-
-                let str = "" + convertInt;
-                let pad = "00000000";
-                let number = pad.substring(0, pad.length - str.length) + str;
-                resultCode = `${prefixCode}${paktrasl}${sdcode}${number}`;
-
-            }
-
             let payloadWO = await wo_recept.create({
-                wonoid: resultCode,
+                wonoid: wonoid,
                 woreceptdate: woreceptdate,
                 woreceptno: woreceptno,
                 wocurr: wocurr,
@@ -157,6 +130,10 @@ class WoReceptController {
                 wobiaya4: wobiaya4,
                 wodescbiaya5: wodescbiaya5,
                 wobiaya5: wobiaya5,
+                wodescbiaya6: wodescbiaya6,
+                wobiaya6: wobiaya6,
+                wodescbiaya7: wodescbiaya7,
+                wobiaya7: wobiaya7,
                 wobiaya_adm: wobiaya_adm,
                 wototal_pajak: wototal_pajak,
                 womaterai: womaterai,
