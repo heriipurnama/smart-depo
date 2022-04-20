@@ -103,7 +103,7 @@ class RepoTarifController {
         try {
 
             let dataUsername = await tblrepo_tarif.findOne({
-                where: { prcode: prcode }
+                where: { prcode: prcode, rtno: rtno }
             });
 
             if (!dataUsername) {
@@ -118,7 +118,7 @@ class RepoTarifController {
                     rtexpdate: rtexpdate,
                     rtremarks: rtremarks
                 },
-                { where: { prcode: prcode } }
+                { where: { prcode: prcode, rtno: rtno } }
             );
 
             let data = await tblrepo_tarif.sequelize.query(
