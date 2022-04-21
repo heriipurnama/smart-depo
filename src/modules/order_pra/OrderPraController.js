@@ -100,72 +100,136 @@ class OrderPraController {
 	}
 
 	static async listAllData(req, res, next) {
-		let { pracode, search, groupId, offset, limit } = req.query;
+		let { pracode, search, groupId, userId, offset, limit } = req.query;
 
 		try {
 			let offsets = parseInt(offset) || 0;
 			let limits = parseInt(limit) || 11;
 
-			let { count, rows: datas } = await orderPra.findAndCountAll({
-				offset: offsets,
-				limit: limits,
-				// where: { cpiorderno: { [Op.like]: `${pracode}%` } },
-				where: {
-					[Op.and]: [
-						{cpiorderno: { [Op.like]: `%${pracode}%` }}
-					],
-					[Op.or]: [
-						{ cpirefin: { [Op.like]: `%${search}%` } },
-						{ praid: { [Op.like]: `%${search}%` } },
-					],
-				},
-				include: [
-					{
-						model: voyage,
-						as: "voyages",
-						attributes: ["voyid", "vesid", "voyno"],
-					},
-					{
-						model: orderPraContainer,
-						as: "orderPraContainers",
-						attributes: [
-							"pracrnoid",
-							"praid",
-							"crno",
-							"cccode",
-							"ctcode",
-							"cclength",
-							"ccheight",
-							"cpife",
-							"cpishold",
-							"cpiremark",
-							"cpigatedate",
-							"cpiflag",
+			if (groupId === 1){
+				let { count, rows: datas } = await orderPra.findAndCountAll({
+					offset: offsets,
+					limit: limits,
+					// where: { cpiorderno: { [Op.like]: `${pracode}%` } },
+					where: {
+						[Op.and]: [
+							{ crtby: userId },
+							{cpiorderno: { [Op.like]: `%${pracode}%` }}
 						],
-						order: [
-							[
-								{ model: orderPraContainer, as: "orderPraContainers" },
+						[Op.or]: [
+							{ cpirefin: { [Op.like]: `%${search}%` } },
+							{ praid: { [Op.like]: `%${search}%` } },
+						],
+					},
+					include: [
+						{
+							model: voyage,
+							as: "voyages",
+							attributes: ["voyid", "vesid", "voyno"],
+						},
+						{
+							model: orderPraContainer,
+							as: "orderPraContainers",
+							attributes: [
 								"pracrnoid",
-								"ASC",
+								"praid",
+								"crno",
+								"cccode",
+								"ctcode",
+								"cclength",
+								"ccheight",
+								"cpife",
+								"cpishold",
+								"cpiremark",
+								"cpigatedate",
+								"cpiflag",
 							],
+							order: [
+								[
+									{ model: orderPraContainer, as: "orderPraContainers" },
+									"pracrnoid",
+									"ASC",
+								],
+							],
+						},
+						{
+							model: tblusers,
+							as: "users",
+						},
+						{
+							model: orderPraFile,
+							as: "files",
+						},
+					],
+					order: [["praid", "DESC"]],
+				});
+				baseResponse({ message: "list order pra", data: { datas, count } })(
+					res,
+					200
+				);
+			}else{
+				let { count, rows: datas } = await orderPra.findAndCountAll({
+					offset: offsets,
+					limit: limits,
+					// where: { cpiorderno: { [Op.like]: `${pracode}%` } },
+					where: {
+						[Op.and]: [
+							{cpiorderno: { [Op.like]: `%${pracode}%` }}
+						],
+						[Op.or]: [
+							{ cpirefin: { [Op.like]: `%${search}%` } },
+							{ praid: { [Op.like]: `%${search}%` } },
 						],
 					},
-					{
-						model: tblusers,
-						as: "users",
-						where: { group_id: groupId },
-					},
-					{
-						model: orderPraFile,
-						as: "files",
-					},
-				],
-				order: [["praid", "DESC"]],
-			});
-			baseResponse({ message: "list order pra", data: { datas, count } })(
-				res,
-				200
-			);
+					include: [
+						{
+							model: voyage,
+							as: "voyages",
+							attributes: ["voyid", "vesid", "voyno"],
+						},
+						{
+							model: orderPraContainer,
+							as: "orderPraContainers",
+							attributes: [
+								"pracrnoid",
+								"praid",
+								"crno",
+								"cccode",
+								"ctcode",
+								"cclength",
+								"ccheight",
+								"cpife",
+								"cpishold",
+								"cpiremark",
+								"cpigatedate",
+								"cpiflag",
+							],
+							order: [
+								[
+									{ model: orderPraContainer, as: "orderPraContainers" },
+									"pracrnoid",
+									"ASC",
+								],
+							],
+						},
+						{
+							model: tblusers,
+							as: "users",
+						},
+						{
+							model: orderPraFile,
+							as: "files",
+						},
+					],
+					order: [["praid", "DESC"]],
+				});
+				baseResponse({ message: "list order pra", data: { datas, count } })(
+					res,
+					200
+				);
+			}
+
+
 		} catch (error) {
 			res.status(403);
 			next(error);
