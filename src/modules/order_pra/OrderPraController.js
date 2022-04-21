@@ -103,8 +103,8 @@ class OrderPraController {
 		let { pracode, search, groupId, userId, offset, limit } = req.query;
 
 		try {
-			let offsets = parseInt(offset) || 0;
-			let limits = parseInt(limit) || 11;
+			let offsets = parseInt(offset);
+			let limits = parseInt(limit);
 			let groupIds = parseInt(groupId);
 
 			if (groupIds == 1){
