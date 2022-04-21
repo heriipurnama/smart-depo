@@ -167,9 +167,13 @@ class OtherWorkOrderController {
                 womdfby: womdfby,
             });
 
+            let payloadter = await work_order.findOne({
+                where: {  wono: resultCode  },
+            });
+
             baseResponse({
                 message: "Success Insert Data",
-                data: payloadWO
+                data: payloadter
             })(res, 200);
         } catch (error) {
             res.status(403);
