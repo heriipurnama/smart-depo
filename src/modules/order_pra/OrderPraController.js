@@ -164,7 +164,7 @@ class OrderPraController {
 					],
 					order: [["praid", "DESC"]],
 				});
-				baseResponse({ message: "list order pra", data: { datas, "count": datas.count } })(
+				baseResponse({ message: "list order pra", data: { datas, count }, counts: datas.count })(
 					res,
 					200
 				);
@@ -224,7 +224,7 @@ class OrderPraController {
 					],
 					order: [["praid", "DESC"]],
 				});
-				baseResponse({ message: "list order pra", data: { datas, "count": datas.count } })(
+				baseResponse({ message: "list order pra", data: { datas, count }, counts: datas.count })(
 					res,
 					200
 				);
