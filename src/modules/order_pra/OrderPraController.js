@@ -100,7 +100,7 @@ class OrderPraController {
 	}
 
 	static async listAllData(req, res, next) {
-		let { pracode, offset, limit } = req.query;
+		let { pracode, groupId, offset, limit } = req.query;
 
 		try {
 			let offsets = parseInt(offset) || 0;
@@ -150,6 +150,7 @@ class OrderPraController {
 					{
 						model: tblusers,
 						as: "users",
+						where: { group_id: groupId },
 					},
 					{
 						model: orderPraFile,
