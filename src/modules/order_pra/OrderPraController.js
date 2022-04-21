@@ -100,7 +100,7 @@ class OrderPraController {
 	}
 
 	static async listAllData(req, res, next) {
-		let { pracode, groupId, offset, limit } = req.query;
+		let { pracode, search, groupId, offset, limit } = req.query;
 
 		try {
 			let offsets = parseInt(offset) || 0;
@@ -111,9 +111,12 @@ class OrderPraController {
 				limit: limits,
 				// where: { cpiorderno: { [Op.like]: `${pracode}%` } },
 				where: {
+					[Op.and]: [
+						{cpiorderno: { [Op.like]: `%${pracode}%` }}
+					],
 					[Op.or]: [
-						{ cpiorderno: { [Op.like]: `%${pracode}%` } },
-						{ praid: { [Op.like]: `%${pracode}%` } },
+						{ cpirefin: { [Op.like]: `%${search}%` } },
+						{ praid: { [Op.like]: `%${search}%` } },
 					],
 				},
 				include: [
