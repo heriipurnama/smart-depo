@@ -105,8 +105,9 @@ class OrderPraController {
 		try {
 			let offsets = parseInt(offset) || 0;
 			let limits = parseInt(limit) || 11;
+			let groupIds = parseInt(groupId);
 
-			if (groupId == 1){
+			if (groupIds == 1){
 				let { count, rows: datas } = await orderPra.findAndCountAll({
 					offset: offsets,
 					limit: limits,
