@@ -109,8 +109,6 @@ class OrderPraController {
 
 			if (groupIds == 1){
 				let { count, rows: datas } = await orderPra.findAndCountAll({
-					offset: offsets,
-					limit: limits,
 					// where: { cpiorderno: { [Op.like]: `${pracode}%` } },
 					where: {
 						[Op.and]: [
@@ -163,6 +161,8 @@ class OrderPraController {
 						},
 					],
 					order: [["praid", "DESC"]],
+					offset: offsets,
+					limit: limits,
 				});
 				baseResponse({ message: "list order pra", data: { datas, count } })(
 					res,
@@ -170,8 +170,6 @@ class OrderPraController {
 				);
 			}else{
 				let { count, rows: datas } = await orderPra.findAndCountAll({
-					offset: offsets,
-					limit: limits,
 					// where: { cpiorderno: { [Op.like]: `${pracode}%` } },
 					where: {
 						[Op.and]: [
@@ -223,6 +221,8 @@ class OrderPraController {
 						},
 					],
 					order: [["praid", "DESC"]],
+					offset: offsets,
+					limit: limits,
 				});
 				baseResponse({ message: "list order pra", data: { datas, count } })(
 					res,
