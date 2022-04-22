@@ -108,8 +108,7 @@ class OrderPraController {
 			let groupIds = parseInt(groupId);
 
 			if (groupIds == 1){
-				let count;
-				let { counts, rows: datas } = await orderPra.findAndCountAll({
+				let { count, rows: datas } = await orderPra.findAndCountAll({
 					offset: offsets,
 					limit: limits,
 					// where: { cpiorderno: { [Op.like]: `${pracode}%` } },
@@ -165,13 +164,12 @@ class OrderPraController {
 					],
 					order: [["praid", "DESC"]],
 				});
-				baseResponse({ message: "list order pra", data: { datas, count:datas.count } })(
+				baseResponse({ message: "list order pra", data: { datas, count } })(
 					res,
 					200
 				);
 			}else{
-				let count;
-				let { counts, rows: datas } = await orderPra.findAndCountAll({
+				let { count, rows: datas } = await orderPra.findAndCountAll({
 					offset: offsets,
 					limit: limits,
 					// where: { cpiorderno: { [Op.like]: `${pracode}%` } },
@@ -226,7 +224,7 @@ class OrderPraController {
 					],
 					order: [["praid", "DESC"]],
 				});
-				baseResponse({ message: "list order pra", data: { datas, count:datas.count } })(
+				baseResponse({ message: "list order pra", data: { datas, count } })(
 					res,
 					200
 				);
