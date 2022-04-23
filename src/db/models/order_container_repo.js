@@ -81,7 +81,7 @@ module.exports = (sequelize, DataTypes) => {
 			remdfon: DataTypes.DATE,
 			cpopr: DataTypes.STRING,
 			cpcust: DataTypes.STRING,
-			recpivoyid: DataTypes.INTEGER,
+			recpivoyid: DataTypes.STRING,
 			recpives: DataTypes.STRING,
 			repovendor: DataTypes.STRING,
 			repofe: DataTypes.STRING,
