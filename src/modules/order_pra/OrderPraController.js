@@ -13,7 +13,7 @@ const {
 	vessel,
 	tblusers,
 	orderPraFile,
-	orderPraRecept, container_survey,
+	orderPraRecept, container_survey, work_order,
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
@@ -164,7 +164,18 @@ class OrderPraController {
 					offset: offsets,
 					limit: limits,
 				});
-				baseResponse({ message: "list order pra", data: { datas, count } })(
+
+				let TotalDatas = await orderPra.sequelize.query(
+					`SELECT COUNT(1) FROM order_pra WHERE crtby ='${userId}' and cpiorderno like '%${pracode}%' and 
+                                     (cpirefin like '%${search}%' Or praid like '%${search}%')
+				 ORDER BY praid  DESC `,
+					{
+						type: orderPra.SELECT,
+					}
+				);
+
+				let totalDatas = Object.values(TotalDatas[0][0])[0];
+				baseResponse({ message: "list order pra", data: { datas, totalDatas } })(
 					res,
 					200
 				);
@@ -224,7 +235,18 @@ class OrderPraController {
 					offset: offsets,
 					limit: limits,
 				});
-				baseResponse({ message: "list order pra", data: { datas, count } })(
+
+				let TotalDatas = await orderPra.sequelize.query(
+					`SELECT COUNT(1) FROM order_pra WHERE cpiorderno like '%${pracode}%' and 
+                                     (cpirefin like '%${search}%' Or praid like '%${search}%')
+				 ORDER BY praid  DESC `,
+					{
+						type: orderPra.SELECT,
+					}
+				);
+
+				let totalDatas = Object.values(TotalDatas[0][0])[0];
+				baseResponse({ message: "list order pra", data: { datas, totalDatas } })(
 					res,
 					200
 				);
