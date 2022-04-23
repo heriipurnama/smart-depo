@@ -19,13 +19,7 @@ class ReportsController {
 
     static async rptDailyMovementIn(req, res, next) {
         let { prcode, date_from, date_to,  hour_from, hour_to} = req.query;
-		let prcode1    = prcode == "" ? " 1 " : " cp.cpopr ='" + prcode + "' ";
-		let datefrom = date_from == "" ? "" : " and cp.cpitgl >='" + date_from + "'";
-		let dateto   = hour_from == "" ? "" : " and cp.cpitgl >='" + hour_from + "'";
-
-		let jamFrom    = hour_from == "" ? "" : " and cp.cpijam >='" + hour_from + "'";
-		let jamTo      = hour_to == "" ? "" : " and cp.cpijam >='" + hour_to + "'";
-
+		let prcode1    = prcode == "" ? " " : " cp.cpopr ='" + prcode + "' ";
 
         try {
 			let datas = await container_process.sequelize.query(
@@ -45,10 +39,8 @@ class ReportsController {
 					left join tbldepo dep on dep.dpcode = cp.cpdepo
 				where
 				${prcode1}
-				${datefrom}
-				${dateto}
-				${jamFrom}
-				${jamTo}
+				and (cp.cpitgl BETWEEN '${date_from}' AND '${date_to}')
+				and (cp.cpijam BETWEEN '${hour_from}' AND '${hour_to}')
 				and cp.cpopr<>'' and (cp.cpistatus<>'of' and cp.cpistatus<>'fs' and cp.cpistatus<>'fc') 
 				and (cp.crno<>'' or cp.crno is not null ) 
 				order by cp.cpitgl 
@@ -70,12 +62,7 @@ class ReportsController {
 
     static async rptDailyMovementOut(req, res, next) {
         let { prcode, date_from, date_to,  hour_from, hour_to} = req.query;
-		let prcode1    = prcode == "" ? " 1 " : " cp.cpopr ='" + prcode + "' ";
-		let datefrom = date_from == "" ? "" : " and cp.cpitgl >='" + date_from + "'";
-		let dateto   = hour_from == "" ? "" : " and cp.cpitgl >='" + hour_from + "'";
-
-		let jamFrom    = hour_from == "" ? "" : " and cp.cpijam >='" + hour_from + "'";
-		let jamTo      = hour_to == "" ? "" : " and cp.cpijam >='" + hour_to + "'";
+		let prcode1    = prcode == "" ? " " : " cp.cpopr ='" + prcode + "' ";
 
 
         try {
@@ -116,10 +103,8 @@ class ReportsController {
 						left join container_survey sur on sur.cpid = cp.cpid
 				where
 				${prcode1}
-				${datefrom}
-				${dateto}
-				${jamFrom}
-				${jamTo}
+				  and (cp.cpitgl BETWEEN '${date_from}' AND '${date_to}')
+				  and (cp.cpijam BETWEEN '${hour_from}' AND '${hour_to}')
 				and cp.cpopr<>'' and (cp.cpistatus<>'of' and cp.cpistatus<>'fs' and cp.cpistatus<>'fc') 
 				and (cp.crno<>'' or cp.crno is not null ) 
 				order by cp.cpitgl 
