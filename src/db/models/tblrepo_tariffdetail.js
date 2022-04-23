@@ -48,6 +48,10 @@ module.exports = (sequelize, DataTypes) => {
 			rtpackv20: DataTypes.INTEGER,
 			rtpackv40: DataTypes.INTEGER,
 			rtpackv45: DataTypes.INTEGER,
+			rtportcharger20: DataTypes.DECIMAL,
+			rtportcharger40: DataTypes.DECIMAL,
+			rttruck20: DataTypes.DECIMAL,
+			rttruck40: DataTypes.DECIMAL,
 			rtef: DataTypes.STRING
 		},
 		{

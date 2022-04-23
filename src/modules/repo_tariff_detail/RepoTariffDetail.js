@@ -14,7 +14,10 @@ class RepoTariffDetail {
 			rtlof45, rtdoccurr, rtdocm, rtdocv,
 			rthaulcurr, rthaulv20, rthaulv40, rthaulv45,
 			rtpackcurr, rtpackv20, rtpackv40,
-			rtpackv45, rtef } = req.body;
+			rtpackv45, rtef, rtportcharger20,
+			rtportcharger40,
+			rttruck20,
+			rttruck40 } = req.body;
         
 		try {
 
@@ -48,7 +51,11 @@ class RepoTariffDetail {
 				rtpackv20: rtpackv20,
 				rtpackv40: rtpackv40,
 				rtpackv45: rtpackv45,
-				rtef: rtef
+				rtef: rtef,
+				rtportcharger20: rtportcharger20,
+				rtportcharger40: rtportcharger40,
+				rttruck20: rttruck20,
+				rttruck40: rttruck40
 			});
             
 			baseResponse({ message: "succes created Repo Tariff Detail", data: payload })(res, 200);
@@ -139,7 +146,10 @@ class RepoTariffDetail {
 			rtlof45, rtdoccurr, rtdocm, rtdocv,
 			rthaulcurr, rthaulv20, rthaulv40, rthaulv45,
 			rtpackcurr, rtpackv20, rtpackv40,
-			rtpackv45, rtef } = req.body;
+			rtpackv45, rtef, rtportcharger20,
+			rtportcharger40,
+			rttruck20,
+			rttruck40 } = req.body;
         
 		try {
  
@@ -182,7 +192,11 @@ class RepoTariffDetail {
 					rtpackv20: rtpackv20,
 					rtpackv40: rtpackv40,
 					rtpackv45: rtpackv45,
-					rtef: rtef
+					rtef: rtef,
+					rtportcharger20: rtportcharger20,
+					rtportcharger40: rtportcharger40,
+					rttruck20: rttruck20,
+					rttruck40: rttruck40
 				},
 				{ where: { prcode : prcode, rtef: rtef, rtno: rtno,
 						rttype : rttype } }
