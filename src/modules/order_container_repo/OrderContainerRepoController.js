@@ -75,7 +75,14 @@ class OrderContainerRepoController {
 			recpivoyid,
 			repovendor,
 			repofe,
-			rebillingto,
+			rebillingto, rtportcharger20,
+			rtportcharger40,
+			rttruck20,
+			rttruck40,
+			reportchargertot20,
+			reportchargertot40,
+			retrucktot20,
+			retrucktot40,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -156,6 +163,14 @@ class OrderContainerRepoController {
 				repovendor: repovendor,
 				repofe:repofe,
 				rebillingto: rebillingto,
+				rtportcharger20: rtportcharger20,
+				rtportcharger40: rtportcharger40,
+				rttruck20: rttruck20,
+				rttruck40: rttruck40,
+				reportchargertot20: reportchargertot20,
+				reportchargertot40: reportchargertot40,
+				retrucktot20: retrucktot20,
+				retrucktot40: retrucktot40,
 			});
 
 			baseResponse({
@@ -307,7 +322,14 @@ class OrderContainerRepoController {
 			recpivoyid,
 			repovendor,
 			repofe,
-			rebillingto,
+			rebillingto, rtportcharger20,
+			rtportcharger40,
+			rttruck20,
+			rttruck40,
+			reportchargertot20,
+			reportchargertot40,
+			retrucktot20,
+			retrucktot40,
 		} = req.body;
 
 		let bearerheader = req.headers["authorization"];
@@ -395,6 +417,14 @@ class OrderContainerRepoController {
 					repovendor: repovendor,
 					repofe:repofe,
 					rebillingto: rebillingto,
+					rtportcharger20: rtportcharger20,
+					rtportcharger40: rtportcharger40,
+					rttruck20: rttruck20,
+					rttruck40: rttruck40,
+					reportchargertot20: reportchargertot20,
+					reportchargertot40: reportchargertot40,
+					retrucktot20: retrucktot20,
+					retrucktot40: retrucktot40,
 				},
 				{ where: { reorderno: reorderno } }
 			);
