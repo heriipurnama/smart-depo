@@ -108,7 +108,7 @@ class OrderPraController {
 			let groupIds = parseInt(groupId);
 
 			if (groupIds == 1){
-				let { count, rows: datas } = await orderPra.findAndCountAll({
+				let { counts, rows: datas } = await orderPra.findAndCountAll({
 					// where: { cpiorderno: { [Op.like]: `${pracode}%` } },
 					where: {
 						[Op.and]: [
@@ -165,7 +165,7 @@ class OrderPraController {
 					limit: limits,
 				});
 
-				let TotalDatas = await orderPra.sequelize.query(
+				let countz = await orderPra.sequelize.query(
 					`SELECT COUNT(1) FROM order_pra WHERE crtby ='${userId}' and cpiorderno like '%${pracode}%' and 
                                      (cpirefin like '%${search}%' Or praid like '%${search}%')
 				 ORDER BY praid  DESC `,
@@ -174,13 +174,13 @@ class OrderPraController {
 					}
 				);
 
-				let totalDatas = Object.values(TotalDatas[0][0])[0];
-				baseResponse({ message: "list order pra", data: { datas, totalDatas } })(
+				let count = Object.values(countz[0][0])[0];
+				baseResponse({ message: "list order pra", data: { datas, count } })(
 					res,
 					200
 				);
 			}else{
-				let { count, rows: datas } = await orderPra.findAndCountAll({
+				let { counts, rows: datas } = await orderPra.findAndCountAll({
 					// where: { cpiorderno: { [Op.like]: `${pracode}%` } },
 					where: {
 						[Op.and]: [
@@ -236,7 +236,7 @@ class OrderPraController {
 					limit: limits,
 				});
 
-				let TotalDatas = await orderPra.sequelize.query(
+				let countz = await orderPra.sequelize.query(
 					`SELECT COUNT(1) FROM order_pra WHERE cpiorderno like '%${pracode}%' and 
                                      (cpirefin like '%${search}%' Or praid like '%${search}%')
 				 ORDER BY praid  DESC `,
@@ -245,8 +245,8 @@ class OrderPraController {
 					}
 				);
 
-				let totalDatas = Object.values(TotalDatas[0][0])[0];
-				baseResponse({ message: "list order pra", data: { datas, totalDatas } })(
+				let count = Object.values(countz[0][0])[0];
+				baseResponse({ message: "list order pra", data: { datas, count } })(
 					res,
 					200
 				);
