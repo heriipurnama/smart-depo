@@ -19,7 +19,7 @@ class ReportsController {
 
     static async rptDailyMovementIn(req, res, next) {
         let { prcode, date_from, date_to,  hour_from, hour_to} = req.query;
-		let prcode1    = prcode == "" ? " " : " cp.cpopr ='" + prcode + "' ";
+		let prcode1    = prcode == "" ? " " : " cp.cpopr ='" + prcode + "' and ";
 
         try {
 			let datas = await container_process.sequelize.query(
@@ -39,7 +39,7 @@ class ReportsController {
 					left join tbldepo dep on dep.dpcode = cp.cpdepo
 				where
 				${prcode1}
-				and (cp.cpitgl BETWEEN '${date_from}' AND '${date_to}')
+				(cp.cpitgl BETWEEN '${date_from}' AND '${date_to}')
 				and (cp.cpijam BETWEEN '${hour_from}' AND '${hour_to}')
 				and cp.cpopr<>'' and (cp.cpistatus<>'of' and cp.cpistatus<>'fs' and cp.cpistatus<>'fc') 
 				and (cp.crno<>'' or cp.crno is not null ) 
@@ -62,7 +62,7 @@ class ReportsController {
 
     static async rptDailyMovementOut(req, res, next) {
         let { prcode, date_from, date_to,  hour_from, hour_to} = req.query;
-		let prcode1    = prcode == "" ? " " : " cp.cpopr ='" + prcode + "' ";
+		let prcode1    = prcode == "" ? " " : " cp.cpopr ='" + prcode + "' and ";
 
 
         try {
@@ -103,7 +103,7 @@ class ReportsController {
 						left join container_survey sur on sur.cpid = cp.cpid
 				where
 				${prcode1}
-				  and (cp.cpitgl BETWEEN '${date_from}' AND '${date_to}')
+				(cp.cpitgl BETWEEN '${date_from}' AND '${date_to}')
 				  and (cp.cpijam BETWEEN '${hour_from}' AND '${hour_to}')
 				and cp.cpopr<>'' and (cp.cpistatus<>'of' and cp.cpistatus<>'fs' and cp.cpistatus<>'fc') 
 				and (cp.crno<>'' or cp.crno is not null ) 
