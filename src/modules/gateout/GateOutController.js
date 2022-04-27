@@ -246,7 +246,7 @@ class GateOutController {
 			);
 
 			const payloades = await container.update(
-				{ crlastact: "OD" },
+				{ crlastact: "OD", lastact: "OD" },
 				{ where: { crno: crno } }
 			);
 
