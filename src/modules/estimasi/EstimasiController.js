@@ -268,6 +268,23 @@ class EstimasiController {
 		}
 	}
 
+	static async checkValidasiHeader(req, res, next){
+		let { rpcrno } = req.query;
+		try {
+			let payload = await container_repair.sequelize.query(
+				`SELECT * FROM container_repair where rpcrno ='${rpcrno}'`,
+				{
+					type: container_repair.SELECT,
+				}
+			);
+			let resultData = payload[0];
+			baseResponse({ message: "cek conainer repair", data: resultData })(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	static async insertEstimasiHeader(req, res, next) {
 		let {
 			svid,

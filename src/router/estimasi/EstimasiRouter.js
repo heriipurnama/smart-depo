@@ -21,6 +21,10 @@ routers
 	.route("/listDetailContainer")
 	.get(Authentication, EstimasiController.listDetailContainer);
 
+routers
+	.route("/checkValidasiHeader")
+	.get(Authentication, EstimasiController.checkValidasiHeader);
+
 routers.route("/createHeader").post(
 	Authentication,
 	EstimasiController.insertEstimasiHeader);
