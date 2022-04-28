@@ -119,7 +119,7 @@ class dataListReportController {
                   INNER JOIN container_repair rp ON
                   rp.SVID = surv.SVID
                   LEFT JOIN tblprincipal pr ON
-                  pr.PRCODE = cp.CPOPR Where surv.TYPE='1' ${searchs} and con.crlastact ='WE'
+                  pr.PRCODE = cp.CPOPR Where surv.TYPE='1' ${searchs} and con.crlastact ='WA'
 				  ORDER BY rp.SVID desc LIMIT ${limits} OFFSET ${offsets}`,
 				{
 					type: container_process.SELECT,
@@ -135,7 +135,7 @@ class dataListReportController {
                   INNER JOIN container_repair rp ON
                   rp.SVID = surv.SVID
                   LEFT JOIN tblprincipal pr ON
-                  pr.PRCODE = cp.CPOPR Where surv.TYPE='1' and con.crlastact ='WE'`,
+                  pr.PRCODE = cp.CPOPR Where surv.TYPE='1' and con.crlastact ='WA'`,
 				{
 					type: container_process.SELECT,
 				}
