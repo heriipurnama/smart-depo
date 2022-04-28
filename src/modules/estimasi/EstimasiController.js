@@ -317,6 +317,11 @@ class EstimasiController {
 				syid: syid,
 			});
 
+			const payloades = await container.update(
+				{ crlastact: "WA" },
+				{ where: { crno: rpcrno } }
+			);
+
 			let succesMessage = {
 				"succes created container process": "", "header": payloadEstimHeader,
 			};
@@ -636,6 +641,11 @@ class EstimasiController {
 				syid: syid,
 			},
 				{ where: { svid: svid } }
+			);
+
+			const payloades = await container.update(
+				{ crlastact: "WA" },
+				{ where: { crno: rpcrno } }
 			);
 
 			let succesMessage = {
