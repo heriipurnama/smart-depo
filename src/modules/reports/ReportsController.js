@@ -60,12 +60,12 @@ class ReportsController {
 		}
     }
 
-    static async rptDailyMovementOut(req, res, next) {
-        let { prcode, date_from, date_to,  hour_from, hour_to} = req.query;
+	static async rptDailyMovementOut(req, res, next) {
+		let { prcode, date_from, date_to,  hour_from, hour_to} = req.query;
 		let prcode1    = prcode == "" ? " " : " cp.cpopr ='" + prcode + "' and ";
 
 
-        try {
+		try {
 			let datas = await container_process.sequelize.query(
 				`
 					select cp.cpopr1,
@@ -101,13 +101,13 @@ class ReportsController {
 						left join tblport po on po.poid = cp.cpoload
 						left join tblprincipal pr on cp.cpopr = pr.prcode
 						left join container_survey sur on sur.cpid = cp.cpid
-				where
-				${prcode1}
-				(cp.cpitgl BETWEEN '${date_from}' AND '${date_to}')
-				  and (cp.cpijam BETWEEN '${hour_from}' AND '${hour_to}')
-				and cp.cpopr<>'' and (cp.cpistatus<>'of' and cp.cpistatus<>'fs' and cp.cpistatus<>'fc') 
-				and (cp.crno<>'' or cp.crno is not null ) 
-				order by cp.cpitgl 
+					where
+						${prcode1}
+						(cp.cpotgl BETWEEN '${date_from}' AND '${date_to}')
+					  and (cp.cpojam BETWEEN '${hour_from}' AND '${hour_to}')
+					  and cp.cpopr<>'' and (cp.cpistatus<>'of' and cp.cpistatus<>'fs' and cp.cpistatus<>'fc')
+					  and (cp.crno<>'' or cp.crno is not null )
+					order by cp.cpotgl
 				`,
 				{
 					type: container_process.SELECT,
@@ -122,7 +122,7 @@ class ReportsController {
 			res.status(403);
 			next(error);
 		}
-    }
+	}
 
     static async rptDailyRepairActivity(req, res, next) {
         let { prcode, date_from} = req.query;
