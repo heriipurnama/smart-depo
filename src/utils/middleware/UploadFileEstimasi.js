@@ -31,8 +31,8 @@ const disk = multer.diskStorage({
                     },
                 });
 
-                if (!dataUsername) {
-                    if (!file.length) {
+                // if (!dataUsername) {
+                    if (!file.length && dataUsername === null) {
                         let fileExtension = "."+getExtension(file.originalname);
                             // file.originalname.split(".")[1]; // get file extension from original file name
                         let fieldName = file.fieldname;
@@ -58,34 +58,34 @@ const disk = multer.diskStorage({
                         console.log("data ada");
                         cb(null, resp);
                     }
-                }else {
-                    let fileExtension = "."+getExtension(file.originalname);
-                        // file.originalname.split(".")[1]; // get file extension from original file name
-                    let fieldName = file.fieldname;
-                    let unixOrderNumber = svid + rpid;
-                    let uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-
-                    let resultRenameFileAttachment = `${fieldName}-${unixOrderNumber}-${uniqueSuffix}.${fileExtension}`;
-                    // eslint-disable-next-line no-undef
-                    let restUrl = `${process.env.BASE_URL}/public/${resultRenameFileAttachment}`;
-
-                    const payload =  await repairDetailFile.update({
-                        svid: svid,
-                        rpid: rpid,
-                        url: restUrl,
-                        flag: flag,
-                        file_time_upload: Date.now(),
-                    },
-                        { where: {
-                                [Op.and]: [
-                                    {svid: svid},
-                                    {rpid : rpid}
-
-                                ],
-                            },
-                        });
-                    cb(null, resultRenameFileAttachment);
-                }
+                // }else {
+                //     let fileExtension = "."+getExtension(file.originalname);
+                //         // file.originalname.split(".")[1]; // get file extension from original file name
+                //     let fieldName = file.fieldname;
+                //     let unixOrderNumber = svid + rpid;
+                //     let uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+                //
+                //     let resultRenameFileAttachment = `${fieldName}-${unixOrderNumber}-${uniqueSuffix}.${fileExtension}`;
+                //     // eslint-disable-next-line no-undef
+                //     let restUrl = `${process.env.BASE_URL}/public/${resultRenameFileAttachment}`;
+                //
+                //     const payload =  await repairDetailFile.update({
+                //         svid: svid,
+                //         rpid: rpid,
+                //         url: restUrl,
+                //         flag: flag,
+                //         file_time_upload: Date.now(),
+                //     },
+                //         { where: {
+                //                 [Op.and]: [
+                //                     {svid: svid},
+                //                     {rpid : rpid}
+                //
+                //                 ],
+                //             },
+                //         });
+                //     cb(null, resultRenameFileAttachment);
+                // }
 
             } catch (err) {
                 cb(err, null);

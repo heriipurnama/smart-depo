@@ -33,7 +33,8 @@ routers.route("/createDetail").post(
 	Authentication,
 		multer({
 			storage: storageFiles,
-		}).array("file", 3),
+			limits: { fileSize: maxSize },
+		}).array("file",3),
 	EstimasiController.insertEstimasiDetail);
 
 routers
