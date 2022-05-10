@@ -34,7 +34,7 @@ routers.route("/createDetail").post(
 		multer({
 			storage: storageFiles,
 			limits: { fileSize: maxSize },
-		}).any("file"),
+		}).array("file", 3),
 	EstimasiController.insertEstimasiDetail);
 
 routers
