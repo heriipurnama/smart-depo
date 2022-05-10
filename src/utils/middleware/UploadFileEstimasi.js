@@ -32,7 +32,7 @@ const disk = multer.diskStorage({
                 });
 
                 // if (!dataUsername) {
-                    if (!file.length && dataUsername === null) {
+                    if (!file.length) {
                         let fileExtension = "."+getExtension(file.originalname);
                             // file.originalname.split(".")[1]; // get file extension from original file name
                         let fieldName = file.fieldname;
