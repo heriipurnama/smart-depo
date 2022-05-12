@@ -420,13 +420,13 @@ class GateOutController {
 
 				});
 
-			let cpieir = datas['cpieir'];
+			let cpieir = datas['cpieir'] === 'null' ? null : parseInt(datas['cpieir']);
 			let cpidish = datas['cpidish'];
 			let cpidisdat = datas['cpidisdat'];
 			let cpideliver = datas['cpideliver'];
 			let cpitgl = datas['cpitgl'];
 			let cpiterm = datas['cpiterm'];
-			let cpochrgbm = datas['cpichrgbb'];
+			let cpochrgbm = datas['cpichrgbb']  === 'null' ? null : parseInt(datas['cpichrgbb']);
 			let cpoorderno = datas['cpiorderno'];
 			let cporeceptno = datas['cpireceptno'];
 			let cpopratgl = datas['cpipratgl'];
@@ -435,7 +435,7 @@ class GateOutController {
 			let cporeceiv = null;
 			let cpocargo = datas['cpicargo'];
 			let cpodpp = datas['cpidpp'];
-			let cpodppinout = datas['cpidppinout'];
+			let cpodppinout = datas['cpidppinout'] === 'null' ? null : parseInt(datas['cpidppinout']);
 			let cposeal = datas['cpiseal'];
 			let cpoves = datas['cpives'];
 			let cpotruck = datas['cpitruck'];
@@ -443,7 +443,7 @@ class GateOutController {
 			let cpoload = datas['cpishold'];
 			let cpiremark1 = datas['cpiremark'];
 			let cpodriver = datas['cpidriver'];
-			let cpovoyid = datas['cpivoyid'];
+			let cpovoyid = datas['cpivoyid']  === 'null' ? null : parseInt(datas['cpivoyid']);
 			let cpovoy = datas['cpivoy'];
 			let cponotes = datas['cpinotes'];
 
