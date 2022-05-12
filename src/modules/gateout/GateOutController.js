@@ -334,7 +334,7 @@ class GateOutController {
 	static async interchange(req, res, next) {
 		const {
 			crno, cpopr, cpcust, onhiredate, chgnote,
-		} = req.query;
+		} = req.body;
 
 		/**
 		 * Format
