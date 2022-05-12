@@ -375,7 +375,7 @@ class GateOutController {
 
 			let data1 = await container_interchange.sequelize.query(
 				` INSERT INTO container_interchange(chgorderno, crgno, chgopr, chgcust, chgdate, chgnote) 
- 				VALUES ('${crno}', '${resultCodec}', '${cpopr}', '${cpcust}', '${onhiredate}', '${chgnote}')
+ 				VALUES ( '${resultCodec}', '${crno}', '${cpopr}', '${cpcust}', '${onhiredate}', '${chgnote}')
             `,
 				{
 					type: container_interchange.INSERT,
