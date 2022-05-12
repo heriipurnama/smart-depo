@@ -547,6 +547,44 @@ class GateOutController {
 			next(error);
 		}
 	}
+
+	static async listInterChange(req, res, next) {
+		let {limit, offset, search} = req.query;
+
+		let limits = limit !== undefined ? limit : 10;
+		let offsets = offset !== undefined ? offset : 0;
+		let searchs = search !== undefined ?  ` crgno LIKE '%${search}%' ` : ` crgno LIKE '%%' `;
+
+		try {
+			let datas = await container_interchange.sequelize.query(
+				`SELECT chgid, chgorderno, crgno, chgopr, chgcust, chgdate, chgnote, chgcrtby, chgcrton, chgmdfby, chgmdfon FROM container_interchange 
+			WHERE ${searchs} ORDER BY chgorderno DESC LIMIT ${limits} OFFSET ${offsets}
+            `,
+				{
+					type: container_interchange.SELECT
+				}
+			);
+
+			let TotalDatas = await container_interchange.sequelize.query(
+				`SELECT count(*) As Total
+                 FROM container_interchange `,
+				{
+					type: container_interchange.SELECT,
+				}
+			);
+
+			let allData = datas[0];
+			let totalDatas = Object.values(TotalDatas[0][0])[0];
+
+			baseResponse({
+				message: "List inter change",
+				data: { datas: allData, Total: totalDatas },
+			})(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
 }
 
 module.exports = GateOutController;
