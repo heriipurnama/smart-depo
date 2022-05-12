@@ -1,5 +1,7 @@
 "use strict";
 
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 const baseResponse = require("../../utils/helper/Response");
 const { container, container_process, tblsurveyor, orderPraContainer,
 	orderRepoContainer, company,  container_interchange
