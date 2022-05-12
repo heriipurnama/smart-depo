@@ -420,32 +420,32 @@ class GateOutController {
 
 				});
 
-			const cpieir = datas["cpieir"];
-			const cpidish = datas["cpidish"];
-			const cpidisdat = datas["cpidisdat"];
-			const cpideliver = datas["cpideliver"];
-			const cpitgl = datas["cpitgl"];
-			const cpiterm = datas["cpiterm"];
-			const cpochrgbm = datas["cpichrgbb"];
-			const cpoorderno = datas["cpiorderno"];
-			const cporeceptno = datas["cpireceptno"];
-			const cpopratgl = datas["cpipratgl"];
-			const cpojam = datas["cpijam"];
-			const cpostatus = datas["cpistatus"];
-			const cporeceiv = null;
-			const cpocargo = datas["cpicargo"];
-			const cpodpp = datas["cpidpp"];
-			const cpodppinout = datas["cpidppinout"];
-			const cposeal = datas["cpiseal"];
-			const cpoves = datas["cpives"];
-			const cpotruck = datas["cpitruck"];
-			const cponopol = datas["cpinopol"];
-			const cpoload = datas["cpishold"];
-			const cpiremark1 = datas["cpiremark"];
-			const cpodriver = datas["cpidriver"];
-			const cpovoyid = datas["cpivoyid"];
-			const cpovoy = datas["cpivoy"];
-			const cponotes = datas["cpinotes"];
+			let cpieir = datas['cpieir'];
+			let cpidish = datas['cpidish'];
+			let cpidisdat = datas['cpidisdat'];
+			let cpideliver = datas['cpideliver'];
+			let cpitgl = datas['cpitgl'];
+			let cpiterm = datas['cpiterm'];
+			let cpochrgbm = datas['cpichrgbb'];
+			let cpoorderno = datas['cpiorderno'];
+			let cporeceptno = datas['cpireceptno'];
+			let cpopratgl = datas['cpipratgl'];
+			let cpojam = datas['cpijam'];
+			let cpostatus = datas['cpistatus'];
+			let cporeceiv = null;
+			let cpocargo = datas['cpicargo'];
+			let cpodpp = datas['cpidpp'];
+			let cpodppinout = datas['cpidppinout'];
+			let cposeal = datas['cpiseal'];
+			let cpoves = datas['cpives'];
+			let cpotruck = datas['cpitruck'];
+			let cponopol = datas['cpinopol'];
+			let cpoload = datas['cpishold'];
+			let cpiremark1 = datas['cpiremark'];
+			let cpodriver = datas['cpidriver'];
+			let cpovoyid = datas['cpivoyid'];
+			let cpovoy = datas['cpivoy'];
+			let cponotes = datas['cpinotes'];
 
 
 			let data = await container_interchange.sequelize.query(
