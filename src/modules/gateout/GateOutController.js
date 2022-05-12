@@ -420,13 +420,13 @@ class GateOutController {
 
 				});
 
-			let cpieir = datas['cpieir'] === 'null' ? null : parseInt(datas['cpieir']);
+			let cpieir = datas['cpieir'];
 			let cpidish = datas['cpidish'];
 			let cpidisdat = datas['cpidisdat'];
 			let cpideliver = datas['cpideliver'];
 			let cpitgl = datas['cpitgl'];
 			let cpiterm = datas['cpiterm'];
-			let cpochrgbm = datas['cpichrgbb']  === 'null' ? null : parseInt(datas['cpichrgbb']);
+			let cpochrgbm = datas['cpichrgbb'];
 			let cpoorderno = datas['cpiorderno'];
 			let cporeceptno = datas['cpireceptno'];
 			let cpopratgl = datas['cpipratgl'];
@@ -435,7 +435,7 @@ class GateOutController {
 			let cporeceiv = null;
 			let cpocargo = datas['cpicargo'];
 			let cpodpp = datas['cpidpp'];
-			let cpodppinout = datas['cpidppinout'] === 'null' ? null : parseInt(datas['cpidppinout']);
+			let cpodppinout = datas['cpidppinout'];
 			let cposeal = datas['cpiseal'];
 			let cpoves = datas['cpives'];
 			let cpotruck = datas['cpitruck'];
@@ -443,7 +443,7 @@ class GateOutController {
 			let cpoload = datas['cpishold'];
 			let cpiremark1 = datas['cpiremark'];
 			let cpodriver = datas['cpidriver'];
-			let cpovoyid = datas['cpivoyid']  === 'null' ? null : parseInt(datas['cpivoyid']);
+			let cpovoyid = datas['cpivoyid'];
 			let cpovoy = datas['cpivoy'];
 			let cponotes = datas['cpinotes'];
 
@@ -453,7 +453,7 @@ class GateOutController {
 				  set
 					  cpopr1 ='${cpopr}',
 					  cpcust1 ='${cpcust}',
-					  cpochrgbm = '${cpochrgbm}',
+					  cpochrgbm = ${cpochrgbm},
 					  cpoorderno = '${cpoorderno}',
 					  cporeceptno = '${cporeceptno}',
 					  cpopratgl = '${cpopratgl}',
@@ -464,7 +464,7 @@ class GateOutController {
 					  cporeceiv = '${cporeceiv}',
 					  cpocargo = '${cpocargo}',
 					  cpodpp = '${cpodpp}',
-					  cpodppinout = '${cpodppinout}',
+					  cpodppinout = ${cpodppinout},
 					  cposeal = '${cposeal}',
 					  cpoves = '${cpoves}',
 					  cpotruck = '${cpotruck}',
@@ -472,7 +472,7 @@ class GateOutController {
 					  cpoload = '${cpoload}',
 					  cpiremark1 = '${cpiremark1}',
 					  cpodriver = '${cpodriver}',
-					  cpovoyid = '${cpovoyid}',
+					  cpovoyid = ${cpovoyid},
 					  cpovoy = '${cpovoy}',
 					  cponotes  = '${cponotes}'
 				  WHERE cpitgl is not null
@@ -522,11 +522,11 @@ class GateOutController {
 					 cpinopol,cpishold,cpiremark,cpidriver,cpivoyid ,                             
 					 cpivoy,cpinotes )
 					values
-					('${resultCode}','${crno}', '${cpcust}', '${cpopr}', '${cpochrgbm}', '${cpoorderno}', '${cporeceptno}',
+					('${resultCode}','${crno}', '${cpcust}', '${cpopr}', ${cpochrgbm}, '${cpoorderno}', '${cporeceptno}',
 					 '${cpopratgl}', '${cpitgl}', '${onhiredate}', '${onhiredate}', '${cpostatus}',
-					 '${cpideliver}', '${cpidisdat}', '${cpidish}', '${cpieir}', '${cpiterm}',
-					 '${cpocargo}', '${cpodpp}', '${cpodppinout}', '${cposeal}', '${cpoves}', '${cpotruck}',
-					 '${cponopol}', '${cpoload}','${cpiremark1}','${cpodriver}','${cpovoyid}',
+					 '${cpideliver}', '${cpidisdat}', '${cpidish}', ${cpieir}, '${cpiterm}',
+					 '${cpocargo}', '${cpodpp}', ${cpodppinout}, '${cposeal}', '${cpoves}', '${cpotruck}',
+					 '${cponopol}', '${cpoload}','${cpiremark1}','${cpodriver}', ${cpovoyid},
 					 '${cpovoy}','${cponotes}' ) `,
 				{
 					type: container_interchange.INSERT,
