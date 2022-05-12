@@ -2,7 +2,7 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { container, container_process, tblsurveyor, orderPraContainer,
-	orderRepoContainer, container_repair, company, orderContainerRepo, orderPra, container_hold
+	orderRepoContainer, company,  container_interchange
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
