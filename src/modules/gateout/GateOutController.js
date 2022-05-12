@@ -332,11 +332,7 @@ class GateOutController {
 	}
 
 	static async interchange(req, res, next) {
-		const {
-			crno, cpopr, cpcust, onhiredate, chgnote,
-		} = req.body;
-
-
+		let { crno, cpopr, cpcust, onhiredate, chgnote, } = req.body;
 
 		try {
 
@@ -414,8 +410,7 @@ class GateOutController {
 						cpivoy,
 						cpinotes
 				 FROM container_process
-				 WHERE 1
-				   and cpitgl is not null
+				 WHERE cpitgl is not null
 				   and cpid = (SELECT crcpid FROM tblcontainer WHERE crno LIKE '${crno}') `,
 				{
 					type: container_interchange.SELECT,
@@ -478,7 +473,7 @@ class GateOutController {
 					  cpovoyid = '${cpovoyid}',
 					  cpovoy = '${cpovoy}',
 					  cponotes  = '${cponotes}',
-				  WHERE 1 and cpitgl is not null
+				  WHERE cpitgl is not null
 					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
             `,
 				{
