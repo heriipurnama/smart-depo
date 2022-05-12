@@ -336,51 +336,54 @@ class GateOutController {
 			crno, cpopr, cpcust, onhiredate, chgnote,
 		} = req.body;
 
-		/**
-		 * Format
-		 * prefix[SV] + 'paktrasl' + 'sdcode' + 8digit_number
-		 */
 
-			// get data company.
-		let resultCompany = await company.findAll({});
-		let paktrasl = resultCompany[0].dataValues.paktrasl;
-		let sdcode = resultCompany[0].dataValues.sdcode;
-		let prefixCode = "DI";
-
-		// get data repo order
-		let resultSurvey = await container_interchange.findOne({
-			where: {
-				chgorderno: { [Op.like]: `%DI%`}
-			},
-			order:[[ "chgorderno", "DESC"]]
-		});
-		var resultCodec;
-		if (resultSurvey === null) {
-
-			resultCodec = `${prefixCode}${paktrasl}${sdcode}00000001`;
-		} else {
-
-			let resultDataSurvey = resultSurvey.dataValues.chgorderno;
-			let resultSubstringDataSurvey = resultDataSurvey.substring(7,16);
-			let convertInt = parseInt(resultSubstringDataSurvey) + 1;
-
-			let str = "" + convertInt;
-			let pad = "00000000";
-			let number = pad.substring(0, pad.length - str.length) + str;
-			resultCodec = `${prefixCode}${paktrasl}${sdcode}${number}`;
-
-		}
-
-		let data = await container_interchange.sequelize.query(
-			` INSERT INTO container_interchange(chgorderno, crgno, chgopr, chgcust, chgdate, chgnote) 
- 				VALUES ('${crno}', '${resultCodec}', '${cpopr}', '${cpcust}', '${onhiredate}', '${chgnote}')
-            `,
-			{
-				type: container_interchange.INSERT,
-			}
-		);
 
 		try {
+
+			/**
+			 * Format
+			 * prefix[SV] + 'paktrasl' + 'sdcode' + 8digit_number
+			 */
+
+				// get data company.
+			let resultCompany1 = await company.findAll({});
+			let paktrasl1 = resultCompany1[0].dataValues.paktrasl1;
+			let sdcode1 = resultCompany1[0].dataValues.sdcode1;
+			let prefixCode1 = "DI";
+
+			// get data repo order
+			let resultSurvey = await container_interchange.findOne({
+				where: {
+					chgorderno: { [Op.like]: `%DI%`}
+				},
+				order:[[ "chgorderno", "DESC"]]
+			});
+			var resultCodec;
+			if (resultSurvey === null) {
+
+				resultCodec = `${prefixCode1}${paktrasl1}${sdcode1}00000001`;
+			} else {
+
+				let resultDataSurvey = resultSurvey.dataValues.chgorderno;
+				let resultSubstringDataSurvey = resultDataSurvey.substring(7,16);
+				let convertInt = parseInt(resultSubstringDataSurvey) + 1;
+
+				let str = "" + convertInt;
+				let pad = "00000000";
+				let number = pad.substring(0, pad.length - str.length) + str;
+				resultCodec = `${prefixCode}${paktrasl1}${sdcode1}${number}`;
+
+			}
+
+			let data1 = await container_interchange.sequelize.query(
+				` INSERT INTO container_interchange(chgorderno, crgno, chgopr, chgcust, chgdate, chgnote) 
+ 				VALUES ('${crno}', '${resultCodec}', '${cpopr}', '${cpcust}', '${onhiredate}', '${chgnote}')
+            `,
+				{
+					type: container_interchange.INSERT,
+				}
+			);
+
 			let datas = await container_interchange.sequelize.query(
 				`SELECT cpcust,
 						cpopr,
