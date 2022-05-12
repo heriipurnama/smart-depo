@@ -2,7 +2,7 @@
 
 const baseResponse = require("../../utils/helper/Response");
 const { container, container_process, tblsurveyor, orderPraContainer,
-	orderRepoContainer
+	orderRepoContainer, container_repair, company, orderContainerRepo, orderPra
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
@@ -325,6 +325,179 @@ class GateOutController {
 				data: `container_process succes update for payload : ${payload}`,
 			})(res, 200);
 			Logger(req);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async interchange(req, res, next) {
+		const {
+			crno, cpopr, cpcust, onhiredate,
+		} = req.query;
+
+		try {
+			let datas = await container_interchange.sequelize.query(
+				`SELECT cpcust,
+						cpopr,
+						cpichrgbb,
+						cpiorderno,
+						cpireceptno,
+						cpipratgl,
+						cpitgl,
+						onhiredate,
+						cpijam,
+						cpistatus,
+						cpideliver,
+						cpidisdat,
+						cpidish,
+						cpieir,
+						cpiterm,
+						cpicargo,
+						cpidpp,
+						cpidppinout,
+						cpiseal,
+						cpives,
+						cpitruck,
+						cpinopol,
+						cpishold,
+						cpiremark,
+						cpidriver,
+						cpivoyid,
+						cpivoy,
+						cpinotes
+				 FROM container_process
+				 WHERE 1
+				   and cpitgl is not null
+				   and cpid = (SELECT crcpid FROM tblcontainer WHERE crno LIKE '${crno}') `,
+				{
+					type: container_interchange.SELECT,
+					plain: true
+
+				});
+
+			const cpieir = datas["cpieir"];
+			const cpidish = datas["cpidish"];
+			const cpidisdat = datas["cpidisdat"];
+			const cpideliver = datas["cpideliver"];
+			const cpitgl = datas["cpitgl"];
+			const cpiterm = datas["cpiterm"];
+			const cpochrgbm = datas["cpichrgbb"];
+			const cpoorderno = datas["cpiorderno"];
+			const cporeceptno = datas["cpireceptno"];
+			const cpopratgl = datas["cpipratgl"];
+			const cpojam = datas["cpijam"];
+			const cpostatus = datas["cpistatus"];
+			const cporeceiv = null;
+			const cpocargo = datas["cpicargo"];
+			const cpodpp = datas["cpidpp"];
+			const cpodppinout = datas["cpidppinout"];
+			const cposeal = datas["cpiseal"];
+			const cpoves = datas["cpives"];
+			const cpotruck = datas["cpitruck"];
+			const cponopol = datas["cpinopol"];
+			const cpoload = datas["cpishold"];
+			const cpiremark1 = datas["cpiremark"];
+			const cpodriver = datas["cpidriver"];
+			const cpovoyid = datas["cpivoyid"];
+			const cpovoy = datas["cpivoy"];
+			const cponotes = datas["cpinotes"];
+
+
+			let data = await container_interchange.sequelize.query(
+				` update container_process
+				  set
+					  cpopr1 ='${cpopr}',
+					  cpcust1 ='${cpcust}',
+					  cpochrgbm = '${cpochrgbm}',
+					  cpoorderno = '${cpoorderno}',
+					  cporeceptno = '${cporeceptno}',
+					  cpopratgl = '${cpopratgl}',
+					  onhiredate = '${onhiredate}',
+					  cpotgl = '${onhiredate}',
+					  cpojam = '${cpojam}',
+					  cpostatus = '${cpostatus}',
+					  cporeceiv = '${cporeceiv}',
+					  cpocargo = '${cpocargo}',
+					  cpodpp = '${cpodpp}',
+					  cpodppinout = '${cpodppinout}',
+					  cposeal = '${cposeal}',
+					  cpoves = '${cpoves}',
+					  cpotruck = '${cpotruck}',
+					  cponopol = '${cponopol}',
+					  cpoload = '${cpoload}',
+					  cpiremark1 = '${cpiremark1}',
+					  cpodriver = '${cpodriver}',
+					  cpovoyid = '${cpovoyid}',
+					  cpovoy = '${cpovoy}',
+					  cponotes  = '${cponotes}',
+				  WHERE 1 and cpitgl is not null
+					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
+            `,
+				{
+					type: container_interchange.UPDATE,
+				}
+			);
+
+			/**
+			 * Format CONTAINER PROCESS CODE
+			 * prefix[CP] + 'paktrasl' + 'sdcode' + 8digit_number
+			 */
+
+				// get data company.
+			let resultCompany = await company.findAll({});
+			let paktrasl = resultCompany[0].dataValues.paktrasl;
+			let sdcode = resultCompany[0].dataValues.sdcode;
+			let prefixCode = "CP";
+
+			// get data container process
+			let resultOrderPra = await container_process.findOne({
+				order: [["cpid", "DESC"]],
+			});
+
+			let resultCode;
+			if (resultOrderPra === null) {
+				resultCode = `${prefixCode}${paktrasl}${sdcode}00000001`;
+			} else {
+				let resultDataOrderPra = resultOrderPra.dataValues.cpid;
+				let resultSubstringDataOrderPra = resultDataOrderPra.substring(7, 16);
+				let convertInt = parseInt(resultSubstringDataOrderPra) + 1;
+
+				let str = "" + convertInt;
+				let pad = "00000000";
+				let number = pad.substring(0, pad.length - str.length) + str;
+				resultCode = `${prefixCode}${paktrasl}${sdcode}${number}`;
+			}
+
+			let restDatas = await container_interchange.sequelize.query(
+				` INSERT INTO container_process  
+					(cpid,crno, cpcust,cpopr,cpichrgbb,cpiorderno,cpireceptno ,                          
+					 cpipratgl,cpitgl,onhiredate,cpijam,cpistatus ,                            
+					 cpideliver,cpidisdat,cpidish,cpieir,cpiterm ,                              
+					 cpicargo,cpidpp,cpidppinout,cpiseal,cpives,cpitruck ,                             
+					 cpinopol,cpishold,cpiremark,cpidriver,cpivoyid ,                             
+					 cpivoy,cpinotes )
+					values
+					('${resultCode}','${crno}', '${cpcust}', '${cpopr}', '${cpochrgbm}', '${cpoorderno}', '${cporeceptno}',
+					 '${cpopratgl}', '${cpitgl}', '${onhiredate}', '${onhiredate}', '${cpostatus}',
+					 '${cpideliver}', '${cpidisdat}', '${cpidish}', '${cpieir}', '${cpiterm}',
+					 '${cpocargo}', '${cpodpp}', '${cpodppinout}', '${cposeal}', '${cpoves}', '${cpotruck}',
+					 '${cponopol}', '${cpoload}','${cpiremark1}','${cpodriver}','${cpovoyid}',
+					 '${cpovoy}','${cponotes}' ) `,
+				{
+					type: container_interchange.INSERT,
+				}
+			);
+
+			let conUpdate = await container_interchange.sequelize.query(
+				` UPDATE tblcontainer SET  crcpid = '${resultCode}' WHERE crno  LIKE '${crno}'
+            `,
+				{
+					type: container_interchange.UPDATE,
+				}
+			);
+
+			baseResponse({ message: "inter change", data: restDatas })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
