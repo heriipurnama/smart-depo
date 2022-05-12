@@ -541,7 +541,7 @@ class GateOutController {
 				}
 			);
 
-			baseResponse({ message: "inter change", data: restDatas })(res, 200);
+			baseResponse({ message: "inter change", data: `success update and insert interchange ` })(res, 200);
 		} catch (error) {
 			res.status(403);
 			next(error);
