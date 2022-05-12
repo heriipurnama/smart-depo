@@ -345,8 +345,8 @@ class GateOutController {
 
 				// get data company.
 			let resultCompany1 = await company.findAll({});
-			let paktrasl1 = resultCompany1[0].dataValues.paktrasl1;
-			let sdcode1 = resultCompany1[0].dataValues.sdcode1;
+			let paktrasl1 = resultCompany1[0].dataValues.paktrasl;
+			let sdcode1 = resultCompany1[0].dataValues.sdcode;
 			let prefixCode1 = "DI";
 
 			// get data repo order
