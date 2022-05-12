@@ -350,26 +350,26 @@ class GateOutController {
 			let prefixCode1 = "DI";
 
 			// get data repo order
-			let resultSurvey = await container_interchange.findOne({
+			let resultSurvey1 = await container_interchange.findOne({
 				where: {
 					chgorderno: { [Op.like]: `%DI%`}
 				},
 				order:[[ "chgorderno", "DESC"]]
 			});
 			var resultCodec;
-			if (resultSurvey === null) {
+			if (resultSurvey1 === null) {
 
 				resultCodec = `${prefixCode1}${paktrasl1}${sdcode1}00000001`;
 			} else {
 
-				let resultDataSurvey = resultSurvey.dataValues.chgorderno;
+				let resultDataSurvey = resultSurvey1.dataValues.chgorderno;
 				let resultSubstringDataSurvey = resultDataSurvey.substring(7,16);
 				let convertInt = parseInt(resultSubstringDataSurvey) + 1;
 
 				let str = "" + convertInt;
 				let pad = "00000000";
 				let number = pad.substring(0, pad.length - str.length) + str;
-				resultCodec = `${prefixCode}${paktrasl1}${sdcode1}${number}`;
+				resultCodec = `${prefixCode1}${paktrasl1}${sdcode1}${number}`;
 
 			}
 
