@@ -474,7 +474,7 @@ class GateOutController {
 					  cpodriver = '${cpodriver}',
 					  cpovoyid = '${cpovoyid}',
 					  cpovoy = '${cpovoy}',
-					  cponotes  = '${cponotes}',
+					  cponotes  = '${cponotes}'
 				  WHERE cpitgl is not null
 					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
             `,
