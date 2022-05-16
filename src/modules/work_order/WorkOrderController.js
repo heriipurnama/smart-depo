@@ -106,7 +106,7 @@ class WorkOrderController {
 	static async updateAllWO(req, res, next){
 		let {wonumber, crno} = req.body;
 
-		let crnoku =crno.replaceAll('"', "'");
+		let crnoku =crno.replace(/"/g, '\'');
 
 		try{
 
