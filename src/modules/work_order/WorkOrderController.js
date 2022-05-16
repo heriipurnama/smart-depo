@@ -171,7 +171,7 @@ class WorkOrderController {
               left join container_repair rp on rp.svid = sur.svid
               left join tblcontainer_code cc on cc.cccode = con.cccode
               left join tblcontainer_type ct on ct.ctcode = cc.ctcode
-         where con.crlastact='WW' and ( con.crlastcond = '${wotype}' or  sur.svcond = '${wotype}' )
+         where con.crlastact='WW' and sur.svcond = '${wotype}'
            and cp.cpopr = '${cpopr}'
             `,
 				{
