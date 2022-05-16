@@ -96,4 +96,5 @@ module.exports = {
 	repoTarif: require("./repo_tarif/RepoTarifController"),
 	otherWorkOrder: require("./other_work_order/OtherWorkOrderController"),
 	woRecept: require("./wo_recept/WoReceptController"),
+	containerRepair: require("./container_repair/ContainerRepairController"),
 };

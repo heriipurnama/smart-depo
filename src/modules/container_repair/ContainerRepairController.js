@@ -1,9 +1,63 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { container_repair, container_type } = require("../../db/models");
+const { container_repair, container_type, container_process} = require("../../db/models");
 
 class ContainerRepairController {
+
+	static async listMnr(req, res, next) {
+		let { limit, offset, search } = req.query;
+
+		let limits = limit !== undefined ? limit : 10;
+		let offsets = offset !== undefined ? offset : 0;
+		let searchs = search !== undefined ?  ` and con.CRNO LIKE '%${search}%' ` : ` and con.CRNO LIKE '%%' `;
+
+		try {
+			let datas = await container_process.sequelize.query(
+				`SELECT rp.RPVER,pr.PRCODE,rp.RPCRNO,surv.SVID,DATE_FORMAT( surv.SVSURDAT, '%d/%m/%Y' ) AS SVSURDAT,
+                DATE_FORMAT( cp.CPITGL, '%d/%m/%Y' ) AS CPITGL,rp.RPNOEST, surv.SVCOND,
+                 DATE_FORMAT( rp.RPTGLEST,'%d/%m/%Y') as RPTGLEST
+                FROM 
+                 container_process cp INNER JOIN tblcontainer con ON
+                  cp.CRNO = con.CRNO
+                  INNER JOIN container_survey surv ON
+                  surv.CPID = cp.CPID
+                  INNER JOIN container_repair rp ON
+                  rp.SVID = surv.SVID
+                  LEFT JOIN tblprincipal pr ON
+                  pr.PRCODE = cp.CPOPR Where surv.TYPE='1' ${searchs} and con.crlastact ='CO'
+				  ORDER BY rp.SVID desc LIMIT ${limits} OFFSET ${offsets}`,
+				{
+					type: container_process.SELECT,
+				}
+			);
+			let TotalDatas = await container_process.sequelize.query(
+				`SELECT count(*) As Total
+                FROM 
+                 container_process cp INNER JOIN tblcontainer con ON
+                  cp.CRNO = con.CRNO
+                  INNER JOIN container_survey surv ON
+                  surv.CPID = cp.CPID
+                  INNER JOIN container_repair rp ON
+                  rp.SVID = surv.SVID
+                  LEFT JOIN tblprincipal pr ON
+                  pr.PRCODE = cp.CPOPR Where surv.TYPE='1' and con.crlastact ='CO'`,
+				{
+					type: container_process.SELECT,
+				}
+			);
+			let allData = datas[0];
+			let totalDatas = Object.values(TotalDatas[0][0])[0];
+
+			baseResponse({
+				message: "List Estimation",
+				data: { datas: allData, Total: totalDatas },
+			})(res, 200);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
 	// static async createNew(req, res, next) {
 	// 	let { ccCode, ctCode, ccLength, ccHeight, ccAlias1, ccAlias2, idUser } = req.body;
 	// 	try {
