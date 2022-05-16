@@ -98,6 +98,7 @@ const containerHold = require("./container_hold/ContainerHoldRouter");
 const repoTarif = require("./repo_tarif/RepoTarifRouter");
 const otherWorkOrder =require("./other_work_order/OtherWorkOrderRouter");
 const woRecept=require("./wo_recept/WoReceptRouter");
+const containerRepair=require("./container_repair/ContainerRepairRouter");
 
 // base router
 routers.use("/users", user);
@@ -198,4 +199,5 @@ routers.use("/containerHold", containerHold);
 routers.use("/repotarif", repoTarif);
 routers.use("/otherwo", otherWorkOrder);
 routers.use("/worecept", woRecept);
+routers.use("/containerRepair", containerRepair);
 module.exports = routers;
