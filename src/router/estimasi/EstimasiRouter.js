@@ -13,6 +13,7 @@ const maxSize = 5 * 1024 * 1024;
 routers.route("/list").get(Authentication, EstimasiController.list);
 routers.route("/listOnecpId").get(Authentication, EstimasiController.listOnecpId);
 routers.route("/listOneCrno").get(Authentication, EstimasiController.listOneCrno);
+routers.route("/listOneWApprov").get(Authentication, EstimasiController.listOneWApprov);
 routers.route("/listcalculated").get(Authentication, EstimasiController.listcalculated);
 routers
 	.route("/listHeaderContainer")
