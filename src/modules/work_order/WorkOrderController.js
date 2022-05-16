@@ -121,8 +121,8 @@ class WorkOrderController {
 				});
 
 			baseResponse({
-				message: "Success Update Data",
-				data: updateWO
+				message: "Success Update Data ",
+				data:`berhasil update all WO : ${crno}`
 			})(res, 200);
 
 		} catch(error){
