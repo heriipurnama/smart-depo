@@ -163,16 +163,16 @@ class WorkOrderController {
 		try {
 			let datas = await container_process.sequelize.query(
 				`select con.crno, cc.cclength, cc.ccheight, ct.ctdesc, ct.ctcode,
-						sur.svcond,con.crlastcond,con.crlastact,cp.cpopr, sur.svid
-				 from tblcontainer con
-						  inner join container_process cp on con.crcpid = cp.cpid
-						  inner join container_survey sur on sur.cpid = cp.cpid
-						  left join tblprincipal pr on pr.prcode = cp.cpopr
-						  left join container_repair rp on rp.svid = sur.svid
-						  left join tblcontainer_code cc on cc.cccode = con.cccode
-						  left join tblcontainer_type ct on ct.ctcode = cc.ctcode
-				 where con.crlastact='WW' and con.crlastcond = '${wotype}'
-				   and cp.cpopr = '${cpopr}'
+            sur.svcond,con.crlastcond,con.crlastact,cp.cpopr, sur.svid
+         from tblcontainer con
+              inner join container_process cp on con.crcpid = cp.cpid
+              inner join container_survey sur on sur.cpid = cp.cpid
+              left join tblprincipal pr on pr.prcode = cp.cpopr
+              left join container_repair rp on rp.svid = sur.svid
+              left join tblcontainer_code cc on cc.cccode = con.cccode
+              left join tblcontainer_type ct on ct.ctcode = cc.ctcode
+         where con.crlastact='WW' and ( con.crlastcond = '${wotype}' or  sur.svcond = '${wotype}' )
+           and cp.cpopr = '${cpopr}'
             `,
 				{
 					type: container_process.SELECT
