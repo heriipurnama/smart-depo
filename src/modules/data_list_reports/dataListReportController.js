@@ -173,7 +173,10 @@ class dataListReportController {
                  rp.SVID = surv.SVID
                LEFT JOIN tblprincipal pr ON
                  pr.PRCODE = cp.CPOPR
-               Where surv.TYPE='1' AND con.CRLASTACT in('WA','WW','IW','RP','CR','OW','CP','WR') and rp.RPFINALEST='1' and rp.RPTGLAPPVPR is NOT null 
+               Where surv.TYPE='1' 
+--                  AND con.CRLASTACT in('WA','WW','IW','RP','CR','OW','CP','WR')
+				 AND con.CRLASTACT ='WW'
+                 and rp.RPFINALEST='1' and rp.RPTGLAPPVPR is NOT null 
                 ${searchs} ORDER BY rp.SVID desc LIMIT ${limits} OFFSET ${offsets}`,
 				{
 					type: container_process.SELECT,
