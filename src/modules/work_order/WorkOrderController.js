@@ -168,7 +168,7 @@ class WorkOrderController {
               inner join container_process cp on con.crcpid = cp.cpid
               inner join container_survey sur on sur.cpid = cp.cpid
               left join tblprincipal pr on pr.prcode = cp.cpopr
-              left join container_repair rp on rp.svid = sur.svid
+			  inner join container_repair rp on rp.svid = sur.svid
               left join tblcontainer_code cc on cc.cccode = con.cccode
               left join tblcontainer_type ct on ct.ctcode = cc.ctcode
          where con.crlastact='WW' and sur.svcond = '${wotype}'
