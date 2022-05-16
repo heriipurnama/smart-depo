@@ -109,15 +109,15 @@ class WorkOrderController {
 		try{
 
 			let updateWO = await container_repair.sequelize.query(`UPDATE container_repair SET wono= '${wonumber}', 
-                            rpworkdat= now() where rpcrno IN ('${crno}') and wono is null `,
+                            rpworkdat= now() where rpcrno IN (${crno}) and wono is null `,
 				{
-					type: container_repair.INSERT
+					type: container_repair.UPDATE
 				});
 
 			let updateTblcontainer = await container_repair.sequelize.query(`update tblcontainer set crlastact='WR'
-							where crno in ('${crno}') `,
+							where crno in (${crno}) `,
 				{
-					type: container_repair.INSERT
+					type: container_repair.UPDATE
 				});
 
 			baseResponse({
