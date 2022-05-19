@@ -22,4 +22,11 @@ routers.route("/finisCleaning").post(
 
 routers.route("/listbycrno").get(Authentication, containerRepairController.listOneCrno);
 
+routers
+    .route("/getFileDetail")
+    .get(Authentication, containerRepairController.getFileDetail);
+routers
+    .route("/getFile")
+    .get(Authentication, containerRepairController.getFile);
+
 module.exports = routers;
