@@ -995,6 +995,8 @@ class EstimasiController {
 					rpnotesa: rpnotesa,
 					rpstsappvpr: 1,
 					rptglappvpr: Date.now(),
+					rpstsappv: 1,
+					rptglappv: Date.now(),
 					rpfinalest: 1,
 				},
 				{ where: { svid: svid } }

@@ -38,6 +38,13 @@ routers.route("/createDetail").post(
 		}).array("file",3),
 	EstimasiController.insertEstimasiDetail);
 
+routers.route("/insertfilemnr").post(
+	Authentication,
+	multer({
+		storage: storageFiles,
+		limits: { fileSize: maxSize },
+	}).array("file",3));
+
 routers
 	.route("/printEstimasi")
 	.get(Authentication, EstimasiController.printEstimasi);
