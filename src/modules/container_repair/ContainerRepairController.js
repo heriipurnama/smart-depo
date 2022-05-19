@@ -205,101 +205,45 @@ class ContainerRepairController {
 		}
 	}
 
+	static async getFileDetail(req, res, next){
+		let { crno } = req.query;
+		try {
+			let repairload  = await container_repair.sequelize.query(
+				`SELECT rdf.id, rdf.svid, rdf.rpid, rdf.url, rdf.file_time_upload, rdf.flag
+					from container_repair             cr    
+					left join container_repair_detail crd   on cr.svid = crd.svid
+					left join repair_detail_file      rdf   on crd.svid=rdf.svid and crd.rpid=rdf.rpid
+					where cr.rpcrno='${crno}' and rdf.flag=2 and rdf.id is not null`,
+				{
+					type: container_repair.SELECT,
+				});
 
+			let resultData    = repairload[0];
+			baseResponse({ message: "List file ", data:  resultData})(res, 200);
+		}catch (error){
+			res.status(403);
+			next(error);
+		}
+	}
 
-	// static async createNew(req, res, next) {
-	// 	let { ccCode, ctCode, ccLength, ccHeight, ccAlias1, ccAlias2, idUser } = req.body;
-	// 	try {
-	// 		// const payload = await container_repair.create({
-	// 		// 	cccode: ccCode,
-	// 		// 	ctcode: ctCode,
-	// 		// 	cclength: ccLength,
-	// 		// 	ccheight: ccHeight,
-	// 		// 	created_at: Date.now(),
-	// 		// 	created_by: idUser,
-	// 		// });
+	static async getFile(req, res, next){
+		let { svid, rpid } = req.query;
+		try {
+			let repairload  = await container_repair.sequelize.query(
+				`SELECT id, svid, rpid, url, file_time_upload, flag 
+				FROM repair_detail_file WHERE svid='${svid}' AND rpid='${rpid}' AND flag= 2 `,
+				{
+					type: container_repair.SELECT,
+				});
 
-	// 		const [payload, created] = await container_repair.findOrCreate({
-	// 			where: {
-	// 				cccode: ccCode
-	// 			},
-	// 			defaults: {
-	// 				cccode: ccCode,
-	// 				ctcode: ctCode,
-	// 				cclength: ccLength,
-	// 				ccheight: ccHeight,
-	// 				ccalias1: ccAlias1,
-	// 				ccalias2: ccAlias2
-	// 			}
-	// 		});
-	// 		if(created === false){
-	// 			throw new Error(`Container Exist, cccode: ${ccCode} exists!`);
-	// 		} else {
-	// 			baseResponse({ message:"Container Created " , data: payload})(res, 200);
-	// 			Logger(req);
-	// 		}
-	// 	} catch (error) {
-	// 		res.status(400);
-	// 		next(error);
-	// 	}
-	// }
+			let resultData    = repairload[0];
+			baseResponse({ message: "List file ", data:  resultData})(res, 200);
+		}catch (error){
+			res.status(403);
+			next(error);
+		}
+	}
 
-	// static async update(req, res, next) {
-	// 	let { ccCode, ctCode, ccLength, ccHeight, ccAlias1, ccAlias2, idUser, idContainer } = req.body;
-	// 	let dataUpdate = {
-	// 		cccode:ccCode,
-	// 		ctcode: ctCode,
-	// 		cclength: ccLength,
-	// 		ccheight: ccHeight,
-	// 		ccalias1: ccAlias1,
-	// 		ccalias2: ccAlias2
-	// 	};
-	// 	let selector = {
-	// 		where: { cccode: ccCode }
-	// 	};
-	// 	try {
-	// 		let containerCode = ccCode;
-	// 		let dataContainer = await container_repair.update(dataUpdate, selector);
-
-	// 		if (!dataContainer) {
-	// 			throw new Error(`container ${containerCode} doesn't exists!`);
-	// 		}
-	// 		baseResponse({
-	// 			message: "Update Success",
-	// 			data: dataContainer,
-	// 		})(res, 200);
-	// 		Logger(req);
-	// 	} catch (error) {
-	// 		res.status(403);
-	// 		next(error);
-	// 	}
-	// }
-
-	// static async listOne(req, res, next) {
-	// 	let { ccCode } = req.body;
-
-	// 	try {
-	// 		let dataContainer = await container_repair.findOne({
-	// 			attributes: {
-	// 				exclude: ["createdAt", "updatedAt"]
-	// 			},
-	// 			where: {
-	// 				cccode: ccCode
-	// 			}
-	// 		});
-
-	// 		if (!dataContainer) {
-	// 			throw new Error(`container code: ${ccCode} doesn't exists!`);
-	// 		}
-	// 		baseResponse({
-	// 			message: "Get Data Success",
-	// 			data: dataContainer,
-	// 		})(res, 200);
-	// 	} catch (error) {
-	// 		res.status(403);
-	// 		next(error);
-	// 	}
-	// }
 
 	static async list(req, res, next) {
 		let { start, rows } = req.body;
