@@ -43,7 +43,7 @@ routers.route("/insertfilemnr").post(
 	multer({
 		storage: storageFiles,
 		limits: { fileSize: maxSize },
-	}).array("file",3));
+	}).array("file",3), EstimasiController.insetFilemnr);
 
 routers
 	.route("/printEstimasi")

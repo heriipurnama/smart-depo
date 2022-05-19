@@ -458,6 +458,25 @@ class EstimasiController {
 		}
 	}
 
+	static async insetFilemnr(req, res, next) {
+		let {
+			svid,
+			rpid,
+		} = req.body;
+
+		try {
+
+			baseResponse({
+				message: "succes created file",
+				data: 'success insert file',
+			})(res, 200);
+			Logger(req);
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
 	static async listOnecpId(req, res, next) {
 		let { crcpid, limit, offset } = req.query;
 		let limits = limit == undefined ? "" : ` limit ${limit}`;
