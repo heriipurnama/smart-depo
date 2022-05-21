@@ -26,7 +26,7 @@ class ContainerRepairController {
                   INNER JOIN container_repair rp ON
                   rp.SVID = surv.SVID
                   LEFT JOIN tblprincipal pr ON
-                  pr.PRCODE = cp.CPOPR Where surv.TYPE='1' ${searchs} and con.crlastact ='CO'
+                  pr.PRCODE = cp.CPOPR Where surv.TYPE='1' ${searchs} and (con.crlastact ='CO' or con.crlastact ='WC')
 				  ORDER BY rp.SVID desc LIMIT ${limits} OFFSET ${offsets}`,
 				{
 					type: container_process.SELECT,
@@ -42,7 +42,7 @@ class ContainerRepairController {
                   INNER JOIN container_repair rp ON
                   rp.SVID = surv.SVID
                   LEFT JOIN tblprincipal pr ON
-                  pr.PRCODE = cp.CPOPR Where surv.TYPE='1' and con.crlastact ='CO'`,
+                  pr.PRCODE = cp.CPOPR Where surv.TYPE='1' and (con.crlastact ='CO' or con.crlastact ='WC')`,
 				{
 					type: container_process.SELECT,
 				}
@@ -138,7 +138,7 @@ class ContainerRepairController {
 
 		try {
 			let repairload  = await container_process.sequelize.query(
-				`select con.crno, con.crlastact, cr.rptglest,pr.prdmno,date_format(ct.coexpdate,'%d/%m/%y') as coexpdate,
+				`select con.crno, con.crlastact, cr.wono, cs.syid, cr.rptglest,pr.prdmno,date_format(ct.coexpdate,'%d/%m/%y') as coexpdate,
 							cp.cpieir,cc.cccode, cc.ctcode, cc.cclength, cc.ccheight,con.crcpid, date_format( cp.cpitgl, '%d/%m/%Y' ) AS cpitgl,
 							cs.svid, cs.syid, cs.svcrton, cs.svcrtby, cs.svmdfon, cs.svmdfby, con.crmandat, con.crtarak, cp.cpives,cp.cpivoyid,
 							date_format(cs.svsurdat,'%d/%m/%y') as svsurdat,ct.cono,cp.cpiorderno,cr.rpver,	cr.rpnoest,cs.svcond,cp.cpopr
