@@ -97,4 +97,5 @@ module.exports = {
 	otherWorkOrder: require("./other_work_order/OtherWorkOrderController"),
 	woRecept: require("./wo_recept/WoReceptController"),
 	containerRepair: require("./container_repair/ContainerRepairController"),
+	woContainer: require("./wo_container/WoContainerController"),
 };
