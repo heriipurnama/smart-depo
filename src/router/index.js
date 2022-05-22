@@ -99,6 +99,7 @@ const repoTarif = require("./repo_tarif/RepoTarifRouter");
 const otherWorkOrder =require("./other_work_order/OtherWorkOrderRouter");
 const woRecept=require("./wo_recept/WoReceptRouter");
 const containerRepair=require("./container_repair/ContainerRepairRouter");
+const woContainer=require("./wo_container/WoContainerRouter");
 
 // base router
 routers.use("/users", user);
@@ -200,4 +201,5 @@ routers.use("/repotarif", repoTarif);
 routers.use("/otherwo", otherWorkOrder);
 routers.use("/worecept", woRecept);
 routers.use("/containerRepair", containerRepair);
+routers.use("/wocontainer", woContainer);
 module.exports = routers;
