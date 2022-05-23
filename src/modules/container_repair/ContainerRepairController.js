@@ -112,7 +112,8 @@ class ContainerRepairController {
 			);
 
 			const payload = await container.update(
-				{ crlastact: "CO" },
+				{ crlastact: "CO",
+					crlastcond: "AC"},
 				{ where: { crno: crno } }
 			);
 
