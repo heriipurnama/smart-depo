@@ -100,6 +100,7 @@ const otherWorkOrder =require("./other_work_order/OtherWorkOrderRouter");
 const woRecept=require("./wo_recept/WoReceptRouter");
 const containerRepair=require("./container_repair/ContainerRepairRouter");
 const woContainer=require("./wo_container/WoContainerRouter");
+const woRab=require("./wo_rab/WoRabRouter");
 
 // base router
 routers.use("/users", user);
@@ -202,4 +203,5 @@ routers.use("/otherwo", otherWorkOrder);
 routers.use("/worecept", woRecept);
 routers.use("/containerRepair", containerRepair);
 routers.use("/wocontainer", woContainer);
+routers.use("/worab", woRab);
 module.exports = routers;

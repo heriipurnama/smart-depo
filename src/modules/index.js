@@ -98,4 +98,5 @@ module.exports = {
 	woRecept: require("./wo_recept/WoReceptController"),
 	containerRepair: require("./container_repair/ContainerRepairController"),
 	woContainer: require("./wo_container/WoContainerController"),
+	woRab: require("./wo_rab/WoRabController"),
 };
