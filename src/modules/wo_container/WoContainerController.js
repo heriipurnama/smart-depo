@@ -1,7 +1,7 @@
 "use strict";
 
 const baseResponse = require("../../utils/helper/Response");
-const { wo_container, company} = require("../../db/models");
+const { wo_container, company, container_process, container_survey} = require("../../db/models");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const Logger = require("../../utils/helper/logger");
@@ -57,7 +57,7 @@ class WoContainerController {
             fe, remark, gatedate, sealno, wotype, wopraoderin, wopraoderout, cpiremark1, cpovoyid, cponotes,
             cpid, cpiorderno, cpireceptno, cpitruck, cpinopol, cpinotes} = req.body;
         try{
-
+            let wotypes = parseInt(wotype);
             let updateWO = await wo_container.update({
                     wonoid:  wonoid,
                     ordertype:  ordertype,
@@ -76,6 +76,172 @@ class WoContainerController {
                 { where: { wocid: wocid } }
             );
 
+            if (wotypes == 1 || wotypes == 2 && wopraoderin == false && wopraoderout == true){
+                let data = await wo_container.sequelize.query(
+                    ` update container_process
+				  set
+					 cpopr1 = '${cpopr}',                                                   
+					 cpcust1 ='${cpcust}',                                                                           
+					 cpoorderno = '${cpoorderno}',
+					 cporeceptno = '${cporeceptno}',                                           
+					 cpopratgl = '${cpopratgl}',	
+					 cpocargo = '${cpocargo}',
+					 cpiremark1 = '${cpiremark1}', 
+					 cpovoyid = ${cpovoyid}, 
+					 cpovoy = '${cpovoy}',  
+					 cponotes  = '${cponotes}'
+				  WHERE cpitgl is not null
+					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
+            `,
+                    {
+                        type: wo_container.UPDATE,
+                    }
+                );
+
+                let conUpdate = await wo_container.sequelize.query(
+                    ` UPDATE tblcontainer SET  crlastact  ='BO' WHERE crno  LIKE '${crno}'
+            `,
+                    {
+                        type: wo_container.UPDATE,
+                    }
+                );
+
+            }else if (wotypes == 1 || wotypes == 2 && wopraoderin == true && wopraoderout == true){
+                let dataOne = await wo_container.sequelize.query(
+                    ` update container_process
+                      set
+                          cpid = '${cpid}',
+                          crno ='${crno}',
+                          cpcust = '${cpcust}',
+                          cpopr = '${cpopr}',
+                          cpiorderno = '${cpiorderno}',
+                          cpireceptno = '${cpireceptno}',
+                          cpipratgl = '${cpipratgl}',
+                          cpicargo = ${cpicargo},
+                          cpitruck = '${cpitruck}',
+                          cpinopol  = '${cpinopol}',
+                          cpiremark  = '${cpiremark}',
+                          cpinotes  = '${cpinotes}'
+                      WHERE cpitgl is not null
+                        and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
+                    `,
+                    {
+                        type: wo_container.UPDATE,
+                    }
+                );
+
+                let data = await wo_container.sequelize.query(
+                    ` update container_process
+				  set
+					 cpopr1 = '${cpopr}',                                                   
+					 cpcust1 ='${cpcust}',                                                                           
+					 cpoorderno = '${cpoorderno}',
+					 cporeceptno = '${cporeceptno}',                                           
+					 cpopratgl = '${cpopratgl}',	
+					 cpocargo = '${cpocargo}',
+					 cpiremark1 = '${cpiremark1}', 
+					 cpovoyid = ${cpovoyid}, 
+					 cpovoy = '${cpovoy}',  
+					 cponotes  = '${cponotes}'
+				  WHERE cpitgl is not null
+					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
+            `,
+                    {
+                        type: wo_container.UPDATE,
+                    }
+                );
+
+                let conUpdate = await wo_container.sequelize.query(
+                    ` UPDATE tblcontainer SET  crlastact  ='BO' WHERE crno  LIKE '${crno}'
+            `,
+                    {
+                        type: wo_container.UPDATE,
+                    }
+                );
+
+            }else if (wotypes == 4 || wotypes == 5 || wotypes == 6 && wopraoderin ==true && wopraoderout==true){
+                let dataTwo = await wo_container.sequelize.query(
+                    ` update container_process
+                      set
+                          cpid = '${cpid}',
+                          crno ='${crno}',
+                          cpcust = '${cpcust}',
+                          cpopr = '${cpopr}',
+                          cpiorderno = '${cpiorderno}',
+                          cpireceptno = '${cpireceptno}',
+                          cpipratgl = '${cpipratgl}',
+                          cpicargo = ${cpicargo},
+                          cpitruck = '${cpitruck}',
+                          cpinopol  = '${cpinopol}',
+                          cpiremark  = '${cpiremark}',
+                          cpinotes  = '${cpinotes}'
+                      WHERE cpitgl is not null
+                        and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
+                    `,
+                    {
+                        type: wo_container.UPDATE,
+                    }
+                );
+
+                let data = await wo_container.sequelize.query(
+                    ` update container_process
+				  set
+					 cpopr1 = '${cpopr}',                                                   
+					 cpcust1 ='${cpcust}',                                                                           
+					 cpoorderno = '${cpoorderno}',
+					 cporeceptno = '${cporeceptno}',                                           
+					 cpopratgl = '${cpopratgl}',	
+					 cpocargo = '${cpocargo}',
+					 cpiremark1 = '${cpiremark1}', 
+					 cpovoyid = ${cpovoyid}, 
+					 cpovoy = '${cpovoy}',  
+					 cponotes  = '${cponotes}'
+				  WHERE cpitgl is not null
+					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
+            `,
+                    {
+                        type: wo_container.UPDATE,
+                    }
+                );
+
+                let conUpdate = await wo_container.sequelize.query(
+                    ` UPDATE tblcontainer SET  crlastact  ='BO' WHERE crno  LIKE '${crno}'
+            `,
+                    {
+                        type: wo_container.UPDATE,
+                    }
+                );
+            }else if (wotypes == 5 || wotypes == 6 && wopraoderin ==false && wopraoderout==true){
+                let data = await wo_container.sequelize.query(
+                    ` update container_process
+				  set
+					 cpopr1 = '${cpopr}',                                                   
+					 cpcust1 ='${cpcust}',                                                                           
+					 cpoorderno = '${cpoorderno}',
+					 cporeceptno = '${cporeceptno}',                                           
+					 cpopratgl = '${cpopratgl}',	
+					 cpocargo = '${cpocargo}',
+					 cpiremark1 = '${cpiremark1}', 
+					 cpovoyid = ${cpovoyid}, 
+					 cpovoy = '${cpovoy}',  
+					 cponotes  = '${cponotes}'
+				  WHERE cpitgl is not null
+					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
+            `,
+                    {
+                        type: wo_container.UPDATE,
+                    }
+                );
+
+                let conUpdate = await wo_container.sequelize.query(
+                    ` UPDATE tblcontainer SET  crlastact  ='BO' WHERE crno  LIKE '${crno}'
+            `,
+                    {
+                        type: wo_container.UPDATE,
+                    }
+                );
+            }
+
             baseResponse({
                 message: "Success Update Data",
                 data: updateWO
@@ -90,8 +256,39 @@ class WoContainerController {
     static async insertData(req, res, next){
         let {wonoid, ordertype, cpopr, cpcust, crno, cccode, ctcode, cclength, ccheight,
             fe, remark, gatedate, sealno, wotype, wopraoderin, wopraoderout, cpiremark1, cpovoyid, cponotes,
-            cpid, cpiorderno, cpireceptno, cpitruck, cpinopol, cpinotes} = req.body;
+             cpiorderno, cpireceptno, cpitruck, cpinopol, cpinotes} = req.body;
         try {
+
+            /**
+             * Format CONTAINER PROCESS CODE
+             * prefix[CP] + 'paktrasl' + 'sdcode' + 8digit_number
+             */
+
+                // get data company.
+            let resultCompany = await company.findAll({});
+            let paktrasl = resultCompany[0].dataValues.paktrasl;
+            let sdcode = resultCompany[0].dataValues.sdcode;
+            let prefixCode = "CP";
+
+            // get data container process
+            let resultOrderPra = await container_process.findOne({
+                order: [["cpid", "DESC"]],
+            });
+
+            let resultCode;
+            if (resultOrderPra === null) {
+                resultCode = `${prefixCode}${paktrasl}${sdcode}00000001`;
+            } else {
+                let resultDataOrderPra = resultOrderPra.dataValues.cpid;
+                let resultSubstringDataOrderPra = resultDataOrderPra.substring(7, 16);
+                let convertInt = parseInt(resultSubstringDataOrderPra) + 1;
+
+                let str = "" + convertInt;
+                let pad = "00000000";
+                let number = pad.substring(0, pad.length - str.length) + str;
+                resultCode = `${prefixCode}${paktrasl}${sdcode}${number}`;
+            }
+
             let wotypes = parseInt(wotype);
             let payloadWO = await wo_container.create({
                 wonoid:  wonoid,
@@ -144,7 +341,7 @@ class WoContainerController {
                       (cpid,crno, cpcust,cpopr,cpiorderno,cpireceptno ,
                        cpipratgl, cpicargo,cpitruck , cpinopol,cpiremark,cpinotes)
                       values
-                          ('${cpid}','${crno}', '${cpcust}', '${cpopr}', ${cpiorderno}, '${cpireceptno}', '${cpipratgl}',
+                          ('${resultCode}','${crno}', '${cpcust}', '${cpopr}', ${cpiorderno}, '${cpireceptno}', '${cpipratgl}',
                            '${cpicargo}', '${cpitruck}', '${cpinopol}', '${cpiremark}', '${cpinotes}'  ) `,
                     {
                         type: wo_container.INSERT,
@@ -171,6 +368,24 @@ class WoContainerController {
                         type: wo_container.UPDATE,
                     }
                 );
+
+                let dataNewContainer = {
+                    crno: crno,
+                    cccode: cccode,
+                    mtcode: ctcode
+                };
+
+                let validCrno = await container_survey.sequelize.query(
+                    `SELECT crno FROM tblcontainer WHERE TRIM(CRNO)='${crno}' AND  cccode= '${cccode}' `,
+                    {
+                        type: container_survey.SELECT,
+                        plain: true
+                    }
+                );
+                if (validCrno == null){
+                    let payloadDataContainer = await container.create(dataNewContainer);
+                }
+
 
                 let conUpdate = await wo_container.sequelize.query(
                     ` UPDATE tblcontainer SET  crlastact  ='BO' WHERE crno  LIKE '${crno}'
@@ -186,7 +401,7 @@ class WoContainerController {
                       (cpid,crno, cpcust,cpopr,cpiorderno,cpireceptno ,
                        cpipratgl, cpicargo,cpitruck , cpinopol,cpiremark,cpinotes)
                       values
-                          ('${cpid}','${crno}', '${cpcust}', '${cpopr}', ${cpiorderno}, '${cpireceptno}', '${cpipratgl}',
+                          ('${resultCode}','${crno}', '${cpcust}', '${cpopr}', ${cpiorderno}, '${cpireceptno}', '${cpipratgl}',
                            '${cpicargo}', '${cpitruck}', '${cpinopol}', '${cpiremark}', '${cpinotes}'  ) `,
                     {
                         type: wo_container.INSERT,
@@ -213,6 +428,23 @@ class WoContainerController {
                         type: wo_container.UPDATE,
                     }
                 );
+
+                let dataNewContainer = {
+                    crno: crno,
+                    cccode: cccode,
+                    mtcode: ctcode
+                };
+
+                let validCrno = await container_survey.sequelize.query(
+                    `SELECT crno FROM tblcontainer WHERE TRIM(CRNO)='${crno}' AND  cccode= '${cccode}' `,
+                    {
+                        type: container_survey.SELECT,
+                        plain: true
+                    }
+                );
+                if (validCrno == null){
+                    let payloadDatatwo = await container.create(dataNewContainer);
+                }
 
                 let conUpdate = await wo_container.sequelize.query(
                     ` UPDATE tblcontainer SET  crlastact  ='BO' WHERE crno  LIKE '${crno}'
