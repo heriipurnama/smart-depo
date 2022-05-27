@@ -63,6 +63,35 @@ class WoRabController {
         }
     }
 
+    static async detailWoRabByWonoid(req, res, next){
+        let { wonoid} = req.query;
+        try {
+            let dataku = await wo_rab.sequelize.query(
+                `SELECT worabid, wonoid, worabdate, worabno, wocurr, worate, wodescrab1, wonilairab1,
+                        wodescrab2, wonilairab2, wodescrab3, wonilairab3, wodescrab4, wonilairab4, wodescrab5, wonilairab5, wodescrab6,
+                        wonilairab6, wodescrab7, wonilairab7, wodescrab8, wonilairab8, wodescrab9, wonilairab9, wodescrab10, wonilairab10,
+                        wodescrab11, wonilairab11, wodescrab12, wonilairab12, wodescrab13, wonilairab13, wodescrab14, wonilairab14,
+                        wodescrab15, wonilairab15, wodescrab16, wonilairab16, wodescrab17, wonilairab17, wodescrab18, wonilairab18,
+                        wodescrab19, wonilairab19, wodescrab20, wonilairab20, wonilairab_adm, wototal_pajak, womaterai, wototal_tagihan,
+                        wototbiaya_lain, wototpph23 FROM wo_rab
+                 where wonoid = '${wonoid}'
+                 ORDER BY wo_rab.worabid  DESC
+                `,
+                {
+                    type: wo_rab.SELECT,
+                }
+            );
+
+            baseResponse({
+                message: "detail WO RAB",
+                data: dataku
+            })(res, 200);
+        } catch (error) {
+            res.status(403);
+            next(error);
+        }
+    }
+
 
 
     static async updateWO(req, res, next){
