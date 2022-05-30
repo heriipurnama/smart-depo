@@ -99,4 +99,5 @@ module.exports = {
 	containerRepair: require("./container_repair/ContainerRepairController"),
 	woContainer: require("./wo_container/WoContainerController"),
 	woRab: require("./wo_rab/WoRabController"),
+	edi: require("./edi/EdiController"),
 };
