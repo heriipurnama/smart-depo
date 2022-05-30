@@ -38,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
             wocrtby:  DataTypes.STRING,
             womdfon:  DataTypes.DATE,
             womdfby:  DataTypes.STRING,
+            wodoro: DataTypes.STRING,
 
         },
         {
