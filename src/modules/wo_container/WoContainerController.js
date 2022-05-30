@@ -76,7 +76,7 @@ class WoContainerController {
                 { where: { wocid: wocid } }
             );
 
-            if (wotypes == 1 || wotypes == 2 && wopraoderin == false && wopraoderout == true){
+            if (wotypes == 1 || wotypes == 2){
                 let data = await wo_container.sequelize.query(
                     ` update container_process
 				  set
@@ -106,7 +106,7 @@ class WoContainerController {
                     }
                 );
 
-            }else if (wotypes == 1 || wotypes == 2 && wopraoderin == true && wopraoderout == true){
+            }else if (wotypes == 1 || wotypes == 2 ){
                 let dataOne = await wo_container.sequelize.query(
                     ` update container_process
                       set
@@ -159,7 +159,7 @@ class WoContainerController {
                     }
                 );
 
-            }else if (wotypes == 4 || wotypes == 5 || wotypes == 6 && wopraoderin ==true && wopraoderout==true){
+            }else if (wotypes == 4 || wotypes == 5 || wotypes == 6 ){
                 let dataTwo = await wo_container.sequelize.query(
                     ` update container_process
                       set
@@ -211,7 +211,7 @@ class WoContainerController {
                         type: wo_container.UPDATE,
                     }
                 );
-            }else if (wotypes == 5 || wotypes == 6 && wopraoderin ==false && wopraoderout==true){
+            }else if (wotypes == 5 || wotypes == 6){
                 let data = await wo_container.sequelize.query(
                     ` update container_process
 				  set
@@ -256,7 +256,7 @@ class WoContainerController {
     static async insertData(req, res, next){
         let {wonoid, ordertype, cpopr, cpcust, crno, cccode, ctcode, cclength, ccheight,
             fe, remark, gatedate, sealno, wotype, wopraoderin, wopraoderout, cpiremark1, cpovoyid, cponotes,
-             cpiorderno, cpireceptno, cpitruck, cpinopol, cpinotes} = req.body;
+             cpiorderno, cpireceptno, cpitruck, cpinopol, cpinotes, wostok} = req.body;
         try {
 
             /**
@@ -305,7 +305,7 @@ class WoContainerController {
                 gatedate:  gatedate,
                 sealno: sealno,
             });
-            if (wotypes == 1 || wotypes == 2 && wopraoderin == false && wopraoderout == true){
+            if (wotypes == 1 || wotypes == 2 && wostok == true){
                 let data = await wo_container.sequelize.query(
                     ` update container_process
 				  set
@@ -335,7 +335,7 @@ class WoContainerController {
                     }
                 );
 
-            }else if (wotypes == 1 || wotypes == 2 && wopraoderin == true && wopraoderout == true){
+            }else if (wotypes == 1 || wotypes == 2 && wostok == false){
                 let restDatas = await wo_container.sequelize.query(
                     ` INSERT INTO container_process
                       (cpid,crno, cpcust,cpopr,cpiorderno,cpireceptno ,
@@ -395,7 +395,7 @@ class WoContainerController {
                     }
                 );
 
-            }else if (wotypes == 4 || wotypes == 5 || wotypes == 6 && wopraoderin ==true && wopraoderout==true){
+            }else if (wotypes == 4 || wotypes == 5 || wotypes == 6 && wostok == false){
                 let restDatas = await wo_container.sequelize.query(
                     ` INSERT INTO container_process
                       (cpid,crno, cpcust,cpopr,cpiorderno,cpireceptno ,
@@ -453,7 +453,7 @@ class WoContainerController {
                         type: wo_container.UPDATE,
                     }
                 );
-            }else if (wotypes == 5 || wotypes == 6 && wopraoderin ==false && wopraoderout==true){
+            }else if (wotypes == 5 || wotypes == 6 && wostok == true){
                 let data = await wo_container.sequelize.query(
                     ` update container_process
 				  set
