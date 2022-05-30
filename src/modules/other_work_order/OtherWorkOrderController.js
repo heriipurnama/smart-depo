@@ -17,7 +17,7 @@ class OtherWorkOrderController {
         try {
             let datas = await work_order.sequelize.query(
                 `SELECT wonoid, wono, wodate, woto, wocc, wofrom, woopr, wotype, wopraoderin, wopraoderout, 
-                wostok, wosinum, wonotes, wocrton, wocrtby, womdfon, womdfby FROM work_order 
+                wostok, wosinum, wonotes, wocrton, wocrtby, womdfon, womdfby, wodoro FROM work_order 
 				where ${searchs} ORDER BY wono  DESC  LIMIT ${limits} OFFSET ${offsets}
             `,
                 {
@@ -52,7 +52,7 @@ class OtherWorkOrderController {
         try {
             let dataku = await work_order.sequelize.query(
                 `SELECT wono, wodate, woto, wocc, wofrom, woopr, wotype, wopraoderin, wopraoderout, 
-                    wostok, wosinum, wonotes, wocrton, wocrtby, womdfon, womdfby FROM work_order
+                    wostok, wosinum, wonotes, wocrton, wocrtby, womdfon, womdfby, wodoro FROM work_order
 				 where wonoid = '${wonoid}'
 				 ORDER BY work_order.wonoid  DESC
             `,
@@ -74,7 +74,7 @@ class OtherWorkOrderController {
 
 
     static async updateWO(req, res, next){
-        let {wonoid, wono, wodate, woto, wocc, wofrom, woopr, wotype, wopraoderin, wopraoderout, wostok, wosinum, wonotes, wocrton, wocrtby, womdfon, womdfby} = req.body;
+        let {wonoid, wono, wodate, woto, wocc, wofrom, woopr, wotype, wopraoderin, wopraoderout, wostok, wosinum, wonotes, wocrton, wocrtby, womdfon, womdfby, wodoro} = req.body;
         try{
 
             let updateWO = await work_order.update({
@@ -94,6 +94,7 @@ class OtherWorkOrderController {
                 wocrtby: wocrtby,
                 womdfon: womdfon,
                 womdfby: womdfby,
+                wodoro: wodoro,
             },
                 { where: { wonoid: wonoid } }
             );
@@ -110,7 +111,7 @@ class OtherWorkOrderController {
     }
 
     static async insertData(req, res, next){
-        let {wono, wodate, woto, wocc, wofrom, woopr, wotype, wopraoderin, wopraoderout, wostok, wosinum, wonotes, wocrton, wocrtby, womdfon, womdfby} = req.body;
+        let {wono, wodate, woto, wocc, wofrom, woopr, wotype, wopraoderin, wopraoderout, wostok, wosinum, wonotes, wocrton, wocrtby, womdfon, womdfby, wodoro} = req.body;
         try {
 
             let payloadWO = await work_order.create({
@@ -130,6 +131,7 @@ class OtherWorkOrderController {
                 wocrtby: wocrtby,
                 womdfon: womdfon,
                 womdfby: womdfby,
+                wodoro: wodoro,
             });
 
             let payloadter = await work_order.findOne({
