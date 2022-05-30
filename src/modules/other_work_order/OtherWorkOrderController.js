@@ -135,7 +135,7 @@ class OtherWorkOrderController {
             });
 
             let payloadter = await work_order.findOne({
-                where: {  wono: resultCode  },
+                where: {  wono: wono  },
             });
 
             baseResponse({
