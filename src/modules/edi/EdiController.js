@@ -56,9 +56,7 @@ class EdiController {
                           left join container_survey  s on cp.cpid=s.cpid
                  where cp.crno is not null
                    and cpopr='${prcode}'
-                   and s.svsurdat >= 'date2format(${vdate}, ${starthour})'
-                   and s.svsurdat <= 'date2format(${vdate}, ${endhour})'
-                   and s.type='2'
+                   and s.svsurdat = '${vdate}'
                  order by svsurdat asc `
             );
             const restDatas = datas[0];
@@ -86,9 +84,8 @@ class EdiController {
 				left join container_survey s on cp.cpid=s.cpid 
 				left join container_repair r on s.svid=r.svid 
 			where cp.crno is not null
-				and cpopr='${prcode}' 
-				and rptglwroke >= 'date2format(${vdate}, ${starthour})' 
-				and rptglwroke <= 'date2format(${vdate}, ${endhour})'
+				and cpopr='${prcode}'
+                and rptglwroke BETWEEN '${vdate} ${starthour}' AND '${vdate} ${endhour}'
 			order by rptglwroke asc `
             );
             const restDatas = datas[0];
@@ -102,7 +99,7 @@ class EdiController {
 
     static async codecoOut(req, res, next) {
         const {
-            prcode, vdate, starthour, endhour,
+            prcode, vdate,
         } = req.query;
 
         try {
