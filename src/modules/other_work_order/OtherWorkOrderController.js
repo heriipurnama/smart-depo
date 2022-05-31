@@ -182,12 +182,12 @@ class OtherWorkOrderController {
             let resultCompany = await company.findAll({});
             let paktrasl = resultCompany[0].dataValues.paktrasl;
             let sdcode = resultCompany[0].dataValues.sdcode;
-            let prefixCode = "WOD";
+            let prefixCode = "WD";
 
             // get data repo order
             let resultSurvey = await work_order.findOne({
                 where: {
-                    wono: { [Op.like]: `%WOD%`}
+                    wono: { [Op.like]: `%WD%`}
                 },
                 order:[[ "wono", "DESC"]]
             });
