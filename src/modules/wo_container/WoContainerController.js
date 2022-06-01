@@ -79,7 +79,7 @@ class WoContainerController {
         let {wonoid, ordertype, cpopr, cpcust, crno, cccode, ctcode, cclength, ccheight,
             fe, remark, gatedate, sealno, wotype, cpiremark1, cpovoyid, cponotes,
             cpiorderno, cpireceptno, cpoorderno, cporeceptno, cpopratgl, cpocargo,
-            cpitruck, cpinopol, cpinotes, wostok} = req.body;
+            cpitruck, cpinopol, cpinotes, wostok, cpovoy} = req.body;
         try{
             let wotypes = parseInt(wotype);
             let updateWO = await wo_container.update({
@@ -281,7 +281,7 @@ class WoContainerController {
         let {wonoid, ordertype, cpopr, cpcust, crno, cccode, ctcode, cclength, ccheight,
             fe, remark, gatedate, sealno, wotype, cpiremark1, cpovoyid, cponotes,
              cpiorderno, cpireceptno, cpoorderno, cporeceptno, cpopratgl, cpocargo,
-             cpitruck, cpinopol, cpinotes, wostok} = req.body;
+             cpitruck, cpinopol, cpinotes, wostok, cpovoy} = req.body;
         try {
 
             /**
