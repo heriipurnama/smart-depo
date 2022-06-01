@@ -58,7 +58,6 @@ class WoContainerController {
             let dataku = await wo_container.sequelize.query(
                 `SELECT wonoid, ordertype, cpopr, cpcust, crno, cccode, ctcode, cclength, ccheight,
                         fe, remark, gatedate, sealno FROM wo_container WHERE wonoid = '${wonoid}'
-                 ORDER BY wo_container.wocid  DESC
                 `,
                 {
                     type: wo_container.SELECT,
@@ -332,21 +331,20 @@ class WoContainerController {
             });
             if (wotypes == 1 || wotypes == 2 && wostok == true){
                 let data = await wo_container.sequelize.query(
-                    ` update container_process
+                    `update container_process
 				  set
-					 cpopr1 = '${cpopr}',                                                   
-					 cpcust1 ='${cpcust}',                                                                           
+					 cpopr1 = '${cpopr}',
+					 cpcust1 ='${cpcust}',
 					 cpoorderno = '${cpoorderno}',
-					 cporeceptno = ${cporeceptno},                                           
-					 cpopratgl = STR_TO_DATE(${cpopratgl},'%d,%m,%Y'),	
-					 cpocargo = ${cpocargo},
+					 cporeceptno = '${cporeceptno}',
+					 cpopratgl = '${cpopratgl}',
+					 cpocargo = '${cpocargo}',
 					 cpiremark1 = '${cpiremark1}', 
-					 cpovoyid = ${cpovoyid}, 
-					 cpovoy = ${cpovoy},  
+					 cpovoyid = '${cpovoyid}',
+					 cpovoy = '${cpovoy}',
 					 cponotes  = '${cponotes}'
 				  WHERE cpitgl is not null
-					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
-            `,
+					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' ) `,
                     {
                         type: wo_container.UPDATE,
                     }
