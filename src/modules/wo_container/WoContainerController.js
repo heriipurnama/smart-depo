@@ -337,12 +337,12 @@ class WoContainerController {
 					 cpopr1 = '${cpopr}',                                                   
 					 cpcust1 ='${cpcust}',                                                                           
 					 cpoorderno = '${cpoorderno}',
-					 cporeceptno = '${cporeceptno}',                                           
+					 cporeceptno = ${cporeceptno},                                           
 					 cpopratgl = '${cpopratgl}',	
-					 cpocargo = '${cpocargo}',
+					 cpocargo = ${cpocargo},
 					 cpiremark1 = '${cpiremark1}', 
 					 cpovoyid = ${cpovoyid}, 
-					 cpovoy = '${cpovoy}',  
+					 cpovoy = ${cpovoy},  
 					 cponotes  = '${cponotes}'
 				  WHERE cpitgl is not null
 					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
@@ -379,12 +379,12 @@ class WoContainerController {
 					 cpopr1 = '${cpopr}',                                                   
 					 cpcust1 ='${cpcust}',                                                                           
 					 cpoorderno = '${cpoorderno}',
-					 cporeceptno = '${cporeceptno}',                                           
+					 cporeceptno = ${cporeceptno},                                           
 					 cpopratgl = '${cpopratgl}',	
-					 cpocargo = '${cpocargo}',
+					 cpocargo = ${cpocargo},
 					 cpiremark1 = '${cpiremark1}', 
 					 cpovoyid = ${cpovoyid}, 
-					 cpovoy = '${cpovoy}',  
+					 cpovoy = ${cpovoy},  
 					 cponotes  = '${cponotes}'
 				  WHERE cpitgl is not null
 					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
@@ -439,12 +439,12 @@ class WoContainerController {
 					 cpopr1 = '${cpopr}',                                                   
 					 cpcust1 ='${cpcust}',                                                                           
 					 cpoorderno = '${cpoorderno}',
-					 cporeceptno = '${cporeceptno}',                                           
+					 cporeceptno = ${cporeceptno},                                           
 					 cpopratgl = '${cpopratgl}',	
-					 cpocargo = '${cpocargo}',
+					 cpocargo = ${cpocargo},
 					 cpiremark1 = '${cpiremark1}', 
 					 cpovoyid = ${cpovoyid}, 
-					 cpovoy = '${cpovoy}',  
+					 cpovoy = ${cpovoy},  
 					 cponotes  = '${cponotes}'
 				  WHERE cpitgl is not null
 					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
@@ -485,12 +485,12 @@ class WoContainerController {
 					 cpopr1 = '${cpopr}',                                                   
 					 cpcust1 ='${cpcust}',                                                                           
 					 cpoorderno = '${cpoorderno}',
-					 cporeceptno = '${cporeceptno}',                                           
+					 cporeceptno = ${cporeceptno},                                           
 					 cpopratgl = '${cpopratgl}',	
-					 cpocargo = '${cpocargo}',
+					 cpocargo = ${cpocargo},
 					 cpiremark1 = '${cpiremark1}', 
 					 cpovoyid = ${cpovoyid}, 
-					 cpovoy = '${cpovoy}',  
+					 cpovoy = ${cpovoy},  
 					 cponotes  = '${cponotes}'
 				  WHERE cpitgl is not null
 					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
