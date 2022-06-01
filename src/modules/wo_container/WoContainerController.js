@@ -52,10 +52,34 @@ class WoContainerController {
         }
     }
 
+    static async detailByWonoid(req, res, next){
+        let {wonoid} = req.query;
+        try {
+            let dataku = await wo_container.sequelize.query(
+                `SELECT wonoid, ordertype, cpopr, cpcust, crno, cccode, ctcode, cclength, ccheight,
+                        fe, remark, gatedate, sealno FROM wo_container WHERE wonoid = '${wonoid}'
+                 ORDER BY wo_container.wocid  DESC
+                `,
+                {
+                    type: wo_container.SELECT,
+                }
+            );
+
+            baseResponse({
+                message: "detail wo container",
+                data: dataku
+            })(res, 200);
+        } catch (error) {
+            res.status(403);
+            next(error);
+        }
+    }
+
     static async updateWOContainer(req, res, next){
-        let {wocid, wonoid, ordertype, cpopr, cpcust, crno, cccode, ctcode, cclength, ccheight,
-            fe, remark, gatedate, sealno, wotype, wopraoderin, wopraoderout, cpiremark1, cpovoyid, cponotes,
-            cpid, cpiorderno, cpireceptno, cpitruck, cpinopol, cpinotes} = req.body;
+        let {wonoid, ordertype, cpopr, cpcust, crno, cccode, ctcode, cclength, ccheight,
+            fe, remark, gatedate, sealno, wotype, cpiremark1, cpovoyid, cponotes,
+            cpiorderno, cpireceptno, cpoorderno, cporeceptno, cpopratgl, cpocargo,
+            cpitruck, cpinopol, cpinotes, wostok} = req.body;
         try{
             let wotypes = parseInt(wotype);
             let updateWO = await wo_container.update({
@@ -255,8 +279,9 @@ class WoContainerController {
 
     static async insertData(req, res, next){
         let {wonoid, ordertype, cpopr, cpcust, crno, cccode, ctcode, cclength, ccheight,
-            fe, remark, gatedate, sealno, wotype, wopraoderin, wopraoderout, cpiremark1, cpovoyid, cponotes,
-             cpiorderno, cpireceptno, cpitruck, cpinopol, cpinotes, wostok} = req.body;
+            fe, remark, gatedate, sealno, wotype, cpiremark1, cpovoyid, cponotes,
+             cpiorderno, cpireceptno, cpoorderno, cporeceptno, cpopratgl, cpocargo,
+             cpitruck, cpinopol, cpinotes, wostok} = req.body;
         try {
 
             /**
