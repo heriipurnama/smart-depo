@@ -56,7 +56,7 @@ class WoContainerController {
         let {wonoid} = req.query;
         try {
             let dataku = await wo_container.sequelize.query(
-                `SELECT wonoid, ordertype, cpopr, cpcust, crno, cccode, ctcode, cclength, ccheight,
+                `SELECT wocid, wonoid, ordertype, cpopr, cpcust, crno, cccode, ctcode, cclength, ccheight,
                         fe, remark, gatedate, sealno FROM wo_container WHERE wonoid = '${wonoid}'
                 `,
                 {
@@ -99,27 +99,32 @@ class WoContainerController {
                 { where: { wocid: wocid } }
             );
 
+            let crcpids;
+            let rests = await container_process.sequelize.query(
+                `SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' `,
+                {
+                    type: container_process.SELECT,
+                    plain: true,
+                }
+            );
+            crcpids = rests["crcpid"];
+
             if (wotypes == 1 || wotypes == 2){
-                let data = await wo_container.sequelize.query(
-                    ` update container_process
-				  set
-					 cpopr1 = '${cpopr}',                                                   
-					 cpcust1 ='${cpcust}',                                                                           
-					 cpoorderno = '${cpoorderno}',
-					 cporeceptno = '${cporeceptno}',                                           
-					 cpopratgl = '${cpopratgl}',	
-					 cpocargo = '${cpocargo}',
-					 cpiremark1 = '${cpiremark1}', 
-					 cpovoyid = ${cpovoyid}, 
-					 cpovoy = '${cpovoy}',  
-					 cponotes  = '${cponotes}'
-				  WHERE cpitgl is not null
-					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
-            `,
-                    {
-                        type: wo_container.UPDATE,
-                    }
-                );
+                let payloadWOs = await container_process.update({
+                        cpopr1: cpopr,
+                        cpcust1: cpcust,
+                        cpoorderno: cpoorderno,
+                        cporeceptno: cporeceptno,
+                        cpopratgl: cpopratgl,
+                        cpocargo: cpocargo,
+                        cpiremark1: cpiremark1,
+                        cpovoyid: cpovoyid,
+                        cpovoy: cpovoy,
+                        cponotes: cponotes,
+                    },
+                    { where: { cpitgl: { [Op.not]: null }, cpid: crcpids
+                        }
+                    });
 
                 let conUpdate = await wo_container.sequelize.query(
                     ` UPDATE tblcontainer SET  crlastact  ='BO' WHERE crno  LIKE '${crno}'
@@ -153,26 +158,21 @@ class WoContainerController {
                     }
                 );
 
-                let data = await wo_container.sequelize.query(
-                    ` update container_process
-				  set
-					 cpopr1 = '${cpopr}',                                                   
-					 cpcust1 ='${cpcust}',                                                                           
-					 cpoorderno = '${cpoorderno}',
-					 cporeceptno = '${cporeceptno}',                                           
-					 cpopratgl = '${cpopratgl}',	
-					 cpocargo = '${cpocargo}',
-					 cpiremark1 = '${cpiremark1}', 
-					 cpovoyid = ${cpovoyid}, 
-					 cpovoy = '${cpovoy}',  
-					 cponotes  = '${cponotes}'
-				  WHERE cpitgl is not null
-					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
-            `,
-                    {
-                        type: wo_container.UPDATE,
-                    }
-                );
+                let payloadWOs = await container_process.update({
+                        cpopr1: cpopr,
+                        cpcust1: cpcust,
+                        cpoorderno: cpoorderno,
+                        cporeceptno: cporeceptno,
+                        cpopratgl: cpopratgl,
+                        cpocargo: cpocargo,
+                        cpiremark1: cpiremark1,
+                        cpovoyid: cpovoyid,
+                        cpovoy: cpovoy,
+                        cponotes: cponotes,
+                    },
+                    { where: { cpitgl: { [Op.not]: null }, cpid: crcpids
+                        }
+                    });
 
                 let conUpdate = await wo_container.sequelize.query(
                     ` UPDATE tblcontainer SET  crlastact  ='BO' WHERE crno  LIKE '${crno}'
@@ -206,26 +206,21 @@ class WoContainerController {
                     }
                 );
 
-                let data = await wo_container.sequelize.query(
-                    ` update container_process
-				  set
-					 cpopr1 = '${cpopr}',                                                   
-					 cpcust1 ='${cpcust}',                                                                           
-					 cpoorderno = '${cpoorderno}',
-					 cporeceptno = '${cporeceptno}',                                           
-					 cpopratgl = '${cpopratgl}',	
-					 cpocargo = '${cpocargo}',
-					 cpiremark1 = '${cpiremark1}', 
-					 cpovoyid = ${cpovoyid}, 
-					 cpovoy = '${cpovoy}',  
-					 cponotes  = '${cponotes}'
-				  WHERE cpitgl is not null
-					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
-            `,
-                    {
-                        type: wo_container.UPDATE,
-                    }
-                );
+                let payloadWOs = await container_process.update({
+                        cpopr1: cpopr,
+                        cpcust1: cpcust,
+                        cpoorderno: cpoorderno,
+                        cporeceptno: cporeceptno,
+                        cpopratgl: cpopratgl,
+                        cpocargo: cpocargo,
+                        cpiremark1: cpiremark1,
+                        cpovoyid: cpovoyid,
+                        cpovoy: cpovoy,
+                        cponotes: cponotes,
+                    },
+                    { where: { cpitgl: { [Op.not]: null }, cpid: crcpids
+                        }
+                    });
 
                 let conUpdate = await wo_container.sequelize.query(
                     ` UPDATE tblcontainer SET  crlastact  ='BO' WHERE crno  LIKE '${crno}'
@@ -235,26 +230,21 @@ class WoContainerController {
                     }
                 );
             }else if (wotypes == 5 || wotypes == 6){
-                let data = await wo_container.sequelize.query(
-                    ` update container_process
-				  set
-					 cpopr1 = '${cpopr}',                                                   
-					 cpcust1 ='${cpcust}',                                                                           
-					 cpoorderno = '${cpoorderno}',
-					 cporeceptno = '${cporeceptno}',                                           
-					 cpopratgl = '${cpopratgl}',	
-					 cpocargo = '${cpocargo}',
-					 cpiremark1 = '${cpiremark1}', 
-					 cpovoyid = ${cpovoyid}, 
-					 cpovoy = '${cpovoy}',  
-					 cponotes  = '${cponotes}'
-				  WHERE cpitgl is not null
-					and cpid = ( SELECT  crcpid FROM  tblcontainer WHERE  crno  LIKE '${crno}' )
-            `,
-                    {
-                        type: wo_container.UPDATE,
-                    }
-                );
+                let payloadWOs = await container_process.update({
+                        cpopr1: cpopr,
+                        cpcust1: cpcust,
+                        cpoorderno: cpoorderno,
+                        cporeceptno: cporeceptno,
+                        cpopratgl: cpopratgl,
+                        cpocargo: cpocargo,
+                        cpiremark1: cpiremark1,
+                        cpovoyid: cpovoyid,
+                        cpovoy: cpovoy,
+                        cponotes: cponotes,
+                    },
+                    { where: { cpitgl: { [Op.not]: null }, cpid: crcpids
+                        }
+                    });
 
                 let conUpdate = await wo_container.sequelize.query(
                     ` UPDATE tblcontainer SET  crlastact  ='BO' WHERE crno  LIKE '${crno}'
