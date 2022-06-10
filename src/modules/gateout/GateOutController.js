@@ -520,14 +520,14 @@ class GateOutController {
 					 cpideliver,cpidish,cpieir,cpiterm ,                              
 					 cpicargo,cpidpp,cpidppinout,cpiseal,cpives,cpitruck ,                             
 					 cpinopol,cpishold,cpiremark,cpidriver,cpivoyid ,                             
-					 cpivoy,cpinotes )
+					 cpivoy,cpinotes, spdepo )
 					values
 					('${resultCode}','${crno}', '${cpcust}', '${cpopr}', ${cpochrgbm}, '${cpoorderno}', '${cporeceptno}',
 					 '${cpopratgl}', '${cpitgl}', '${onhiredate}', '${onhiredate}', '${cpostatus}',
 					 '${cpideliver}', '${cpidish}', ${cpieir}, '${cpiterm}',
 					 '${cpocargo}', '${cpodpp}', ${cpodppinout}, '${cposeal}', '${cpoves}', '${cpotruck}',
 					 '${cponopol}', '${cpoload}','${cpiremark1}','${cpodriver}', ${cpovoyid},
-					 '${cpovoy}','${cponotes}' ) `,
+					 '${cpovoy}','${cponotes}', 'D1' ) `,
 				{
 					type: container_interchange.INSERT,
 				}
