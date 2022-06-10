@@ -517,14 +517,14 @@ class GateOutController {
 				` INSERT INTO container_process  
 					(cpid,crno, cpcust,cpopr,cpichrgbb,cpiorderno,cpireceptno ,                          
 					 cpipratgl,cpitgl,onhiredate,cpijam,cpistatus ,                            
-					 cpideliver,cpidisdat,cpidish,cpieir,cpiterm ,                              
+					 cpideliver,cpidish,cpieir,cpiterm ,                              
 					 cpicargo,cpidpp,cpidppinout,cpiseal,cpives,cpitruck ,                             
 					 cpinopol,cpishold,cpiremark,cpidriver,cpivoyid ,                             
 					 cpivoy,cpinotes )
 					values
 					('${resultCode}','${crno}', '${cpcust}', '${cpopr}', ${cpochrgbm}, '${cpoorderno}', '${cporeceptno}',
 					 '${cpopratgl}', '${cpitgl}', '${onhiredate}', '${onhiredate}', '${cpostatus}',
-					 '${cpideliver}', '${cpidisdat}', '${cpidish}', ${cpieir}, '${cpiterm}',
+					 '${cpideliver}', '${cpidish}', ${cpieir}, '${cpiterm}',
 					 '${cpocargo}', '${cpodpp}', ${cpodppinout}, '${cposeal}', '${cpoves}', '${cpotruck}',
 					 '${cponopol}', '${cpoload}','${cpiremark1}','${cpodriver}', ${cpovoyid},
 					 '${cpovoy}','${cponotes}' ) `,
