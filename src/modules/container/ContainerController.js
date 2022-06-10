@@ -4,7 +4,7 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
 const baseResponse = require("../../utils/helper/Response");
-const { container,container_code, container_process} = require("../../db/models");
+const { container,container_code, container_process, container_interchange, wo_container} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 
 class ContainerController {
@@ -286,6 +286,144 @@ class ContainerController {
 				baseResponse({success:false, message: "Invalid Code", data: false })(res, 200);
 				Logger(req);
 			}
+		} catch (error) {
+			res.status(403);
+			next(error);
+		}
+	}
+
+	static async containerChange(req, res, next){
+		let {crno1, crno2, orderno} = req.body;
+		try {
+
+			// -- cek dulu CRNO1
+			let resulCrno1 = await container_process.sequelize.query(
+				`SELECT crlastact as crlastact1, crlastcond, lastact 
+				 FROM tblcontainer WHERE crno LIKE '${crno1}' `,
+				{
+					type: container_process.SELECT,
+					plain: true,
+				}
+			);
+
+			let crlastact1 = resulCrno1["crlastact1"];
+
+			let resulCrno2 = await container_process.sequelize.query(
+				`SELECT crlastact as crlastact2, crlastcond as crlastcond2, lastact as lastact2
+				 FROM tblcontainer WHERE crno LIKE '${crno2}' `,
+				{
+					type: container_process.SELECT,
+					plain: true,
+				}
+			);
+
+			let crlastact2 = resulCrno2["crlastact2"];
+			let crlastcond2 = resulCrno2["crlastcond2"];
+			let lastact2 = resulCrno2["lastact2"];
+
+			if (crlastact1 != 'OD' && crlastact2 == 'CO' && crlastcond2 =='AC' || lastact2 =='AC'){
+				let getData = await container_process.sequelize.query(
+					`SELECT cpoorderno,
+							cporeceptno,
+							cpopratgl,
+							cporeceiv,
+							cpoterm,
+							cpofe,
+							cpoves,
+							cporefout,
+							cpovoy
+					 FROM container_process
+					 WHERE container_process.cpid in (
+						 SELECT crcpid
+						 FROM tblcontainer
+						 WHERE crno LIKE '${crno2}' `,
+					{
+						type: container_process.SELECT,
+						plain: true,
+					}
+				);
+
+				let cpoorderno = resulCrno2["cpoorderno"];
+				let cporeceptno = resulCrno2["cporeceptno"];
+				let cpopratgl = resulCrno2["cpopratgl"];
+				let cporeceiv = resulCrno2["cporeceiv"];
+				let cpoterm = resulCrno2["cpoterm"];
+				let cpofe = resulCrno2["cpofe"];
+				let cpoves = resulCrno2["cpoves"];
+				let cporefout = resulCrno2["cporefout"];
+				let cpovoy = resulCrno2["cpovoy"];
+
+				// Update ke container 2
+				let containerDua = await container_process.sequelize.query(
+					` update container_process
+				  set
+					  cpopr1 ='${cpopr1}',
+					  cpcust1 ='${cpcust1}',
+					  cpoorderno = '${cpoorderno}',
+					  cporeceptno = '${cporeceptno}',
+					  cpopratgl = '${cpopratgl}',
+					  cporeceiv = '${cporeceiv}',
+					  cpoves = '${cpoves}',
+					  cpoterm = '${cpoterm}',
+					  cpofe = '${cpofe}'
+					  WHERE container_process.cpid in 
+					        (SELECT crcpid FROM tblcontainer  WHERE crno LIKE '${crno2}' ) `,
+					{
+						type: container_process.UPDATE,
+					}
+				);
+
+				// Kosongkan container 1
+				let containerSatu = await container_process.sequelize.query(
+					` update container_process
+				  set
+					  cpoorderno = '',
+					  cporeceptno = '',
+					  cpopratgl = null,
+					  cporeceiv = '',
+					  cpoves = '',
+					  cpoterm = '',
+					  cpofe = null,
+					  cporefout ='',
+					  cpovoy = null
+					  WHERE container_process.cpid in
+							(SELECT crcpid FROM tblcontainer  WHERE crno LIKE '${crno1}' ) `,
+					{
+						type: container_process.UPDATE,
+					}
+				);
+
+				// update ke pra container
+				let praContainer = await container_process.sequelize.query(
+					` UPDATE order_pra_container SET
+													 crno = '${crno2}',
+													 cccode = '',
+													 ctcode= '',
+													 cpiremark = ''
+					  WHERE crno = $crno2 and praid IN
+						( SELECT praid FROM order_pra WHERE 1 AND cpiorderno = '${orderno}') `,
+					{
+						type: container_process.UPDATE,
+					}
+				);
+
+				// Update table container
+				let conUpdate = await container_process.sequelize.query(
+					` UPDATE tblcontainer SET  crlastact  ='CO' WHERE crno  LIKE '${crno1}' `,
+					{
+						type: container_process.UPDATE,
+					}
+				);
+
+				baseResponse({ message: "Success change container", data: conUpdate })(res, 200);
+				Logger(req);
+
+			}else {
+				baseResponse({ message: "failed outdepo", data: payload })(res, 200);
+				Logger(req);
+			}
+
+
 		} catch (error) {
 			res.status(403);
 			next(error);
