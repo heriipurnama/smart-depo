@@ -432,7 +432,7 @@ class ContainerController {
 
 
 		} catch (error) {
-			logger.error(`Dalam Try Catch ${error}`);
+			logger.error(error);
 			res.status(403);
 			next(error);
 		}
