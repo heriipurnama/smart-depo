@@ -429,9 +429,10 @@ class ContainerController {
 
 
 		} catch (error) {
+			logger.log({ level: 'error', message: error.message });
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
-			logger.log({ level: 'error', message: next(error) });
 		}
 	}
 }
