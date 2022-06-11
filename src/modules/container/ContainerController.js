@@ -296,7 +296,7 @@ class ContainerController {
 	static async containerChange(req, res, next){
 		let {crno1, crno2, orderno} = req.body;
 		try {
-
+			logger.log({ level: 'info', message: req });
 			// -- cek dulu CRNO1
 			let resulCrno1 = await container_process.sequelize.query(
 				`SELECT crlastact, crlastcond, lastact 
@@ -422,15 +422,16 @@ class ContainerController {
 
 				baseResponse({ message: "Success change container", data: conUpdate })(res, 200);
 				Logger(req);
+				logger.log({ level: 'info', message: req });
 			}else {
 				baseResponse({ message: "failed outdepo", data: payload })(res, 200);
 				Logger(req);
-				logger.log('info', req);
+				logger.log({ level: 'info', message: req });
 			}
 
 
 		} catch (error) {
-			logger.log('error', error);
+			logger.log({ level: 'error', message: error });
 			res.status(403);
 			next(error);
 		}
