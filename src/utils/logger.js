@@ -7,12 +7,19 @@ const logger = createLogger({
     ),
     transports: [
         new transports.File({
-            filename: './logs/all-logs.log',
-            json: false,
-            maxsize: 5242880,
-            maxFiles: 5,
+            filename: './logs/info.log',
+            level: 'info',
+            format: format.combine(
+                format.timestamp(),
+                format.json()),
         }),
-        new transports.Console(),
+        new transports.File({
+            filename: './logs/error.log',
+            level: 'error',
+            format: format.combine(
+                format.timestamp(),
+                format.json()),
+        })
     ]
 });
 
