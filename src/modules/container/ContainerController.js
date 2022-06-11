@@ -25,6 +25,8 @@ class ContainerController {
 				Logger(req);
 			}
 		} catch (error) {
+			logger.log({ level: 'error', message: error.message });
+			logger.log({ level: 'error', message: error.stack });
 			res.status(400);
 			next(error);
 		}
@@ -49,6 +51,8 @@ class ContainerController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.message });
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -77,6 +81,8 @@ class ContainerController {
 				data: dataContainer,
 			})(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.message });
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -108,6 +114,8 @@ class ContainerController {
 			});
 			baseResponse({ message: "list containers", data: { datas,  count } })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.message });
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -219,6 +227,8 @@ class ContainerController {
 			let resultData    = repairload[0];
 			baseResponse({ message: "List Container", data: resultData })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.message });
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -235,6 +245,8 @@ class ContainerController {
 			baseResponse({ message: "Success Delete Container", data: payload })(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.message });
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -288,6 +300,8 @@ class ContainerController {
 				Logger(req);
 			}
 		} catch (error) {
+			logger.log({ level: 'error', message: error.message });
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}

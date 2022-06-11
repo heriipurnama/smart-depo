@@ -3,6 +3,7 @@
 const baseResponse = require("../../utils/helper/Response");
 const { orderPraContainer, container } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
+const logger= require("../../utils/logger");
 
 class OrderPraContainerController {
 	static async createData(req, res, next) {
@@ -91,6 +92,7 @@ class OrderPraContainerController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(400);
 			next(error);
 		}
@@ -115,6 +117,7 @@ class OrderPraContainerController {
 				data: { datas, count },
 			})(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -138,6 +141,7 @@ class OrderPraContainerController {
 				data: payload,
 			})(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -212,6 +216,7 @@ class OrderPraContainerController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -235,6 +240,7 @@ class OrderPraContainerController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(400);
 			next(error);
 		}

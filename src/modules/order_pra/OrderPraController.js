@@ -3,6 +3,7 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const logger= require("../../utils/logger");
 
 const baseResponse = require("../../utils/helper/Response");
 const {
@@ -94,6 +95,7 @@ class OrderPraController {
 			);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(400);
 			next(error);
 		}
@@ -254,6 +256,7 @@ class OrderPraController {
 
 
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -317,6 +320,7 @@ class OrderPraController {
 				200
 			);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -378,6 +382,7 @@ class OrderPraController {
 				200
 			);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -459,6 +464,7 @@ class OrderPraController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -482,6 +488,7 @@ class OrderPraController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(400);
 			next(error);
 		}
@@ -529,6 +536,7 @@ class OrderPraController {
 				);
 			}
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(500);
 			next(error);
 		}
@@ -590,6 +598,7 @@ class OrderPraController {
 				data: payload,
 			})(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -655,6 +664,7 @@ class OrderPraController {
 				200
 			);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -736,6 +746,7 @@ class OrderPraController {
 				200
 			);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}

@@ -13,6 +13,7 @@ const {
 const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
+const logger= require("../../utils/logger");
 
 class ContainerProcessController {
 	static async createData(req, res, next) {
@@ -30,6 +31,7 @@ class ContainerProcessController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(400);
 			next(error);
 		}
@@ -51,6 +53,7 @@ class ContainerProcessController {
 				data: { datas, count },
 			})(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -72,6 +75,7 @@ class ContainerProcessController {
 				data: payload,
 			})(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -103,6 +107,7 @@ class ContainerProcessController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -153,6 +158,7 @@ class ContainerProcessController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -203,6 +209,7 @@ class ContainerProcessController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -226,6 +233,7 @@ class ContainerProcessController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(400);
 			next(error);
 		}
@@ -326,6 +334,7 @@ class ContainerProcessController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -355,6 +364,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: { datas } })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -390,6 +400,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: { datas } })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -416,6 +427,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: { datas } })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -470,6 +482,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -553,6 +566,7 @@ class ContainerProcessController {
 				data: { datas: allData, Total: totalDatas },
 			})(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -599,6 +613,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -650,6 +665,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -688,6 +704,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -728,6 +745,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -767,6 +785,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -805,6 +824,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -849,6 +869,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -893,6 +914,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -937,6 +959,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -981,6 +1004,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -1017,6 +1041,7 @@ class ContainerProcessController {
 
 			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}

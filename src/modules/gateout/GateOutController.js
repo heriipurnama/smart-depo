@@ -7,6 +7,7 @@ const { container, container_process, tblsurveyor, orderPraContainer,
 	orderRepoContainer, company,  container_interchange
 } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
+const logger = require("../../utils/logger");
 
 class GateOutController {
 
@@ -28,6 +29,7 @@ class GateOutController {
 			});
 			baseResponse({ message: "List Gate Out", data: { datas, total:datas, count } })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -40,6 +42,7 @@ class GateOutController {
 			});
 			baseResponse({ message: "List surveyor", data: datas })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -149,6 +152,7 @@ class GateOutController {
 
 			baseResponse({ message: "List Datas", data: restDatas })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -269,6 +273,7 @@ class GateOutController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -328,6 +333,7 @@ class GateOutController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -543,6 +549,7 @@ class GateOutController {
 
 			baseResponse({ message: "inter change", data: `success update and insert interchange ` })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -581,6 +588,7 @@ class GateOutController {
 				data: { datas: allData, Total: totalDatas },
 			})(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
