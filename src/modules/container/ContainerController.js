@@ -307,10 +307,8 @@ class ContainerController {
 				}
 			);
 
-			logger.log(`resulCrno1 ${resulCrno1}`);
-
 			let crlastact1 = resulCrno1["crlastact"];
-
+			logger.log(`resulCrno1 ${crlastact1}`);
 			let resulCrno2 = await container_process.sequelize.query(
 				`SELECT crlastact, crlastcond, lastact
 				 FROM tblcontainer WHERE crno LIKE '${crno2}' `,
@@ -319,10 +317,11 @@ class ContainerController {
 					plain: true,
 				}
 			);
-			logger.log(`resulCrno2 ${resulCrno2}`);
+
 			let crlastact2 = resulCrno2["crlastact"];
 			let crlastcond2 = resulCrno2["crlastcond"];
 			let lastact2 = resulCrno2["lastact"];
+			logger.log(`crlastact2 ${crlastact2}`);
 
 			if (crlastact1 != 'OD' && crlastact2 == 'CO' && crlastcond2 =='AC' || lastact2 =='AC'){
 				let getData = await container_process.sequelize.query(
@@ -358,7 +357,7 @@ class ContainerController {
 				let cpopr1 = getData["cpopr1"];
 				let cpcust1 = getData["cpcust1"];
 
-				logger.log(`getData ${getData}`);
+				logger.log(`cpcust1 ${cpcust1}`);
 				// Update ke container 2
 				let containerDua = await container_process.sequelize.query(
 					` update container_process
