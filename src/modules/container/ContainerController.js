@@ -296,7 +296,6 @@ class ContainerController {
 	static async containerChange(req, res, next){
 		let {crno1, crno2, orderno} = req.body;
 		try {
-			logger.log({ level: 'info', message: req });
 			// -- cek dulu CRNO1
 			let resulCrno1 = await container_process.sequelize.query(
 				`SELECT crlastact, crlastcond, lastact 
@@ -308,7 +307,7 @@ class ContainerController {
 			);
 
 			let crlastact1 = resulCrno1["crlastact"];
-			logger.log('info', `resulCrno1 ${crlastact1}`);
+			logger.log({ level: 'info', message: `resulCrno1 ${crlastact1}` });
 			let resulCrno2 = await container_process.sequelize.query(
 				`SELECT crlastact, crlastcond, lastact
 				 FROM tblcontainer WHERE crno LIKE '${crno2}' `,
@@ -321,7 +320,8 @@ class ContainerController {
 			let crlastact2 = resulCrno2["crlastact"];
 			let crlastcond2 = resulCrno2["crlastcond"];
 			let lastact2 = resulCrno2["lastact"];
-			logger.log('info', `crlastact2 ${crlastact2}`);
+
+			logger.log({ level: 'info', message: `crlastact2 ${crlastact2}` });
 
 			if (crlastact1 != 'OD' && crlastact2 == 'CO' && crlastcond2 =='AC' || lastact2 =='AC'){
 				let getData = await container_process.sequelize.query(
@@ -357,7 +357,7 @@ class ContainerController {
 				let cpopr1 = getData["cpopr1"];
 				let cpcust1 = getData["cpcust1"];
 
-				logger.log('info', `cpcust1 ${cpcust1}`);
+				logger.log({ level: 'info', message: `cpcust1 ${cpcust1}` });
 				// Update ke container 2
 				let containerDua = await container_process.sequelize.query(
 					` update container_process
@@ -422,18 +422,16 @@ class ContainerController {
 
 				baseResponse({ message: "Success change container", data: conUpdate })(res, 200);
 				Logger(req);
-				logger.log({ level: 'info', message: req });
 			}else {
 				baseResponse({ message: "failed outdepo", data: payload })(res, 200);
 				Logger(req);
-				logger.log({ level: 'info', message: req });
 			}
 
 
 		} catch (error) {
-			logger.log({ level: 'error', message: error });
 			res.status(403);
 			next(error);
+			logger.log({ level: 'error', message: next(error) });
 		}
 	}
 }
