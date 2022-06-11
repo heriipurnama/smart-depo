@@ -5,6 +5,7 @@ const { isorepair} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
+const logger= require("../../utils/logger");
 
 class MnrTarifController{
 
@@ -73,6 +74,7 @@ class MnrTarifController{
                 Logger(req);
             }
         } catch (error) {
+            logger.log({ level: 'error', message: error.stack });
             res.status(400);
             next(error);
         }
@@ -143,6 +145,7 @@ class MnrTarifController{
             })(res, 200);
             Logger(req);
         } catch (error) {
+            logger.log({ level: 'error', message: error.stack });
             res.status(403);
             next(error);
         }
@@ -169,6 +172,7 @@ class MnrTarifController{
                 data: dataMnrTarif,
             })(res, 200);
         } catch (error) {
+            logger.log({ level: 'error', message: error.stack });
             res.status(403);
             next(error);
         }
@@ -202,6 +206,7 @@ class MnrTarifController{
                 200
             );
         } catch (error) {
+            logger.log({ level: 'error', message: error.stack });
             res.status(403);
             next(error);
         }
@@ -219,6 +224,7 @@ class MnrTarifController{
             );
             Logger(req);
         } catch (error) {
+            logger.log({ level: 'error', message: error.stack });
             res.status(403);
             next(error);
         }

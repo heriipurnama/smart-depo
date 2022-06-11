@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const baseResponse = require("../../utils/helper/Response");
 const { orderRepo, company, voyage, orderRepoContainer, vessel, tblusers, orderRepoFile } = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
+const logger= require("../../utils/logger");
 
 class OrderRepoController {
 
@@ -55,6 +56,7 @@ class OrderRepoController {
 			baseResponse({ message: "Success Created Order Repo", data: payload })(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(400);
 			next(error);
 		}
@@ -98,6 +100,7 @@ class OrderRepoController {
 			baseResponse({ message: "List Order Repo", data:  { datas, count } })(res, 200);
 			
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -140,6 +143,7 @@ class OrderRepoController {
 			}
 			baseResponse({ message: "Detail Data Prder Repo repoid", data: payload })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -199,6 +203,7 @@ class OrderRepoController {
 			baseResponse({ message: "repoid Updated!", data:`Order Repo Success Update For dpcode : ${repoid}` })(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -219,6 +224,7 @@ class OrderRepoController {
 			baseResponse({ message: `Order Repo Deleted For repoid: ${repoid}`, data: payload })(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(400);
 			next(error);
 		}
@@ -260,6 +266,7 @@ class OrderRepoController {
 
 			}
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(500);
 			next(error);
 		}
@@ -300,6 +307,7 @@ class OrderRepoController {
 			}
 			baseResponse({ message: "detail data pra order by pra in", data: payload })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -346,6 +354,7 @@ class OrderRepoController {
 			baseResponse({ message: "list order repo", data:  { datas, count } })(res, 200);
 			
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -395,6 +404,7 @@ class OrderRepoController {
 			baseResponse({ message: "List Order Repo", data:  { datas, count } })(res, 200);
 			
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}

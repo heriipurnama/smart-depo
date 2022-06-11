@@ -12,6 +12,7 @@ const Logger = require("../../utils/helper/logger");
 const Sequelize = require("sequelize");
 // const {container} = require("../index");
 const Op = Sequelize.Op;
+const logger= require("../../utils/logger");
 
 class EstimasiController {
 	static async list(req, res, next) {
@@ -80,6 +81,7 @@ class EstimasiController {
 			let resultData = payload[0];
 			baseResponse({ message: "List Estimasi", data: resultData })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -133,6 +135,7 @@ class EstimasiController {
 			let resultData = payload[0];
 			baseResponse({ message: "List Estimasi", data: resultData })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -190,6 +193,7 @@ class EstimasiController {
 				200
 			);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -219,6 +223,7 @@ class EstimasiController {
 			);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -263,6 +268,7 @@ class EstimasiController {
 			let resultData = payload[0];
 			baseResponse({ message: "List Estimasi", data: resultData })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -280,6 +286,7 @@ class EstimasiController {
 			let resultData = payload[0];
 			baseResponse({ message: "cek conainer repair", data: resultData })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -453,6 +460,7 @@ class EstimasiController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -472,6 +480,7 @@ class EstimasiController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -547,6 +556,7 @@ class EstimasiController {
 			let resultdtlData = repairdetailload[0]
 			baseResponse({ message: "List Estimasi", data: {dataOne: resultData, dataTwo: resultdtlData} })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -621,6 +631,7 @@ class EstimasiController {
 			let resultdtlData = repairdetailload[0]
 			baseResponse({ message: "List Estimasi", data: {dataOne: resultData, dataTwo: resultdtlData} })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -695,6 +706,7 @@ class EstimasiController {
 			let resultdtlData = repairdetailload[0]
 			baseResponse({ message: "List Estimasi", data: {dataOne: resultData, dataTwo: resultdtlData} })(res, 200);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -768,6 +780,7 @@ class EstimasiController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -894,6 +907,7 @@ class EstimasiController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -915,6 +929,7 @@ class EstimasiController {
 			let resultData    = repairload[0];
 			baseResponse({ message: "List file ", data:  resultData})(res, 200);
 		}catch (error){
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -933,6 +948,7 @@ class EstimasiController {
 			let resultData    = repairload[0];
 			baseResponse({ message: "List file ", data:  resultData})(res, 200);
 		}catch (error){
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -992,6 +1008,7 @@ class EstimasiController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -1036,6 +1053,7 @@ class EstimasiController {
 			Logger(req);
 
 		}catch (error){
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -1062,6 +1080,7 @@ class EstimasiController {
 			let resultData    = repairload[0];
 			baseResponse({ message: "List calculated ", data:  resultData})(res, 200);
 		}catch (error){
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
@@ -1111,6 +1130,7 @@ class EstimasiController {
 			})(res, 200);
 			Logger(req);
 		} catch (error) {
+			logger.log({ level: 'error', message: error.stack });
 			res.status(403);
 			next(error);
 		}
