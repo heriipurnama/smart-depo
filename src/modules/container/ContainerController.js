@@ -6,6 +6,7 @@ const Op = Sequelize.Op;
 const baseResponse = require("../../utils/helper/Response");
 const { container,container_code, container_process, container_interchange, wo_container} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
+const { logger } = require('../../utils');
 
 class ContainerController {
 	static async createNew(req, res, next) {
@@ -298,7 +299,7 @@ class ContainerController {
 
 			// -- cek dulu CRNO1
 			let resulCrno1 = await container_process.sequelize.query(
-				`SELECT crlastact as crlastact1, crlastcond, lastact 
+				`SELECT crlastact, crlastcond, lastact 
 				 FROM tblcontainer WHERE crno LIKE '${crno1}' `,
 				{
 					type: container_process.SELECT,
@@ -306,20 +307,22 @@ class ContainerController {
 				}
 			);
 
-			let crlastact1 = resulCrno1["crlastact1"];
+			logger.info(`resulCrno1 ${resulCrno1}`);
+
+			let crlastact1 = resulCrno1["crlastact"];
 
 			let resulCrno2 = await container_process.sequelize.query(
-				`SELECT crlastact as crlastact2, crlastcond as crlastcond2, lastact as lastact2
+				`SELECT crlastact, crlastcond, lastact
 				 FROM tblcontainer WHERE crno LIKE '${crno2}' `,
 				{
 					type: container_process.SELECT,
 					plain: true,
 				}
 			);
-
-			let crlastact2 = resulCrno2["crlastact2"];
-			let crlastcond2 = resulCrno2["crlastcond2"];
-			let lastact2 = resulCrno2["lastact2"];
+			logger.info(`resulCrno2 ${resulCrno2}`);
+			let crlastact2 = resulCrno2["crlastact"];
+			let crlastcond2 = resulCrno2["crlastcond"];
+			let lastact2 = resulCrno2["lastact"];
 
 			if (crlastact1 != 'OD' && crlastact2 == 'CO' && crlastcond2 =='AC' || lastact2 =='AC'){
 				let getData = await container_process.sequelize.query(
@@ -331,7 +334,9 @@ class ContainerController {
 							cpofe,
 							cpoves,
 							cporefout,
-							cpovoy
+							cpovoy,
+							cpopr1,
+							cpcust1
 					 FROM container_process
 					 WHERE container_process.cpid in (
 						 SELECT crcpid
@@ -343,16 +348,17 @@ class ContainerController {
 					}
 				);
 
-				let cpoorderno = resulCrno2["cpoorderno"];
-				let cporeceptno = resulCrno2["cporeceptno"];
-				let cpopratgl = resulCrno2["cpopratgl"];
-				let cporeceiv = resulCrno2["cporeceiv"];
-				let cpoterm = resulCrno2["cpoterm"];
-				let cpofe = resulCrno2["cpofe"];
-				let cpoves = resulCrno2["cpoves"];
-				let cporefout = resulCrno2["cporefout"];
-				let cpovoy = resulCrno2["cpovoy"];
+				let cpoorderno = getData["cpoorderno"];
+				let cporeceptno = getData["cporeceptno"];
+				let cpopratgl = getData["cpopratgl"];
+				let cporeceiv = getData["cporeceiv"];
+				let cpoterm = getData["cpoterm"];
+				let cpofe = getData["cpofe"];
+				let cpoves = getData["cpoves"];
+				let cpopr1 = getData["cpopr1"];
+				let cpcust1 = getData["cpcust1"];
 
+				logger.info(`getData ${getData}`);
 				// Update ke container 2
 				let containerDua = await container_process.sequelize.query(
 					` update container_process
@@ -417,14 +423,16 @@ class ContainerController {
 
 				baseResponse({ message: "Success change container", data: conUpdate })(res, 200);
 				Logger(req);
-
+				logger.info(req);
 			}else {
 				baseResponse({ message: "failed outdepo", data: payload })(res, 200);
 				Logger(req);
+				logger.info(req);
 			}
 
 
 		} catch (error) {
+			logger.error(`Dalam Try Catch ${error}`);
 			res.status(403);
 			next(error);
 		}
