@@ -432,7 +432,7 @@ class ContainerController {
 
 
 		} catch (error) {
-			logger.error(error);
+			logger.info(error);
 			res.status(403);
 			next(error);
 		}
