@@ -6,7 +6,7 @@ const Op = Sequelize.Op;
 const baseResponse = require("../../utils/helper/Response");
 const { container,container_code, container_process, container_interchange, wo_container} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
-const { logger } = require('../../utils/logger');
+const logger= require("../../utils/logger");
 
 class ContainerController {
 	static async createNew(req, res, next) {
@@ -307,7 +307,7 @@ class ContainerController {
 				}
 			);
 
-			logger.info(`resulCrno1 ${resulCrno1}`);
+			logger.log(`resulCrno1 ${resulCrno1}`);
 
 			let crlastact1 = resulCrno1["crlastact"];
 
@@ -319,7 +319,7 @@ class ContainerController {
 					plain: true,
 				}
 			);
-			logger.info(`resulCrno2 ${resulCrno2}`);
+			logger.log(`resulCrno2 ${resulCrno2}`);
 			let crlastact2 = resulCrno2["crlastact"];
 			let crlastcond2 = resulCrno2["crlastcond"];
 			let lastact2 = resulCrno2["lastact"];
@@ -358,7 +358,7 @@ class ContainerController {
 				let cpopr1 = getData["cpopr1"];
 				let cpcust1 = getData["cpcust1"];
 
-				logger.info(`getData ${getData}`);
+				logger.log(`getData ${getData}`);
 				// Update ke container 2
 				let containerDua = await container_process.sequelize.query(
 					` update container_process
@@ -423,16 +423,15 @@ class ContainerController {
 
 				baseResponse({ message: "Success change container", data: conUpdate })(res, 200);
 				Logger(req);
-				logger.info(req);
 			}else {
 				baseResponse({ message: "failed outdepo", data: payload })(res, 200);
 				Logger(req);
-				logger.info(req);
+				logger.log(req);
 			}
 
 
 		} catch (error) {
-			logger.info(error);
+			logger.log(error);
 			res.status(403);
 			next(error);
 		}
