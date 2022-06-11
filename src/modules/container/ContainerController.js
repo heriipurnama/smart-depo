@@ -6,7 +6,7 @@ const Op = Sequelize.Op;
 const baseResponse = require("../../utils/helper/Response");
 const { container,container_code, container_process, container_interchange, wo_container} = require("../../db/models");
 const Logger = require("../../utils/helper/logger");
-const { logger } = require('../../utils');
+const { logger } = require('../../utils/logger');
 
 class ContainerController {
 	static async createNew(req, res, next) {
