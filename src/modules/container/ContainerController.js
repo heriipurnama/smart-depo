@@ -308,7 +308,7 @@ class ContainerController {
 			);
 
 			let crlastact1 = resulCrno1["crlastact"];
-			logger.log(`resulCrno1 ${crlastact1}`);
+			logger.log('info', `resulCrno1 ${crlastact1}`);
 			let resulCrno2 = await container_process.sequelize.query(
 				`SELECT crlastact, crlastcond, lastact
 				 FROM tblcontainer WHERE crno LIKE '${crno2}' `,
@@ -321,7 +321,7 @@ class ContainerController {
 			let crlastact2 = resulCrno2["crlastact"];
 			let crlastcond2 = resulCrno2["crlastcond"];
 			let lastact2 = resulCrno2["lastact"];
-			logger.log(`crlastact2 ${crlastact2}`);
+			logger.log('info', `crlastact2 ${crlastact2}`);
 
 			if (crlastact1 != 'OD' && crlastact2 == 'CO' && crlastcond2 =='AC' || lastact2 =='AC'){
 				let getData = await container_process.sequelize.query(
@@ -357,7 +357,7 @@ class ContainerController {
 				let cpopr1 = getData["cpopr1"];
 				let cpcust1 = getData["cpcust1"];
 
-				logger.log(`cpcust1 ${cpcust1}`);
+				logger.log('info', `cpcust1 ${cpcust1}`);
 				// Update ke container 2
 				let containerDua = await container_process.sequelize.query(
 					` update container_process
@@ -425,12 +425,12 @@ class ContainerController {
 			}else {
 				baseResponse({ message: "failed outdepo", data: payload })(res, 200);
 				Logger(req);
-				logger.log(req);
+				logger.log('info', req);
 			}
 
 
 		} catch (error) {
-			logger.log(error);
+			logger.log('error', error);
 			res.status(403);
 			next(error);
 		}
