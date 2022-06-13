@@ -419,7 +419,7 @@ class ContainerController {
 													 cccode = '',
 													 ctcode= '',
 													 cpiremark = ''
-					  WHERE crno = $crno2 and praid IN
+					  WHERE crno ='${crno2}' and praid IN
 						( SELECT praid FROM order_pra WHERE 1 AND cpiorderno = '${orderno}') `,
 					{
 						type: container_process.UPDATE,
@@ -437,7 +437,7 @@ class ContainerController {
 				baseResponse({ message: "Success change container", data: conUpdate })(res, 200);
 				Logger(req);
 			}else {
-				baseResponse({ message: "failed outdepo", data: payload })(res, 200);
+				baseResponse({ message: "failed outdepo", data: `failed outdepo` })(res, 200);
 				Logger(req);
 			}
 
