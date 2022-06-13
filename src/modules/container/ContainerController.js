@@ -380,7 +380,7 @@ class ContainerController {
 					  cpcust1 ='${cpcust1}',
 					  cpoorderno = '${cpoorderno}',
 					  cporeceptno = '${cporeceptno}',
-					  cpopratgl = ${cpopratgl},
+					  cpopratgl = '${cpopratgl}',
 					  cporeceiv = '${cporeceiv}',
 					  cpoves = '${cpoves}',
 					  cpoterm = '${cpoterm}',
