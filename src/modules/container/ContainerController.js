@@ -354,7 +354,7 @@ class ContainerController {
 					 WHERE container_process.cpid in (
 						 SELECT crcpid
 						 FROM tblcontainer
-						 WHERE crno LIKE '${crno2}') `,
+						 WHERE crno LIKE '${crno1}') `,
 					{
 						type: container_process.SELECT,
 						plain: true,
@@ -380,7 +380,7 @@ class ContainerController {
 					  cpcust1 ='${cpcust1}',
 					  cpoorderno = '${cpoorderno}',
 					  cporeceptno = '${cporeceptno}',
-					  cpopratgl = '${cpopratgl}',
+					  cpopratgl = ${cpopratgl},
 					  cporeceiv = '${cporeceiv}',
 					  cpoves = '${cpoves}',
 					  cpoterm = '${cpoterm}',
