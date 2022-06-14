@@ -419,7 +419,7 @@ class ContainerController {
 													 cccode = '',
 													 ctcode= '',
 													 cpiremark = ''
-					  WHERE crno ='${crno2}' and praid IN
+					  WHERE crno ='${crno1}' and praid IN
 						( SELECT praid FROM order_pra WHERE 1 AND cpiorderno = '${orderno}') `,
 					{
 						type: container_process.UPDATE,
