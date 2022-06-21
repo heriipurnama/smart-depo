@@ -265,7 +265,7 @@ class ContainerProcessController {
 		try {
 			var genNumber = 1;
 			let MyResult = await container_process.sequelize.query(
-				`SELECT count(CPIEIR) as CPIEIR FROM container_process`,
+				`SELECT CPIEIR FROM container_process WHERE crno = '${crno}' and cpiorderno= '${cpiorderno}' limit 1`,
 				{
 					type: container_process.SELECT,
 					plain: true,
@@ -280,6 +280,8 @@ class ContainerProcessController {
 					}
 				);
 				genNumber = rests["CPIEIR"];
+			}else {
+				genNumber = MyResult["CPIEIR"];
 			}
 
 			let payload = await container_process.update(
