@@ -204,7 +204,7 @@ class GateOutController {
 					plain: true,
 				}
 			);
-			if (MyResult !== null) {
+			if (MyResult == null) {
 				let rests = await container_process.sequelize.query(
 					`SELECT max(CPOEIR)+1 as CPOEIR FROM container_process`,
 					{
@@ -213,8 +213,10 @@ class GateOutController {
 					}
 				);
 				genNumber = rests["CPOEIR"];
+				logger.log({ level: 'info', message: `sama dengan ${genNumber}` });
 			}else {
 				genNumber = MyResult["CPOEIR"];
+				logger.log({ level: 'info', message: `bukan sama dengan ${genNumber}` });
 			}
 
 			let payload = await container_process.update(
