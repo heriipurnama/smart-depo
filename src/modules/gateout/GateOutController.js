@@ -198,7 +198,7 @@ class GateOutController {
 		try {
 			var genNumber = 1;
 			let MyResult = await container_process.sequelize.query(
-				`SELECT count(CPOEIR) as CPOEIR FROM container_process`,
+				`SELECT CPOEIR FROM container_process WHERE crno = '${crno}' and cpoorderno= '${cpoorderno}' limit 1`,
 				{
 					type: container_process.SELECT,
 					plain: true,
@@ -213,7 +213,10 @@ class GateOutController {
 					}
 				);
 				genNumber = rests["CPOEIR"];
+			}else {
+				genNumber = MyResult["CPOEIR"];
 			}
+
 			let payload = await container_process.update(
 				{
 					cpotgl: new Date(),
