@@ -271,7 +271,7 @@ class ContainerProcessController {
 					plain: true,
 				}
 			);
-			if (MyResult !== null) {
+			if (MyResult == null) {
 				let rests = await container_process.sequelize.query(
 					`SELECT max(CPIEIR)+1 as CPIEIR FROM container_process`,
 					{
@@ -280,8 +280,10 @@ class ContainerProcessController {
 					}
 				);
 				genNumber = rests["CPIEIR"];
+				logger.log({ level: 'info', message: `sama dengan ${genNumber}` });
 			}else {
 				genNumber = MyResult["CPIEIR"];
+				logger.log({ level: 'info', message: `bukan sama dengan ${genNumber}` });
 			}
 
 			let payload = await container_process.update(
