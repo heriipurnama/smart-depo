@@ -271,6 +271,7 @@ class ContainerProcessController {
 					plain: true,
 				}
 			);
+			logger.log({ level: 'info', message: `MyResult ${MyResult}` });
 			if (MyResult == null) {
 				let rests = await container_process.sequelize.query(
 					`SELECT max(CPIEIR)+1 as CPIEIR FROM container_process`,
