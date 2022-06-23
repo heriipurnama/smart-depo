@@ -204,8 +204,8 @@ class GateOutController {
 					plain: true,
 				}
 			);
-			logger.log({ level: 'info', message: `MyResult ${MyResult}` });
-			if (MyResult == null) {
+			logger.log({ level: 'info', message: `MyResult ${MyResult["CPOEIR"]}` });
+			if (MyResult["CPOEIR"] === null) {
 				let rests = await container_process.sequelize.query(
 					`SELECT max(CPOEIR)+1 as CPOEIR FROM container_process`,
 					{
