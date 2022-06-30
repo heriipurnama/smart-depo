@@ -308,7 +308,7 @@ class ContainerProcessController {
 					cpitruck: cpitruck,
 					crno: crno,
 					crlastact: "WE",
-					cpijam: new Date().toLocaleTimeString(),
+					cpijam: new Date().getHours()+":"+new Date().getMinutes()+":"+new Date().getSeconds(),
 				},
 				{
 					where: {
